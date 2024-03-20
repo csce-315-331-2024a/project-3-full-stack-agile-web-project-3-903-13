@@ -1,6 +1,6 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/ttC5_kKh)
 
-# Sprint Meeting Agenda
+# Sprint 1 Planning Meeting Agenda
 
 **Objective:**  
 The objective of this meeting is to kickstart our project's first sprint by aligning on goals, clarifying roles and responsibilities, and planning the tasks for the sprint.
