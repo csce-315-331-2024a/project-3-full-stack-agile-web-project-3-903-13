@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Defines CSS styles that apply to the whole page */
+@layer base {
+
+}
+
+/* Defines CSS styles that apply to page components */
+@layer components {
+
+}
