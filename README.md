@@ -1,5 +1,12 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/ttC5_kKh)
 
+# Table of Contents
+- [Sprint 1 Planning Meeting Agenda](#sprint-1-planning-meeting-agenda)
+- [Sprint 1 Meeting Minutes](#sprint-1-meeting-minutes)
+- [Sprint 1 Plan](#sprint-1-plan)
+  - [Sprint Objective](#sprint-objective)
+  - [Initial Sprint Backlog](#initial-sprint-backlog)
+
 # Sprint 1 Planning Meeting Agenda
 
 **Objective:**  
