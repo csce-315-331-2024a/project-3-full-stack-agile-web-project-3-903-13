@@ -103,3 +103,202 @@ The objective of this meeting is to kickstart our project's first sprint by alig
 
 ## Miscellaneous  
 - The team is in the process of deciding between NEXT.js, Flask, and PSQL for the framework structure.
+
+# Sprint 1 Plan
+
+## Sprint Objective
+The objective of Sprint 1 is to kickstart the project by focusing on the initial setup and development tasks. The main goals include:
+- Rebuilding the front-end code served on one server, including selecting a suitable framework, assessing compatibility, and implementing key features.
+- Migrating the back-end code to another server, ensuring compatibility with the revamped front-end, and implementing necessary features and database adjustments.
+
+## Initial Sprint Backlog
+
+### As a developer, I would like to have the front-end code served on one server (5 tasks) [A]
+
+- **A1: Research and select a suitable framework for rebuilding the GUI of the POS system**
+  - **Dependencies:** None
+  - **Assigned to:** Wyatt
+  - **Time Estimate:** 1 HR, 1 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Framework selected based on research
+
+- **A2: Assess the compatibility, scalability, and usability of potential frameworks to determine the best fit for the project**
+  - **Dependencies:** A1
+  - **Assigned to:** Wyatt
+  - **Time Estimate:** 0.5 HR, 1 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Frameworks assessed for compatibility, scalability, and usability.
+
+- **A3: Plan and execute the migration process to transition the existing GUI components to the new framework seamlessly**
+  - **Dependencies:** A2
+  - **Assigned to:** All
+  - **Time Estimate:** 1.5 HR, 2 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Migration plan executed seamlessly. Implementation reviewed, tested, and successfully transitioned.
+
+- **A4: Create a dedicated menu board view to display product offerings, prices, and promotions in a visually appealing and informative manner**
+  - **Dependencies:** A3
+  - **Assigned to:** Kunal
+  - **Time Estimate:** 2.5 HR, 3 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Menu board view created with product offerings, prices, and promotions. Implementation reviewed, tested, and visually appealing.
+
+- **A5: Implement a customer view. This should be different from the cashier view, it should be more accessible and easier to navigate**
+  - **Dependencies:** A3
+  - **Assigned to:** Karan and Kelvin
+  - **Time Estimate:** 4 HR, 5 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Customer view implemented for accessibility and ease of navigation. Implementation reviewed, tested, and distinct from the cashier view.
+
+
+### As a developer, I would like to have the back-end code served on another server (19 tasks) [B]
+
+- **B1: Analyze the impact of GUI redesign on the database schema and data structure**
+  - **Dependencies:** A
+  - **Assigned to:** All
+  - **Time Estimate:** 0.5 HR, 1 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Analysis completed, and necessary adjustments identified. Changes reviewed and aligned with the revamped GUI.
+
+- **B2: Modify database schema as necessary to align with the revamped GUI**
+  - **Dependencies:** B1
+  - **Assigned to:** All
+  - **Time Estimate:** 1 HR, 2 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Database schema modified successfully to align with GUI changes. Any new/modified relations are normalized appropriately. Changes reviewed and tested for compatibility.
+
+- **B3: Update database queries and data relationships to support new GUI features**
+  - **Dependencies:** B2
+  - **Assigned to:** All
+  - **Time Estimate:** 3 HR, 4 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Database queries and relationships updated to support new GUI features. Changes reviewed and tested for accuracy.
+
+- **B4: Migrate the logic for the “What Sells Together” manager feature over to the back-end server and create a view for this data in the UI**
+  - **Dependencies:** B3
+  - **Assigned to:** Wyatt
+  - **Time Estimate:** 3 HR, 4 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B5: Migrate the logic for the “Restock Report” manager feature over to the back-end server and create a view for this data in the UI**
+  - **Dependencies:** B3
+  - **Assigned to:** Aditya
+  - **Time Estimate:** 3 HR, 4 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B6: Migrate the logic for the “Product Usage” manager feature over to the back-end server and create a view for this data in the UI**
+  - **Dependencies:** B3
+  - **Assigned to:** Kunal
+  - **Time Estimate:** 3 HR, 4 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B7: Migrate the logic for the “Seasonal item” manager feature over to the back-end server and create a view for this data in the UI**
+  - **Dependencies:** B3
+  - **Assigned to:** Isaac
+  - **Time Estimate:** 2.5 HR, 3 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B8: Migrate the logic for the “Excess Report” manager feature over to the back-end server and create a view for this data in the UI**
+  - **Dependencies:** B3
+  - **Assigned to:** Karan
+  - **Time Estimate:** 3 HR, 4 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B9: Migrate the logic for the “Sales Report” manager feature over to the back-end server and create a view for this data in the UI**
+  - **Dependencies:** B3
+  - **Assigned to:** Kelvin
+  - **Time Estimate:** 3 HR, 4 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B10: Migrate the logic to add menu items and create an interactive component in the UI to support this functionality**
+  - **Dependencies:** B3
+  - **Assigned to:** Isaac
+  - **Time Estimate:** 2.5 HR, 3 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B11: Migrate the logic to update menu items and create an interactive component in the UI to support this functionality**
+  - **Dependencies:** B3
+  - **Assigned to:** Isaac
+  - **Time Estimate:** 2.5 HR, 3 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B12: Migrate the logic to add inventory items and create an interactive component in the UI to support this functionality**
+  - **Dependencies:** B3
+  - **Assigned to:** Aditya
+  - **Time Estimate:** 2.5 HR, 3 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B13: Migrate the logic to update inventory items and create an interactive component in the UI to support this functionality**
+  - **Dependencies:** B3
+  - **Assigned to:** Aditya
+  - **Time Estimate:** 2.5 HR, 3 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B14: Migrate the logic to choose between three payment options**
+  - **Dependencies:** B3
+  - **Assigned to:** Kelvin
+  - **Time Estimate:** 2 HR, 2 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B15: Migrate the logic to add items and remove items from the transaction and create an interactive component in the UI to support this functionality**
+  - **Dependencies:** B3
+  - **Assigned to:** Wyatt
+  - **Time Estimate:** 3.5 HR, 4 pt
+  - **Priority:** High
+  - **Status:** To-do
+  - **Definition of Done:** Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.
+
+- **B16: Add the ability to customize menu items and create interactive components in the UI to support this functionality**
+  - **Dependencies:** B3
+  - **Assigned to:** Kunal
+  - **Time Estimate:** 3 HR, 3 pt
+  - **Priority:** Medium
+  - **Status:** To-do
+  - **Definition of Done:** Feature implemented and tested successfully. Customization options reviewed and functioning as expected.
+
+- **B17: Integrate menu board data dynamically with the database to ensure real-time updates and synchronization with the POS system**
+  - **Dependencies:** B3
+  - **Assigned to:** Kunal
+  - **Time Estimate:** 2 HR, 2 pt
+  - **Priority:** Medium
+  - **Status:** To-do
+  - **Definition of Done:** Integration completed successfully, ensuring real-time updates. Functionality reviewed and synchronized with the POS system.
+
+- **B18: Implement backend logic to support real-time menu board updates and create an interactive component in the UI to support this functionality**
+  - **Dependencies:** B3
+  - **Assigned to:** Karan
+  - **Time Estimate:** 2 HR, 2 pt
+  - **Priority:** Medium
+  - **Status:** To-do
+  - **Definition of Done:** Backend logic implemented to support real-time updates. Functionality reviewed and synchronized with the front end.
+
