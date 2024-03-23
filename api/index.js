@@ -9,12 +9,20 @@ const PORT = 3000;
 
 app.use(express.json())
 
-// Define API endpoints
+// Handle requests with the express router
+const menuItemsRouter = require('./routes/menuItems')
+const transactionsRouter = require('./routes/transactions')
+const ingredientsRouter = require('./routes/ingredients')
+const inventoryRouter = require('./routes/inventory')
+const foodItemsRouter = require('./routes/foodItems')
+const employeesRouter = require('./routes/employees')
 
-app.get("/", (req, res) => {
-	res.status(200)
-	res.send({"Message": "Hello World"})
-})
+app.use("/api/menuitems", menuItemsRouter)
+app.use("/api/transactions", transactionsRouter)
+app.use("/api/ingredients", ingredientsRouter)
+app.use("/api/inventory", inventoryRouter)
+app.use("/api/fooditems", foodItemsRouter)
+app.use("/api/employees", employeesRouter)
 
 app.listen(PORT, () => {
 	console.log(`Listening on http://localhost:${PORT}`)
