@@ -2,6 +2,16 @@ const express = require('express')
 const app = express()
 const PORT = 5000;
 
+const db = require('./config/db')
+db.connect()
+
+/*
+ * Make this query right when the server starts as it seems
+ * the first query is slow, and subsequent queries run in reasonable time.
+ * If there's a better way to do this, we should try to find it.
+ * */
+db.query("SELECT * FROM employees")
+
 /*
 	Use built-in JSON middleware so that incoming requests
 	will have their bodies converted to JSON automatically.
