@@ -1,5 +1,5 @@
 "use client"
-import { parse } from "postcss";
+
 import { useEffect, useState } from "react";
 
 export const getMenuItems = async () => {
@@ -21,6 +21,25 @@ export const addMenuItem = async (menuItem) => {
   if (!response.ok) {
     const errorMessage = await response.text();
     throw new Error(errorMessage);
+  } else {
+    return { success: true, message: "Menu item added successfully" };
+  }
+};
+
+export const updateMenuItem = async (menuItem) => {
+  const response = await fetch("http://localhost:5000/api/menuitems", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(menuItem),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(errorMessage);
+  } else {
+    return { success: true, message: "Menu item updated successfully" };
   }
 };
 
@@ -36,10 +55,15 @@ const categories = [
 
 export default function ManagerPage() {
   const [menuItems, setMenuItems] = useState([]);
-  const [itemName, setItemName] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState(0); // Default category value
-  const [errorMessage, setErrorMessage] = useState("");
+  const [addItemName, setAddItemName] = useState(""); // Separate state variable for Add Menu Item form
+  const [addPrice, setAddPrice] = useState(""); // Separate state variable for Add Menu Item form
+  const [addItemCategory, setAddItemCategory] = useState(0); // Separate state variable for Add Menu Item form
+  const [updateItemName, setUpdateItemName] = useState(""); // Separate state variable for Update Menu Item form
+  const [updatePrice, setUpdatePrice] = useState(""); // Separate state variable for Update Menu Item form
+  const [updateErrorMessage, setUpdateErrorMessage] = useState("");
+  const [addErrorMessage, setAddErrorMessage] = useState("");
+  const [updateSuccessMessage, setUpdateSuccessMessage] = useState("");
+  const [addSuccessMessage, setAddSuccessMessage] = useState("");
 
   useEffect(() => {
     fetchMenuItems();
@@ -57,20 +81,41 @@ export default function ManagerPage() {
   const handleAddMenuItem = async (e) => {
     e.preventDefault();
 
-    if (!validateItemName(itemName) || !validatePrice(price)) {
-      setErrorMessage("Please fill out all fields correctly.");
+    if (!validateItemName(addItemName) || !validatePrice(addPrice)) {
+      setAddErrorMessage("Please fill out all fields correctly.");
       return;
     }
 
     try {
-      await addMenuItem({ itemName, price, category });
-      setErrorMessage("");
-      setItemName("");
-      setPrice("");
-      setCategory(0); // Reset category to default value after successful submission
+      const response = await addMenuItem({ itemName: addItemName, price: addPrice, category: addItemCategory });
+      setAddSuccessMessage(response.message);
+      setAddErrorMessage("");
+      setAddItemName("");
+      setAddPrice("");
+      setAddItemCategory(0); // Reset category to default value after successful submission
       fetchMenuItems();
     } catch (error) {
-      setErrorMessage(error.message);
+      setAddErrorMessage(error.message);
+    }
+  };
+
+  const handleUpdateMenuItemPrice = async (e) => {
+    e.preventDefault();
+
+    if (!validateItemName(updateItemName) || !validatePrice(updatePrice)) {
+      setUpdateErrorMessage("Please fill out all fields correctly.");
+      return;
+    }
+
+    try {
+      const response = await updateMenuItem({ itemName: updateItemName, newPrice: updatePrice });
+      setUpdateSuccessMessage(response.message);
+      setUpdateErrorMessage("");
+      setUpdateItemName("");
+      setUpdatePrice("");
+      fetchMenuItems();
+    } catch (error) {
+      setUpdateErrorMessage(error.message);
     }
   };
 
@@ -86,29 +131,32 @@ export default function ManagerPage() {
     <main className="min-h-screen flex flex-column items-center justify-center">
       <div className="flex flex-col items-center justify-center">
         <h1>MENU ITEMS</h1>
-        {errorMessage && (
-          <p className="text-red-500">{errorMessage}</p>
+        {addErrorMessage && (
+          <p className="text-red-500">{addErrorMessage}</p>
+        )}
+        {addSuccessMessage && (
+          <p className="text-green-500">{addSuccessMessage}</p>
         )}
         <form onSubmit={handleAddMenuItem} className="flex flex-col items-center justify-center">
           <input
             type="text"
             placeholder="Item Name"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
+            value={addItemName}
+            onChange={(e) => setAddItemName(e.target.value)}
             className="mb-2"
             required
           />
           <input
             type="number"
             placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={addPrice}
+            onChange={(e) => setAddPrice(e.target.value)}
             className="mb-2"
             required
           />
           <select
-            value={category}
-            onChange={(e) => setCategory(parseInt(e.target.value))}
+            value={addItemCategory}
+            onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
             className="mb-2"
           >
             {categories.map((cat) => (
@@ -116,6 +164,32 @@ export default function ManagerPage() {
             ))}
           </select>
           <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Add Menu Item</button>
+        </form>
+        <h2>Update Menu Item Price</h2>
+        {updateErrorMessage && (
+          <p className="text-red-500">{updateErrorMessage}</p>
+        )}
+        {updateSuccessMessage && (
+          <p className="text-green-500">{updateSuccessMessage}</p>
+        )}
+        <form onSubmit={handleUpdateMenuItemPrice} className="flex flex-col items-center justify-center">
+          <input
+            type="text"
+            placeholder="Item Name"
+            value={updateItemName}
+            onChange={(e) => setUpdateItemName(e.target.value)}
+            className="mb-2"
+            required
+          />
+          <input
+            type="number"
+            placeholder="New Price"
+            value={updatePrice}
+            onChange={(e) => setUpdatePrice(e.target.value)}
+            className="mb-2"
+            required
+          />
+          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Update Price</button>
         </form>
         {menuItems.map((item) => (
           <a
@@ -126,9 +200,11 @@ export default function ManagerPage() {
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {item.itemname}
             </h5>
+            <p>Price: {item.price}</p>
           </a>
         ))}
       </div>
     </main>
   );
 }
+``
