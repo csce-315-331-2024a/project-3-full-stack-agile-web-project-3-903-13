@@ -23,5 +23,6 @@ The following serves as a guideline for developing full-stack features for this 
 # Resources
 - Introduction to REST APIs: https://youtu.be/-MTSQjw5DrM?si=8vFx9irdwrqYWhe1
 - Test API calls without needing a frontend, using Insomnia: https://insomnia.rest/
+- Basics of HTTP: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP (PLEASE READ)
   
 Please update this list with any helpful back-end resources you may come across.
