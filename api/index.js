@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const PORT = 5000;
 
@@ -17,6 +18,7 @@ db.query("SELECT * FROM employees")
 	will have their bodies converted to JSON automatically.
 */
 
+app.use(cors())
 app.use(express.json())
 
 // Handle requests with the express router
