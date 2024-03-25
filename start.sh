@@ -1,4 +1,4 @@
 cd frontend && npm run dev &
-cd api && npm start &
+cd api && npm start 
 
 
