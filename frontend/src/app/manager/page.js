@@ -1,6 +1,6 @@
 "use client"
-
-import { useEffect, useState } from "react"; // Import useEffect as well if needed
+import { parse } from "postcss";
+import { useEffect, useState } from "react";
 
 export const getMenuItems = async () => {
   const items = await fetch("http://localhost:5000/api/menuitems");
@@ -24,16 +24,26 @@ export const addMenuItem = async (menuItem) => {
   }
 };
 
-export default function ManagerPage() { // Renamed the component to ManagerPage
+const categories = [
+  { label: "Burgers/Sandwiches", value: 0 },
+  { label: "Corn Dogs/Hot Dogs", value: 1 },
+  { label: "Chicken Tenders", value: 2 },
+  { label: "French Fries", value: 3 },
+  { label: "Shakes/Ice Cream", value: 4 },
+  { label: "Beverages", value: 5 },
+  { label: "Seasonal", value: 6 },
+];
+
+export default function ManagerPage() {
   const [menuItems, setMenuItems] = useState([]);
   const [itemName, setItemName] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(0); // Default category value
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetchMenuItems();
-  }, []); // Empty dependency array to run once on mount
+  }, []);
 
   const fetchMenuItems = async () => {
     try {
@@ -46,16 +56,30 @@ export default function ManagerPage() { // Renamed the component to ManagerPage
 
   const handleAddMenuItem = async (e) => {
     e.preventDefault();
+
+    if (!validateItemName(itemName) || !validatePrice(price)) {
+      setErrorMessage("Please fill out all fields correctly.");
+      return;
+    }
+
     try {
       await addMenuItem({ itemName, price, category });
       setErrorMessage("");
       setItemName("");
       setPrice("");
-      setCategory("");
+      setCategory(0); // Reset category to default value after successful submission
       fetchMenuItems();
     } catch (error) {
       setErrorMessage(error.message);
     }
+  };
+
+  const validateItemName = (itemName) => {
+    return itemName.trim() !== "";
+  };
+
+  const validatePrice = (price) => {
+    return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
   };
 
   return (
@@ -82,14 +106,15 @@ export default function ManagerPage() { // Renamed the component to ManagerPage
             className="mb-2"
             required
           />
-          <input
-            type="text"
-            placeholder="Category"
+          <select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => setCategory(parseInt(e.target.value))}
             className="mb-2"
-            required
-          />
+          >
+            {categories.map((cat) => (
+              <option key={cat.value} value={cat.value}>{cat.label}</option>
+            ))}
+          </select>
           <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Add Menu Item</button>
         </form>
         {menuItems.map((item) => (
