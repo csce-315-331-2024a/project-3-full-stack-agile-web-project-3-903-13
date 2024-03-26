@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const inventoryItemsController = require('../services/inventory.js')
 
-router.get("/", (req,res) => {
-	res.send("hello inventory")
-})
+router.get("/", inventoryItemsController.retrieveInventoryItems)
 
 module.exports = router

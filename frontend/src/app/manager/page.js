@@ -9,6 +9,13 @@ export const getMenuItems = async () => {
   return data;
 };
 
+export const getInventoryItems = async () => {
+  const items = await fetch("http://localhost:5000/api/inventory");
+  const data = await items.json();
+
+  return data;
+};
+
 export const addMenuItem = async (menuItem) => {
   const response = await fetch("http://localhost:5000/api/menuitems", {
     method: "POST",
@@ -64,9 +71,12 @@ export default function ManagerPage() {
   const [addErrorMessage, setAddErrorMessage] = useState("");
   const [updateSuccessMessage, setUpdateSuccessMessage] = useState("");
   const [addSuccessMessage, setAddSuccessMessage] = useState("");
+  const [ingredients, setIngredients] = useState([]); // State variable for ingredients
+  const [inventoryItems, setInventoryItems] = useState([]); // State variable for inventory items
 
   useEffect(() => {
     fetchMenuItems();
+    fetchInventoryItems();
   }, []);
 
   const fetchMenuItems = async () => {
@@ -75,6 +85,15 @@ export default function ManagerPage() {
       setMenuItems(data);
     } catch (error) {
       console.error("Error fetching menu items:", error);
+    }
+  };
+
+  const fetchInventoryItems = async () => {
+    try {
+      const data = await getInventoryItems();
+      setInventoryItems(data);
+    } catch (error) {
+      console.error("Error fetching inventory items:", error);
     }
   };
 
@@ -87,17 +106,45 @@ export default function ManagerPage() {
     }
 
     try {
-      const response = await addMenuItem({ itemName: addItemName, price: addPrice, category: addItemCategory });
+      const response = await addMenuItem({ itemName: addItemName, price: addPrice, category: addItemCategory, ingredients });
       setAddSuccessMessage(response.message);
       setAddErrorMessage("");
       setAddItemName("");
       setAddPrice("");
       setAddItemCategory(0); // Reset category to default value after successful submission
+      setIngredients([]); // Clear ingredients after adding the menu item
       fetchMenuItems();
     } catch (error) {
       setAddErrorMessage(error.message);
     }
   };
+
+  const handleIngredientSelection = (e, index) => {
+    const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
+    if (selectedInventoryItem) {
+      const updatedIngredients = [...ingredients];
+      updatedIngredients[index] = { inventID: selectedInventoryItem.inventid, name: selectedInventoryItem.ingredientname, quantity: 1 };
+      setIngredients(updatedIngredients);
+    }
+  };
+  
+
+  const handleQuantityChange = (e, index) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients[index].quantity = parseInt(e.target.value);
+    setIngredients(updatedIngredients);
+  };
+
+  const addIngredient = () => {
+    setIngredients([...ingredients, { inventID: null, name: "", quantity: 1 }]);
+  };
+
+  const removeIngredient = (index) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients.splice(index, 1);
+    setIngredients(updatedIngredients);
+  };
+
 
   const handleUpdateMenuItemPrice = async (e) => {
     e.preventDefault();
@@ -158,11 +205,37 @@ export default function ManagerPage() {
             value={addItemCategory}
             onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
             className="mb-2"
+            required
           >
             {categories.map((cat) => (
               <option key={cat.value} value={cat.value}>{cat.label}</option>
             ))}
           </select>
+          <h2>Ingredients</h2>
+          {ingredients.map((ingredient, index) => (
+            <div key={index} className="flex items-center mb-2">
+              <select
+                value={ingredients[index]?.name || ""}
+                onChange={(e) => handleIngredientSelection(e, index)}
+                className="mr-2"
+                required
+              >
+                <option value="">Select Inventory Item</option>
+                {inventoryItems.map(item => (
+                  <option key={item.inventid} value={item.ingredientname}>{item.ingredientname}</option>
+                ))}
+              </select>
+              <input
+                type="number"
+                value={ingredient.quantity}
+                onChange={(e) => handleQuantityChange(e, index)}
+                className="mr-2"
+                required
+              />
+              <button type="button" onClick={() => removeIngredient(index)}>Remove</button>
+            </div>
+          ))}
+          <button type="button" onClick={addIngredient}>Add Ingredient</button>
           <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Add Menu Item</button>
         </form>
         <h2>Update Menu Item Price</h2>
