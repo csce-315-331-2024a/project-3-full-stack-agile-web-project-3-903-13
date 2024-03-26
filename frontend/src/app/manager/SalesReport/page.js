@@ -24,6 +24,7 @@ export default function SalesReportPage() {
     const fetchSalesReport = async () => {
         setLoading(true);
         setErrorMessage('');
+        setSuccessMessage(''); // Clear the success message before fetching
         try {
             const response = await fetch(`http://localhost:5000/api/transactions/salesreport?startDate=${startDate}&endDate=${endDate}`);
             if (!response.ok) {

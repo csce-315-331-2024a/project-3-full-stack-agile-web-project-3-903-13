@@ -6,11 +6,6 @@ const isStartDateBeforeEndDate = (startDate, endDate) => new Date(startDate) < n
 
 const getSalesReport = (startDate, endDate) => {
     return new Promise((resolve, reject) => {
-        if (!isValidDate(startDate) || !isValidDate(endDate)) {
-            reject(new Error("Invalid date format. Please use YYYY-MM-DD format."));
-            return;
-        }
-
         if (!isStartDateBeforeEndDate(startDate, endDate)) {
             reject(new Error("Start date must be before end date."));
             return;
