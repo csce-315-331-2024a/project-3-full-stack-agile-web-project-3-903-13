@@ -19,13 +19,13 @@ export default function InventoryUsagePage() {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-    
+
             console.log('Fetched data:', data); // DEBUGGING DATA TO ENSURE THE DATA IS BEING PROPERLY RETURNED
-    
+            
             if (chartInstanceRef.current) {
                 chartInstanceRef.current.destroy();
             }
-    
+
             const chartCtx = chartRef.current.getContext('2d');
             chartInstanceRef.current = new Chart(chartCtx, {
                 type: 'bar',
@@ -33,7 +33,7 @@ export default function InventoryUsagePage() {
                     labels: data.map(item => item.name),
                     datasets: [{
                         label: 'Total Inventory Used',
-                        data: data.map(item => item.totalInventoryUsed),
+                        data: data.map(item => parseInt(item.totalinventoryused, 10)),
                         backgroundColor: 'rgba(54, 162, 235, 0.5)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -44,7 +44,9 @@ export default function InventoryUsagePage() {
                         y: {
                             beginAtZero: true
                         }
-                    }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
                 }
             });
         } catch (error) {
