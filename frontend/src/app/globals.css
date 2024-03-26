@@ -9,5 +9,21 @@
 
 /* Defines CSS styles that apply to page components */
 @layer components {
+    .nav-link-active {
+        @apply text-red-800;
+    }
+    .nav-link-active::before {
+        @apply content-[''] absolute w-1/2 h-1 bottom-0 bg-red-800;
+    }
 
+    .nav-link {
+        @apply text-black transition duration-200 ease-in-out hover:text-red-800;
+    }
+    .nav-link::before {
+        @apply content-[''] scale-x-0 absolute w-1/2 h-1 bottom-0 bg-red-800 transition duration-200 ease-in-out hover:scale-x-100 origin-left;
+    }
+
+    .nav-image {
+        @apply scale-100 transition duration-200 ease-in-out hover:scale-110;
+    }
 }
