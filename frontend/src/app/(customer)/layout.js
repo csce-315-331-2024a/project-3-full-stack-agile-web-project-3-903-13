@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import CustomerNavbar from "@/components/CustomerNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <CustomerNavbar
           links={[
-            { name: "Menu", route: "/menu" },
+            { name: "Menu", route: "/" },
             { name: "About", route: "/about" },
           ]}
         />

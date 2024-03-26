@@ -11,9 +11,7 @@ export default function CustomerNavbar({ links }) {
       <div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
         <ul className="flex flex-row gap-8 items-center">
           <li>
-            <Link href={"/"}>
-              <Image className="nav-image" src={"./logo.svg"} width={24} height={24}></Image>
-            </Link>
+              <Image src={"./logo.svg"} width={24} height={24}></Image>
           </li>
           {links.map((link) => (
             <li key={link.route}>
@@ -30,12 +28,12 @@ export default function CustomerNavbar({ links }) {
         </ul>
         <ul className="flex flex-row gap-8 items-center">
           <li>
-            <Link href={"/"}>
+            <Link href={"/employee"}>
               <Image className="nav-image" src={"./user.svg"} width={24} height={24}></Image>
             </Link>
           </li>
           <li>
-            <Link href={"/"}>
+            <Link href={"/cart"}>
               <Image className="nav-image" src={"./cart.svg"} width={24} height={24}></Image>
             </Link>
           </li>
