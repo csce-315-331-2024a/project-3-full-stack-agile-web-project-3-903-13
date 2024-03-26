@@ -72,7 +72,10 @@ export default function ManagerPage() {
   const [updateSuccessMessage, setUpdateSuccessMessage] = useState("");
   const [addSuccessMessage, setAddSuccessMessage] = useState("");
   const [ingredients, setIngredients] = useState([]); // State variable for ingredients
-  const [inventoryItems, setInventoryItems] = useState([]); // State variable for inventory items
+  const [initialInventoryItems, setInitialInventoryItems] = useState([]); // Add this line
+  const [inventoryItems, setInventoryItems] = useState(
+    initialInventoryItems.map(item => ({ ...item, disabled: false }))
+  ); // Initialize inventoryItems with disabled property
 
   useEffect(() => {
     fetchMenuItems();
@@ -122,11 +125,29 @@ export default function ManagerPage() {
   const handleIngredientSelection = (e, index) => {
     const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
     if (selectedInventoryItem) {
+      // Check if the selected inventory item is already used in another ingredient
+      const isAlreadyUsed = ingredients.some((ingredient, i) => i !== index && ingredient.name === selectedInventoryItem.ingredientname);
+      if (isAlreadyUsed) {
+        alert("This inventory item is already selected in another ingredient. Please choose a different one.");
+        return;
+      }
+  
       const updatedIngredients = [...ingredients];
       updatedIngredients[index] = { inventID: selectedInventoryItem.inventid, name: selectedInventoryItem.ingredientname, quantity: 1 };
       setIngredients(updatedIngredients);
+  
+      // Disable the selected option in the dropdown
+      const updatedInventoryItems = inventoryItems.map(item => {
+        if (item.ingredientname === e.target.value) {
+          return { ...item, disabled: true };
+        }
+        return item;
+      });
+      setInventoryItems(updatedInventoryItems);
     }
   };
+  
+  
   
 
   const handleQuantityChange = (e, index) => {
