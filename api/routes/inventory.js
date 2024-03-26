@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getInventoryUsage } = require('../services/InventoryReportService');
+const { getInventoryUsage } = require('../services/inventoryUsage');
 
 router.get('/usage', async (req, res) => {
     const { startDate, endDate } = req.query;
