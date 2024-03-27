@@ -20,19 +20,26 @@ export default function SalesReportPage() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [hasFetched, setHasFetched] = useState(false);
 
     const fetchSalesReport = async () => {
         setLoading(true);
+        setHasFetched(true); // Set to true when fetching
         setErrorMessage('');
-        setSuccessMessage(''); // Clear the success message before fetching
+        setSuccessMessage('');
         try {
             const response = await fetch(`http://localhost:5000/api/transactions/salesreport?startDate=${startDate}&endDate=${endDate}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            setReportData(data);
-            setSuccessMessage('Sales report generated successfully');
+            if (data.length === 0) {
+                setErrorMessage('No entries found for the selected date range. Please try a different time range.');
+            } else {
+                setReportData(data);
+                setSuccessMessage('Sales report generated successfully');
+                setErrorMessage(''); // Clear error message if data is found
+            }
         } catch (error) {
             console.error('Error fetching sales report:', error);
             setErrorMessage('Failed to fetch sales report. Please try again.');
@@ -72,7 +79,10 @@ export default function SalesReportPage() {
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                     {successMessage && <p className="text-green-500">{successMessage}</p>}
                 </div>
-                {reportData && reportData.length > 0 && (
+                {hasFetched && reportData.length === 0 && !loading && (
+                    <p className="text-center text-red-500">No entries found for the selected date range. Please try a different time range.</p>
+                )}
+                {reportData.length > 0 && (
                     <div className="overflow-auto">
                         <table className="w-full table-auto border-collapse border border-gray-500">
                             <thead>
@@ -96,5 +106,5 @@ export default function SalesReportPage() {
                 )}
             </div>
         </main>
-    );
+    );   
 }
