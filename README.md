@@ -6,6 +6,7 @@
 - [Sprint 1 Plan](#sprint-1-plan)
   - [Sprint Objective](#sprint-objective)
   - [Initial Sprint Backlog](#initial-sprint-backlog)
+- [Sprint 1 Daily Meetings](#sprint-1-daily-meetings)
 
 # Sprint 1 Planning Meeting Agenda
 
@@ -308,4 +309,33 @@ The objective of Sprint 1 is to kickstart the project by focusing on the initial
   - **Priority:** Medium
   - **Status:** To-do
   - **Definition of Done:** Backend logic implemented to support real-time updates. Functionality reviewed and synchronized with the front end.
+
+## Sprint 1 Daily Meetings
+### Meeting Summary - Sprint 1 Daily Scrum Meeting #1
+Date: 3/26/2024
+Time: 9:00 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results**
+Average Result: 4.33
+
+**Discussion Points:**
+- Sprint Backlog:
+  - a1 and a2 tasks marked as finished.
+  - Task a3 has a low time estimate; everyone to work on respective features and then implement routing collectively.
+  - a4 frontend implementation assigned to Kunal, with assistance from Aditya.
+  - b1, b2, and b3 tasks require visitation at the end.
+  - Various tasks assigned to team members
+  - Moved around task assignees based upon need including a5, b6, b12, and b13 
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: None mentioned during the meeting.
+- Blockers: No blockers raised during the discussion.
 
