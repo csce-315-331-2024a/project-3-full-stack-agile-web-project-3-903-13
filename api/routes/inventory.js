@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { getInventoryUsage } = require('../services/inventoryUsage');
+const {getInventoryState} = require('../services/excessReport');
 
 router.get('/usage', async (req, res) => {
     const { startDate, endDate } = req.query;
@@ -18,5 +19,7 @@ router.get('/usage', async (req, res) => {
         res.status(500).send('Error retrieving inventory usage data');
     }
 });
+
+router.get('/state', getInventoryState)
 
 module.exports = router
