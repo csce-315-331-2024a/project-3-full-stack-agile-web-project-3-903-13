@@ -60,9 +60,10 @@ const addMenuItem = (req, res) => {
 									res.status(500).send("Internal Server Error");
 									return;
 								}
-								res.status(201).send('Menu item added successfully');
+								
 							});
 						}
+						res.status(201).send('Menu item added successfully');
 					}
 				);
             }

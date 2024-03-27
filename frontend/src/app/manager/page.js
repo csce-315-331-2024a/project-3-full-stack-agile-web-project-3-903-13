@@ -76,6 +76,8 @@ export default function ManagerPage() {
   const [inventoryItems, setInventoryItems] = useState(
     initialInventoryItems.map(item => ({ ...item, disabled: false }))
   ); // Initialize inventoryItems with disabled property
+  const [isSeasonal, setIsSeasonal] = useState(false); // State for seasonal checkbox
+  const [expirationDate, setExpirationDate] = useState(""); // State for expiration date
 
   useEffect(() => {
     fetchMenuItems();
@@ -109,13 +111,15 @@ export default function ManagerPage() {
     }
 
     try {
-      const response = await addMenuItem({ itemName: addItemName, price: addPrice, category: addItemCategory, ingredients });
+      const response = await addMenuItem({ itemName: addItemName, price: addPrice, category: addItemCategory, ingredients, isSeasonal: isSeasonal, expirationDate: expirationDate  });
       setAddSuccessMessage(response.message);
       setAddErrorMessage("");
       setAddItemName("");
       setAddPrice("");
       setAddItemCategory(0); // Reset category to default value after successful submission
       setIngredients([]); // Clear ingredients after adding the menu item
+      setIsSeasonal(false);
+      setExpirationDate("");
       fetchMenuItems();
     } catch (error) {
       setAddErrorMessage(error.message);
@@ -198,7 +202,7 @@ export default function ManagerPage() {
   return (
     <main className="min-h-screen flex flex-column items-center justify-center">
       <div className="flex flex-col items-center justify-center">
-        <h1>MENU ITEMS</h1>
+        <h1 className="p-3 md:p">ADDING MENU ITEMS</h1>
         {addErrorMessage && (
           <p className="text-red-500">{addErrorMessage}</p>
         )}
@@ -206,12 +210,12 @@ export default function ManagerPage() {
           <p className="text-green-500">{addSuccessMessage}</p>
         )}
         <form onSubmit={handleAddMenuItem} className="flex flex-col items-center justify-center">
-          <input
+          <input 
             type="text"
             placeholder="Item Name"
             value={addItemName}
             onChange={(e) => setAddItemName(e.target.value)}
-            className="mb-2"
+            className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
             required
           />
           <input
@@ -219,14 +223,37 @@ export default function ManagerPage() {
             placeholder="Price"
             value={addPrice}
             onChange={(e) => setAddPrice(e.target.value)}
-            className="mb-2"
+            className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
             required
           />
+          <label className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5">
+            <input
+              type="checkbox"
+              checked={isSeasonal}
+              onChange={(e) => setIsSeasonal(e.target.checked)}
+              className="mb-2 px-4 justify-center align-center"
+            />
+            Seasonal Item
+          </label>
+          {/* Show expiration date input field if the item is seasonal */}
+          {isSeasonal && (
+            <>
+              <p>Expiration Date:</p>
+              <input
+                type="date"
+                value={expirationDate}
+                onChange={(e) => setExpirationDate(e.target.value)}
+                className="mb-2"
+                required
+              />
+            </>
+          )}
           <select
-            value={addItemCategory}
+            value={isSeasonal ? 6 : addItemCategory}
             onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
             className="mb-2"
             required
+            disabled={isSeasonal}
           >
             {categories.map((cat) => (
               <option key={cat.value} value={cat.value}>{cat.label}</option>
