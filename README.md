@@ -324,8 +324,8 @@ Location: Discord
 - Aditya
 - Isaac
 
-**Fist of Five Results**
-Average Result: 4.33
+**Fist of Five Results:**
+- Average Result: 4.33
 
 **Discussion Points:**
 - Sprint Backlog:
