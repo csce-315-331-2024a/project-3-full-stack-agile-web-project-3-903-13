@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
@@ -20,8 +21,6 @@ export default function InventoryUsagePage() {
             }
             const data = await response.json();
 
-            console.log('Fetched data:', data); // DEBUGGING DATA TO ENSURE THE DATA IS BEING PROPERLY RETURNED
-            
             if (chartInstanceRef.current) {
                 chartInstanceRef.current.destroy();
             }
@@ -40,9 +39,17 @@ export default function InventoryUsagePage() {
                     }]
                 },
                 options: {
+                    indexAxis: 'y',
                     scales: {
+                        x: {
+                            beginAtZero: true,
+                        },
                         y: {
-                            beginAtZero: true
+                            ticks: {
+                                autoSkip: false, // Ensure every label is shown
+                                maxRotation: 0, // Keep labels horizontal
+                                minRotation: 0
+                            }
                         }
                     },
                     maintainAspectRatio: false,
@@ -62,7 +69,6 @@ export default function InventoryUsagePage() {
     };
 
     useEffect(() => {
-        // Cleanup chart on component unmount
         return () => {
             if (chartInstanceRef.current) {
                 chartInstanceRef.current.destroy();
@@ -73,7 +79,7 @@ export default function InventoryUsagePage() {
     return (
         <main className="min-h-screen bg-gray-100 flex items-center justify-center">
             <div className="w-full max-w-4xl">
-                <div className="p-5 bg-white shadow-lg rounded" style={{ height: '600px' }}>
+                <div className="p-5 bg-white shadow-lg rounded" style={{ height: '800px' }}>
                     <h1 className="text-xl font-semibold text-center mb-6">INVENTORY USAGE REPORT</h1>
                     <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center mb-4">
                         <input
@@ -97,7 +103,7 @@ export default function InventoryUsagePage() {
                     <div className="text-center">
                         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                     </div>
-                    <div style={{ height: '400px' }}>
+                    <div style={{ height: '650px' }}>
                         <canvas ref={chartRef}></canvas>
                     </div>
                 </div>
