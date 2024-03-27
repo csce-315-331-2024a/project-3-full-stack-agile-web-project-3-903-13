@@ -77,3 +77,4 @@ module.exports = {
 	addMenuItem,
 	updateMenuItem,
 }
+// vim: tabstop=3
