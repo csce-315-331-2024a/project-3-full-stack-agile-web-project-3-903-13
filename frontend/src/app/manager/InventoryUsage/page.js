@@ -19,12 +19,17 @@ export default function InventoryUsagePage() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const data = await response.json();
+            let data = await response.json();
+    
+            // Sort data in descending order based on 'totalinventoryused'
+            data.sort((a, b) => parseInt(b.totalinventoryused, 10) - parseInt(a.totalinventoryused, 10));
+            
+            console.log('Fetched data:', data); // DEBUGGING DATA TO ENSURE THE DATA IS BEING PROPERLY RETURNED
 
             if (chartInstanceRef.current) {
                 chartInstanceRef.current.destroy();
             }
-
+    
             const chartCtx = chartRef.current.getContext('2d');
             chartInstanceRef.current = new Chart(chartCtx, {
                 type: 'bar',
@@ -37,7 +42,7 @@ export default function InventoryUsagePage() {
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1,
                         barThickness: 10,
-                        categoryPercentage: 2 // Adjust for spacing between bars
+                        categoryPercentage: 1.0
                     }]
                 },
                 options: {
@@ -56,13 +61,13 @@ export default function InventoryUsagePage() {
                     responsive: true,
                 }
             });
-            
         } catch (error) {
             console.error('Error fetching inventory usage data:', error);
             setErrorMessage('Failed to fetch inventory usage data. Please try again.');
         }
         setLoading(false);
     };
+    
 
     const handleGenerateReport = (e) => {
         e.preventDefault();
