@@ -10,8 +10,7 @@ const retrieveMenuItems = (req,res) => {
 }
 
 const addMenuItem = (req, res) => {
-    const { itemName, price, category, ingredients } = req.body;
-    console.log("Received request to add menu item:", itemName, price, category, ingredients);
+    const { itemName, price, category, ingredients, isSeasonal, expirationDate } = req.body;
     db.query(
         "SELECT * FROM menuitems WHERE itemName = $1", 
         [itemName],
@@ -21,11 +20,9 @@ const addMenuItem = (req, res) => {
                 res.status(500).send("Internal Server Error");
                 return;
             } else if (result.rows.length) {
-                console.log("Item already exists:", itemName);
                 res.status(401).send("Item Already exists");
                 return;
             } else {
-                console.log("Adding new menu item:", itemName, price, category);
                 db.query(
 					'INSERT INTO menuitems (itemName, price, category) VALUES ($1, $2, $3) RETURNING menuID',
 					[itemName, price, category],
@@ -37,13 +34,25 @@ const addMenuItem = (req, res) => {
 						}
 						
 						const menuID = result.rows[0].menuid; // Retrieve the menuID
-						console.log("Here is the results", result.rows[0].menuid);
-						console.log("New menu item added. menuID:", menuID);
 						
+						if (isSeasonal) {
+							db.query(
+								'INSERT INTO seasonalitems (menuid, expirationdate) VALUES ($1, $2::timestamp)',
+								[menuID, expirationDate],
+								(err) => {
+									if (err) {
+										console.error("Error adding seasonal item: ", err);
+										res.status(400).send("Could not add seasonal item successfully");
+										return;
+									}
+								}
+
+							);
+						}
+
 						// Insert ingredients into the ingredients table
 						const insertIngredientsQuery = 'INSERT INTO ingredients(menuID, inventID, quantity) VALUES ($1, $2, $3)';
 						const values = ingredients.map(ingredient => [menuID, ingredient.inventID, ingredient.quantity]);
-						console.log("Inserting ingredients:", values);
 						for (let i = 0; i < values.length; i++){
 							db.query(insertIngredientsQuery, values[i], (err, result) => {
 								if (err) {
@@ -51,8 +60,6 @@ const addMenuItem = (req, res) => {
 									res.status(500).send("Internal Server Error");
 									return;
 								}
-								
-								console.log("Ingredients inserted successfully");
 								res.status(201).send('Menu item added successfully');
 							});
 						}
