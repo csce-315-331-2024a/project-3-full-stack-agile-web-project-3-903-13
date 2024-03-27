@@ -10,26 +10,34 @@ export default function InventoryUsagePage() {
     const [endDate, setEndDate] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [hasData, setHasData] = useState(true);  // Added state variable for tracking if data exists
 
     const fetchInventoryUsage = async () => {
         setLoading(true);
         setErrorMessage('');
+        setHasData(true);  // Assume there is data until checked
         try {
             const response = await fetch(`http://localhost:5000/api/inventory/usage?startDate=${startDate}&endDate=${endDate}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             let data = await response.json();
-    
+
+            if (data.length === 0) {
+                setHasData(false);
+                setLoading(false);
+                return;
+            }
+
             // Sort data in descending order based on 'totalinventoryused'
             data.sort((a, b) => parseInt(b.totalinventoryused, 10) - parseInt(a.totalinventoryused, 10));
-            
+
             console.log('Fetched data:', data); // DEBUGGING DATA TO ENSURE THE DATA IS BEING PROPERLY RETURNED
 
             if (chartInstanceRef.current) {
                 chartInstanceRef.current.destroy();
             }
-    
+
             const chartCtx = chartRef.current.getContext('2d');
             chartInstanceRef.current = new Chart(chartCtx, {
                 type: 'bar',
@@ -64,13 +72,14 @@ export default function InventoryUsagePage() {
         } catch (error) {
             console.error('Error fetching inventory usage data:', error);
             setErrorMessage('Failed to fetch inventory usage data. Please try again.');
+            setHasData(false);
         }
         setLoading(false);
     };
-    
 
     const handleGenerateReport = (e) => {
         e.preventDefault();
+        setHasData(true);
         fetchInventoryUsage();
     };
 
@@ -108,9 +117,10 @@ export default function InventoryUsagePage() {
                     </form>
                     <div className="text-center">
                         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+                        {!hasData && !loading && <p>There was no inventory usage during this time range, try another time period.</p>}
                     </div>
                     <div style={{ height: '650px' }}>
-                        <canvas ref={chartRef}></canvas>
+                        {hasData && <canvas ref={chartRef}></canvas>}
                     </div>
                 </div>
             </div>
