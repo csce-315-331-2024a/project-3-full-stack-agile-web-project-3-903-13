@@ -35,7 +35,9 @@ export default function InventoryUsagePage() {
                         data: data.map(item => parseInt(item.totalinventoryused, 10)),
                         backgroundColor: 'rgba(54, 162, 235, 0.5)',
                         borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        barThickness: 10,
+                        categoryPercentage: 2 // Adjust for spacing between bars
                     }]
                 },
                 options: {
@@ -46,9 +48,7 @@ export default function InventoryUsagePage() {
                         },
                         y: {
                             ticks: {
-                                autoSkip: false, // Ensure every label is shown
-                                maxRotation: 0, // Keep labels horizontal
-                                minRotation: 0
+                                autoSkip: false // Ensure all labels are shown
                             }
                         }
                     },
@@ -56,6 +56,7 @@ export default function InventoryUsagePage() {
                     responsive: true,
                 }
             });
+            
         } catch (error) {
             console.error('Error fetching inventory usage data:', error);
             setErrorMessage('Failed to fetch inventory usage data. Please try again.');
