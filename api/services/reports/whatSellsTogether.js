@@ -4,7 +4,6 @@ const generateReport = (req,res) => {
 	const startDate = req.body.startDate
 	const endDate = req.body.endDate
 
-	console.log(startDate)
 
 	// Report requires multiple queries. First, we need to make a view,
 	// then, we need to make a join.
