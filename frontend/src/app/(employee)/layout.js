@@ -13,7 +13,7 @@ export default function EmployeeLayout({ children }) {
       <EmployeeNavbar
           links={[
             { name: "Burgers", route: "/employee" },
-            { name: "Fries", route: "/employee/fries" },
+            { name: "Fries", route: "/inventory" },
           ]}
         />
         {children}
