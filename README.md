@@ -339,3 +339,27 @@ Location: Discord
 - Tasks to Add: None mentioned during the meeting.
 - Blockers: No blockers raised during the discussion.
 
+### Meeting Summary - Sprint 1 Daily Scrum Meeting #2
+Date: 3/28/2024
+Time: 9:50 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 3.67
+
+**Discussion Points:**
+- Sprint Backlog:
+  - Tasks b8, b9, b10, b12, and b13 completed
+  - Everyone will work on testing the features
+  - Aditya and Wyatt will help on the customer view after finishing their tasks
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: Deployment and testing.
+- Blockers: React table, time constraints, and figuring out jest.
