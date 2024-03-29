@@ -10,7 +10,7 @@
 - [Sprint 1 Daily Meetings](#sprint-1-daily-meetings)
 
 # Total Project Burndown Chart
-![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=interactive)
+![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
 
 # Sprint 1 Planning Meeting Agenda
 
@@ -124,7 +124,7 @@ The objective of Sprint 1 is to kickstart the project by focusing on the initial
 - Migrating the back-end code to another server, ensuring compatibility with the revamped front-end, and implementing necessary features and database adjustments.
 
 ## Sprint 1 Burndown Chart
-![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=2084515069&format=interactive)
+![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=2084515069&format=image)
 
 ## Initial Sprint Backlog
 
