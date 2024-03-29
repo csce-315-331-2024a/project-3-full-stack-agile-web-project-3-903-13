@@ -75,7 +75,7 @@ const addMenuItem = (req, res) => {
 
 
 
-const updateMenuItem = (req, res) => {
+const updateMenuItemPrice = (req, res) => {
     const { itemName, newPrice } = req.body;
 	db.query(
 		"Select * from menuitems where itemName = $1", [itemName],
@@ -106,9 +106,92 @@ const updateMenuItem = (req, res) => {
     
 };
 
+const updateMenuItemCat = (req, res) => {
+    const { itemName, newCat } = req.body;
+	db.query(
+		"Select * from menuitems where itemName = $1", [itemName],
+		(err, result) => {
+			if (err){
+				console.log(err);
+				res.status(500);
+				return;
+			} else if (!(result.rows.length)){
+				res.status(401).send("Item Doesn't exist");
+				return;
+			} else {
+				db.query(
+					"UPDATE menuitems SET category = $1 WHERE itemName = $2",
+					[newCat, itemName],
+					(err, result) => {
+						if (err) {
+							console.log(err);
+							res.status(500);
+							return;
+						}
+						res.status(202).send(`Category of ${itemName} updated successfully`);
+					}
+				);
+			}
+		}
+	);
+    
+};
+
+
+const removeMenuItem = (req, res) => {
+    const { itemName } = req.body; 
+    
+	db.query(
+		"SELECT menuid FROM menuitems WHERE itemname = $1",
+		[itemName],
+		(err, result) => {
+			if (err){
+				res.status(500).send("Internal Server Error");
+				return;
+			} else if (result.rowCount == 0) {
+				res.status(404).send("Menu item not found");
+			} else {
+				const menuID = result.rows[0].menuid;
+				db.query(
+					"DELETE FROM ingredients WHERE menuid = $1",
+					[menuID],
+					(err) => {
+						if (err){
+							console.error("Error removing inventory item ingredients:", err);
+							res.status(500).send("Internal Server Error");
+							return;
+						} else {
+							db.query(
+								"DELETE FROM menuitems WHERE itemname = $1",
+								[itemName],
+								(err, result) => {
+									if (err) {
+										console.error("Error removing menu item: from menuitems", err);
+										res.status(500).send("Internal Server Error");
+										return;
+									} else if (result.rowCount === 0) {
+										// If no rows were deleted, it means the menu item with the specified ID was not found
+										res.status(404).send("Menu item not found");
+										return;
+									} else {
+										res.status(200).send(`Menu item with name ${itemName} removed successfully`);
+									}
+								}
+							);	
+						}
+					}
+				);
+			}
+		}
+	);
+	
+};
+
 
 module.exports = {
 	retrieveMenuItems,
 	addMenuItem,
-	updateMenuItem,
+	updateMenuItemPrice,
+	updateMenuItemCat,
+	removeMenuItem,
 }

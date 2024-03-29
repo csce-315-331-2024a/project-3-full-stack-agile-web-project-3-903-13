@@ -4,8 +4,12 @@ const menuItemsController = require('../services/menuitems')
 
 router.get("/", menuItemsController.retrieveMenuItems)
 
-router.patch('/', menuItemsController.updateMenuItem);
+router.patch("/updatePrice", menuItemsController.updateMenuItemPrice);
 
-router.post('/', menuItemsController.addMenuItem);
+router.patch("/updateCat", menuItemsController.updateMenuItemCat);
+
+router.delete("/", menuItemsController.removeMenuItem);
+
+router.post("/", menuItemsController.addMenuItem);
 
 module.exports = router
