@@ -1,11 +1,41 @@
+const { strictEqual } = require('assert')
 const db = require('../config/db')
 
 const retrieveMenuItems = (req,res) => {
 	db.query("SELECT * FROM menuitems", (err,results) => {
 		if (err) {
-			throw err
+			res.status(500).send("Internal Server Error");
+			return;
 		}
 		res.status(200).json(results.rows)
+	})
+}
+
+const retrieveMenuItemIngredients = (req,res) => {
+	const { itemName } = req.query; // Extract itemName from query parameters
+	db.query("SELECT * FROM menuitems where itemname = $1", 
+	[itemName],
+	(err,result) => {
+		if (err) {
+			res.status(400).send("Query Failed");
+			return;
+		} else if (!(result.rows.length)) {
+			res.status(401).send("Item Doesn't exist");
+			return;
+		} else {
+			const menuID = result.rows[0].menuid; // Retrieve the menuID
+			db.query("SELECT i.inventid, i.ingredientname, i.count, i.price, i.mincount, ing.quantity FROM inventory i JOIN ingredients ing ON i.inventid = ing.inventid WHERE ing.menuid = $1",
+			[menuID],
+			(err, results) => {
+				if (err){
+					console.error("Error checking if item exists:", err);
+					res.status(500).send("Internal Server Error");
+					return;
+				}
+				res.status(200).json(results.rows);
+			}
+			)
+		}
 	})
 }
 
@@ -137,6 +167,53 @@ const updateMenuItemCat = (req, res) => {
     
 };
 
+const updateMenuItemIngred = (req, res) => {
+    const { itemName, ingredients } = req.body;
+	db.query(
+		"Select * from menuitems where itemName = $1", 
+		[itemName],
+		(err, result) => {
+			if (err){
+				console.log(err);
+				res.status(500);
+				return;
+			} else if (!(result.rows.length)){
+				res.status(401).send("Item Doesn't exist");
+				return;
+			} else {
+				const menuID = result.rows[0].menuid;
+				db.query(
+					"DELETE FROM ingredients WHERE menuid = $1",
+					[menuID],
+					(err) => {
+						if (err) {
+							console.log(err);
+							res.status(500);
+							return;
+						} else {
+							// Insert ingredients into the ingredients table
+							const insertIngredientsQuery = 'INSERT INTO ingredients(menuID, inventID, quantity) VALUES ($1, $2, $3)';
+							const values = ingredients.map(ingredient => [menuID, ingredient.inventID, ingredient.quantity]);
+							for (let i = 0; i < values.length; i++){
+								db.query(insertIngredientsQuery, values[i], (err, result) => {
+									if (err) {
+										console.error("Error inserting ingredients:", err);
+										res.status(500).send("Internal Server Error");
+										return;
+									}
+									
+								});
+							}
+							res.status(202).send(`Ingredients of ${itemName} updated successfully`);
+						}
+						
+					}
+				);
+			}
+		}
+	);
+    
+};
 
 const removeMenuItem = (req, res) => {
     const { itemName } = req.body; 
@@ -190,8 +267,11 @@ const removeMenuItem = (req, res) => {
 
 module.exports = {
 	retrieveMenuItems,
+	retrieveMenuItemIngredients,
 	addMenuItem,
 	updateMenuItemPrice,
 	updateMenuItemCat,
 	removeMenuItem,
+	updateMenuItemIngred,
+	
 }
