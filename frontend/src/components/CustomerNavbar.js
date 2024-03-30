@@ -28,7 +28,7 @@ export default function CustomerNavbar({ links }) {
         </ul>
         <ul className="flex flex-row gap-8 items-center">
           <li>
-            <Link href={"/employee"}>
+            <Link href={"/employee/burgers"}>
               <Image className="nav-image" src={"./user.svg"} width={24} height={24}></Image>
             </Link>
           </li>
