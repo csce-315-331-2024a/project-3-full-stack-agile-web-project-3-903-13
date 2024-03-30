@@ -13,19 +13,7 @@ export default function EmployeeLayout({ children }) {
       <body className="flex flex-row min-h-screen">
       <LeftSidebar />
       <div className="flex flex-col w-full">
-      <EmployeeNavbar
-          links={[
-            { name: "Burgers", route: "/employee/burgers" },
-            { name: "Tenders", route: "/employee/tenders" },
-            { name: "Dogs", route: "/employee/dogs" },
-            { name: "Ice Cream", route: "/employee/ice-cream" },
-            { name: "Beverages", route: "/employee/beverages" },
-            { name: "Seasonal", route: "/employee/seasonal" },
-          ]}
-        />
-        <main className="flex-1">
-          {children}
-        </main>
+        {children}
       </div>
       </body>
     </html>
