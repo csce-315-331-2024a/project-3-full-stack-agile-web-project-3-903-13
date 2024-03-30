@@ -7,3 +7,4 @@ router.patch('/', menuItemsController.updateMenuItem);
 router.post('/', menuItemsController.addMenuItem);
 
 module.exports = router
+// vim: tabstop=3

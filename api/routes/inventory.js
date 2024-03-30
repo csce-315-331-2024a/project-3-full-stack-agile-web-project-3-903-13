@@ -23,3 +23,4 @@ router.get('/usage', async (req, res) => {
 router.get('/state', getInventoryState)
 
 module.exports = router
+// vim: tabstop=3
