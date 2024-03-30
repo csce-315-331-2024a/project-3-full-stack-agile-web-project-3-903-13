@@ -1,7 +1,11 @@
-<<<<<<< HEAD
-const express = require('express');
-const router = express.Router();
-const { getSalesReport } = require('../services/salesReport');
+const express = require('express')
+const router = express.Router()
+const transcationsController = require('../services/transactions')
+
+router.post("/new", transcationsController.createTransaction)
+
+router.get("/", (req, res) => {
+})
 
 // Endpoint for retrieving the sales report
 router.get('/salesreport', async (req, res) => {
@@ -21,17 +25,5 @@ router.get('/salesreport', async (req, res) => {
     }
 });
 
-module.exports = router;
-=======
-const express = require('express')
-const router = express.Router()
-const transcationsController = require('../services/transactions')
-
-router.post("/new", transcationsController.createTransaction)
-
-router.get("/", (req,res) => {
-})
-
 module.exports = router
 // vim: tabstop=3
->>>>>>> main
