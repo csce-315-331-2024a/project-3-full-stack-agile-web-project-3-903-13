@@ -49,13 +49,13 @@ function PrevArrow(props) {
 }
 
 const buttonCategories = [
-  { name: "Burgers", path: "/category/burgers", image: "/images/burgers.png" },
-  { name: "Hotdogs/Corndogs", path: "/category/hotdogs", image: "/images/hotdogs-corndogs.jpg" },
-  { name: "Chicken Tenders", path: "/category/tenders", image: "/images/chicken-tenders.jpg" },
-  { name: "Sides", path: "/category/fries", image: "/images/sides.jpg" },
-  { name: "Shakes", path: "/category/shakes", image: "/images/shakes.jpg" },
-  { name: "Beverages", path: "/category/beverages", image: "/images/beverages.jpg" },
-  { name: "Seasonal", path: "/category/seasonal", image: "/images/seasonal.jpg" }
+  { name: "Burgers", path: "/burgers", image: "/images/burgers.png" },
+  { name: "Hotdogs/Corndogs", path: "/hotdogs", image: "/images/hotdogs-corndogs.jpg" },
+  { name: "Chicken Tenders", path: "/tenders", image: "/images/chicken-tenders.jpg" },
+  { name: "Sides", path: "/fries", image: "/images/sides.jpg" },
+  { name: "Shakes", path: "/shakes", image: "/images/shakes.jpg" },
+  { name: "Beverages", path: "/beverages", image: "/images/beverages.jpg" },
+  { name: "Seasonal", path: "/seasonal", image: "/images/seasonal.jpg" }
 ];
 
 const carouselCategories = [
