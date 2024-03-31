@@ -1,5 +1,16 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+import {MenuItem} from "../menuItems";
+
 export default function IceCreamPage() {
-    return(
-        <div>Ice cream</div>
+    return (
+        <main className="min-h-screen bg-cream py-10">
+            <MenuItem
+                categoryNum={4}
+                categoryName={"Ice Cream"}
+            />
+        </main>
     );
 }
