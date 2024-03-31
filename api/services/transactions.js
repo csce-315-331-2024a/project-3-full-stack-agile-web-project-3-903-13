@@ -12,7 +12,6 @@ const insertTransaction = async (totalCost, taxAmount) => {
 }
 
 const updateFoodItemsTable = async (id, orderContents) => {
-	console.log(id)
 	orderContents.map((item) => {
 		
 		db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)", [id, item.id, item.quantity], (err) => {
