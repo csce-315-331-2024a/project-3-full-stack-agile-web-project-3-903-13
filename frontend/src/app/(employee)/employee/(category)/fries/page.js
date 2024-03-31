@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-import {MenuItem} from "../menuItems";
+import {MenuItemList} from "../menuItems";
 
 export default function FriesPage() {
     return (
         <main className="min-h-screen bg-cream py-10">
-            <MenuItem
+            <MenuItemList
                 categoryNum={3}
                 categoryName={"Fries"}
             />
