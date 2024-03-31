@@ -13,7 +13,6 @@ const categories = [
 ]
 
 
-
 export default function Page({ params }) {
     const [itemType, setItemType] = useState([]);
 
