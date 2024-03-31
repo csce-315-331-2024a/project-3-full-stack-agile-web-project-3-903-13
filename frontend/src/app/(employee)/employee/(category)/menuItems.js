@@ -7,6 +7,12 @@ function MenuItem(props) {
         console.log(props.item.itemname)
         console.log(props.item.menuid)
         console.log(props.item.price)
+        let quantity = localStorage.getItem(props.item.itemname)
+        let updateQuantity = quantity ? parseInt(quantity) + 1 : 1
+        let price = localStorage.getItem("price")
+        let updatePrice = price ? parseFloat(price) + parseFloat(props.item.price) : parseFloat(props.item.price)
+        localStorage.setItem(props.item.itemname, updateQuantity)
+        localStorage.setItem("price", updatePrice)
     }
 
     return (
