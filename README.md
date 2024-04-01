@@ -8,6 +8,7 @@
   - [Sprint Objective](#sprint-objective)
   - [Initial Sprint Backlog](#initial-sprint-backlog)
 - [Sprint 1 Daily Meetings](#sprint-1-daily-meetings)
+- [Sprint 1 Retrospective Meeting Agenda](#sprint-1-retrospective-meeting-agenda)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -394,3 +395,45 @@ Location: Discord
 - Everyone will spend time learning how to use Jest to test
 - Everyone will begin to reflect on Sprint 1 to prepare for Sprint 2
 - Blockers: Time constraints and Jest
+
+# Sprint 1 Retrospective Meeting Agenda
+
+**Objective:**  
+The objective of this meeting is to reflect on our Sprint 1 and decide on changes/additions for the next sprint
+
+## Meeting Details
+- **Date:** 4/1/2024
+- **Time:** 7:00 PM
+- **Location:** Discord
+
+## Agenda Items
+
+1. **Opening and Welcome** 
+   - Welcome all team members to the sprint retrospective meeting
+   - Briefly outline the purpose of the meeting
+
+2. **Review of Previous Sprint** 
+   - Discuss the goals set for the previous sprint
+   - Review what went right during the sprint
+   - Discuss what went wrong or could have been improved
+
+3. **Procedure Evaluation**
+   - Evaluate the procedures and methodologies used during the sprint
+   - Discuss any inefficientcies or challenges encountered
+   - Brainstorm potential changes or improvements to the process
+
+4. **Product Backlog Adjustments** 
+   - Review the current state of the product backlog
+   - Identify items that were completed, postponed, or encountered issues
+   - Discuss any new items that need to be added or prioritized based on the sprint outcome
+
+5. **Action Planning** 
+   - Collaboratively identify action items to address the issues and captialize on uscess identified during the retrospective
+
+6. **Meeting Planing** 
+   - Discuss meeting times going forward
+
+7. **Closing** 
+   - Summarize key points discussed during the meeting
+   - Express gratitude to the team for their particiaption and contributions
+
