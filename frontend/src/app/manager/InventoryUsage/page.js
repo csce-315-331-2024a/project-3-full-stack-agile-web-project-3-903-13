@@ -17,7 +17,7 @@ export default function InventoryUsagePage() {
         setErrorMessage('');
         setHasData(true);  // Assume there is data until checked
         try {
-            const response = await fetch(`http://localhost:5000/api/inventory/usage?startDate=${startDate}&endDate=${endDate}`);
+            const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/usage?startDate=${startDate}&endDate=${endDate}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
