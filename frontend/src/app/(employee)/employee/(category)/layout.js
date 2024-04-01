@@ -1,8 +1,10 @@
 import EmployeeNavbar from "@/components/EmployeeNavbar";
 import "../../../globals.css";
+import { TransactionProvider } from "./transactions";
 
 export default function CategoryLayout({ children }) {
   return (
+    <TransactionProvider>
     <>
       <EmployeeNavbar
         links={[
@@ -16,5 +18,6 @@ export default function CategoryLayout({ children }) {
       />
       <main className="flex-1">{children}</main>
     </>
+    </TransactionProvider>
   );
 }
