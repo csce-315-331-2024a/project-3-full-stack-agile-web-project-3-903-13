@@ -126,7 +126,7 @@ export function MenuItemList({ categoryNum, categoryName }) {
           ))}
         </div>
       </div>
-      <TransactionPanel />
+      {/* <TransactionPanel /> */}
     </div>
   );
 }
