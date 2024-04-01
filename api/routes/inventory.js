@@ -21,6 +21,9 @@ router.get('/usage', async (req, res) => {
 });
 
 router.get('/state', getInventoryState)
+const inventoryItemsController = require('../services/inventory.js')
+
+router.get("/", inventoryItemsController.retrieveInventoryItems)
 
 module.exports = router
 // vim: tabstop=3
