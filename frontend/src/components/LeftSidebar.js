@@ -7,10 +7,16 @@ import { usePathname } from "next/navigation";
 export default function LeftSidebar({ links }) {
   const pathname = usePathname();
   return (
-    <nav className="w-20 h-screen bg-white border-r-2 flex flex-col items-center gap-6 my-6">
-      <Image src={"/logo.svg"} width={24} height={24}></Image>
-      <Link href="/employee/burgers">Home</Link>
-      <Link href="/employee/manager">Manager</Link>
+    <nav className="w-[5rem] h-screen bg-white border-r-2 flex flex-col items-center gap-8 py-6">
+      <Link href="/">
+        <Image src={"/logo.svg"} width={24} height={24}></Image>
+      </Link>
+      <Link href="/employee/burgers">
+        <Image src={"/home.svg"} width={24} height={24}></Image>
+      </Link>
+      <Link href="/employee/manager/inventory">
+        <Image src={"/user.svg"} width={24} height={24}></Image>
+      </Link>
     </nav>
   );
 }
