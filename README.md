@@ -1,11 +1,16 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/ttC5_kKh)
 
 # Table of Contents
+- [Total Project Burndown Chart](#total-project-burndown-chart)
 - [Sprint 1 Planning Meeting Agenda](#sprint-1-planning-meeting-agenda)
 - [Sprint 1 Meeting Minutes](#sprint-1-meeting-minutes)
 - [Sprint 1 Plan](#sprint-1-plan)
   - [Sprint Objective](#sprint-objective)
   - [Initial Sprint Backlog](#initial-sprint-backlog)
+- [Sprint 1 Daily Meetings](#sprint-1-daily-meetings)
+
+# Total Project Burndown Chart
+![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
 
 # Sprint 1 Planning Meeting Agenda
 
@@ -117,6 +122,9 @@ The objective of this meeting is to kickstart our project's first sprint by alig
 The objective of Sprint 1 is to kickstart the project by focusing on the initial setup and development tasks. The main goals include:
 - Rebuilding the front-end code served on one server, including selecting a suitable framework, assessing compatibility, and implementing key features.
 - Migrating the back-end code to another server, ensuring compatibility with the revamped front-end, and implementing necessary features and database adjustments.
+
+## Sprint 1 Burndown Chart
+![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=2084515069&format=image)
 
 ## Initial Sprint Backlog
 
@@ -309,3 +317,56 @@ The objective of Sprint 1 is to kickstart the project by focusing on the initial
   - **Status:** To-do
   - **Definition of Done:** Backend logic implemented to support real-time updates. Functionality reviewed and synchronized with the front end.
 
+## Sprint 1 Daily Meetings
+### Meeting Summary - Sprint 1 Daily Scrum Meeting #1
+Date: 3/26/2024
+Time: 9:00 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 4.33
+
+**Discussion Points:**
+- Sprint Backlog:
+  - a1 and a2 tasks marked as finished.
+  - Task a3 has a low time estimate; everyone to work on respective features and then implement routing collectively.
+  - a4 frontend implementation assigned to Kunal, with assistance from Aditya.
+  - b1, b2, and b3 tasks require visitation at the end.
+  - Various tasks assigned to team members
+  - Moved around task assignees based upon need including a5, b6, b12, and b13 
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: None mentioned during the meeting.
+- Blockers: No blockers raised during the discussion.
+
+### Meeting Summary - Sprint 1 Daily Scrum Meeting #2
+Date: 3/28/2024
+Time: 9:50 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 3.67
+
+**Discussion Points:**
+- Sprint Backlog:
+  - Tasks b8, b9, b10, b12, and b13 completed
+  - Everyone will work on testing the features
+  - Aditya and Wyatt will help on the customer view after finishing their tasks
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: Deployment and testing.
+- Blockers: React table, time constraints, and figuring out jest.

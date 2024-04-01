@@ -144,7 +144,7 @@ const categories = [
   { label: "Seasonal", value: 6 },
 ];
 
-export default function ManagerPage() {
+export default function EmployeePage() {
   const [menuItems, setMenuItems] = useState([]);
   const [addItemName, setAddItemName] = useState(""); // Separate state variable for Add Menu Item form
   const [addPrice, setAddPrice] = useState(""); // Separate state variable for Add Menu Item form
@@ -647,4 +647,3 @@ export default function ManagerPage() {
     </main>
   );
 }
-``
