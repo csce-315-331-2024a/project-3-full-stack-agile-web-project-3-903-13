@@ -6,12 +6,14 @@ export default function ManagerLayout({ children }) {
     <>
       <EmployeeNavbar
         links={[
-          { name: "Feature 1", route: "/employee/manager/inventory" },
-          { name: "Feature 2", route: "/employee/manager/" },
-          { name: "Feature 3", route: "/employee/manager/" },
-          { name: "Feature 4", route: "/employee/manager/" },
-          { name: "Feature 5", route: "/employee/manager/" },
-          { name: "Feature 6", route: "/employee/manager/" },
+          { name: "Inventory", route: "/employee/manager/inventory" },
+          { name: "Menu Items", route: "/employee/manager/menu-items" },
+          { name: "Inventory Usage", route: "/employee/manager/inventory-usage" },
+          { name: "Excess Report", route: "/employee/manager/excess-report" },
+          { name: "Sales Report", route: "/employee/manager/sales-report" },
+          { name: "Restock Report", route: "/employee/manager/restock-report" },
+          { name: "What Sells Duo", route: "/employee/manager/what-sells-together" },
+
         ]}
       ></EmployeeNavbar>
       <main className="flex-1">{children}</main>
