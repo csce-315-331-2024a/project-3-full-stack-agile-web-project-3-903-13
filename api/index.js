@@ -28,8 +28,12 @@ const ingredientsRouter = require('./routes/ingredients')
 const inventoryRouter = require('./routes/inventory')
 const foodItemsRouter = require('./routes/foodItems')
 const employeesRouter = require('./routes/employees')
-const reportRouter = require('./routes/reports')
+
+const restockRouter= require('./routes/restock')
+
+
 const reportsRouter = require('./routes/reports')
+
 
 app.use("/api/menuitems", menuItemsRouter)
 app.use("/api/transactions", transactionsRouter)
@@ -37,8 +41,10 @@ app.use("/api/ingredients", ingredientsRouter)
 app.use("/api/inventory", inventoryRouter)
 app.use("/api/fooditems", foodItemsRouter)
 app.use("/api/employees", employeesRouter)
-app.use("/api/reports", reportRouter)
+app.use("/api/restock",restockRouter)
+
 app.use("/api/reports", reportsRouter)
+
 
 app.listen(PORT, () => {
 	console.log(`Listening on port ${PORT}.`)
