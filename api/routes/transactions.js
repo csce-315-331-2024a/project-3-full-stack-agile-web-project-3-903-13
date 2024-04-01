@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const transcationsController = require('../services/transactions')
+const salesReportController = require('../services/salesReport')
 
 router.post("/new", transcationsController.createTransaction)
 
@@ -17,7 +18,7 @@ router.get('/salesreport', async (req, res) => {
     }
 
     try {
-        const reportData = await getSalesReport(startDate, endDate);
+        const reportData = await salesReportController.getSalesReport(startDate, endDate);
         res.status(200).json(reportData);
     } catch (err) {
         console.error(err);
