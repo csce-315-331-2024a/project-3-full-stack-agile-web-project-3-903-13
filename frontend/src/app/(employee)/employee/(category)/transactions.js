@@ -8,8 +8,11 @@ export const useTransaction = () => useContext(TransactionContext);
 
 export const TransactionProvider = ({ children }) => {
   const [transactions, setTransaction] = useState(() => {
-      const currentTransaction = localStorage.getItem("currentTransaction")
-      return currentTransaction ? JSON.parse(currentTransaction) : []
+    if (typeof window !== 'undefined') {
+      const currentTransaction = localStorage.getItem("currentTransaction");
+      return currentTransaction ? JSON.parse(currentTransaction) : [];
+    }
+    return [];
   });
 
   const updateTransaction = (item) => {
