@@ -38,7 +38,10 @@ app.use("/api/fooditems", foodItemsRouter)
 app.use("/api/employees", employeesRouter)
 app.use("/api/reports", reportRouter)
 
-app.listen(PORT, () => {
-	console.log(`Listening on http://localhost:${PORT}`)
-})
+/*app.listen(PORT, () => {
+	console.log(`Listening on port ${PORT}.`)
+})*/
+
+
+module.exports = app
 // vim: tabstop=3

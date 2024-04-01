@@ -1,5 +1,15 @@
 const db = require('../config/db')
 
+const verifyOrderFormatting = (orderContents) => {
+	var isValid = true
+	orderContents.forEach((element) => {
+		if (element.id === undefined || element.quantity === undefined) {
+			isValid = false
+		}
+	});
+	return isValid
+}
+
 const insertTransaction = async (totalCost, taxAmount) => {
 	var currentDate = new Date().toLocaleString()
 
@@ -40,6 +50,18 @@ const createTransaction = async (req,res) => {
 	const totalCost = req.body.totalCost
 	const taxAmount = req.body.taxAmount
 	const orderContents = req.body.orderContents
+	
+	if (!totalCost || !taxAmount || !orderContents) {
+		res.status(400).send("Missing parts of request")
+		return
+	}
+
+	const valid = verifyOrderFormatting(orderContents)
+	console.log(valid)
+	if (!valid) {
+		res.status(400).send("Invalid formatting of error contents.")
+		return
+	}
 	
 	try {
 		const transactionid = await insertTransaction(totalCost,taxAmount)
