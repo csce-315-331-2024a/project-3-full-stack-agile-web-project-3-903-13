@@ -23,7 +23,17 @@ router.get('/usage', async (req, res) => {
 router.get('/state', getInventoryState)
 const inventoryItemsController = require('../services/inventory.js')
 
+
 router.get("/", inventoryItemsController.retrieveInventoryItems)
 
+router.patch("/updateQuantity", inventoryItemsController.updateInventItemQuant)
+
+router.patch("/updatePrice", inventoryItemsController.updateInventItemPrice)
+
+router.patch("/updateMinCount", inventoryItemsController.updateInventItemMin)
+
+router.post("/", inventoryItemsController.addInventoryItem)
+
+router.delete("/", inventoryItemsController.removeInventoryItem)
+
 module.exports = router
-// vim: tabstop=3
