@@ -56,6 +56,7 @@ export const TransactionProvider = ({ children }) => {
       },
       body: JSON.stringify(requestData)
     })
+    clearTransaction();
   }
 
   useEffect(() => {
