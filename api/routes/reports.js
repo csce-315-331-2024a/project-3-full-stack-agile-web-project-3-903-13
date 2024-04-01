@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const transactionsController = require('../services/reports/whatSellsTogether')
 
-router.get("/", (req, res) => {
-    res.send("Boo yeah. Want some reports? you at the right place y'all")
-})
+router.post("/whatSellsTogether", transactionsController.generateReport)
 
 module.exports = router
+// vim: tabstop=3
