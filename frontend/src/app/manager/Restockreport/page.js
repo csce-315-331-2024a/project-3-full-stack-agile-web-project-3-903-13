@@ -12,7 +12,7 @@ const RestockReportPage = () => {
      // Extracted function to fetch data
      const fetchData = () => {
         setLoading(true);
-        axios.get('http://localhost:5000/api/restock')
+        axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/restock')
             .then(response => {
                 setRestockItems(response.data);
                 setLoading(false);
@@ -29,7 +29,7 @@ const RestockReportPage = () => {
 
     const fulfillRestock = () => {
         // Call the backend to fulfill restock orders
-        axios.patch('http://localhost:5000/api/restock')
+        axios.patch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/restock')
             .then(response => {
                 // Optionally handle success (e.g., show success message)
                 console.log('Restock fulfilled successfully:', response.data);
