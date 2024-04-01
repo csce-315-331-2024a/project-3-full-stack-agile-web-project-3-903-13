@@ -370,3 +370,27 @@ Location: Discord
 - Team to continue working on assigned tasks from the Sprint Backlog. 
 - Tasks to Add: Deployment and testing.
 - Blockers: React table, time constraints, and figuring out jest.
+
+### Meeting Summary - Sprint 1 Daily Scrum Meeting #3
+Date: 3/31/2024
+Time: 10:20 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 4
+
+**Discussion Points:**
+- Sprint Backlog:
+  - Tasks b8, b9, b10, b12, and b13 completed
+  - All tasks completed besides a4, b14, b16, b17, and b20
+- Everyone will spend time learning how to use Jest to test
+- Everyone will begin to reflect on Sprint 1 to prepare for Sprint 2
+- Blockers: Time constraints and Jest
