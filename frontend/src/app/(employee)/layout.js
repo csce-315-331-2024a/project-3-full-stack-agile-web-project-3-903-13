@@ -1,4 +1,5 @@
 import EmployeeNavbar from "@/components/EmployeeNavbar"
+import LeftSidebar from "@/components/LeftSidebar"
 import "../globals.css";
 
 export const metadata = {
@@ -9,14 +10,11 @@ export const metadata = {
 export default function EmployeeLayout({ children }) {
  return (
     <html lang="en">
-      <body>
-      <EmployeeNavbar
-          links={[
-            { name: "Burgers", route: "/employee" },
-            { name: "Fries", route: "/employee/fries" },
-          ]}
-        />
+      <body className="flex flex-row min-h-screen">
+      <LeftSidebar />
+      <div className="flex flex-col w-full">
         {children}
+      </div>
       </body>
     </html>
   )
