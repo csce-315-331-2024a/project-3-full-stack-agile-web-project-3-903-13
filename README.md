@@ -494,3 +494,47 @@ The objective of this meeting is to reflect on our Sprint 1 and decide on change
 
 **Meeting Adjourned**
 The meeting was adjourned at 7:34 PM.
+
+# Sprint 2 Planning Meeting Agenda
+
+**Objective:**  
+The objective of this meeting is to plan and kickstart Sprint 2 by deciding on a sprint goal and a sprint backlog.
+
+## Meeting Details
+- **Date:** 4/2/2024
+- **Time:** 7:30 PM
+- **Location:** Discord
+
+## Agenda Items
+
+1. **Welcome and Introductions** 
+   - Brief introduction of team members, including roles and responsibilities.
+
+2. **Overview of Sprint 1 Progress** 
+   - Recap of completed tasks and acheivements from Sprint 1.
+   - Overview of any outstanding tasks or issues
+
+3. **Sprint Goal** 
+   - Discussion to create the Sprint 2 goal based on Sprint 1 progress.
+   - Alignment on what success looks like for Sprint 2.
+
+4. **Product Backlog Review** 
+   - Review of user stories and tasks from Sprint 1.
+   - Decide on user stories for the sprint backlog
+
+5. **Sprint Planning** 
+   - Breakdown of selected user stories into tasks for Sprint 2.
+   - Estimation of effort for each task.
+   - Assignment of tasks to team members.
+
+6. **Definition of Done for Sprint 2** 
+   - Clarification of the criteria for tasks or user stories to be considered complete for Sprint 2.
+   - Agreement on the definition of done.
+
+7. **Q&A and Open Discussion**
+   - Opportunity for team members to ask questions or seek clarification on Sprint 2 planning.
+
+8. **Next Steps and Closing**
+   - Recap of action items and responsibilities for Sprint 2.
+   - Confirmation of next meeting date and time.
+   - Thank everyone for their participation and commitment.
