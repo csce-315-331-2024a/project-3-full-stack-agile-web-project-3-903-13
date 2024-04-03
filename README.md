@@ -541,7 +541,7 @@ The objective of this meeting is to plan and kickstart Sprint 2 by deciding on a
    - Confirmation of next meeting date and time.
    - Thank everyone for their participation and commitment.
 
-# Sprint 1 Retrospective Meeting Minutes
+# Sprint 2 Planning Meeting Minutes
 
 ## Meeting Details
 - **Date:** 4/2/2024
