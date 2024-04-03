@@ -10,6 +10,7 @@
 - [Sprint 1 Daily Meetings](#sprint-1-daily-meetings)
 - [Sprint 1 Retrospective Meeting Agenda](#sprint-1-retrospective-meeting-agenda)
 - [Sprint 1 Retrospective Meeting Minutes](#sprint-1-retrospective-meeting-minutes)
+- [Sprint 2 Planning Meeting Agenda](#sprint-2-planning-meeting-agenda)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
