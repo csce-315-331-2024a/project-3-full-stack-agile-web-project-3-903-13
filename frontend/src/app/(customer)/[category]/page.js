@@ -25,7 +25,6 @@ export default function Page({ params }) {
             const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
             const data = await response.json();
             const items = data.filter(item => item.category === parseInt(categories.indexOf(params.category)));
-            console.log(items);
             setItemType(items);
         };
 

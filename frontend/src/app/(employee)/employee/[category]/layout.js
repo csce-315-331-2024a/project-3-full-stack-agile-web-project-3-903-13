@@ -10,7 +10,8 @@ export default function CategoryLayout({ children }) {
         links={[
           { name: "Burgers", route: "/employee/burgers" },
           { name: "Tenders", route: "/employee/tenders" },
-          { name: "Dogs", route: "/employee/dogs" },
+          { name: "Hot Dogs", route: "/employee/hotdogs" },
+          { name: "Fries", route: "/employee/fries" },
           { name: "Ice Cream", route: "/employee/ice-cream" },
           { name: "Beverages", route: "/employee/beverages" },
           { name: "Seasonal", route: "/employee/seasonal" },
