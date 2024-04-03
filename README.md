@@ -12,6 +12,7 @@
 - [Sprint 1 Retrospective Meeting Minutes](#sprint-1-retrospective-meeting-minutes)
 - [Sprint 2 Planning Meeting Agenda](#sprint-2-planning-meeting-agenda)
 - [Sprint 2 Planning Meeting Minutes](#sprint-2-planning-meeting-minutes)
+- [Sprint 2 Plan](#sprint-2-plan)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -597,3 +598,392 @@ The objective of this meeting is to plan and kickstart Sprint 2 by deciding on a
 
 **Meeting Adjourned**
 The meeting was adjourned at 8:13 PM.
+
+# Sprint 2 Plan
+
+## Sprint Goal:
+
+Successfully complete Sprint 1 tasks, including integration of APIs, UI touch-ups, and implementing order management features, ensuring seamless functionality and enhanced user experience.
+
+## Sprint 2 Backlog:
+
+**As a developer, I would like to have the front-end code served on one server (5 tasks) [A]**
+
+- **A1:** Research and select a suitable framework for rebuilding the GUI of the POS system.
+  - **Dependencies: None**
+  - **Time Estimate: 1HR, 1 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Framework selected based on research**
+  - **Assigned to: Wyatt**
+- **A2:** Assess the compatibility, scalability, and usability of potential frameworks to determine the best fit for the project
+  - **Dependencies: A1**
+  - **Time Estimate: 0.5 HR, 1 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Frameworks assessed for compatibility, scalability, and usability.**
+  - **Assigned to: Wyatt**
+- **A3:** Plan and execute the migration process to transition the existing GUI components to the new framework seamlessly.
+  - **Dependencies: A2**
+  - **Time Estimate: 1.5 HR, 2 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Migration plan executed seamlessly. Implementation reviewed, tested, and successfully transitioned.**
+  - **Assigned to: All**
+- **A4:** Create a dedicated menu board view to display product offerings, prices, and promotions in a visually appealing and informative manner
+  - **Dependencies: A3**
+  - **Time Estimate: 2.5 HR, 3 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Menu board view created with product offerings, prices, and promotions. Implementation reviewed, tested, and visually appealing.**
+  - **Assigned to: Aditya**
+- **A5:** Implement a customer view. This should be different from the cashier view, it should be more accessible and easier to navigate
+  - **Dependencies: A3**
+  - **Time Estimate: 4 hr, 5 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Customer view implemented for accessibility and ease of navigation. Implementation reviewed, tested, and distinct from the cashier view.**
+  - **Assigned to: Karan and Kelvin**
+
+**As a developer, I would like to have the back-end code served on another server (18 tasks) [B]**
+
+- **B1:** Analyze the impact of GUI redesign on the database schema and data structure
+  - **Dependencies: A**
+  - **Time Estimate: .5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Analysis completed, and necessary adjustments identified. Changes reviewed and aligned with the revamped GUI.**
+  - **Assigned to: All**
+- **B2:** Modify database schema as necessary to align with the revamped GUI
+  - **Dependencies: B1**
+  - **Time Estimate: 1 hr, 2 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Database schema modified successfully to align with GUI changes. Any new/modified relations are normalized appropriately. Changes reviewed and tested for compatibility.**
+  - **Assigned to: All**
+- **B3:** Update database queries and data relationships to support new GUI features
+  - **Dependencies: B2**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Database queries and relationships updated to support new GUI features. Changes reviewed and tested for accuracy.**
+  - **Assigned to: All**
+- **B4:** Migrate the logic for the "What Sells Together" manager feature over to the back-end server and create a view for this data in the UI
+  - **Dependencies: B3**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+- **B5:** Migrate the logic for the "Restock Report" manager feature over to the back-end server and create a view for this data in the UI
+  - **Dependencies: B3**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Aditya**
+- **B6:** Migrate the logic for the "Product Usage" manager feature over to the back-end server and create a view for this data in the UI
+  - **Dependencies: B3**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+- **B7:** Migrate the logic for the "Seasonal item" manager feature over to the back-end server and create a view for this data in the UI
+  - **Dependencies: B3**
+  - **Time Estimate: 2.5 hr, 3 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **B8:** Migrate the logic for the "Excess Report" manager feature over to the back-end server and create a view for this data in the UI
+  - **Dependencies: B3**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Karan**
+- **B9:** Migrate the logic for the "Sales Report" manager feature over to the back-end server and create a view for this data in the UI
+  - **Dependencies: B3**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Feature migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+- **B10:** Migrate the logic to add menu items and create an interactive component in the UI to support this functionality
+  - **Dependencies: B3**
+  - **Time Estimate: 2.5 hr, 3 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **B11:** Migrate the logic to update menu items and create an interactive component in the UI to support this functionality
+  - **Dependencies: B3**
+  - **Time Estimate: 2.5 hr, 3 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **B12:** Migrate the logic to add inventory items and create an interactive component in the UI to support this functionality
+  - **Dependencies: B3**
+  - **Time Estimate: 2.5 hr, 3 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **B13:** Migrate the logic to update inventory items and create an interactive component in the UI to support this functionality
+  - **Dependencies: B3**
+  - **Time Estimate: 2.5 hr, 3 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **B14:** Migrate the logic to choose between three payment options
+  - **Dependencies: B3**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+- **B15:** Migrate the logic to add items and remove items from the transaction and create an interactive component in the UI to support this functionality
+  - **Dependencies: B3**
+  - **Time Estimate: 3.5 hr, 4 pt**
+  - **Priority: High**
+  - **Status: Completed**
+  - **Definition of Done: Functionality migrated successfully to the web server. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+- **B16:** Implement backend logic to support real-time menu board updates and create interactive components in the UI to support this functionality
+  - **Dependencies: B3**
+  - **Time Estimate: 2hr, 2 pt**
+  - **Priority: Medium**
+  - **Status: Completed**
+  - **Definition of Done: backend logic implemented to support real-time updates. Functionality reviewed and synchronized with the front end.**
+  - **Assigned to: Karan**
+- **B17:** Deploy the website using Vercel
+  - **Dependencies: B3**
+  - **Time Estimate: 2hr, 2 pt**
+  - **Priority: Medium**
+  - **Status: Completed**
+  - **Definition of Done: Site is successfully deployed and hosted using Vercel and is accessible through a link.**
+  - **Assigned to: Kunal and Wyatt**
+- **B18:** Implement unit testing for all features of the UI backend and frontend.
+  - **Dependencies: B3**
+  - **Time Estimate: 5hr, 5 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Features are largely tested with coverage of at least 50%.**
+  - **Assigned to: All**
+
+**As a customer, I would like the POS system to be secure so that malicious people can't go in and take private data from the customers. (3 tasks) [C]**
+
+- **C1:** Integrate Google Authentication (OAuth2) as a third-party authentication mechanism for a user login (cashier and more importantly the manager) and access control
+  - **Dependencies: A**
+  - **Time Estimate: 4 hr, 4 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Google Authentication integrated for secure user login. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+- **C2:** Configure authentication settings and permissions to authenticate users securely and authorize access to protected resources
+  - **Dependencies: A**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Authentication settings and permissions configured for secure access control. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+- **C3:** Implement user registration, login, and logout functionalities using Google Auth APIs and SDKs.
+  - **Dependencies: A**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: User registration, login, and logout functionalities implemented using Google Auth APIs and SDKs. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+
+**As a customer, I would like to be able to see everyday useful content such as the time and weather (6 tasks)[D]**
+
+- **D1:** Create a UI component in the front-end to show the current time
+  - **Dependencies: A**
+  - **Time Estimate: 1 hr, 1 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done: UI component created to display the current time. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **D2:** Use a timer function to update the time display every second
+  - **Dependencies: A**
+  - **Time Estimate: 1 hr, 1 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done: A timer function implemented to update the time display every second. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **D3:** Ensure the time display is accurate and automatically updates without needing a page refresh
+  - **Dependencies: A**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done: Time display accuracy ensured, and automatic updates implemented without page refresh. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **D4:** Integrate weather service APIs to provide real-time weather information and forecasts
+  - **Dependencies: A**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Weather service APIs integrated to provide real-time weather information and forecasts. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **D5:** Display weather data, including current conditions, temperature, humidity, and forecasts, in relevant user interfaces
+  - **Dependencies: A**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Weather data displayed in relevant user interfaces, including current conditions, temperature, humidity, and forecasts. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+- **D6:** Customize weather display options and configurations based on geographic location
+  - **Dependencies: A**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Weather display options and configurations customized based on geographic location. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Isaac**
+
+**As a bilingual user, I want built-in translation features to view the website with its contents written in my preferred language without needing to manually translate the content. (3 tasks)[E]**
+
+- **E1:** Integrate translation services, such as Google Translate API, to support multilingual localization of the application
+  - **Dependencies: B**
+  - **Time Estimate: 4 hr, 5 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Translation services integrated to support multilingual localization of the application. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+- **E2:** Implement language selection options to allow users to switch between different language preferences
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Language selection options are implemented to allow users to switch between different language preferences. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+- **E3:** Translate static text content, labels, and messages dynamically based on the user's language preference
+  - **Dependencies: B**
+  - **Time Estimate: 2.5 hr, 3 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Static text content, labels, and messages are translated dynamically based on the user's language preference. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+
+**As primarily a phone user, I want the website to be easily accessible with a mobile device and still readable on a smaller screen. (2 tasks)[G]**
+
+- **G1:** Make the website easy on the eyes and readable on mobile devices
+  - **Dependencies: B**
+  - **Time Estimate: 1 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Website optimized for readability and accessibility on mobile devices. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **G2:** Maintain ease of navigation on mobile devices
+  - **Dependencies: B**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Ease of navigation maintained on mobile devices. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+
+**As a customer with bad eyesight, I want the ability to easily enlarge text on the website and make the website have high contrasting colors so that I can read without straining my eyes, and it should expectedly be clean to look at. (11 tasks)[H]**
+
+- **H1:** Identify areas for improvement in the user layout
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Areas for improvement in the user layout identified.**
+  - **Assigned to: Kunal**
+- **H2:** Identify areas for improvement in the user navigation
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Areas for improvement in the user navigation identified.**
+  - **Assigned to: Kunal**
+- **H3:** Identify areas for improvement in the aesthetics
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Areas for improvement in the aesthetics identified.**
+  - **Assigned to: Kunal**
+- **H4:** Identify color scheme(s) that work universally for individuals with varying levels of eyesight and apply these scheme(s) to the webpage
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Color schemes identified and applied universally for individuals with varying levels of eyesight.**
+  - **Assigned to: Kunal**
+- **H5:** Identify areas for improvement in the user experience
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Areas for improvement in the user experience identified.**
+  - **Assigned to: Kunal**
+- **H6:** Incorporate interactive components to enhance user experience
+  - **Dependencies: B**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Interactive components incorporated to enhance user experience. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H7:** Incorporate animations to enhance visual appeal
+  - **Dependencies: B**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Animations incorporated to enhance visual appeal. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H8:** Add in pictures of the menu items
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done: Pictures of menu items added. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H9:** Implement responsive design principles to ensure the GUI adapts smoothly to different screen sizes and devices
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: GUI adapts effectively to different screen sizes and devices. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H10:** Create a toggle that would make everything larger so that it is easier to view
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 3 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Toggle created to enlarge everything for easier viewing. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H11:** Create another toggle button for light and dark mode
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done: Toggle button created for light and dark mode. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+
+**As a manager, I want to be able to view past orders and modify/delete them (3 tasks) [L]**
+
+- **L1:** Create front and back end functionality to view all orders within a given time window.
+  - **Dependencies: B**
+  - **Time Estimate:1 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Order viewing integrated to allow managers to view orders within a valid time window. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Karan**
+- **L2:** Create front and back end functionality to update an order.
+  - **Dependencies: B**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Order modification integrated to allow managers to add/remove items from the order and change the status of the order. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Karan**
+- **L3:** Create front and back end functionality to remove an order from the order history.
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Order removal integrated to allow managers to remove an order from the order history. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Karan**
