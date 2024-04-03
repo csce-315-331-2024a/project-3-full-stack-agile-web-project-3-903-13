@@ -11,6 +11,7 @@
 - [Sprint 1 Retrospective Meeting Agenda](#sprint-1-retrospective-meeting-agenda)
 - [Sprint 1 Retrospective Meeting Minutes](#sprint-1-retrospective-meeting-minutes)
 - [Sprint 2 Planning Meeting Agenda](#sprint-2-planning-meeting-agenda)
+- [Sprint 2 Planning Meeting Minutes](#sprint-2-planning-meeting-minutes)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -539,3 +540,60 @@ The objective of this meeting is to plan and kickstart Sprint 2 by deciding on a
    - Recap of action items and responsibilities for Sprint 2.
    - Confirmation of next meeting date and time.
    - Thank everyone for their participation and commitment.
+
+# Sprint 1 Retrospective Meeting Minutes
+
+## Meeting Details
+- **Date:** 4/2/2024
+- **Time:** 7:30 PM
+- **Location:** Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+## Agenda Items
+
+1. **Welcome and Introductions** (7:30 - 7:31)
+   - The meeting commenced at 7:30 PM with a warm welcome to all team members
+   - The purpose of the meeting was briefly outlined
+
+2. **Overview of Sprint 1 Progress** (7:31 - 7:36)
+   - The team reviewed completed tasks and achievements from Sprint 1, noting any outstanding tasks or issues.
+
+3. **Sprint Goal** (7:36- 7:43)
+   - Discussion ensued to formulate the Sprint 2 goal, building upon the progress made in Sprint 1.
+   - Consensus was reached on the sprint goal: "To finish Sprint 1 tasks and integrate APIs, UI touch-ups, and order management features, ensuring seamless functionality and enhanced user experience."
+
+4. **Product Backlog Review**  (7:43 - 7:53)
+   - The team reviewed user stories and tasks from Sprint 1 and decided on user stories for the Sprint 2 backlog.
+   - It was agreed to make user stories for customizing menu items, order management, and user management.
+
+5. **Sprint Planning** (7:53 - 8:01)
+   - Selected user story A, B, C, D, E, G, H, and L for the tasks for Sprint 2
+   - Effort estimation was discussed for each task.
+   - Tasks were assigned to team members based on their expertise and availability.
+      - Menu Board: Kelvin
+      - Google OATH: Wyatt
+      - Weather/Time: Isaac
+      - Google Translate: Kelvin
+      - Order Management: Karan
+      - UI Improvements: Kunal
+
+6. **Definition of Done for Sprint 2** (8:01 - 8:05)
+   - Criteria for tasks or user stories to be considered complete for Sprint 2 were clarified and agreed upon.
+
+7. **Q&A and Open Discussion** (8:05 - 8:09)
+   - Team members had the opportunity to ask questions or seek clarification on Sprint 2 planning.
+
+8. **Next Steps and Closing** (8:09 - 8:13)
+   - Action items and responsibilities for Sprint 2 were summarized.
+   - The next meeting date and time were confirmed.
+   - Appreciation was expressed to all participants for their active participation and commitment to the project.
+
+**Meeting Adjourned**
+The meeting was adjourned at 8:13 PM.
