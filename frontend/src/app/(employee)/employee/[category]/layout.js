@@ -1,6 +1,6 @@
 import EmployeeNavbar from "@/components/EmployeeNavbar";
 import "../../../globals.css";
-import { TransactionProvider } from "./transactions";
+import { TransactionProvider } from "@/components/TransactionContext";
 
 export default function CategoryLayout({ children }) {
   return (
