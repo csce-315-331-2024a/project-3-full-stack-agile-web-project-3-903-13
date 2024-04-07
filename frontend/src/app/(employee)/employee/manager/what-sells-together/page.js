@@ -95,9 +95,9 @@ export default function SalesReportPage() {
                         <table className="w-full table-auto border-collapse border border-gray-500">
                             <thead>
                                 <tr>
-                                    <th className="border border-gray-400 px-4 py-2">Item Name</th>
-                                    <th className="border border-gray-400 px-4 py-2">Quantity Sold</th>
-                                    <th className="border border-gray-400 px-4 py-2">Total Sales</th>
+                                    <th className="border border-gray-400 px-4 py-2">Item One Name</th>
+                                    <th className="border border-gray-400 px-4 py-2">Item Two Name</th>
+                                    <th className="border border-gray-400 px-4 py-2">Sales Including Both Items</th>
                                 </tr>
                             </thead>
                             <tbody>
