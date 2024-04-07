@@ -3,7 +3,7 @@ import React from "react";
 
 import { useEffect, useState, useContext } from "react";
 
-import { TransactionContext, TransactionProvider, useTransaction } from "../transactions";
+import { TransactionContext, TransactionProvider, useTransaction } from "@/components/TransactionContext";
 
 // orderInfo contains two objects
 export default function CartPage() {
