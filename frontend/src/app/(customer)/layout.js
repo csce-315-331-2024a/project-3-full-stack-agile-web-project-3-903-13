@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google";
 import "../globals.css";
 import CustomerNavbar from "@/components/CustomerNavbar";
-import GoogleTranslateWidget from "@/components/GoogleTranslate";
 import { TransactionProvider } from "@/components/TransactionContext";
 
 
@@ -24,7 +23,6 @@ export default function RootLayout({ children }) {
             { name: "About", route: "/about" },
           ]}
         />
-        <GoogleTranslateWidget />
         {children}
       </body>
     </html>

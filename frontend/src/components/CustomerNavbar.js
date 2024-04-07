@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import GoogleTranslateWidget from "@/components/GoogleTranslate";
 
 export default function CustomerNavbar({ links }) {
   const pathname = usePathname();
@@ -27,6 +28,7 @@ export default function CustomerNavbar({ links }) {
           ))}
         </ul>
         <ul className="flex flex-row gap-8 items-center">
+          <GoogleTranslateWidget />
           <li>
             <Link href={"/employee/burgers"}>
               <Image className="nav-image" src={"./user.svg"} width={24} height={24}></Image>
