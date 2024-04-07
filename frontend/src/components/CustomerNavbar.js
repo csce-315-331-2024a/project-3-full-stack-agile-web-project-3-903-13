@@ -11,7 +11,7 @@ import { useTransaction } from "@/components/TransactionContext";
 
 export default function CustomerNavbar({ links }) {
   const pathname = usePathname();
-  const { transactions, clearTransaction, submitTransaction } = useTransaction();
+  const { transactions, clearTransaction, submitTransaction, updateTransaction, removeItemFromTransaction } = useTransaction();
   const [transactionsList, setTransactionsList] = useState(null);
   
   useEffect(() => {
@@ -76,9 +76,15 @@ export default function CustomerNavbar({ links }) {
               <div key={index} className="flex items-center justify-between w-full bg-gray-50 p-3 my-2 rounded-lg shadow">
                 <span className="flex-1 mr-4 font-semibold">{item.itemname}</span>
                 <div className="flex items-center justify-center flex-1">
-                  <FaMinusCircle className="text-red-500 cursor-pointer" />
+                  <FaMinusCircle 
+                    className="text-red-500 cursor-pointer" 
+                    onClick={() => removeItemFromTransaction(item.id)}
+                  />
                   <span className="mx-4 text-lg">x{item.quantity}</span>
-                  <FaPlusCircle className="text-green-500 cursor-pointer" />
+                  <FaPlusCircle 
+                    className="text-green-500 cursor-pointer" 
+                    onClick={() => updateTransaction(item)}
+                  />
                 </div>
                 <span className="flex-1 text-right font-semibold">${item.price}</span>
               </div>
