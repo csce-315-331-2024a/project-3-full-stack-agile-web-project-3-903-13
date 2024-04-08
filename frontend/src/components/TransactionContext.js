@@ -41,7 +41,7 @@ export const TransactionProvider = ({ children }) => {
   }
 
   const submitTransaction = () => {
-    const price = transactions.reduce((total, currentItem) => {return total + currentItem.price}, 0)
+    const price = transactions.reduce((total, currentItem) => {return total + currentItem.price * currentItem.quantity}, 0)
     const taxAmount = price * 0.0825
     const orderContents = transactions
     const requestData = {
