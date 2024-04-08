@@ -59,15 +59,32 @@ export const TransactionProvider = ({ children }) => {
     clearTransaction();
   }
 
+  const removeItemFromTransaction = (itemId) => {
+    const updatedTransactions = transactions.reduce((acc, item) => {
+      if (item.id === itemId) {
+        if (item.quantity > 1) {
+          acc.push({ ...item, quantity: item.quantity - 1 });
+        }
+      } else {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+
+    setTransaction(updatedTransactions);
+  };
+
   useEffect(() => {
     localStorage.setItem("currentTransaction", JSON.stringify(transactions))
   }, [transactions])
 
   return (
-    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction }}>
+    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction }}>
       {children}
     </TransactionContext.Provider>
   );
+
+  
 };
 
 

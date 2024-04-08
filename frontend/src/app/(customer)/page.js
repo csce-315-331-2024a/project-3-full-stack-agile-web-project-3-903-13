@@ -15,8 +15,8 @@ function NextArrow(props) {
               ...style, 
               display: "block", 
               fontSize: "36px", 
-              lineHeight: "60px", // Increased line height for taller appearance
-              height: "60px", // Set height to match line height for consistency
+              lineHeight: "60px",
+              height: "60px", 
               color: "black", 
               right: "-30px"
           }}
