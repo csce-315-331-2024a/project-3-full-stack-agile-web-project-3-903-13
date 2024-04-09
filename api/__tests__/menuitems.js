@@ -1,37 +1,17 @@
 const request = require('supertest')
 const app = require('../index')
 
-let server;
-
-beforeAll(done => {
-  server = app.listen(5000, done);
-});
-
-afterAll(done => {
-  server.close(done);
-});
-
-describe("Submit a clean transaction request", () => {
-	test("The transaction service should serve correctly-structured transaction submissions", () => {
-		const transaction = {
-			"totalCost": 45.92,
-			"taxAmount": 2.39,
-			"orderContents": [
-				{
-						"id": 2,
-						"quantity": 1
-				}
-			]
-		}
+describe("Retrieve all menu items", () => {
+	test("The menu items service should correctly retrieve all menu items from the database table menuitems", () => {
+		
 		return request(app)
-		.post("/api/transactions/new")
-		.send(transaction)
+		.get("/api/menuitems")
 		.then(response => {
 			expect(response.statusCode).toBe(200)
 		})
 	})
 })
-
+/*
 describe("Submit a transaction request without totalCost", () => {
 	test("The transaction service should reject requests not containing a total cost.", () => {
 		const transaction = {
@@ -111,3 +91,4 @@ describe("Submit transaction request with improper formatting of order contents.
 		})
 	})
 })
+*/
