@@ -45,16 +45,18 @@ app.use("/api/restock",restockRouter)
 
 app.use("/api/reports", reportsRouter)
 
+function startServer() {
+    const server = app.listen(PORT, () => {
+        console.log(`Listening on port ${PORT}.`);
+    });
+    return server;
+}
 
 if (require.main === module) {
-	// Start the server only if this script is run directly
-	const server = app.listen(PORT, () => {
-	  console.log(`Listening on port ${PORT}.`);
-	});
-  
-	module.exports = server;
-  } else {
-	// Export the app instance for testing
-	module.exports = app;
-  }
+    startServer();
+}
+
+module.exports = app;
+module.exports.startServer = startServer;
+
 // vim: tabstop=3
