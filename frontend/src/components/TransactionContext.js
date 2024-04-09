@@ -49,7 +49,7 @@ export const TransactionProvider = ({ children }) => {
       "taxAmount": taxAmount,
       "orderContents": orderContents
     }
-    fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/new", {
+    fetch("http://localhost:5000/api/transactions/new", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
