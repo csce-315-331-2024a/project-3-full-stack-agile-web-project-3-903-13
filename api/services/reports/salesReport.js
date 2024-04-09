@@ -1,10 +1,10 @@
-const db = require('../config/db');
+const db = require('../../config/db');
 
 // Helper functions for date validation
 const isValidDate = (date) => /^\d{4}-\d{2}-\d{2}$/.test(date);
 const isStartDateBeforeEndDate = (startDate, endDate) => new Date(startDate) < new Date(endDate);
 
-const getSalesReport = (startDate, endDate) => {
+const generateSalesReport = (startDate, endDate) => {
     return new Promise((resolve, reject) => {
         if (!isStartDateBeforeEndDate(startDate, endDate)) {
             reject(new Error("Start date must be before end date."));
@@ -32,5 +32,5 @@ const getSalesReport = (startDate, endDate) => {
 };
 
 module.exports = {
-    getSalesReport
+    generateSalesReport
 };

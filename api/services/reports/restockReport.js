@@ -1,6 +1,6 @@
-const db = require('../config/db')
+const db = require('../../config/db')
 
-const getRestockReport = (req, res) =>{
+const generateRestockReport = (req, res) =>{
 	db.query(
 		"Select * FROM Inventory where count < mincount", (err,results)=>
 		{
@@ -8,11 +8,9 @@ const getRestockReport = (req, res) =>{
 			{
 				throw err;
 			}
-            console.log(results);
+            // console.log(results);
 			res.status(200).json(results.rows);
 		}
-
-
 	)
 
 
@@ -47,6 +45,6 @@ const fulfillRestock = async (req, res) => {
 }
 
 module.exports = {
-	getRestockReport,
+	generateRestockReport,
 	fulfillRestock
 }
