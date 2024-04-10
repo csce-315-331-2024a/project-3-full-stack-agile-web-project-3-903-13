@@ -92,4 +92,6 @@ describe('generateRestockReport', () => {
             expect(mockRes.json).toHaveBeenCalledWith({ message: 'Error updating inventory for restock' });
         });
     });
+
+    
 });
