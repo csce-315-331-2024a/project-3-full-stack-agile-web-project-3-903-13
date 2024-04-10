@@ -28,10 +28,6 @@ const ingredientsRouter = require('./routes/ingredients')
 const inventoryRouter = require('./routes/inventory')
 const foodItemsRouter = require('./routes/foodItems')
 const employeesRouter = require('./routes/employees')
-
-const restockRouter= require('./routes/restock')
-
-
 const reportsRouter = require('./routes/reports')
 
 
@@ -41,15 +37,21 @@ app.use("/api/ingredients", ingredientsRouter)
 app.use("/api/inventory", inventoryRouter)
 app.use("/api/fooditems", foodItemsRouter)
 app.use("/api/employees", employeesRouter)
-app.use("/api/restock",restockRouter)
 
 app.use("/api/reports", reportsRouter)
 
+function startServer() {
+    const server = app.listen(PORT, () => {
+        console.log(`Listening on port ${PORT}.`);
+    });
+    return server;
+}
 
-app.listen(PORT, () => {
-	console.log(`Listening on port ${PORT}.`)
-})
+if (require.main === module) {
+    startServer();
+}
 
+module.exports = app;
+module.exports.startServer = startServer;
 
-module.exports = app
 // vim: tabstop=3
