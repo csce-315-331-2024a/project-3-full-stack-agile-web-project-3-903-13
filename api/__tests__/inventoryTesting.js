@@ -3,7 +3,6 @@ const {
     getInventoryItems,
     addInventoryItem,
     removeInventoryItem,
-    //NEED TO ADD MORE FUCNTIONS
     updateInventItemQuant,
     updateInventItemPrice,
     updateInventItemMin,

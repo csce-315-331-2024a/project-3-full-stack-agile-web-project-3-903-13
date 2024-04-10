@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1712719381985" clover="3.2.0">
-  <project timestamp="1712719381985" name="All files">
-    <metrics statements="420" coveredstatements="258" conditionals="123" coveredconditionals="59" methods="77" coveredmethods="41" elements="620" coveredelements="358" complexity="0" loc="420" ncloc="420" packages="5" files="15" classes="15"/>
+<coverage generated="1712722245507" clover="3.2.0">
+  <project timestamp="1712722245507" name="All files">
+    <metrics statements="420" coveredstatements="264" conditionals="121" coveredconditionals="59" methods="75" coveredmethods="41" elements="616" coveredelements="364" complexity="0" loc="420" ncloc="420" packages="5" files="15" classes="15"/>
     <package name="api">
       <metrics statements="30" coveredstatements="28" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="index.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\index.js">
@@ -141,7 +141,7 @@
       </file>
     </package>
     <package name="api.services">
-      <metrics statements="271" coveredstatements="141" conditionals="99" coveredconditionals="48" methods="57" coveredmethods="31"/>
+      <metrics statements="271" coveredstatements="147" conditionals="97" coveredconditionals="48" methods="55" coveredmethods="31"/>
       <file name="inventory.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\inventory.js">
         <metrics statements="91" coveredstatements="91" conditionals="36" coveredconditionals="36" methods="21" coveredmethods="21"/>
         <line num="1" count="5" type="stmt"/>
@@ -376,7 +376,7 @@
         <line num="268" count="3" type="stmt"/>
       </file>
       <file name="transactions.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\transactions.js">
-        <metrics statements="44" coveredstatements="37" conditionals="13" coveredconditionals="11" methods="10" coveredmethods="8"/>
+        <metrics statements="44" coveredstatements="43" conditionals="11" coveredconditionals="11" methods="8" coveredmethods="8"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
@@ -385,23 +385,23 @@
         <line num="7" count="1" type="stmt"/>
         <line num="10" count="2" type="stmt"/>
         <line num="13" count="4" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
         <line num="24" count="4" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="25" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
         <line num="35" count="4" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
         <line num="49" count="4" type="stmt"/>
         <line num="50" count="5" type="stmt"/>
         <line num="51" count="5" type="stmt"/>
