@@ -7,6 +7,7 @@ const getInventoryItems = (req,res) => {
 	db.query("SELECT * FROM inventory", (err,results) => {
 		if (err) {
 			res.status(400).send("Query Failed");
+			return;
 		}
 		res.status(200).json(results.rows);
 	})
@@ -21,7 +22,7 @@ const updateInventItemQuant = (req, res) => {
 		"Select * from inventory where ingredientname = $1", [itemName],
 		(err, result) => {
 			if (err){
-				console.log(err);
+				// console.log(err);
 				res.status(500);
 				return;
 			} else if (!(result.rows.length)){
@@ -33,7 +34,7 @@ const updateInventItemQuant = (req, res) => {
 					[newCount, itemName],
 					(err, result) => {
 						if (err) {
-							console.log(err);
+							// console.log(err);
 							res.status(500);
 							return;
 						}
@@ -55,7 +56,7 @@ const updateInventItemPrice = (req, res) => {
 		"Select * from inventory where ingredientname = $1", [itemName],
 		(err, result) => {
 			if (err){
-				console.log(err);
+				// console.log(err);
 				res.status(500);
 				return;
 			} else if (!(result.rows.length)){
@@ -67,7 +68,7 @@ const updateInventItemPrice = (req, res) => {
 					[newPrice, itemName],
 					(err, result) => {
 						if (err) {
-							console.log(err);
+							// console.log(err);
 							res.status(500);
 							return;
 						}
@@ -89,7 +90,7 @@ const updateInventItemMin = (req, res) => {
 		"Select * from inventory where ingredientname = $1", [itemName],
 		(err, result) => {
 			if (err){
-				console.log(err);
+				// console.log(err);
 				res.status(500);
 				return;
 			} else if (!(result.rows.length)){
@@ -101,7 +102,7 @@ const updateInventItemMin = (req, res) => {
 					[newCount, itemName],
 					(err, result) => {
 						if (err) {
-							console.log(err);
+							// console.log(err);
 							res.status(500);
 							return;
 						}
@@ -123,7 +124,7 @@ const addInventoryItem = (req, res) => {
 		"Select * from inventory where ingredientname = $1", [itemName],
 		(err, result) => {
 			if (err){
-				console.log(err);
+				// console.log(err);
 				res.status(500);
 				return;
 			} else if (result.rows.length){
@@ -135,7 +136,7 @@ const addInventoryItem = (req, res) => {
 					[itemName, count, price, mincount ],
 					(err, result) => {
 						if (err) {
-							console.log(err);
+							// console.log(err);
 							res.status(500);
 							return;
 						}
@@ -158,7 +159,7 @@ const removeInventoryItem = (req, res) => {
         [itemName],
         (err, result) => {
             if (err) {
-                console.error("Error removing inventory item:", err);
+                // console.error("Error removing inventory item:", err);
                 res.status(500).send("Internal Server Error");
                 return;
             }
