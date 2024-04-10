@@ -23,7 +23,6 @@ const insertTransaction = async (totalCost, taxAmount) => {
 
 const updateFoodItemsTable = async (id, orderContents) => {
 	orderContents.map((item) => {
-		
 		db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)", [id, item.id, item.quantity], (err) => {
 			if (err) {
 				throw err
@@ -73,6 +72,64 @@ const createTransaction = async (req,res) => {
 	}
 }
 
+const updateTransaction = async (request, response) => {
+	/* 
+		Delete an item
+			Reduce $ in transactions table
+			Increase Inventory
+	*/
+}
+
+/* 
+	Retrive the list of items in a transaction based on a transaction id
+*/
+const retrieveTransactionByID = async (transactionid) => {
+	query = `SELECT fooditems.menuid as ID, menuitems.itemname as Name, fooditems.quantity as Quantity
+			FROM fooditems
+			INNER JOIN menuitems 
+				ON menuitems.menuid = fooditems.menuid
+			WHERE fooditems.transactionid = ${transactionid};`
+
+	try {
+		const results = await db.query(query);
+		return results.rows;
+	}
+	catch (err){
+		throw err
+	}
+	
+}
+
+// Retrives the information about the first 50 transactions orders within given time frame
+const retrieveTransactionsByPeriod = async (request, response) => {
+	const {startDate, endDate} = request.body;
+	
+	// Get first 50 transactions and respective IDs first
+	try{
+		const query = `SELECT transactionid as id
+			FROM transactions
+			WHERE transactiontime >= $1::timestamp AND transactiontime <= $2::timestamp 
+			LIMIT 50
+			`
+
+	const result = await db.query(query, [startDate, endDate]);
+	const transactionIDs = result.rows.map(row => row.id);
+	
+	const transactionsInfoPromises = transactionIDs.map(async id => {
+		const resp = await retrieveTransactionByID(id);
+		return {transactionid: id, components: resp}
+	});
+
+	const transactionsInfo = await Promise.all(transactionsInfoPromises);	
+	response.status(200).json(transactionsInfo)
+
+	} catch (error){
+		throw error
+	}	
+}
+
 module.exports = {
-	createTransaction
+	createTransaction,
+	retrieveTransactionByID,
+	retrieveTransactionsByPeriod
 }
