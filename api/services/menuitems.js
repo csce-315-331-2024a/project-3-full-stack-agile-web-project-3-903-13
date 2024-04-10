@@ -1,4 +1,3 @@
-const { strictEqual } = require('assert')
 const db = require('../config/db')
 
 const retrieveMenuItems = (req,res) => {
@@ -239,22 +238,35 @@ const removeMenuItem = (req, res) => {
 							return;
 						} else {
 							db.query(
-								"DELETE FROM menuitems WHERE itemname = $1",
-								[itemName],
+								"DELETE FROM seasonalitems WHERE menuid = $1",
+								[menuID],
 								(err, result) => {
-									if (err) {
-										console.error("Error removing menu item: from menuitems", err);
+									if (err){
+										console.error("Error removing menu item: from seasonalitems", err);
 										res.status(500).send("Internal Server Error");
 										return;
-									} else if (result.rowCount === 0) {
-										// If no rows were deleted, it means the menu item with the specified ID was not found
-										res.status(404).send("Menu item not found");
-										return;
 									} else {
-										res.status(200).send(`Menu item with name ${itemName} removed successfully`);
+										db.query(
+											"DELETE FROM menuitems WHERE itemname = $1",
+											[itemName],
+											(err, result) => {
+												if (err) {
+													console.error("Error removing menu item: from menuitems", err);
+													res.status(500).send("Internal Server Error");
+													return;
+												} else if (result.rowCount === 0) {
+													// If no rows were deleted, it means the menu item with the specified ID was not found
+													res.status(404).send("Menu item not found");
+													return;
+												} else {
+													res.status(200).send(`Menu item with name ${itemName} removed successfully`);
+												}
+											}
+										);	
 									}
 								}
-							);	
+							)
+							
 						}
 					}
 				);
