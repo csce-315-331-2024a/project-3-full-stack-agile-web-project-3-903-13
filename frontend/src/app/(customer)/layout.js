@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import CustomerNavbar from "@/components/CustomerNavbar";
 import { TransactionProvider } from "@/components/TransactionContext";
+import ClockWidget from "@/components/DigitalClock";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
             { name: "About", route: "/about" },
           ]}
         />
+                <ClockWidget></ClockWidget>
         {children}
       </body>
     </html>
