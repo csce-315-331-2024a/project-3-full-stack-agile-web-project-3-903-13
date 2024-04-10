@@ -254,10 +254,6 @@ const removeMenuItem = (req, res) => {
 													console.error("Error removing menu item: from menuitems", err);
 													res.status(500).send("Internal Server Error");
 													return;
-												} else if (result.rowCount === 0) {
-													// If no rows were deleted, it means the menu item with the specified ID was not found
-													res.status(404).send("Menu item not found");
-													return;
 												} else {
 													res.status(200).send(`Menu item with name ${itemName} removed successfully`);
 												}
