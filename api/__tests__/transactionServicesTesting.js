@@ -22,7 +22,6 @@ describe('Transactions Service', () => {
 
             await updateFoodItemsTable(transactionId, orderContents);
 
-            // Check if db.query was called for each item in orderContents
             expect(db.query).toHaveBeenCalledTimes(orderContents.length);
             orderContents.forEach(item => {
                 expect(db.query).toHaveBeenCalledWith(
