@@ -7,6 +7,7 @@ import { FaWindowClose, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { useRef, useState, useEffect } from "react";
 import GoogleTranslateWidget from "@/components/GoogleTranslate";
 import { useTransaction } from "@/components/TransactionContext";
+import WeatherWidget from "@/components/WeatherAPI";
 
 
 export default function CustomerNavbar({ links }) {
@@ -50,6 +51,7 @@ export default function CustomerNavbar({ links }) {
             </li>
           ))}
         </ul>
+        <WeatherWidget />
         <ul className="flex flex-row gap-8 items-center">
           <GoogleTranslateWidget />
           <li>
