@@ -12,7 +12,7 @@ router.post('/getTransactionByID', async (request, response) => {
         response.status(200).json(results);
     } catch (err) {
         // console.error(err);
-        res.status(500).send('Error retrieving data');
+        response.status(500).send('Error retrieving data');
     }
 });
 

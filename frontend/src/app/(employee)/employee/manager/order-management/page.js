@@ -1,24 +1,24 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import TransactionModal from "@/components/TransactionModal";
 
 const formatTime = (isoDateString) => {
     const date = new Date(isoDateString);
 
     const options = {
         year: "numeric",
-        month: "short", 
+        month: "short",
         day: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
         hour12: true,
-        timeZone: "UTC", // or your preferred time zone
+        timeZone: "UTC",
     };
 
-    // Format the date
     const formattedDate = date.toLocaleString("en-US", options);
-    return formattedDate
+    return formattedDate;
 };
 
 export default function OrderManagementPage() {
@@ -29,12 +29,10 @@ export default function OrderManagementPage() {
 
     const [loading, setLoading] = useState("");
     const [transactionsData, setTransactionsData] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     const FindTransaction = async () => {
-        // console.log(transactionID)
-        // console.log(option)
-        // console.log(startDate)
-        // console.log(endDate)
         setLoading(true);
 
         try {
@@ -81,6 +79,15 @@ export default function OrderManagementPage() {
     const formSubmit = (e) => {
         e.preventDefault();
         FindTransaction();
+    };
+
+    const handleTransactionClick = (transaction) => {
+        setSelectedTransaction(transaction);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     return (
@@ -160,22 +167,33 @@ export default function OrderManagementPage() {
                 {transactionsData.length > 0 && (
                     <div className="flex flex-col gap-4 p-4">
                         {transactionsData.map((item, index) => (
-                            <div
-                                key={index}
-                                className="flex justify-between bg-slate-400 p-4 rounded-md cursor-pointer hover:bg-slate-600 hover:text-white"
-                            >
-                                <div>
-                                    <p className="text-lg font-semibold">
-                                        Transaction #{item.transactionid}{" "}
-                                    </p>
-                                    <p className="text-sm">${item.cost}</p>
+                            <div key={index}>
+                                <div
+                                    onClick={() => handleTransactionClick(item)}
+                                    className="flex justify-between bg-slate-400 p-4 rounded-md cursor-pointer hover:bg-slate-600 hover:text-white"
+                                >
+                                    <div>
+                                        <p className="text-lg font-semibold">
+                                            Transaction #{item.transactionid}{" "}
+                                        </p>
+                                        <p className="text-sm">${item.cost}</p>
+                                    </div>
+                                    <div>
+                                        {" "}
+                                        {formatTime(item.transactiontime)}{" "}
+                                    </div>
                                 </div>
-                                <div> {formatTime(item.transactiontime)} </div>
                             </div>
                         ))}
                     </div>
                 )}
             </div>
+
+            <TransactionModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                transaction={selectedTransaction}
+            />
         </main>
     );
 }
