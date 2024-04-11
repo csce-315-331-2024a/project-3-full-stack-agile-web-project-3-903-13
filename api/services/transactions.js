@@ -84,7 +84,11 @@ const updateTransaction = async (request, response) => {
 	Retrive the list of items in a transaction based on a transaction id
 */
 const retrieveTransactionByID = async (transactionid) => {
-	query = `SELECT fooditems.menuid as ID, menuitems.itemname as Name, fooditems.quantity as Quantity
+	const queryTimeResults = await db.query(`SELECT transactiontime, totalcost FROM transactions WHERE transactionid = ${transactionid}`)
+	const transactiontime = queryTimeResults.rows[0]["transactiontime"]
+	const cost = queryTimeResults.rows[0]["totalcost"]
+
+	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as Name, fooditems.quantity as Quantity
 			FROM fooditems
 			INNER JOIN menuitems 
 				ON menuitems.menuid = fooditems.menuid
@@ -92,7 +96,7 @@ const retrieveTransactionByID = async (transactionid) => {
 
 	try {
 		const results = await db.query(query);
-		return results.rows;
+		return {transactiontime, cost, transactionid: transactionid, components: results.rows};
 	}
 	catch (err){
 		throw err
@@ -117,7 +121,7 @@ const retrieveTransactionsByPeriod = async (request, response) => {
 	
 	const transactionsInfoPromises = transactionIDs.map(async id => {
 		const resp = await retrieveTransactionByID(id);
-		return {transactionid: id, components: resp}
+		return resp;
 	});
 
 	const transactionsInfo = await Promise.all(transactionsInfoPromises);	
