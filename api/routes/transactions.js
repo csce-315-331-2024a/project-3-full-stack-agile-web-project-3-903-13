@@ -17,6 +17,7 @@ router.post('/getTransactionByID', async (request, response) => {
 });
 
 router.post("/getTransactionsByPeriod", transactionsController.retrieveTransactionsByPeriod)
+router.delete("/deletetransaction", transactionsController.deleteTransaction)
 
 
 module.exports = router

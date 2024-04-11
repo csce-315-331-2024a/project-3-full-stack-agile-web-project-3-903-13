@@ -47,10 +47,14 @@ export default function OrderManagementPage() {
                         body: JSON.stringify({ transactionID: transactionID }),
                     }
                 );
+                if (!response.ok){
+                    const errorMessage = await response.text()
+                    throw new Error(errorMessage)
+                }
 
                 const tempdata = await response.json();
                 const data = [tempdata];
-                console.log(data);
+
                 setTransactionsData(data);
             } else {
                 const response = await fetch(
@@ -67,11 +71,17 @@ export default function OrderManagementPage() {
                     }
                 );
 
-                const tempdata = await response.json();
+                if (!response.ok){
+                    const errorMessage = await response.text()
+                    throw new Error(errorMessage)
+                }
 
+                const tempdata = await response.json();
                 setTransactionsData(tempdata);
             }
-        } catch (error) {}
+        } catch (error) {
+            console.log(error.message)
+        }
 
         setLoading(false);
     };

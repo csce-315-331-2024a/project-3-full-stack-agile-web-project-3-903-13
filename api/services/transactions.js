@@ -1,3 +1,4 @@
+const { response } = require('express');
 const db = require('../config/db')
 
 const verifyOrderFormatting = (orderContents) => {
@@ -72,6 +73,23 @@ const createTransaction = async (req,res) => {
 	}
 }
 
+
+const deleteTransaction = async (request, response) => {
+	const {transactionID, components} = request.body;
+
+	try {
+		// Delete from transactions table, fooditems table (menu items) and return items to inventory?
+		db.query(`DELETE FROM transactions WHERE transactionID = ${transactionID}`);
+		db.query(`DELETE from fooditems WHERE transactionid = ${transactionID}`)
+		response.status(200).send("Transaction Deleted")
+	}
+	catch (err) {
+		console.log(err)
+	}
+} 
+
+
+
 const updateTransaction = async (request, response) => {
 	/* 
 		Delete an item
@@ -135,5 +153,6 @@ const retrieveTransactionsByPeriod = async (request, response) => {
 module.exports = {
 	createTransaction,
 	retrieveTransactionByID,
-	retrieveTransactionsByPeriod
+	retrieveTransactionsByPeriod,
+	deleteTransaction
 }

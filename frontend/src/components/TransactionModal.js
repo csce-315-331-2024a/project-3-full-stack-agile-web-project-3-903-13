@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function TransactionModal({ isOpen, onClose, transaction }) {
     if (!isOpen) return null;
+
+    const [deleteMessage, setDeleteMessage] = useState("");
+    const [updateMessage, setUpdateMessage] = useState("");
+
+
+    const handleDelete = async () => {
+        try{
+            const response = await fetch("http://localhost:5000/api/transactions/deletetransaction", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({transactionID: transaction.transactionid, components: transaction.components}),
+        });
+        }
+        catch (error){
+            console.log(error)
+        }
+        
+        onClose();
+    };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -27,13 +48,13 @@ export default function TransactionModal({ isOpen, onClose, transaction }) {
                     </button>
 
                     <div className="w-96">
-                        <h2 className="text-xl font-bold mb-4">
+                        <h2 className="text-2xl font-bold mb-4">
                             Transaction Details
                         </h2>
 
                         <div className="mt-5 flex justify-between">
-                            <div className="font-semibold"> Item </div>
-                            <div className="font-semibold"> Quantity </div>
+                            <div className="text-xl font-bold"> Item </div>
+                            <div className="text-xl font-bold"> Quantity </div>
                         </div>
                         {transaction.components.map((item, index) => (
                             <div key={index} className="flex justify-between">
@@ -43,11 +64,23 @@ export default function TransactionModal({ isOpen, onClose, transaction }) {
                             </div>
                         ))}
 
-                        <div className="mt-5 flex justify-between">
-                            <div> Cost </div>
+                        <div className="my-5 flex justify-between">
+                            <div className="font-bold"> Cost </div>
                             <div>{transaction.cost}</div>
                         </div>
 
+                        <div className="flex justify-between">
+                            <button
+                                onClick={handleDelete}
+                                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Delete
+                            </button>
+
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Update
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
