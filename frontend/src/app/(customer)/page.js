@@ -5,6 +5,8 @@ import Slider from 'react-slick';
 import Link from 'next/link';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Login from "../../components/GoogleAuth"
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
@@ -83,6 +85,7 @@ const Home = () => {
   };
 
   return (
+    <GoogleOAuthProvider clientId='821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'>
       <main className="min-h-screen bg-cream flex flex-col items-center">
           <Slider {...settings} className="w-full max-w-screen-lg px-4 py-2">
               {carouselCategories.map((category, index) => (
@@ -102,6 +105,7 @@ const Home = () => {
               ))}
           </Slider>
           <div className="button-container fixed bottom-0 left-0 right-0 z-10 flex justify-center items-center bg-white">
+            <Login/>
               {buttonCategories.map(category => (
                   <Link key={category.name} href={category.path}>
                       <div className="m-4 cursor-pointer">
@@ -116,6 +120,7 @@ const Home = () => {
               ))}
           </div>
       </main>
+      </GoogleOAuthProvider>
   );
 };
 
