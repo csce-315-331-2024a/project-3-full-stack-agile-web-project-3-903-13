@@ -991,7 +991,7 @@ Successfully complete Sprint 1 tasks, including integration of APIs, UI touch-up
 
 # Sprint 2 Daily Meetings
 ## Meeting Summary - Sprint 2 Daily Scrum Meeting #1
-Date: 4/82024
+Date: 4/8/2024
 Time: 7:15 PM
 Location: Discord
 
@@ -1011,4 +1011,27 @@ Location: Discord
   - User story E completed
 - Team to continue working on assigned tasks from the Sprint Backlog. 
 - Tasks to Add: None mentioned during the meeting.
+- Blockers: No blockers raised during the discussion.
+
+## Meeting Summary - Sprint 2 Daily Scrum Meeting #2
+Date: 4/10/2024
+Time: 6:00 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 3.5
+
+**Discussion Points:**
+- Sprint Backlog:
+  - User story D completed
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: Issues brought up in our user studies, including increased accessibility and feature improvement.
 - Blockers: No blockers raised during the discussion.
