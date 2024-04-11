@@ -5,44 +5,78 @@ import { useEffect, useState, useContext } from "react";
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/TransactionContext";
 
 function TransactionPanel() {
-    const {transactions, updateTransaction, clearTransaction, submitTransaction} = useTransaction();
+    const { transactions, updateTransaction, clearTransaction, submitTransaction, removeItemCompletely } = useTransaction();
     const [transactionsList, setTransactionsList] = useState(null);
     const [showPaymentOptions, setShowPaymentOptions] = useState(false);
 
     useEffect(() => {
-        setTransactionsList(transactions)
-    },[transactions])
+        setTransactionsList(transactions);
+    }, [transactions]);
 
     const handlePayment = () => {
         submitTransaction();
         setShowPaymentOptions(false);
     };
 
-    return ( 
-            <div className="max-w-sm border-2 border-black rounded overflow-hidden shadow-lg mr-5 flex flex-col justify-between items-center">
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">Current Sale</div>
-              </div>
-              <div className="flex flex-col justify-evenly items-center">
-                    {transactionsList ? transactionsList.map((item, index) => {
-                            return <div key={index} className="items-center">{item.itemname} x{item.quantity} ${item.price}</div>
-                        }) : <div className="flex flex-col items-center">No items in current transaction!</div>}
-                    {/*{transactionsList ? <li>{transactionsList.length}</li> : <li>No items in current transaction!</li>}*/}
-              </div>
-              <div className="px-6 pt-4 pb-2 flex flex-col items-center">
-                <h1>Price: {
-                    transactionsList ? "$" + transactionsList.reduce((total, currentItem) => {return total + currentItem.price*currentItem.quantity}, 0).toFixed(2) : "$0.00"
-                }</h1>
-              </div>
+    const handleQuantityChange = (itemId, newQuantity) => {
+        const updatedItem = transactions.find(item => item.id === itemId);
+        if (updatedItem) {
+            updatedItem.quantity = newQuantity;
+            updateTransaction(updatedItem);
+        }
+    };
 
-              <div className="px-6 pt-4 pb-2 flex flex-col items-center">
-                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={clearTransaction}>
+    return (
+        <div className="w-96 min-h-[200px] max-h-[80vh] border-2 border-gray-300 rounded-lg shadow-lg mr-5 flex flex-col">
+            <div className="px-6 py-4 border-b">
+                <div className="font-bold text-xl mb-2">Current Sale</div>
+            </div>
+            <div className="flex-1 overflow-auto">
+                {transactionsList && transactionsList.length > 0 ? (
+                    transactionsList.map((item, index) => (
+                        <div key={index} className="flex flex-col bg-white p-3 my-2 mx-4 rounded-lg shadow">
+                            <div className="flex justify-between items-center">
+                                <span className="font-semibold truncate">{item.itemname}</span>
+                                <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                            <input
+                                type="range"
+                                min="1"
+                                max="1000"
+                                value={item.quantity}
+                                onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
+                                className="range range-xs h-3" // Adjust the height with h-2, h-3, etc.
+                                style={{ cursor: 'pointer' }} // Ensure the slider thumb is easy to grab
+                            
+                            />
+                            <div className="flex justify-between">
+                                <span>Quantity: {item.quantity}</span>
+                                <button onClick={() => removeItemCompletely(item.id)} className="text-red-500 hover:text-red-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="px-6 py-4 text-center">No items in current transaction!</div>
+                )}
+            </div>
+            <div className="px-6 py-4">
+                <div className="font-semibold text-lg">
+                    Total Price: $
+                    {transactionsList ? transactionsList.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2) : "0.00"}
+                </div>
+            </div>
+            <div className="px-6 py-4 flex flex-col space-y-2">
+                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
                     Clear Transaction
                 </button>
-                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => setShowPaymentOptions(true)}>
+                <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow" onClick={() => setShowPaymentOptions(true)}>
                     Charge
                 </button>
-              </div>
+            </div>
 
             {/* Payment options modal */}
             {showPaymentOptions && (
@@ -58,7 +92,7 @@ function TransactionPanel() {
                             <li>
                                 <button className="w-full px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300" onClick={handlePayment}>
                                     Dining Dollars
-                                </button>
+                                    </button>
                             </li>
                             <li>
                                 <button className="w-full px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300" onClick={handlePayment}>
@@ -75,8 +109,9 @@ function TransactionPanel() {
                 </div>
             )}
         </div>
-    )
+    );
 }
+
 
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
