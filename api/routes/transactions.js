@@ -8,7 +8,7 @@ router.post('/getTransactionByID', async (request, response) => {
     const { transactionID} = request.body;
 
     try {
-        const results = await transactionsController.retrieveTransactionByID(transactionID);
+        const results = await transactionsController.getTransactionInfo(transactionID);
         response.status(200).json(results);
     } catch (err) {
         response.status(500).send('Error retrieving transaction. ID may be invalid or deleted. Kindly check the ID');
@@ -16,8 +16,11 @@ router.post('/getTransactionByID', async (request, response) => {
     }
 });
 
-router.post("/getTransactionsByPeriod", transactionsController.retrieveTransactionsByPeriod)
+router.post("/getTransactionsByPeriod", transactionsController.getTransactionsByPeriod)
 router.delete("/deletetransaction", transactionsController.deleteTransaction)
+
+router.get('/inProgressOrders', transactionsController.getInProgressOrders)
+router.patch('/fulfillOrder', transactionsController.fullfillOrder)
 
 
 module.exports = router

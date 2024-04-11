@@ -114,7 +114,7 @@ export default function OrderManagementPage() {
 
     return (
         <main className="min-h-screen min-w-screen-lg bg-slate-100">
-            <h1 className="text-4xl font-bold mb-4 text-center py-4">
+            <h1 className="text-4xl font-bold mb-3 text-center py-4">
                 Order Management
             </h1>
 
@@ -130,16 +130,16 @@ export default function OrderManagementPage() {
                             onChange={(e) => setOption(e.target.value)}
                         >
                             <option value="transactionID">
-                                By Transaction ID
+                                By Order ID
                             </option>
-                            <option value="duration"> By Duration </option>
+                            <option value="duration"> By Period </option>
                         </select>
                     </div>
 
                     {option === "transactionID" ? (
                         <div>
                             <label className="block text-base font-medium text-gray-700">
-                                Enter Transaction ID:
+                                Enter Order ID:
                             </label>
                             <input
                                 type="text"
@@ -201,7 +201,7 @@ export default function OrderManagementPage() {
                                 >
                                     <div>
                                         <p className="text-lg font-semibold">
-                                            Transaction #{item.transactionid}{" "}
+                                            Order #{item.transactionid}{" "}
                                         </p>
                                         <p className="text-sm">${item.cost.toFixed(2)}</p>
                                     </div>

@@ -114,22 +114,24 @@ const updateTransaction = async (request, response) => {
 }
 
 /* 
-	Retrive the list of items in a transaction based on a transaction id
+	Gets the information about a transaction based on a transaction ID
 */
-const retrieveTransactionByID = async (transactionid) => {
-	const queryTimeResults = await db.query(`SELECT transactiontime, totalcost FROM transactions WHERE transactionid = ${transactionid}`)
+const getTransactionInfo = async (transactionid) => {
+	const queryTimeResults = await db.query(`SELECT transactiontime, totalcost, status FROM transactions WHERE transactionid = ${transactionid}`)
 	const transactiontime = queryTimeResults.rows[0]["transactiontime"]
 	const cost = queryTimeResults.rows[0]["totalcost"]
+	const status = queryTimeResults.rows[0]["status"]
 
 	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as Name, fooditems.quantity as Quantity
 			FROM fooditems
 			INNER JOIN menuitems 
 				ON menuitems.menuid = fooditems.menuid
-			WHERE fooditems.transactionid = ${transactionid};`
+			WHERE fooditems.transactionid = ${transactionid}
+			ORDER BY Name;`
 
 	try {
 		const results = await db.query(query);
-		return {transactiontime, cost, transactionid: transactionid, components: results.rows};
+		return {transactiontime, cost, status, transactionid: transactionid, components: results.rows};
 	}
 	catch (err){
 		throw err
@@ -137,37 +139,73 @@ const retrieveTransactionByID = async (transactionid) => {
 	
 }
 
-// Retrives the information about the first 50 transactions orders within given time frame
-const retrieveTransactionsByPeriod = async (request, response) => {
+/* 
+	Gets the information about the first 50 transactions orders within given time frame
+*/
+const getTransactionsByPeriod = async (request, response) => {
 	const {startDate, endDate} = request.body;
 	
-	// Get first 50 transactions and respective IDs first
 	try{
 		const query = `SELECT transactionid as id
-			FROM transactions
-			WHERE transactiontime >= $1::timestamp AND transactiontime <= $2::timestamp 
-			LIMIT 50
-			`
+						FROM transactions
+						WHERE transactiontime >= $1::timestamp AND transactiontime <= $2::timestamp
+						ORDER BY transactiontime 
+						LIMIT 50
+						`
 
 		const result = await db.query(query, [startDate, endDate]);
 		const transactionIDs = result.rows.map(row => row.id);
 	
-		const transactionsInfoPromises = transactionIDs.map(async id => {
-		const resp = await retrieveTransactionByID(id);
-		return resp;
-	});
-
-	const transactionsInfo = await Promise.all(transactionsInfoPromises);	
-	response.status(200).json(transactionsInfo)
+		const transactionsInfo = await getTransactionsInfo(transactionIDs)	
+		response.status(200).json(transactionsInfo)
 
 	} catch (error){
 		throw error
 	}	
 }
 
+const getInProgressOrders = async(request, response) => {
+	const query = `SELECT transactionid FROM transactions WHERE status = 'in progress';`
+
+	try {
+		const result = await db.query(query);
+		const transactionIDs = result.rows.map(row => row.transactionid);
+
+		const transactionsInfo = await getTransactionsInfo(transactionIDs);
+		response.status(200).json(transactionsInfo)
+	}
+	catch (error){
+		throw error
+	}
+}
+
+const fullfillOrder = async(request, response) => {
+	const {transactionID} = request.body;
+
+	const query = `UPDATE transactions SET status = 'fulfilled' WHERE transactionid = ${transactionID};`
+
+	try {
+		db.query(query);
+	}
+	catch (error) {
+		throw error 
+	}
+}
+
+// Gets information about each transactionID passed in an array
+const getTransactionsInfo = async(transactionIDs) => {
+    const transactionsInfoPromises = transactionIDs.map(async id => {
+        return await getTransactionInfo(id);
+    });
+
+    return Promise.all(transactionsInfoPromises);
+}
+
 module.exports = {
 	createTransaction,
-	retrieveTransactionByID,
-	retrieveTransactionsByPeriod,
-	deleteTransaction
+	getTransactionInfo,
+	getTransactionsByPeriod,
+	deleteTransaction,
+	getInProgressOrders, 
+	fullfillOrder
 }

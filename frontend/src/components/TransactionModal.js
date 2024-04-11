@@ -8,20 +8,20 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
 
 
     const handleDelete = async () => {
-        try{
+        try {
             const response = await fetch("http://localhost:5000/api/transactions/deletetransaction", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({transactionID: transaction.transactionid, components: transaction.components}),
-        });
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ transactionID: transaction.transactionid, components: transaction.components }),
+            });
         }
-        catch (error){
+        catch (error) {
             console.log(error)
         }
-        
-        if (alltransactionData.length === 1){
+
+        if (alltransactionData.length === 1) {
             setAllData("")
         } else {
             const indexToDelete = alltransactionData.findIndex(item => item.transactionid === transaction.transactionid);
@@ -59,13 +59,26 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                     </button>
 
                     <div className="w-96">
-                        <h2 className="text-2xl font-bold mb-4">
-                            Transaction Details
-                        </h2>
+
+                        <div className="flex justify-between">
+                            <h2 className="text-2xl font-bold mb-4">
+                                Transaction Details
+                            </h2>
+
+                            {
+                                transaction.status === 'in progress' ? (
+                                    <div className="font-semibold text-yellow-400 text-lg"> In Progress </div>
+                                ) : (
+                                    <div className="font-semibold text-green-500 text-lg"> Completed </div>
+                                )
+                            }
+                            
+                        </div>
+
 
                         <div className="mt-5 flex justify-between">
-                            <div className="text-xl font-bold"> Item </div>
-                            <div className="text-xl font-bold"> Quantity </div>
+                            <div className="text-lg font-bold"> Item </div>
+                            <div className="text-lg font-bold"> Quantity </div>
                         </div>
                         {transaction.components.map((item, index) => (
                             <div key={index} className="flex justify-between">
@@ -76,22 +89,25 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                         ))}
 
                         <div className="my-5 flex justify-between">
-                            <div className="font-bold"> Cost </div>
+                            <div className="text-lg font-bold"> Cost </div>
                             <div>{transaction.cost}</div>
                         </div>
 
-                        <div className="flex justify-between">
-                            <button
-                                onClick={handleDelete}
-                                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Delete
-                            </button>
+                        {transaction.status === "in progress" && (
+                            <div className="flex justify-between">
+                                <button
+                                    onClick={handleDelete}
+                                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Delete
+                                </button>
 
-                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Update
-                            </button>
-                        </div>
+                                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Update
+                                </button>
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>
