@@ -11,7 +11,7 @@ import { useTransaction } from "@/components/TransactionContext";
 
 export default function CustomerNavbar({ links }) {
   const pathname = usePathname();
-  const { transactions, clearTransaction, submitTransaction, updateTransaction, removeItemFromTransaction } = useTransaction();
+  const { transactions, clearTransaction, submitTransaction, updateTransaction, removeItemFromTransaction, removeItemCompletely } = useTransaction();
   const [transactionsList, setTransactionsList] = useState(null);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
 
@@ -81,19 +81,23 @@ export default function CustomerNavbar({ links }) {
           <div className="flex flex-col justify-evenly items-center">
             {transactionsList ? transactionsList.map((item, index) => (
               <div key={index} className="flex items-center justify-between w-full bg-gray-50 p-3 my-2 rounded-lg shadow">
-                <span className="flex-1 mr-4 font-semibold">{item.itemname}</span>
-                <div className="flex items-center justify-center flex-1">
+                <span className="flex-1 font-semibold truncate pr-2">{item.itemname}</span>
+                <div className="flex items-center flex-none">
                   <FaMinusCircle 
                     className="text-red-500 cursor-pointer" 
                     onClick={() => removeItemFromTransaction(item.id)}
                   />
-                  <span className="mx-4 text-lg">x{item.quantity}</span>
+                  <span className="mx-2 text-lg">x{item.quantity}</span>
                   <FaPlusCircle 
                     className="text-green-500 cursor-pointer" 
                     onClick={() => updateTransaction(item)}
                   />
                 </div>
-                <span className="flex-1 text-right font-semibold">${item.price}</span>
+                <span className="flex-none font-semibold">${item.price}</span>
+                <FaWindowClose 
+                  className="ml-2 text-xl text-red-600 cursor-pointer flex-none"
+                  onClick={() => removeItemCompletely(item.id)}
+                />
               </div>
             )) : <div className="flex flex-col items-center">No items in current transaction!</div>}
           </div>
