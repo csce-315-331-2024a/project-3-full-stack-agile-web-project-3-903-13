@@ -14,7 +14,7 @@ const formatTime = (isoDateString) => {
         minute: "2-digit",
         second: "2-digit",
         hour12: true,
-        timeZone: "UTC",
+        timeZone: "America/Chicago",
     };
 
     const formattedDate = date.toLocaleString("en-US", options);
@@ -31,12 +31,17 @@ export default function OrderManagementPage() {
     const [transactionsData, setTransactionsData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const FindTransaction = async () => {
         setLoading(true);
+        setErrorMessage("");
 
         try {
+            
             if (option === "transactionID") {
+                setStartDate("");
+                setEndDate("");
                 const response = await fetch(
                     "http://localhost:5000/api/transactions/getTransactionByID",
                     {
@@ -57,6 +62,12 @@ export default function OrderManagementPage() {
 
                 setTransactionsData(data);
             } else {
+                setTransactionID("");
+
+                if (startDate > endDate){
+                    throw new Error("Start date can not be after end date")
+                }
+
                 const response = await fetch(
                     "http://localhost:5000/api/transactions/getTransactionsByPeriod",
                     {
@@ -80,7 +91,8 @@ export default function OrderManagementPage() {
                 setTransactionsData(tempdata);
             }
         } catch (error) {
-            console.log(error.message)
+            setTransactionsData("")
+            setErrorMessage(error.message)
         }
 
         setLoading(false);
@@ -170,6 +182,11 @@ export default function OrderManagementPage() {
                         {" "}
                         {loading ? "Loading..." : "Find"}{" "}
                     </button>
+                    
+                    {errorMessage.length > 0 && (
+                        <div className = "mt-3 text-red-500 font-semibold"> {errorMessage} </div>
+                    )}
+
                 </div>
             </form>
 
@@ -186,7 +203,7 @@ export default function OrderManagementPage() {
                                         <p className="text-lg font-semibold">
                                             Transaction #{item.transactionid}{" "}
                                         </p>
-                                        <p className="text-sm">${item.cost}</p>
+                                        <p className="text-sm">${item.cost.toFixed(2)}</p>
                                     </div>
                                     <div>
                                         {" "}
@@ -203,6 +220,8 @@ export default function OrderManagementPage() {
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 transaction={selectedTransaction}
+                alltransactionData={transactionsData}
+                setAllData={setTransactionsData}
             />
         </main>
     );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function TransactionModal({ isOpen, onClose, transaction }) {
+export default function TransactionModal({ isOpen, onClose, transaction, alltransactionData, setAllData }) {
     if (!isOpen) return null;
 
     const [deleteMessage, setDeleteMessage] = useState("");
@@ -21,6 +21,17 @@ export default function TransactionModal({ isOpen, onClose, transaction }) {
             console.log(error)
         }
         
+        if (alltransactionData.length === 1){
+            setAllData("")
+        } else {
+            const indexToDelete = alltransactionData.findIndex(item => item.transactionid === transaction.transactionid);
+            if (indexToDelete !== -1) {
+                // Use the splice method to remove the item at the specified index
+                alltransactionData.splice(indexToDelete, 1);
+            }
+            setAllData(alltransactionData)
+        }
+
         onClose();
     };
 
@@ -77,7 +88,7 @@ export default function TransactionModal({ isOpen, onClose, transaction }) {
                                 Delete
                             </button>
 
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Update
                             </button>
                         </div>

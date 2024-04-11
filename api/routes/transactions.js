@@ -11,8 +11,8 @@ router.post('/getTransactionByID', async (request, response) => {
         const results = await transactionsController.retrieveTransactionByID(transactionID);
         response.status(200).json(results);
     } catch (err) {
-        // console.error(err);
-        response.status(500).send('Error retrieving data');
+        response.status(500).send('Error retrieving transaction. ID may be invalid or deleted. Kindly check the ID');
+        // response.status(500).send(err.message);
     }
 });
 

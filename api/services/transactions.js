@@ -15,7 +15,7 @@ const insertTransaction = async (totalCost, taxAmount) => {
 	var currentDate = new Date().toLocaleString()
 
 	try {
-		const results = await db.query("INSERT INTO transactions values (DEFAULT, $1::timestamp, $2, $3) RETURNING transactionid", [currentDate,totalCost,taxAmount])
+		const results = await db.query("INSERT INTO transactions values (DEFAULT, $1::timestamp, $2, $3, 'in progress') RETURNING transactionid", [currentDate,totalCost,taxAmount])
 		return results.rows[0].transactionid
 	} catch (err) {
 		console.log(err)
@@ -46,6 +46,19 @@ const decrementInventory = async (orderContents) => {
 	})
 }
 
+const incrementInventory = async (components) => {
+	components.map(async (item) => {
+		try {
+			const results = await db.query("SELECT inventid, quantity FROM ingredients WHERE menuid = $1", [item.id])
+			results.rows.map((inventory) => {
+				db.query("UPDATE inventory SET count = count + $1 WHERE inventid = $2", [item.quantity*inventory.quantity, inventory.inventid])
+			})
+		} catch (err) {
+			console.log(err)
+		}
+	})
+}
+
 const createTransaction = async (req,res) => {
 	const totalCost = req.body.totalCost
 	const taxAmount = req.body.taxAmount
@@ -57,7 +70,7 @@ const createTransaction = async (req,res) => {
 	}
 
 	const valid = verifyOrderFormatting(orderContents)
-	console.log(valid)
+	// console.log(valid)
 	if (!valid) {
 		res.status(400).send("Invalid formatting of error contents.")
 		return
@@ -79,8 +92,10 @@ const deleteTransaction = async (request, response) => {
 
 	try {
 		// Delete from transactions table, fooditems table (menu items) and return items to inventory?
-		db.query(`DELETE FROM transactions WHERE transactionID = ${transactionID}`);
-		db.query(`DELETE from fooditems WHERE transactionid = ${transactionID}`)
+		// Delete from fooditems first since it uses transactions as foreign key
+		const results = await db.query(`DELETE from fooditems WHERE transactionid = ${transactionID}`) 
+		const results2 = await db.query(`DELETE FROM transactions WHERE transactionID = ${transactionID}`);
+		incrementInventory(components)
 		response.status(200).send("Transaction Deleted")
 	}
 	catch (err) {
@@ -134,10 +149,10 @@ const retrieveTransactionsByPeriod = async (request, response) => {
 			LIMIT 50
 			`
 
-	const result = await db.query(query, [startDate, endDate]);
-	const transactionIDs = result.rows.map(row => row.id);
+		const result = await db.query(query, [startDate, endDate]);
+		const transactionIDs = result.rows.map(row => row.id);
 	
-	const transactionsInfoPromises = transactionIDs.map(async id => {
+		const transactionsInfoPromises = transactionIDs.map(async id => {
 		const resp = await retrieveTransactionByID(id);
 		return resp;
 	});
