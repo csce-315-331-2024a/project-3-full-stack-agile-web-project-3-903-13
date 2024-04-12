@@ -13,6 +13,8 @@ export default function ManagerLayout({ children }) {
           { name: "Sales Report", route: "/employee/manager/sales-report" },
           { name: "Restock Report", route: "/employee/manager/restock-report" },
           { name: "What Sells Duo", route: "/employee/manager/what-sells-together" },
+          { name: "Order Management", route: "/employee/manager/order-management" },
+          { name: "Kitchen", route: "/employee/manager/kitchen" }
 
         ]}
       ></EmployeeNavbar>
