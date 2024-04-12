@@ -24,15 +24,16 @@ export default function CustomerNavbar({ links }) {
 
   useEffect(() => {
     setTransactionsList(transactions);
-    const totalItems = transactions.reduce((acc, item) => acc + item.quantity, 0);
+    // Ensure transactions is an array before using reduce
+    const totalItems = Array.isArray(transactions) ? transactions.reduce((acc, item) => acc + item.quantity, 0) : 0;
     setCartCount(totalItems);
   }, [transactions]);
 
   const toggleCart = () => {
-    if (ref.current.classList.contains('translate-x-full')) {
+    if (ref.current && ref.current.classList.contains('translate-x-full')) {
       ref.current.classList.remove('translate-x-full')
       ref.current.classList.add('translate-x-0')
-    } else if (!ref.current.classList.contains('translate-x-full')) {
+    } else if (ref.current && !ref.current.classList.contains('translate-x-full')) {
       ref.current.classList.add('translate-x-full')
       ref.current.classList.remove('translate-x-0')
     }
