@@ -8,26 +8,42 @@ import { useRef, useState, useEffect } from "react";
 import GoogleTranslateWidget from "@/components/GoogleTranslate";
 import { useTransaction } from "@/components/TransactionContext";
 
-
 export default function CustomerNavbar({ links }) {
   const pathname = usePathname();
-  const { transactions, clearTransaction, submitTransaction, updateTransaction, removeItemFromTransaction } = useTransaction();
+  const {
+    transactions,
+    clearTransaction,
+    submitTransaction,
+    updateTransaction,
+    removeItemFromTransaction,
+    removeItemCompletely,
+  } = useTransaction();
   const [transactionsList, setTransactionsList] = useState(null);
-  
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
   useEffect(() => {
     setTransactionsList(transactions);
+    // Ensure transactions is an array before using reduce
+    const totalItems = Array.isArray(transactions) ? transactions.reduce((acc, item) => acc + item.quantity, 0) : 0;
+    setCartCount(totalItems);
   }, [transactions]);
 
-  const toggleCart = ()=>{
-      if (ref.current.classList.contains('translate-x-full')) {
-        ref.current.classList.remove('translate-x-full')
-        ref.current.classList.add('translate-x-0')
-      }
-      else if (!ref.current.classList.contains('translate-x-full')) {
-        ref.current.classList.remove('translate-x-0')
-        ref.current.classList.add('translate-x-full')
-      }
+  const toggleCart = () => {
+    if (ref.current && ref.current.classList.contains('translate-x-full')) {
+      ref.current.classList.remove('translate-x-full')
+      ref.current.classList.add('translate-x-0')
+    } else if (ref.current && !ref.current.classList.contains('translate-x-full')) {
+      ref.current.classList.add('translate-x-full')
+      ref.current.classList.remove('translate-x-0')
+    }
   }
+
+  const handlePayment = () => {
+    submitTransaction();
+    setShowPaymentOptions(false);
+  };
+
   const ref = useRef()
 
   return (
@@ -57,13 +73,13 @@ export default function CustomerNavbar({ links }) {
               <Image className="nav-image" src={"./user.svg"} width={24} height={24}></Image>
             </Link>
           </li>
-          {/* <li>
-            <Link href={"/cart"}>
+          <div onClick={toggleCart} className="cursor-pointer cart relative">
               <Image className="nav-image" src={"./cart.svg"} width={24} height={24}></Image>
-            </Link>
-          </li> */}
-          <div onClick={toggleCart} className="cursor-pointer cart">
-              <Image className="nav-image" src={"./cart.svg"} width={24} height={24}></Image>
+              {cartCount > 0 && (
+                <span className="absolute top-[-15px] right-[-15px] inline-block px-1 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
+                  {cartCount}
+                </span>
+              )}
           </div>
         </ul>
 
@@ -74,19 +90,23 @@ export default function CustomerNavbar({ links }) {
           <div className="flex flex-col justify-evenly items-center">
             {transactionsList ? transactionsList.map((item, index) => (
               <div key={index} className="flex items-center justify-between w-full bg-gray-50 p-3 my-2 rounded-lg shadow">
-                <span className="flex-1 mr-4 font-semibold">{item.itemname}</span>
-                <div className="flex items-center justify-center flex-1">
+                <span className="flex-1 font-semibold truncate pr-2">{item.itemname}</span>
+                <div className="flex items-center flex-none">
                   <FaMinusCircle 
                     className="text-red-500 cursor-pointer" 
                     onClick={() => removeItemFromTransaction(item.id)}
                   />
-                  <span className="mx-4 text-lg">x{item.quantity}</span>
+                  <span className="mx-2 text-lg">x{item.quantity}</span>
                   <FaPlusCircle 
                     className="text-green-500 cursor-pointer" 
                     onClick={() => updateTransaction(item)}
                   />
                 </div>
-                <span className="flex-1 text-right font-semibold">${item.price}</span>
+                <span className="flex-none font-semibold">${item.price}</span>
+                <FaWindowClose 
+                  className="ml-2 text-xl text-red-600 cursor-pointer flex-none"
+                  onClick={() => removeItemCompletely(item.id)}
+                />
               </div>
             )) : <div className="flex flex-col items-center">No items in current transaction!</div>}
           </div>
@@ -99,12 +119,43 @@ export default function CustomerNavbar({ links }) {
             <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={clearTransaction}>
               Clear Transaction
             </button>
-            <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={submitTransaction}>
+            <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => setShowPaymentOptions(true)}>
               Charge
             </button>
           </div>
         </div>
       </div>
-    </nav>
-  );
+
+        {/* Payment options modal */}
+        {showPaymentOptions && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <h3 className="text-lg font-semibold text-center mb-4">Select Payment Method</h3>
+                <ul className="space-y-4">
+                    <li>
+                        <button className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" onClick={handlePayment}>
+                            Card
+                        </button>
+                    </li>
+                    <li>
+                        <button className="w-full px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300" onClick={handlePayment}>
+                            Dining Dollars
+                        </button>
+                    </li>
+                    <li>
+                        <button className="w-full px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300" onClick={handlePayment}>
+                            Retail Swipe
+                        </button>
+                    </li>
+                </ul>
+                <div className="text-right mt-4">
+                    <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded shadow" onClick={() => setShowPaymentOptions(false)}>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    )}
+</nav>
+);
 }

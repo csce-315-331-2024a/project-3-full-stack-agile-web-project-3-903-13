@@ -21,7 +21,7 @@ router.get('/usage', async (req, res) => {
         const reportData = await inventoryController.getInventoryUsage(startDate, endDate);
         res.status(200).json(reportData);
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         res.status(500).send('Error retrieving inventory usage data');
     }
 });

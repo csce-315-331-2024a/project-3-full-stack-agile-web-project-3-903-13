@@ -23,14 +23,15 @@ const insertTransaction = async (totalCost, taxAmount) => {
 }
 
 const updateFoodItemsTable = async (id, orderContents) => {
-	orderContents.map((item) => {
-		db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)", [id, item.id, item.quantity], (err) => {
-			if (err) {
-				throw err
-			}
-		})		
-	})
-}
+    for (const item of orderContents) {
+        try {
+            await db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)", [id, item.id, item.quantity]);
+        } catch (err) {
+            // console.error(err);
+            throw err; // Re-throw the error to handle it in the caller function
+        }
+    }
+};
 
 const decrementInventory = async (orderContents) => {
 	orderContents.map(async (item) => {
@@ -202,7 +203,10 @@ const getTransactionsInfo = async(transactionIDs) => {
 }
 
 module.exports = {
-	createTransaction,
+    createTransaction,
+    insertTransaction,
+    updateFoodItemsTable,
+    decrementInventory,
 	getTransactionInfo,
 	getTransactionsByPeriod,
 	deleteTransaction,

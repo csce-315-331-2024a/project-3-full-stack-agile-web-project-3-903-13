@@ -4,48 +4,169 @@ import { useEffect, useState, useContext } from "react";
 
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/TransactionContext";
 
-function TransactionPanel() {
-    const { transactions, updateTransaction, clearTransaction, submitTransaction } = useTransaction();
-    const [transactionsList, setTransactionsList] = useState(null);
-    useEffect(() => {
-        setTransactionsList(transactions)
-    }, [transactions])
+function NumericKeypad({ onValueChange, inputValue, setInputValue, onClose }) {
+    const handleButtonClick = (value) => {
+        setInputValue(prev => prev + value);
+    };
+
+    const handleBackspace = () => {
+        setInputValue(inputValue.slice(0, -1));
+    };
+
+    const handleSubmit = () => {
+        onValueChange(parseInt(inputValue - 1));
+        onClose();
+    };
+
     return (
-        // flex grow flex-col justify-between items-center
-        <div className="flex flex-col grow justify-between border-2 border-black rounded overflow-hidden shadow-lg mx-5 mb-5 mt-2 p-5">
-            <div className="text-2xl font-bold text-center mt-2 mb-3">Current Sale</div>
-
-            <div className="flex flex-col justify-evenly items-center">
-                {transactionsList ? transactionsList.map((item, index) => {
-                    return <div key={index} className="items-center">{item.itemname} x{item.quantity} ${item.price}</div>
-                }) : <div className="flex flex-col items-center">No items in current transaction!</div>}
-                {/*{transactionsList ? <li>{transactionsList.length}</li> : <li>No items in current transaction!</li>}*/}
-            </div>
-            <div className="px-6 pt-4 pb-2 flex flex-col items-center">
-                <h1>Price: {
-                    transactionsList ? "$" + transactionsList.reduce((total, currentItem) => { return total + currentItem.price * currentItem.quantity }, 0).toFixed(2) : "$0.00"
-                }</h1>
-            </div>
-
-
-            <div className="flex flex-row justify-between">
-                <div>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={clearTransaction}>
-                        Clear Transaction
-                    </button>
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="text-center mb-4 font-bold text-xl">Enter Quantity</div>
+                <div className="text-center mb-4 text-lg">{inputValue || "0"}</div>
+                <div className="grid grid-cols-3 gap-2">
+                    {Array.from({ length: 9 }, (_, i) => (
+                        <button key={i + 1} onClick={() => handleButtonClick(String(i + 1))} className="bg-gray-200 p-3 rounded">
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button onClick={() => handleButtonClick('0')} className="col-span-2 bg-gray-200 p-3 rounded">0</button>
+                    <button onClick={handleBackspace} className="bg-red-300 p-3 rounded">←</button>
                 </div>
-
-                <div>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={submitTransaction}>
-                        Charge
-                    </button>
+                <div className="mt-4 flex justify-between">
+                    <button onClick={handleSubmit} className="bg-green-500 text-white px-6 py-2 rounded">Enter</button>
+                    <button onClick={onClose} className="bg-red-500 text-white px-6 py-2 rounded">Cancel</button>
                 </div>
-
-
             </div>
         </div>
-    )
+    );
 }
+
+function TransactionPanel() {
+    const { transactions, updateTransaction, removeItemCompletely, submitTransaction, clearTransaction } = useTransaction();
+    const [transactionsList, setTransactionsList] = useState(null);
+    const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+    const [keypadVisible, setKeypadVisible] = useState(false);
+    const [currentItemId, setCurrentItemId] = useState(null);
+    const [inputValue, setInputValue] = useState("");
+
+    useEffect(() => {
+        setTransactionsList(transactions);
+    }, [transactions]);
+
+    const handlePayment = () => {
+        submitTransaction();
+        setShowPaymentOptions(false);
+    };
+
+    const handleQuantityChange = (itemId, newQuantity) => {
+        const updatedItem = transactions.find(item => item.id === itemId);
+        if (updatedItem) {
+            updatedItem.quantity = newQuantity;
+            updateTransaction(updatedItem);
+        }
+    };
+
+    const openKeypad = (itemId, currentQuantity) => {
+        setCurrentItemId(itemId);
+        setInputValue(String(currentQuantity));
+        setKeypadVisible(true);
+    };
+
+    const onKeypadClose = () => {
+        setKeypadVisible(false);
+    };
+
+    const onQuantityUpdate = (newQuantity) => {
+        handleQuantityChange(currentItemId, newQuantity);
+        onKeypadClose();
+    };
+
+    return (
+        <div className="w-96 min-h-[200px] max-h-[80vh] border-2 border-gray-400 rounded-lg shadow-lg mr-5 flex flex-col">
+            <div className="px-6 py-4 border-b">
+                <div className="font-bold text-xl mb-2">Current Sale</div>
+            </div>
+            <div className="flex-1 overflow-auto">
+                {transactionsList && transactionsList.length > 0 ? (
+                    transactionsList.map((item, index) => (
+                        <div key={index} className="flex flex-col bg-white p-3 my-2 mx-4 rounded-lg shadow">
+                            <div className="flex justify-between items-center">
+                                <span className="font-semibold truncate">{item.itemname}</span>
+                                <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <button onClick={() => openKeypad(item.id, item.quantity)} className="py-2 text-blue-500 hover:text-blue-700">
+                                    Quantity: {item.quantity}
+                                </button>
+                                <button onClick={() => removeItemCompletely(item.id)} className="text-red-500 hover:text-red-700">
+                                    Remove Item
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="px-6 py-4 text-center">No items in current transaction!</div>
+                )}
+            </div>
+            <div className="px-6 py-4">
+                <div className="font-semibold text-lg">
+                    Total Price: $
+                    {transactionsList ? transactionsList.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2) : "0.00"}
+                </div>
+            </div>
+            <div className="px-6 py-4 flex flex-col space-y-2">
+                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
+                    Clear Transaction
+                </button>
+                <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow" onClick={() => setShowPaymentOptions(true)}>
+                    Charge
+                </button>
+            </div>
+
+            {/* Payment options modal */}
+            {showPaymentOptions && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                    <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                        <h3 className="text-lg font-semibold text-center mb-4">Select Payment Method</h3>
+                        <ul className="space-y-4">
+                            <li>
+                                <button className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" onClick={handlePayment}>
+                                    Card
+                                </button>
+                            </li>
+                            <li>
+                                <button className="w-full px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300" onClick={handlePayment}>
+                                    Dining Dollars
+                                </button>
+                            </li>
+                            <li>
+                                <button className="w-full px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300" onClick={handlePayment}>
+                                    Retail Swipe
+                                </button>
+                            </li>
+                        </ul>
+                        <div className="text-right mt-4">
+                            <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded shadow" onClick={() => setShowPaymentOptions(false)}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {keypadVisible && (
+                <NumericKeypad
+                    inputValue={inputValue}
+                    setInputValue={setInputValue}
+                    onValueChange={onQuantityUpdate}
+                    onClose={onKeypadClose}
+                />
+            )}
+        </div>
+    );
+}
+
+
 
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();

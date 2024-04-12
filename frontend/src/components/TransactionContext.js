@@ -74,12 +74,17 @@ export const TransactionProvider = ({ children }) => {
     setTransaction(updatedTransactions);
   };
 
+  const removeItemCompletely = (itemId) => {
+    const updatedTransactions = transactions.filter(item => item.id !== itemId);
+    setTransaction(updatedTransactions);
+  }
+
   useEffect(() => {
     localStorage.setItem("currentTransaction", JSON.stringify(transactions))
   }, [transactions])
 
   return (
-    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction }}>
+    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction, removeItemCompletely }}>
       {children}
     </TransactionContext.Provider>
   );
