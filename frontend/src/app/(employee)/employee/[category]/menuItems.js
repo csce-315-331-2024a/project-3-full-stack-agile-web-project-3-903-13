@@ -177,28 +177,24 @@ function MenuItem(props) {
                 if (props.item.menuid == item.id) {
                     quantity = item.quantity + 1
                 }
-            }); 
+            });
         }
         if (quantity == 0) {
             quantity += 1
         }
-        updateTransaction({"id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity})
+        updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity })
     }
 
     return (
-        <div className="relative bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out aspect-square" onClick={sendToTransaction}>
-            <img
-                alt={props.item.itemname}
-                className="object-cover w-full h-full rounded-lg"
-            />
-            <div className="absolute inset-0 flex flex-col justify-end p-4">
-                <h5 className="text-xl font-bold text-gray-900 text-center">{props.item.itemname}</h5>
+        <div className="flex justify-center px-10 py-14 items-center bg-white border border-gray rounded-lg shadow-md hover:shadow-xl transition duration-300" onClick={sendToTransaction}>
+            <div className="text-xl font-semibold text-gray-900 text-center">
+                {props.item.itemname}
             </div>
         </div>
     )
 }
 
-export function MenuItemList({categoryNum, categoryName}) {
+export function MenuItemList({ categoryNum, categoryName }) {
     const [itemType, setItemType] = useState([]);
 
     useEffect(() => {
@@ -212,20 +208,23 @@ export function MenuItemList({categoryNum, categoryName}) {
         fetchMenuItems();
     }, []);
 
-  return (
-    <div className="flex flex-row">
-        <div className="container mx-auto mr-5">
-            <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {itemType.map((item) => (
-                    <MenuItem 
-                        item={item}
-                    />
-                ))}
+    return (
+
+        <div className="flex flex-row h-[75vh]">
+            <div className="container max-w-[66%] p-5">
+                <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {itemType.map((item, index) => (
+                        <MenuItem key={index}
+                            item={item}
+                        />
+                    ))}
+                </div>
             </div>
+            
+            <TransactionPanel />
+
         </div>
-        <TransactionPanel/>
-    </div>
-  );
+    );
 }
 
