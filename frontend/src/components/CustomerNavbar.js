@@ -8,26 +8,34 @@ import { useRef, useState, useEffect } from "react";
 import GoogleTranslateWidget from "@/components/GoogleTranslate";
 import { useTransaction } from "@/components/TransactionContext";
 
-
 export default function CustomerNavbar({ links }) {
   const pathname = usePathname();
-  const { transactions, clearTransaction, submitTransaction, updateTransaction, removeItemFromTransaction, removeItemCompletely } = useTransaction();
+  const {
+    transactions,
+    clearTransaction,
+    submitTransaction,
+    updateTransaction,
+    removeItemFromTransaction,
+    removeItemCompletely,
+  } = useTransaction();
   const [transactionsList, setTransactionsList] = useState(null);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     setTransactionsList(transactions);
+    const totalItems = transactions.reduce((acc, item) => acc + item.quantity, 0);
+    setCartCount(totalItems);
   }, [transactions]);
 
-  const toggleCart = ()=>{
-      if (ref.current.classList.contains('translate-x-full')) {
-        ref.current.classList.remove('translate-x-full')
-        ref.current.classList.add('translate-x-0')
-      }
-      else if (!ref.current.classList.contains('translate-x-full')) {
-        ref.current.classList.remove('translate-x-0')
-        ref.current.classList.add('translate-x-full')
-      }
+  const toggleCart = () => {
+    if (ref.current.classList.contains('translate-x-full')) {
+      ref.current.classList.remove('translate-x-full')
+      ref.current.classList.add('translate-x-0')
+    } else if (!ref.current.classList.contains('translate-x-full')) {
+      ref.current.classList.add('translate-x-full')
+      ref.current.classList.remove('translate-x-0')
+    }
   }
 
   const handlePayment = () => {
@@ -64,13 +72,13 @@ export default function CustomerNavbar({ links }) {
               <Image className="nav-image" src={"./user.svg"} width={24} height={24}></Image>
             </Link>
           </li>
-          {/* <li>
-            <Link href={"/cart"}>
+          <div onClick={toggleCart} className="cursor-pointer cart relative">
               <Image className="nav-image" src={"./cart.svg"} width={24} height={24}></Image>
-            </Link>
-          </li> */}
-          <div onClick={toggleCart} className="cursor-pointer cart">
-              <Image className="nav-image" src={"./cart.svg"} width={24} height={24}></Image>
+              {cartCount > 0 && (
+                <span className="absolute top-[-15px] right-[-15px] inline-block px-1 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
+                  {cartCount}
+                </span>
+              )}
           </div>
         </ul>
 
