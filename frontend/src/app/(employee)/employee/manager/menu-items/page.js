@@ -1,6 +1,7 @@
   "use client"
 
   import { useEffect, useState } from "react";
+  import { FaTrash } from "react-icons/fa";
 
   export const getMenuItems = async () => {
     const items = await fetch("http://localhost:5000/api/menuitems");
@@ -418,8 +419,8 @@
       <main className="min-h-screen flex flex-column items-center justify-center">
         <div  className="w-full  max-w-screen-xl">
           <div className="flex justify-between mb-8">
-            <div className="w-full md:w-1/3 flex flex-col items-center">
-              <h1 className="p-3 md:p">ADDING MENU ITEMS</h1>
+            <div className="w-1/2 md:w-1/3 flex flex-col items-center ">
+              <h1 className="p-3 md:p text-xl font-semibold text-center ">ADDING MENU ITEMS</h1>
               {addErrorMessage && (
                 <p className="text-red-500">{addErrorMessage}</p>
               )}
@@ -432,7 +433,7 @@
                   placeholder="Item Name"
                   value={addItemName}
                   onChange={(e) => setAddItemName(e.target.value)}
-                  className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
+                  className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                   required
                 />
                 <input
@@ -440,48 +441,53 @@
                   placeholder="Price"
                   value={addPrice}
                   onChange={(e) => setAddPrice(e.target.value)}
-                  className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
+                  className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                   required
                 />
-                <label className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5">
-                  <input
-                    type="checkbox"
-                    checked={isSeasonal}
-                    onChange={(e) => setIsSeasonal(e.target.checked)}
-                    className="mb-2 px-4 justify-center align-center"
-                  />
-                  Seasonal Item
-                </label>
+                <div className="flex justify-between items-center mb-2 bg-white shadow-input outline-none border focus:border-red-800 rounded-lg px-2 py-2.5 ">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={isSeasonal}
+                        onChange={(e) => setIsSeasonal(e.target.checked)}
+                        className={`mb-1.5 px-4 justify-center items-center accent-red-800 form-checkbox h-4 w-5`}
+                      />
+                      <label className="ml-1 mb-2 justify-centere items-center">
+                        Seasonal Item
+                      </label>
+                    </div>
+                  </div>
+                
                 {/* Show expiration date input field if the item is seasonal */}
                 {isSeasonal && (
-                  <>
+                  <div className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5">
                     <p>Expiration Date:</p>
                     <input
                       type="date"
                       value={expirationDate}
                       onChange={(e) => setExpirationDate(e.target.value)}
-                      className="mb-2"
+                      className="mb-2  border focus:border-red-800 rounded-lg px-2 py-1"
                       required
                     />
-                  </>
+                  </div>
                 )}
                 <select
                   value={isSeasonal ? 6 : addItemCategory}
                   onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
-                  className="mb-2"
+                  className="mb-1 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                   disabled={isSeasonal}
                 >
                   {categories.map((cat) => (
                     <option key={cat.value} value={cat.value}>{cat.label}</option>
                   ))}
                 </select>
-                <h2>Ingredients</h2>
+                <h2 className="p-3 md:p text-xl font-semibold text-center">Ingredients</h2>
                 {ingredients.map((ingredient, index) => (
-                  <div key={index} className="flex items-center mb-2">
+                  <div key={index} className="flex items-center mb-2 ">
                     <select
                       value={ingredients[index]?.name || ""}
                       onChange={(e) => handleIngredientSelection(e, index)}
-                      className="mr-2"
+                      className="w-full md:w-1/2 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-1"
                       required
                     >
                       <option value="">Select Inventory Item</option>
@@ -493,18 +499,20 @@
                       type="number"
                       value={ingredient.quantity}
                       onChange={(e) => handleQuantityChange(e, index)}
-                      className="mr-2"
+                      className="w-full md:w-1/4 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-1 py-1"
                       required
                     />
-                    <button type="button" onClick={() => removeIngredient(index)}>Remove</button>
+                    <button type="button" className= "mb-2 flex flex-col items-center bg-red-800 text-white rounded px-4 py-2" onClick={() => removeIngredient(index)}>
+                      <FaTrash />
+                    </button>
                   </div>
                 ))}
-                <button type="button" onClick={addIngredient}>Add Ingredient</button>
-                <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Add Menu Item</button>
+                <button type="button" onClick={addIngredient} className=" mb-4 bg-gray-500 text-white rounded px-2 py-1" >Add Ingredient</button>
+                <button type="submit" className="bg-red-800 text-white rounded px-4 py-2">ADD</button>
               </form>
           </div>
           <div className="w-full md:w-1/3 flex flex-col items-center">
-          <h2>Update Menu Items</h2>
+          <h2 className=" p-3 md:p text-xl font-semibold text-center">UPDATE MENU ITEMS</h2>
           {updateErrorMessage && (
             <p className="text-red-500">{updateErrorMessage}</p>
           )}
@@ -586,7 +594,7 @@
                           <select
                             value={ingredient.ingredientname} // Use inventoryItem property
                             onChange={(e) => handleUpdateIngredientName(e, index)}
-                            className="w-full md:w-1/2 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                            className="w-full md:w-1/2 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-1"
                             required
                           >
                             {inventoryItems.map((inventoryItem, idx) => (
@@ -597,25 +605,27 @@
                             type="number"
                             value={ingredient.quantity}
                             onChange={(e) => handleUpdateIngredientQuantity(e, index)}
-                            className="w-full md:w-1/4 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-1 py-2.5"
+                            className="w-full md:w-1/4 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-1 py-1"
                             required
                           />
-                          <button type="button" className="w-full md:w-1/4 flex flex-col items-center bg-blue-500 text-white rounded px-4 py-2" onClick={() => handleRemoveUpdateIngredient(index)}>Remove</button>
+                          <button type="button" className=" mb-2 flex flex-col items-center bg-red-800 text-white rounded px-4 py-2" onClick={() => handleRemoveUpdateIngredient(index)}>
+                            <FaTrash />
+                          </button>
                         </div>
                       ))}
                       {/* Add ingredient button */}
-                      <button type="button" onClick={handleAddUpdateIngredientField}>Add Ingredient</button>
+                      <button type="button" className= "mb-4 bg-gray-500 text-white rounded px-2 py-1 flex flex-col items-center" onClick={handleAddUpdateIngredientField}>Add Ingredient</button>
                     </div>
                   )}
                 </div>
               )}
 
             
-            <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">UPDATE</button>
+            <button type="submit" className="bg-red-800 text-white rounded px-4 py-2">UPDATE</button>
           </form>
           </div>
           <div className="w-full md:w-1/3 flex flex-col items-center">
-          <h1 className="p-3 md:p">REMOVING MENU ITEMS</h1>
+          <h1 className="p-3 md:p p-3 text-xl font-semibold text-center">REMOVING MENU ITEMS</h1>
           {removeErrorMessage && (
             <p className="text-red-500">{removeErrorMessage}</p>
           )}
@@ -633,7 +643,7 @@
                       <option key={item.menuid} value={item.itemname}>{item.itemname}</option>
                     ))}
             </select>
-            <button type="submit" className = "bg-blue-500 text-white rounded px-4 py-2">REMOVE</button>
+            <button type="submit" className = "bg-red-800 text-white rounded px-4 py-2">REMOVE</button>
           </form>
           </div>
         </div>
