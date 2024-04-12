@@ -4,10 +4,50 @@ import { useEffect, useState, useContext } from "react";
 
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/TransactionContext";
 
+function NumericKeypad({ onValueChange, inputValue, setInputValue, onClose }) {
+    const handleButtonClick = (value) => {
+        setInputValue(prev => prev + value);
+    };
+
+    const handleBackspace = () => {
+        setInputValue(inputValue.slice(0, -1));
+    };
+
+    const handleSubmit = () => {
+        onValueChange(parseInt(inputValue - 1));
+        onClose();
+    };
+
+    return (
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="text-center mb-4 font-bold text-xl">Enter Quantity</div>
+                <div className="text-center mb-4 text-lg">{inputValue || "0"}</div>
+                <div className="grid grid-cols-3 gap-2">
+                    {Array.from({ length: 9 }, (_, i) => (
+                        <button key={i + 1} onClick={() => handleButtonClick(String(i + 1))} className="bg-gray-200 p-3 rounded">
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button onClick={() => handleButtonClick('0')} className="col-span-2 bg-gray-200 p-3 rounded">0</button>
+                    <button onClick={handleBackspace} className="bg-red-300 p-3 rounded">←</button>
+                </div>
+                <div className="mt-4 flex justify-between">
+                    <button onClick={handleSubmit} className="bg-green-500 text-white px-6 py-2 rounded">Enter</button>
+                    <button onClick={onClose} className="bg-red-500 text-white px-6 py-2 rounded">Cancel</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function TransactionPanel() {
-    const { transactions, updateTransaction, clearTransaction, submitTransaction, removeItemCompletely } = useTransaction();
+    const { transactions, updateTransaction, removeItemCompletely, submitTransaction, clearTransaction } = useTransaction();
     const [transactionsList, setTransactionsList] = useState(null);
     const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+    const [keypadVisible, setKeypadVisible] = useState(false);
+    const [currentItemId, setCurrentItemId] = useState(null);
+    const [inputValue, setInputValue] = useState("");
 
     useEffect(() => {
         setTransactionsList(transactions);
@@ -26,8 +66,23 @@ function TransactionPanel() {
         }
     };
 
+    const openKeypad = (itemId, currentQuantity) => {
+        setCurrentItemId(itemId);
+        setInputValue(String(currentQuantity));
+        setKeypadVisible(true);
+    };
+
+    const onKeypadClose = () => {
+        setKeypadVisible(false);
+    };
+
+    const onQuantityUpdate = (newQuantity) => {
+        handleQuantityChange(currentItemId, newQuantity);
+        onKeypadClose();
+    };
+
     return (
-        <div className="w-96 min-h-[200px] max-h-[80vh] border-2 border-gray-300 rounded-lg shadow-lg mr-5 flex flex-col">
+        <div className="w-96 min-h-[200px] max-h-[80vh] border-2 border-gray-400 rounded-lg shadow-lg mr-5 flex flex-col">
             <div className="px-6 py-4 border-b">
                 <div className="font-bold text-xl mb-2">Current Sale</div>
             </div>
@@ -39,22 +94,12 @@ function TransactionPanel() {
                                 <span className="font-semibold truncate">{item.itemname}</span>
                                 <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
                             </div>
-                            <input
-                                type="range"
-                                min="1"
-                                max="1000"
-                                value={item.quantity}
-                                onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
-                                className="range range-xs h-3" // Adjust the height with h-2, h-3, etc.
-                                style={{ cursor: 'pointer' }} // Ensure the slider thumb is easy to grab
-                            
-                            />
-                            <div className="flex justify-between">
-                                <span>Quantity: {item.quantity}</span>
+                            <div className="flex items-center justify-between">
+                                <button onClick={() => openKeypad(item.id, item.quantity)} className="py-2 text-blue-500 hover:text-blue-700">
+                                    Quantity: {item.quantity}
+                                </button>
                                 <button onClick={() => removeItemCompletely(item.id)} className="text-red-500 hover:text-red-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
+                                    Remove Item
                                 </button>
                             </div>
                         </div>
@@ -92,7 +137,7 @@ function TransactionPanel() {
                             <li>
                                 <button className="w-full px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300" onClick={handlePayment}>
                                     Dining Dollars
-                                    </button>
+                                </button>
                             </li>
                             <li>
                                 <button className="w-full px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300" onClick={handlePayment}>
@@ -108,9 +153,19 @@ function TransactionPanel() {
                     </div>
                 </div>
             )}
+
+            {keypadVisible && (
+                <NumericKeypad
+                    inputValue={inputValue}
+                    setInputValue={setInputValue}
+                    onValueChange={onQuantityUpdate}
+                    onClose={onKeypadClose}
+                />
+            )}
         </div>
     );
 }
+
 
 
 function MenuItem(props) {
