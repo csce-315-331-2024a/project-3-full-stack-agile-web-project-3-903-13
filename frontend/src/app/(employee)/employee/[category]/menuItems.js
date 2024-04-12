@@ -82,7 +82,7 @@ function TransactionPanel() {
     };
 
     return (
-        <div className="w-96 min-h-[200px] max-h-[80vh] border-2 border-gray-400 rounded-lg shadow-lg mr-5 flex flex-col">
+        <div className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5">
             <div className="px-6 py-4 border-b">
                 <div className="font-bold text-xl mb-2">Current Sale</div>
             </div>
