@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import GoogleTranslateWidget from "@/components/GoogleTranslate";
 
-export default function CustomerNavbar({ links }) {
+export default function EmployeeNavbar({ links }) {
   const pathname = usePathname();
   return (
     <nav className="flex w-full h-[5rem] bg-white shadow-md">
@@ -23,6 +24,9 @@ export default function CustomerNavbar({ links }) {
             </li>
           ))}
         </ul>
+        <div className="flex justify-end items-center pr-4">
+          <GoogleTranslateWidget />
+        </div>
       </div>
     </nav>
   );
