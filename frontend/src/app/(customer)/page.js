@@ -91,6 +91,7 @@ const Home = () => {
   return (
     <GoogleOAuthProvider clientId={googleClientID}>
       <main className="min-h-screen bg-cream flex flex-col items-center">
+        <div className='mt-5 ml-auto right-0'><GoogleSignInButton/></div>
           <Slider {...settings} className="w-full max-w-screen-lg px-4 py-2">
               {carouselCategories.map((category, index) => (
                   <div key={index} className="carousel-item">
@@ -109,7 +110,6 @@ const Home = () => {
               ))}
           </Slider>
           <div className="button-container fixed bottom-0 left-0 right-0 z-10 flex justify-center items-center bg-white">
-            <GoogleSignInButton/>
               {buttonCategories.map(category => (
                   <Link key={category.name} href={category.path}>
                       <div className="m-4 cursor-pointer">

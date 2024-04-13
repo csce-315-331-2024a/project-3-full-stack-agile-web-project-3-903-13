@@ -7,7 +7,7 @@ const clientId = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleuserc
 const GoogleSignInButton = () => {
   const [cookies, setCookie] = useCookies('access_token')
   return (
-    <GoogleLogin
+    <GoogleLogin 
       clientId={clientId}
       onSuccess={credentialResponse => {
         console.log(credentialResponse);
