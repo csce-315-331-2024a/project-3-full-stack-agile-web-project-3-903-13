@@ -42,7 +42,11 @@ function TransactionPanel() {
     };
 
     const onQuantityUpdate = (newQuantity) => {
-        handleQuantityChange(currentItemId, newQuantity);
+        if (newQuantity === -1) {
+            removeItemCompletely(currentItemId);
+        } else {
+            handleQuantityChange(currentItemId, newQuantity);
+        }
         onKeypadClose();
     };
 
@@ -135,6 +139,8 @@ function TransactionPanel() {
 
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
+    const [isClicked, setIsClicked] = useState(false);
+
     const sendToTransaction = () => {
         var quantity = 0
         if (transactions) {
@@ -147,18 +153,50 @@ function MenuItem(props) {
         if (quantity == 0) {
             quantity += 1
         }
-        updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity })
+        updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity });
+        setIsClicked(true);
+        setTimeout(() => setIsClicked(false), 600); 
     }
 
-    return (
-        <div className="flex justify-center px-10 py-14 items-center bg-white border border-gray rounded-lg shadow-md hover:shadow-xl transition duration-300" onClick={sendToTransaction}>
-            <div className="text-xl font-semibold text-gray-900 text-center">
-                {props.item.itemname}
-            </div>
-        </div>
-    )
-}
+    const clickEffect = isClicked ? 'border-animate' : '';
 
+    return (
+        <>
+            <style>
+                {`
+                    @keyframes border-animation {
+                        0% {
+                            border-color: transparent;
+                        }
+                        25% {
+                            border-color: black;
+                        }
+                        100% {
+                            border-color: transparent;
+                        }
+                    }
+                    .border-animate {
+                        animation: border-animation 0.6s ease-out;
+                    }
+                    .menu-item {
+                        transition: transform 0.15s ease-in-out;
+                    }
+                    .menu-item:hover {
+                        transform: scale(0.95);
+                    }
+                `}
+            </style>
+            <div
+                className={`menu-item flex justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
+                onClick={sendToTransaction}
+            >
+                <div className="text-xl font-semibold text-gray-900 text-center">
+                    {props.item.itemname}
+                </div>
+            </div>
+        </>
+    );
+}
 export function MenuItemList({ categoryNum, categoryName }) {
     const [itemType, setItemType] = useState([]);
 
