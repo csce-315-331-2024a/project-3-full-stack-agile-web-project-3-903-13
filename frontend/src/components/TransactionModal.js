@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Link from 'next/link'
+
 
 export default function TransactionModal({ isOpen, onClose, transaction, alltransactionData, setAllData }) {
     if (!isOpen) return null;
@@ -72,7 +74,7 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                                     <div className="font-semibold text-green-500 text-lg"> Completed </div>
                                 )
                             }
-                            
+
                         </div>
 
 
@@ -102,9 +104,21 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                                     Delete
                                 </button>
 
-                                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                    Update
-                                </button>
+                                <Link
+                                    href={{
+                                        pathname: '/employee/burgers',
+                                        query: {
+                                            'status': 'update',
+                                            'id': transaction.transactionid
+                                        }
+                                    }}
+                                >
+                                    <button
+                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                        Update
+                                    </button>
+                                </Link>
+
                             </div>
                         )}
 

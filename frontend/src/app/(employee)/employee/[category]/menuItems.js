@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState, useContext } from "react";
 
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/TransactionContext";
-import {NumericKeypad} from "@/components/NumericKeypad"
+import NumericKeypad from "@/components/NumericKeypad"
 
 
 function TransactionPanel() {
