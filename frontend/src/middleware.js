@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode'
  
 // This function can be marked `async` if using `await` inside
 export async function middleware(request) {
-  const whitelist = [ 
+  const managers = [ 
     'cadewya@tamu.edu',
     'adityabiradar25@tamu.edu',
     'isaacambro@tamu.edu',
@@ -11,6 +11,11 @@ export async function middleware(request) {
     'sukelv0802@tamu.edu',
     'kjain@tamu.edu'
   ]
+
+  const cashiers = [
+    'wyattrcade@gmail.com'
+  ]
+
   let cookie = request.cookies.get('access_token')
   if (!cookie) {
     return NextResponse.redirect(new URL('/', request.url))
@@ -19,8 +24,14 @@ export async function middleware(request) {
   let token = cookie['value']
   const decoded = jwtDecode(token)
   const email = decoded.email
-  if (!whitelist.includes(email)) {
-    return NextResponse.redirect(new URL('/', request.url))
+  if (request.nextUrl.pathname.startsWith('/employee/manager')) {
+    if (!managers.includes(email)) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+  } else {
+    if (!cashiers.includes(email) && !managers.includes(email)) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
   }
 }
  
