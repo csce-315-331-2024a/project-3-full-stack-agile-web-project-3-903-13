@@ -22,7 +22,7 @@ export default function Page({ params }) {
 
     useEffect(() => {
         const fetchMenuItems = async () => {
-            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+            const response = await fetch('http://localhost:5000/api/menuitems');
             const data = await response.json();
             const items = data.filter(item => item.category === parseInt(categories.indexOf(params.category)));
             setItemType(items);

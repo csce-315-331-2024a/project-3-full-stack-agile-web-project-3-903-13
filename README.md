@@ -13,6 +13,7 @@
 - [Sprint 2 Planning Meeting Agenda](#sprint-2-planning-meeting-agenda)
 - [Sprint 2 Planning Meeting Minutes](#sprint-2-planning-meeting-minutes)
 - [Sprint 2 Plan](#sprint-2-plan)
+- [Sprint 2 Daily Meetings](#sprint-2-daily-meetings)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -987,3 +988,50 @@ Successfully complete Sprint 1 tasks, including integration of APIs, UI touch-up
   - **Status: To-do**
   - **Definition of Done: Order removal integrated to allow managers to remove an order from the order history. Implementation reviewed, tested, and functioning as expected.**
   - **Assigned to: Karan**
+
+# Sprint 2 Daily Meetings
+## Meeting Summary - Sprint 2 Daily Scrum Meeting #1
+Date: 4/8/2024
+Time: 7:15 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 4.33
+
+**Discussion Points:**
+- Sprint Backlog:
+  - User story E completed
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: None mentioned during the meeting.
+- Blockers: No blockers raised during the discussion.
+
+## Meeting Summary - Sprint 2 Daily Scrum Meeting #2
+Date: 4/10/2024
+Time: 6:00 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 3.5
+
+**Discussion Points:**
+- Sprint Backlog:
+  - User story D completed
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: Issues brought up in our user studies, including increased accessibility and feature improvement.
+- Blockers: No blockers raised during the discussion.

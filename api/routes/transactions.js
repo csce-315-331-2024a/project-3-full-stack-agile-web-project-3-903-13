@@ -1,30 +1,27 @@
 const express = require('express')
 const router = express.Router()
-const transcationsController = require('../services/transactions')
-const salesReportController = require('../services/salesReport')
+const transactionsController = require('../services/transactions')
 
-router.post("/new", transcationsController.createTransaction)
+router.post("/new", transactionsController.createTransaction)
 
-router.get("/", (req, res) => {
-})
-
-// Endpoint for retrieving the sales report
-router.get('/salesreport', async (req, res) => {
-    const { startDate, endDate } = req.query;
-
-    if (!startDate || !endDate) {
-        res.status(400).send("Please provide both start and end dates.");
-        return;
-    }
+router.post('/getTransactionByID', async (request, response) => {
+    const { transactionID} = request.body;
 
     try {
-        const reportData = await salesReportController.getSalesReport(startDate, endDate);
-        res.status(200).json(reportData);
+        const results = await transactionsController.getTransactionInfo(transactionID);
+        response.status(200).json(results);
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Error retrieving sales report data');
+        response.status(500).send('Error retrieving transaction. ID may be invalid or deleted. Kindly check the ID');
+        // response.status(500).send(err.message);
     }
 });
+
+router.post("/getTransactionsByPeriod", transactionsController.getTransactionsByPeriod)
+router.delete("/deletetransaction", transactionsController.deleteTransaction)
+
+router.get('/inProgressOrders', transactionsController.getInProgressOrders)
+router.patch('/fulfillOrder', transactionsController.fullfillOrder)
+
 
 module.exports = router
 // vim: tabstop=3

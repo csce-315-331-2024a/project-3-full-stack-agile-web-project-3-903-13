@@ -49,7 +49,7 @@ export const TransactionProvider = ({ children }) => {
       "taxAmount": taxAmount,
       "orderContents": orderContents
     }
-    fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/new", {
+    fetch("http://localhost:5000/api/transactions/new", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
@@ -74,12 +74,17 @@ export const TransactionProvider = ({ children }) => {
     setTransaction(updatedTransactions);
   };
 
+  const removeItemCompletely = (itemId) => {
+    const updatedTransactions = transactions.filter(item => item.id !== itemId);
+    setTransaction(updatedTransactions);
+  }
+
   useEffect(() => {
     localStorage.setItem("currentTransaction", JSON.stringify(transactions))
   }, [transactions])
 
   return (
-    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction }}>
+    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction, removeItemCompletely }}>
       {children}
     </TransactionContext.Provider>
   );

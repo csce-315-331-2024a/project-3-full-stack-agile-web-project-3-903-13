@@ -1,6 +1,16 @@
 const request = require('supertest')
 const app = require('../index')
 
+let server;
+
+beforeAll(done => {
+  server = app.listen(5000, done);
+});
+
+afterAll(done => {
+  server.close(done);
+});
+
 describe("Submit a clean transaction request", () => {
 	test("The transaction service should serve correctly-structured transaction submissions", () => {
 		const transaction = {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export const getMenuItems = async () => {
-  const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+  const items = await fetch("http://localhost:5000/api/menuitems");
   const data = await items.json();
 
   return data;
@@ -15,7 +15,7 @@ export const getMenuItemIngredients = async (menuItem) => {
     const queryString = new URLSearchParams(menuItem).toString();
     
     // Append the query string to the URL
-    const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
+    const url = `http://localhost:5000/api/menuitems/getIngreds?${queryString}`;
 
     // Make the GET request
     const response = await fetch(url);
@@ -37,14 +37,14 @@ export const getMenuItemIngredients = async (menuItem) => {
 
 
 export const getInventoryItems = async () => {
-  const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
+  const items = await fetch("http://localhost:5000/api/inventory");
   const data = await items.json();
 
   return data;
 };
 
 export const addMenuItem = async (menuItem) => {
-  const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
+  const response = await fetch("http://localhost:5000/api/menuitems", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export const addMenuItem = async (menuItem) => {
 };
 
 export const updateMenuItemPrice = async (menuItem) => {
-  const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updatePrice", {
+  const response = await fetch("http://localhost:5000/api/menuitems/updatePrice", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export const updateMenuItemPrice = async (menuItem) => {
 };
 
 export const updateMenuItemCat = async (menuItem) => {
-  const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCat", {
+  const response = await fetch("http://localhost:5000/api/menuitems/updateCat", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export const updateMenuItemCat = async (menuItem) => {
 };
 
 export const updateMenuItemIngred = async (menuItem) => {
-  const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateIngred", {
+  const response = await fetch("http://localhost:5000/api/menuitems/updateIngred", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -112,7 +112,7 @@ export const updateMenuItemIngred = async (menuItem) => {
 };
 
 export const removeMenuItem = async (menuItem) => {
-  const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
+  const response = await fetch("http://localhost:5000/api/menuitems", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

@@ -1,8 +1,14 @@
 const express = require('express')
 const router = express.Router()
-const { getInventoryUsage } = require('../services/inventoryUsage');
-const {getInventoryState} = require('../services/excessReport');
 
+const inventoryController = require('../services/inventory.js')
+
+
+// CREATE new Inventory Item
+router.post("/", inventoryController.addInventoryItem)
+
+
+// Used for features - Excess report and Inventory Usage Report
 router.get('/usage', async (req, res) => {
     const { startDate, endDate } = req.query;
 
@@ -12,28 +18,25 @@ router.get('/usage', async (req, res) => {
     }
 
     try {
-        const reportData = await getInventoryUsage(startDate, endDate);
+        const reportData = await inventoryController.getInventoryUsage(startDate, endDate);
         res.status(200).json(reportData);
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         res.status(500).send('Error retrieving inventory usage data');
     }
 });
-
-router.get('/state', getInventoryState)
-const inventoryItemsController = require('../services/inventory.js')
+router.get('/state', inventoryController.getInventoryState)
 
 
-router.get("/", inventoryItemsController.retrieveInventoryItems)
+// READ existing attributes 
+router.get("/", inventoryController.getInventoryItems)
 
-router.patch("/updateQuantity", inventoryItemsController.updateInventItemQuant)
+// UPDATE existing attributes
+router.patch("/updateQuantity", inventoryController.updateInventItemQuant)
+router.patch("/updatePrice", inventoryController.updateInventItemPrice)
+router.patch("/updateMinCount", inventoryController.updateInventItemMin)
 
-router.patch("/updatePrice", inventoryItemsController.updateInventItemPrice)
-
-router.patch("/updateMinCount", inventoryItemsController.updateInventItemMin)
-
-router.post("/", inventoryItemsController.addInventoryItem)
-
-router.delete("/", inventoryItemsController.removeInventoryItem)
+// DELETE existing inventory item
+router.delete("/", inventoryController.removeInventoryItem)
 
 module.exports = router

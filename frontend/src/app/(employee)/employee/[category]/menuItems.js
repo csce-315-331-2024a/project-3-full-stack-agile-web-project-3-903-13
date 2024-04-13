@@ -4,43 +4,184 @@ import { useEffect, useState, useContext } from "react";
 
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/TransactionContext";
 
-function TransactionPanel() {
-    const {transactions, updateTransaction, clearTransaction, submitTransaction} = useTransaction();
-    const [transactionsList, setTransactionsList] = useState(null);
-    useEffect(() => {
-        setTransactionsList(transactions)
-    },[transactions])
-    return ( 
-            <div className="max-w-sm border-2 border-black rounded overflow-hidden shadow-lg mr-5 flex flex-col justify-between items-center">
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">Current Sale</div>
-              </div>
-              <div className="flex flex-col justify-evenly items-center">
-                    {transactionsList ? transactionsList.map((item, index) => {
-                            return <div key={index} className="items-center">{item.itemname} x{item.quantity} ${item.price}</div>
-                        }) : <div className="flex flex-col items-center">No items in current transaction!</div>}
-                    {/*{transactionsList ? <li>{transactionsList.length}</li> : <li>No items in current transaction!</li>}*/}
-              </div>
-              <div className="px-6 pt-4 pb-2 flex flex-col items-center">
-                <h1>Price: {
-                    transactionsList ? "$" + transactionsList.reduce((total, currentItem) => {return total + currentItem.price*currentItem.quantity}, 0).toFixed(2) : "$0.00"
-                }</h1>
-              </div>
+function NumericKeypad({ onValueChange, inputValue, setInputValue, onClose }) {
+    const handleButtonClick = (value) => {
+        setInputValue(prev => prev + value);
+    };
 
-              <div className="px-6 pt-4 pb-2 flex flex-col items-center">
-                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={clearTransaction}>
+    const handleBackspace = () => {
+        setInputValue(inputValue.slice(0, -1));
+    };
+
+    const handleSubmit = () => {
+        let quantity = parseInt(inputValue);
+        if (isNaN(quantity)) {
+            quantity = -1; 
+        } else {
+            quantity = quantity - 1; 
+        }
+        onValueChange(quantity);
+        onClose();
+    };
+
+    return (
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+                <div className="text-center mb-4 font-bold text-xl">Enter Quantity</div>
+                <div className="text-center mb-4 text-lg">{inputValue || "0"}</div>
+                <div className="grid grid-cols-3 gap-2">
+                    {Array.from({ length: 9 }, (_, i) => (
+                        <button key={i + 1} onClick={() => handleButtonClick(String(i + 1))} className="bg-gray-200 p-3 rounded">
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button onClick={() => handleButtonClick('0')} className="col-span-2 bg-gray-200 p-3 rounded">0</button>
+                    <button onClick={handleBackspace} className="bg-red-300 p-3 rounded">←</button>
+                </div>
+                <div className="mt-4 flex justify-between">
+                    <button onClick={handleSubmit} className="bg-green-500 text-white px-6 py-2 rounded">Enter</button>
+                    <button onClick={onClose} className="bg-red-500 text-white px-6 py-2 rounded">Cancel</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function TransactionPanel() {
+    const { transactions, updateTransaction, removeItemCompletely, submitTransaction, clearTransaction } = useTransaction();
+    const [transactionsList, setTransactionsList] = useState(null);
+    const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+    const [keypadVisible, setKeypadVisible] = useState(false);
+    const [currentItemId, setCurrentItemId] = useState(null);
+    const [inputValue, setInputValue] = useState("");
+
+    useEffect(() => {
+        setTransactionsList(transactions);
+    }, [transactions]);
+
+    const handlePayment = () => {
+        submitTransaction();
+        setShowPaymentOptions(false);
+    };
+
+    const handleQuantityChange = (itemId, newQuantity) => {
+        const updatedItem = transactions.find(item => item.id === itemId);
+        if (updatedItem) {
+            updatedItem.quantity = newQuantity;
+            updateTransaction(updatedItem);
+        }
+    };
+
+    const openKeypad = (itemId, currentQuantity) => {
+        setCurrentItemId(itemId);
+        setInputValue(String(currentQuantity));
+        setKeypadVisible(true);
+    };
+
+    const onKeypadClose = () => {
+        setKeypadVisible(false);
+    };
+
+    const onQuantityUpdate = (newQuantity) => {
+        if (newQuantity === -1) {
+            removeItemCompletely(currentItemId);
+        } else {
+            handleQuantityChange(currentItemId, newQuantity);
+        }
+        onKeypadClose();
+    };
+
+    return (
+        <div className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5">
+            <div className="px-6 py-4 border-b">
+                <div className="font-bold text-xl mb-2">Current Sale</div>
+            </div>
+            <div className="flex-1 overflow-auto">
+                {transactionsList && transactionsList.length > 0 ? (
+                    transactionsList.map((item, index) => (
+                        <div key={index} className="flex flex-col bg-white p-3 my-2 mx-4 rounded-lg shadow">
+                            <div className="flex justify-between items-center">
+                                <span className="font-semibold truncate">{item.itemname}</span>
+                                <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <button onClick={() => openKeypad(item.id, item.quantity)} className="py-2 text-blue-500 hover:text-blue-700">
+                                    Quantity: {item.quantity}
+                                </button>
+                                <button onClick={() => removeItemCompletely(item.id)} className="text-red-500 hover:text-red-700">
+                                    Remove Item
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="px-6 py-4 text-center">No items in current transaction!</div>
+                )}
+            </div>
+            <div className="px-6 py-4">
+                <div className="font-semibold text-lg">
+                    Total Price: $
+                    {transactionsList ? transactionsList.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2) : "0.00"}
+                </div>
+            </div>
+            <div className="px-6 py-4 flex flex-col space-y-2">
+                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
                     Clear Transaction
                 </button>
-                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={submitTransaction}>
+                <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow" onClick={() => setShowPaymentOptions(true)}>
                     Charge
                 </button>
-              </div>
             </div>
-    )
+
+            {/* Payment options modal */}
+            {showPaymentOptions && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                    <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                        <h3 className="text-lg font-semibold text-center mb-4">Select Payment Method</h3>
+                        <ul className="space-y-4">
+                            <li>
+                                <button className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" onClick={handlePayment}>
+                                    Card
+                                </button>
+                            </li>
+                            <li>
+                                <button className="w-full px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300" onClick={handlePayment}>
+                                    Dining Dollars
+                                </button>
+                            </li>
+                            <li>
+                                <button className="w-full px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300" onClick={handlePayment}>
+                                    Retail Swipe
+                                </button>
+                            </li>
+                        </ul>
+                        <div className="text-right mt-4">
+                            <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded shadow" onClick={() => setShowPaymentOptions(false)}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {keypadVisible && (
+                <NumericKeypad
+                    inputValue={inputValue}
+                    setInputValue={setInputValue}
+                    onValueChange={onQuantityUpdate}
+                    onClose={onKeypadClose}
+                />
+            )}
+        </div>
+    );
 }
+
+
 
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
+    const [isClicked, setIsClicked] = useState(false);
+
     const sendToTransaction = () => {
         var quantity = 0
         if (transactions) {
@@ -48,33 +189,61 @@ function MenuItem(props) {
                 if (props.item.menuid == item.id) {
                     quantity = item.quantity + 1
                 }
-            }); 
+            });
         }
         if (quantity == 0) {
             quantity += 1
         }
-        updateTransaction({"id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity})
+        updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity });
+        setIsClicked(true);
+        setTimeout(() => setIsClicked(false), 600); 
     }
 
-    return (
-        <div className="relative bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out aspect-square" onClick={sendToTransaction}>
-            <img
-                alt={props.item.itemname}
-                className="object-cover w-full h-full rounded-lg"
-            />
-            <div className="absolute inset-0 flex flex-col justify-end p-4">
-                <h5 className="text-xl font-bold text-gray-900 text-center">{props.item.itemname}</h5>
-            </div>
-        </div>
-    )
-}
+    const clickEffect = isClicked ? 'border-animate' : '';
 
-export function MenuItemList({categoryNum, categoryName}) {
+    return (
+        <>
+            <style>
+                {`
+                    @keyframes border-animation {
+                        0% {
+                            border-color: transparent;
+                        }
+                        25% {
+                            border-color: black;
+                        }
+                        100% {
+                            border-color: transparent;
+                        }
+                    }
+                    .border-animate {
+                        animation: border-animation 0.6s ease-out;
+                    }
+                    .menu-item {
+                        transition: transform 0.15s ease-in-out;
+                    }
+                    .menu-item:hover {
+                        transform: scale(0.95);
+                    }
+                `}
+            </style>
+            <div
+                className={`menu-item flex justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
+                onClick={sendToTransaction}
+            >
+                <div className="text-xl font-semibold text-gray-900 text-center">
+                    {props.item.itemname}
+                </div>
+            </div>
+        </>
+    );
+}
+export function MenuItemList({ categoryNum, categoryName }) {
     const [itemType, setItemType] = useState([]);
 
     useEffect(() => {
         const fetchMenuItems = async () => {
-            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+            const response = await fetch('http://localhost:5000/api/menuitems');
             const data = await response.json();
             const items = data.filter(item => item.category === parseInt(categoryNum))
             setItemType(items);
@@ -83,20 +252,23 @@ export function MenuItemList({categoryNum, categoryName}) {
         fetchMenuItems();
     }, []);
 
-  return (
-    <div className="flex flex-row">
-        <div className="container mx-auto mr-5">
-            <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {itemType.map((item) => (
-                    <MenuItem 
-                        item={item}
-                    />
-                ))}
+    return (
+
+        <div className="flex flex-row h-[75vh]">
+            <div className="container max-w-[66%] p-5">
+                <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {itemType.map((item, index) => (
+                        <MenuItem key={index}
+                            item={item}
+                        />
+                    ))}
+                </div>
             </div>
+            
+            <TransactionPanel />
+
         </div>
-        <TransactionPanel/>
-    </div>
-  );
+    );
 }
 
