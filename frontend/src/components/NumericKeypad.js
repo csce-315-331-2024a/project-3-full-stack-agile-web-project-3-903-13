@@ -9,7 +9,13 @@ export default function NumericKeypad({ onValueChange, inputValue, setInputValue
     };
 
     const handleSubmit = () => {
-        onValueChange(parseInt(inputValue - 1));
+        let quantity = parseInt(inputValue);
+        if (isNaN(quantity)) {
+            quantity = -1; 
+        } else {
+            quantity = quantity - 1; 
+        }
+        onValueChange(quantity);
         onClose();
     };
 
