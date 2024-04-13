@@ -13,7 +13,10 @@ export async function middleware(request) {
   ]
 
   const cashiers = [
-    'wyattrcade@gmail.com'
+    'wyattrcade@gmail.com',
+    'isaacambro@gmail.com',
+    'karanbhalla204@gmail.com',
+    'sukelv0802@gmail.com'
   ]
 
   let cookie = request.cookies.get('access_token')
