@@ -14,7 +14,13 @@ function NumericKeypad({ onValueChange, inputValue, setInputValue, onClose }) {
     };
 
     const handleSubmit = () => {
-        onValueChange(parseInt(inputValue - 1));
+        let quantity = parseInt(inputValue);
+        if (isNaN(quantity)) {
+            quantity = -1; 
+        } else {
+            quantity = quantity - 1; 
+        }
+        onValueChange(quantity);
         onClose();
     };
 
@@ -77,7 +83,11 @@ function TransactionPanel() {
     };
 
     const onQuantityUpdate = (newQuantity) => {
-        handleQuantityChange(currentItemId, newQuantity);
+        if (newQuantity === -1) {
+            removeItemCompletely(currentItemId);
+        } else {
+            handleQuantityChange(currentItemId, newQuantity);
+        }
         onKeypadClose();
     };
 
