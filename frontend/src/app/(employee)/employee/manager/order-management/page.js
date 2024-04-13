@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import TransactionModal from "@/components/TransactionModal";
+import TransactionModal from "@/components/transactions/TransactionModal";
 
 const formatTime = (isoDateString) => {
     const date = new Date(isoDateString);
