@@ -22,6 +22,8 @@ router.delete("/deletetransaction", transactionsController.deleteTransaction)
 router.get('/inProgressOrders', transactionsController.getInProgressOrders)
 router.patch('/fulfillOrder', transactionsController.fullfillOrder)
 
+router.patch('/updateTransaction', transactionsController.updateTransaction)
+
 
 module.exports = router
 // vim: tabstop=3

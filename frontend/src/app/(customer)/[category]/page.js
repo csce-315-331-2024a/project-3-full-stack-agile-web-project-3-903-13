@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { TransactionContext, TransactionProvider, useTransaction } from "@/components/TransactionContext";
+import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
 
 const categories = [
     "burgers",
