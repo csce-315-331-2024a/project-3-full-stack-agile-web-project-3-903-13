@@ -22,7 +22,7 @@ const ClockWidget = () => {
 
     // Format the time to display hours, minutes, and seconds
     const formatTime = (date) => {
-        return date.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: '2-digit', second: '2-digit' });
+        return date.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: '2-digit' });
     };
 
     return (
