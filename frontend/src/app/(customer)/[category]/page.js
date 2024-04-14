@@ -88,6 +88,7 @@ export default function Page({ params }) {
                                 className="object-cover w-6/12 h-6/12 rounded-lg"
                             />
                             <div className="absolute inset-0 flex flex-col justify-end p-4">
+                                <h5 className="text-xl font-bold text-gray-900 text-center">{item.price}</h5>
                                 <h5 className="text-xl font-bold text-gray-900 text-center">{item.itemname}</h5>
                             </div>
                         </div>
