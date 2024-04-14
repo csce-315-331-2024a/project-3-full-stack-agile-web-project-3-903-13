@@ -1035,3 +1035,26 @@ Location: Discord
 - Team to continue working on assigned tasks from the Sprint Backlog. 
 - Tasks to Add: Issues brought up in our user studies, including increased accessibility and feature improvement.
 - Blockers: No blockers raised during the discussion.
+
+## Meeting Summary - Sprint 2 Daily Scrum Meeting #3
+Date: 4/13/2024
+Time: 5:00 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 3.75
+
+**Discussion Points:**
+- Sprint Backlog:
+  - User story C completed
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: Console log foor backend, selenium testing, picutres throughout website
+- Blockers: No blockers raised during the discussion.
