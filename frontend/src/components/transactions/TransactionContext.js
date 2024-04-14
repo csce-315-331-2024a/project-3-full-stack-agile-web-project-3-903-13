@@ -37,7 +37,9 @@ export const TransactionProvider = ({ children }) => {
 
   const clearTransaction = () => {
     setTransaction(null)
-    localStorage.setItem("currentTransaction", [])
+    if (typeof window !== 'undefined'){
+      localStorage.setItem("currentTransaction", [])
+    }
   }
 
   const submitTransaction = () => {
@@ -74,12 +76,21 @@ export const TransactionProvider = ({ children }) => {
     setTransaction(updatedTransactions);
   };
 
+  const removeItemCompletely = (itemId) => {
+    const updatedTransactions = transactions.filter(item => item.id !== itemId);
+    setTransaction(updatedTransactions);
+  }
+
+  const setToNewOrder = (transaction) => {
+    setTransaction([...transaction]);
+  }
+
   useEffect(() => {
     localStorage.setItem("currentTransaction", JSON.stringify(transactions))
   }, [transactions])
 
   return (
-    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction }}>
+    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction, removeItemCompletely, setToNewOrder }}>
       {children}
     </TransactionContext.Provider>
   );

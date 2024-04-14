@@ -1,94 +1,572 @@
-const request = require('supertest')
-const app = require('../index')
+const db = require('../config/db');
+const {
+    retrieveMenuItems,
+    retrieveMenuItemIngredients,
+    addMenuItem,
+    updateMenuItemPrice,
+    updateMenuItemCat,
+	updateMenuItemIngred,
+    removeMenuItem
+} = require('../services/menuitems');
 
-describe("Retrieve all menu items", () => {
-	test("The menu items service should correctly retrieve all menu items from the database table menuitems", () => {
-		
-		return request(app)
-		.get("/api/menuitems")
-		.then(response => {
-			expect(response.statusCode).toBe(200)
-		})
-	})
-})
-/*
-describe("Submit a transaction request without totalCost", () => {
-	test("The transaction service should reject requests not containing a total cost.", () => {
-		const transaction = {
-			"taxAmount": 2.39,
-			"orderContents": [
-				{
-						"id": 2,
-						"quantity": 1
-				}
-			]
-		}
-		return request(app)
-		.post("/api/transactions/new")
-		.send(transaction)
-		.then(response => {
-			expect(response.statusCode).toBe(400)
-		})
-	})
-})
+jest.mock('../config/db');
 
-describe("Submit a transaction request without taxAmount", () => {
-	test("The transaction service should reject requests not containing a tax amount.", () => {
-		const transaction = {
-			"totalCost": 44.22,
-			"orderContents": [
-				{
-						"id": 2,
-						"quantity": 1
-				}
-			]
-		}
-		return request(app)
-		.post("/api/transactions/new")
-		.send(transaction)
-		.then(response => {
-			expect(response.statusCode).toBe(400)
-		})
-	})
-})
+describe('MenuItems Service', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
-describe("Submit a transaction request without order contents.", () => {
-	test("The transaction service should reject requests not containing an order.", () => {
-		const transaction = {
-			"totalCost": 44.22,
-			"taxAmount": 2.22,
-		}
-		return request(app)
-		.post("/api/transactions/new")
-		.send(transaction)
-		.then(response => {
-			expect(response.statusCode).toBe(400)
-		})
-	})
-})
+    describe('retrieveMenuItems', () => {
+        test('should return all menu items on success', async () => {
+            const mockItems = [{ id: 1, itemName: 'Pizza', price: 9.99 }];
+            db.query.mockImplementation((queryText, callback) => callback(null, { rows: mockItems }));
 
-describe("Submit transaction request with improper formatting of order contents.", () => {
-	test("The transaction service should not serve requests with improperly-formatted order contents.", () => {
-		const transaction = {
-			"totalCost": 45.92,
-			"taxAmount": 2.39,
-			"orderContents": [
-				{
-					"id": 2,
-					"quantity": 1
-				},
-				{
-					"ghda;": 2, // doesn't have id attribute -> should trigger error
-					"quantity": 3
-				}
-			]
-		}
-		return request(app)
-		.post("/api/transactions/new")
-		.send(transaction)
-		.then(response => {
-			expect(response.statusCode).toBe(400)
-		})
-	})
-})
-*/
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            };
+
+            await retrieveMenuItems(null, mockRes);
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.json).toHaveBeenCalledWith(mockItems);
+        });
+
+        test('should return 500 if database query fails', async () => {
+            db.query.mockImplementation((queryText, callback) => callback(new Error("Internal Server Error")));
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                send: jest.fn()
+            };
+
+            await retrieveMenuItems(null, mockRes);
+            expect(mockRes.status).toHaveBeenCalledWith(500);
+            expect(mockRes.send).toHaveBeenCalledWith("Internal Server Error");
+        });
+    });
+
+    describe('retrieveMenuItemIngredients', () => {
+        const itemName = 'Pizza';
+
+        test('should return ingredients for a specific menu item', async () => {
+            const mockIngredients = [{ inventid: 1, ingredientname: 'Cheese', quantity: 1 }];
+            db.query
+                .mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ itemname: itemName }], rowCount: 1 }))
+                .mockImplementationOnce((sql, params, callback) => callback(null, { rows: mockIngredients }));
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            };
+            const mockReq = { query: { itemName } };
+
+            await retrieveMenuItemIngredients(mockReq, mockRes);
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.json).toHaveBeenCalledWith(mockIngredients);
+        });
+
+        test('should return 401 if the item does not exist', async () => {
+            db.query.mockImplementation((sql, params, callback) => callback(null, { rows: [], rowCount: 0 }));
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                send: jest.fn()
+            };
+            const mockReq = { query: { itemName } };
+
+            await retrieveMenuItemIngredients(mockReq, mockRes);
+            expect(mockRes.status).toHaveBeenCalledWith(401);
+            expect(mockRes.send).toHaveBeenCalledWith("Item Doesn't exist");
+        });
+
+        test('should return 500 if database query fails', async () => {
+            db.query.mockImplementation((sql, params, callback) => callback(new Error("Query Failed")));
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                send: jest.fn()
+            };
+            const mockReq = { query: { itemName } };
+
+            await retrieveMenuItemIngredients(mockReq, mockRes);
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith("Query Failed");
+        });
+
+	    test('should return 500 if there is an error in retrieving ingredients', async () => {
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+			const mockReq = { query: { itemName } };
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1, itemname: itemName }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error("Internal Server Error")));
+	
+			await retrieveMenuItemIngredients(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+			expect(mockRes.send).toHaveBeenCalledWith("Internal Server Error");
+		});
+    });
+
+	describe('addMenuItem', () => {
+		const mockReq = {
+			body: {
+				itemName: 'New Dish',
+				price: 10.99,
+				category: 'Main Course',
+				ingredients: [
+					{ inventID: 1, quantity: 2 },
+					{ inventID: 2, quantity: 1 }
+				],
+				isSeasonal: true,
+				expirationDate: '2023-12-31'
+			}
+		};
+	
+		test('should add a new menu item successfully', async () => {
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [], rowCount: 0 })) 
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 })) 
+				.mockImplementationOnce((sql, params, callback) => callback(null, {})); 
+	
+			for (let ingredient of mockReq.body.ingredients) {
+				db.query.mockImplementationOnce((sql, params, callback) => callback(null, {}));
+			}
+	
+			await addMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(201);
+			expect(mockRes.send).toHaveBeenCalledWith('Menu item added successfully');
+		});
+	
+		test('should return 500 if checking if item exists fails', async () => {
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(new Error('Internal Server Error')));
+	
+			await addMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+			expect(mockRes.send).toHaveBeenCalledWith('Internal Server Error');
+		});
+	
+		test('should return 401 if item already exists', async () => {
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [mockReq.body], rowCount: 1 }));
+	
+			await addMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(401);
+			expect(mockRes.send).toHaveBeenCalledWith('Item Already exists');
+		});
+	
+		test('should return 500 if there is an error during item insertion', async () => {
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [], rowCount: 0 }))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Internal Server Error')));
+	
+			await addMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+			expect(mockRes.send).toHaveBeenCalledWith('Internal Server Error');
+		});
+	});
+
+	describe('addMenuItem', () => {
+		const mockReq = {
+			body: {
+				itemName: 'Seasonal Dish',
+				price: 15.99,
+				category: 'Seasonal',
+				ingredients: [
+					{ inventID: 1, quantity: 2 }
+				],
+				isSeasonal: true,
+				expirationDate: '2023-12-31'
+			}
+		};
+	
+		test('should return 400 if there is an error adding the seasonal item', async () => {
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [], rowCount: 0 })) 
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 })) 
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Error adding seasonal item'))); 
+	
+			await addMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(400);
+			expect(mockRes.send).toHaveBeenCalledWith('Could not add seasonal item successfully');
+		});
+	});
+
+	describe('updateMenuItemPrice', () => {
+		const itemName = 'Existing Dish';
+		const newPrice = 20.99;
+	
+		test('should update item price successfully and return success message', async () => {
+			const mockReq = {
+				body: { itemName, newPrice }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ itemName }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rowCount: 1 }));
+	
+			await updateMenuItemPrice(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(202);
+			expect(mockRes.send).toHaveBeenCalledWith(`Price of ${itemName} updated successfully`);
+		});
+	
+		test('should return 500 if there is an error checking if the item exists', async () => {
+			const mockReq = {
+				body: { itemName, newPrice }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(new Error('Database error')));
+	
+			await updateMenuItemPrice(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	
+		test('should return 401 if the item does not exist', async () => {
+			const mockReq = {
+				body: { itemName, newPrice }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [], rowCount: 0 }));
+	
+			await updateMenuItemPrice(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(401);
+			expect(mockRes.send).toHaveBeenCalledWith("Item Doesn't exist");
+		});
+	
+		test('should return 500 if there is an error during the update operation', async () => {
+			const mockReq = {
+				body: { itemName, newPrice }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ itemName }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Update error')));
+	
+			await updateMenuItemPrice(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	});
+	
+	describe('updateMenuItemCat', () => {
+		const itemName = 'Existing Dish';
+		const newCat = 'New Category';
+	
+		test('should update item category successfully and return success message', async () => {
+			const mockReq = {
+				body: { itemName, newCat }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ itemName }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rowCount: 1 })); 
+	
+			await updateMenuItemCat(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(202);
+			expect(mockRes.send).toHaveBeenCalledWith(`Category of ${itemName} updated successfully`);
+		});
+	
+		test('should return 500 if there is an error checking if the item exists', async () => {
+			const mockReq = {
+				body: { itemName, newCat }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(new Error('Database error')));
+	
+			await updateMenuItemCat(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	
+		test('should return 401 if the item does not exist', async () => {
+			const mockReq = {
+				body: { itemName, newCat }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [], rowCount: 0 }));
+	
+			await updateMenuItemCat(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(401);
+			expect(mockRes.send).toHaveBeenCalledWith("Item Doesn't exist");
+		});
+	
+		test('should return 500 if there is an error during the update operation', async () => {
+			const mockReq = {
+				body: { itemName, newCat }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ itemName }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Update error')));
+	
+			await updateMenuItemCat(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	});
+	
+	describe('updateMenuItemIngred', () => {
+		const itemName = 'Existing Dish';
+		const ingredients = [{ inventID: 1, quantity: 2 }, { inventID: 2, quantity: 3 }];
+	
+		test('should update item ingredients successfully and return success message', async () => {
+			const mockReq = {
+				body: { itemName, ingredients }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 })) 
+				.mockImplementationOnce((sql, params, callback) => callback(null, {})) 
+				.mockImplementation((sql, params, callback) => callback(null, {})); 
+	
+			await updateMenuItemIngred(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(202);
+			expect(mockRes.send).toHaveBeenCalledWith(`Ingredients of ${itemName} updated successfully`);
+		});
+	
+		test('should return 500 if there is an error checking if the item exists', async () => {
+			const mockReq = {
+				body: { itemName, ingredients }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(new Error('Database error')));
+	
+			await updateMenuItemIngred(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	
+		test('should return 401 if the item does not exist', async () => {
+			const mockReq = {
+				body: { itemName, ingredients }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [], rowCount: 0 }));
+	
+			await updateMenuItemIngred(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(401);
+			expect(mockRes.send).toHaveBeenCalledWith("Item Doesn't exist");
+		});
+	
+		test('should return 500 if there is an error during the delete operation', async () => {
+			const mockReq = {
+				body: { itemName, ingredients }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Delete error')));
+	
+			await updateMenuItemIngred(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	
+		test('should return 500 if there is an error during the insert operation', async () => {
+			const mockReq = {
+				body: { itemName, ingredients }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(null, {}))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Insert error')));
+	
+			await updateMenuItemIngred(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	});
+	
+	describe('removeMenuItem', () => {
+		const itemName = 'Existing Dish';
+	
+		test('should remove the menu item successfully and return success message', async () => {
+			const mockReq = {
+				body: { itemName }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(null, {})) 
+				.mockImplementationOnce((sql, params, callback) => callback(null, {}))
+				.mockImplementationOnce((sql, params, callback) => callback(null, {})); 
+	
+			await removeMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(200);
+			expect(mockRes.send).toHaveBeenCalledWith(`Menu item with name ${itemName} removed successfully`);
+		});
+	
+		test('should return 500 if there is an error checking if the menu item exists', async () => {
+			const mockReq = {
+				body: { itemName }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(new Error('Database error')));
+	
+			await removeMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	
+		test('should return 404 if the menu item does not exist', async () => {
+			const mockReq = {
+				body: { itemName }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query.mockImplementationOnce((sql, params, callback) => callback(null, { rowCount: 0 }));
+	
+			await removeMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(404);
+			expect(mockRes.send).toHaveBeenCalledWith("Menu item not found");
+		});
+	
+		test('should return 500 if there is an error during the ingredients deletion operation', async () => {
+			const mockReq = {
+				body: { itemName }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Delete error')));
+	
+			await removeMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+		});
+	});
+	
+	describe('removeMenuItem', () => {
+		const itemName = 'Seasonal Dish';
+	
+		test('should return 500 if there is an error during the seasonal items deletion operation', async () => {
+			const mockReq = {
+				body: { itemName }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 })) 
+				.mockImplementationOnce((sql, params, callback) => callback(null, {})) 
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Delete error from seasonalitems'))); 
+	
+			await removeMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+			expect(mockRes.send).toHaveBeenCalledWith("Internal Server Error");
+		});
+	});
+	
+	describe('removeMenuItem', () => {
+		const itemName = 'Seasonal Dish';
+	
+		test('should return 500 if there is an error during the menu item deletion operation', async () => {
+			const mockReq = {
+				body: { itemName }
+			};
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+	
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(null, {})) 
+				.mockImplementationOnce((sql, params, callback) => callback(null, {})) 
+				.mockImplementationOnce((sql, params, callback) => callback(new Error('Delete error from menuitems')));
+	
+			await removeMenuItem(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+			expect(mockRes.send).toHaveBeenCalledWith("Internal Server Error");
+		});
+	});
+	
+});
