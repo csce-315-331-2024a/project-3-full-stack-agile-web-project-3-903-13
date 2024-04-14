@@ -107,11 +107,30 @@ const deleteTransaction = async (request, response) => {
 
 
 const updateTransaction = async (request, response) => {
-	/* 
-		Delete an item
-			Reduce $ in transactions table
-			Increase Inventory
-	*/
+
+	const {transactionID, oldcomponents, newComponents} = request.body;
+	let subCost = newComponents.reduce((total, item) => total + item.price * item.quantity, 0)
+	const taxAmount = subCost * 0.0825;
+	const finalAmount = subCost + taxAmount
+
+	console.log(transactionID);
+	console.log(oldcomponents);
+	console.log(newComponents)
+
+
+	try {
+		// Delete old stuff (food items table entries, increment inventory)
+		const results = await db.query(`DELETE from fooditems WHERE transactionid = ${transactionID}`)
+		await incrementInventory(oldcomponents)
+
+
+		const results2 = await db.query(`UPDATE transactions SET totalcost = ${finalAmount}, tax = ${taxAmount} WHERE transactionid = ${transactionID}`)
+		await updateFoodItemsTable(transactionID, newComponents)
+		decrementInventory(newComponents)
+	}
+	catch (error) {
+		console.log(error)
+	}
 }
 
 /* 
@@ -123,12 +142,12 @@ const getTransactionInfo = async (transactionid) => {
 	const cost = queryTimeResults.rows[0]["totalcost"]
 	const status = queryTimeResults.rows[0]["status"]
 
-	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as Name, fooditems.quantity as Quantity
+	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as itemname, menuitems.price as price, fooditems.quantity as Quantity
 			FROM fooditems
 			INNER JOIN menuitems 
 				ON menuitems.menuid = fooditems.menuid
 			WHERE fooditems.transactionid = ${transactionid}
-			ORDER BY Name;`
+			ORDER BY itemname;`
 
 	try {
 		const results = await db.query(query);
@@ -211,5 +230,6 @@ module.exports = {
 	getTransactionsByPeriod,
 	deleteTransaction,
 	getInProgressOrders, 
-	fullfillOrder
+	fullfillOrder,
+	updateTransaction
 }

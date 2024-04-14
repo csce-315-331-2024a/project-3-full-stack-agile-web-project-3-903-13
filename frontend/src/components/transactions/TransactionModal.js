@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Link from 'next/link'
+
 
 export default function TransactionModal({ isOpen, onClose, transaction, alltransactionData, setAllData }) {
     if (!isOpen) return null;
@@ -72,7 +74,7 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                                     <div className="font-semibold text-green-500 text-lg"> Completed </div>
                                 )
                             }
-                            
+
                         </div>
 
 
@@ -82,7 +84,7 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                         </div>
                         {transaction.components.map((item, index) => (
                             <div key={index} className="flex justify-between">
-                                <div> {item.name}</div>
+                                <div> {item.itemname}</div>
 
                                 <div> {item.quantity} </div>
                             </div>
@@ -90,21 +92,32 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
 
                         <div className="my-5 flex justify-between">
                             <div className="text-lg font-bold"> Cost </div>
-                            <div>{transaction.cost}</div>
+                            <div>{transaction.cost.toFixed(2)}</div>
                         </div>
 
                         {transaction.status === "in progress" && (
                             <div className="flex justify-between">
                                 <button
                                     onClick={handleDelete}
-                                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                >
+                                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                     Delete
                                 </button>
 
-                                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                    Update
-                                </button>
+                                <Link
+                                    href={{
+                                        pathname: '/employee/update',
+                                        query: {
+                                            'status': transaction.status,
+                                            'id': transaction.transactionid
+                                        }
+                                    }}
+                                >
+                                    <button
+                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                        Update
+                                    </button>
+                                </Link>
+
                             </div>
                         )}
 

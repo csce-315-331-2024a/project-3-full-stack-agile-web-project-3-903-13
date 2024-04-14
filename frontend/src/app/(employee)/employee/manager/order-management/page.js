@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import TransactionModal from "@/components/TransactionModal";
+import TransactionModal from "@/components/transactions/TransactionModal";
+import { useSearchParams } from 'next/navigation'
 
 const formatTime = (isoDateString) => {
     const date = new Date(isoDateString);
@@ -42,9 +43,7 @@ export default function OrderManagementPage() {
             if (option === "transactionID") {
                 setStartDate("");
                 setEndDate("");
-                const response = await fetch(
-                    "http://localhost:5000/api/transactions/getTransactionByID",
-                    {
+                const response = await fetch("http://localhost:5000/api/transactions/getTransactionByID", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -68,9 +67,7 @@ export default function OrderManagementPage() {
                     throw new Error("Start date can not be after end date")
                 }
 
-                const response = await fetch(
-                    "http://localhost:5000/api/transactions/getTransactionsByPeriod",
-                    {
+                const response = await fetch("http://localhost:5000/api/transactions/getTransactionsByPeriod",{
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
