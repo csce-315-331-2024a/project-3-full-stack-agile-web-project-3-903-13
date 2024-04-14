@@ -55,7 +55,7 @@ export default function CustomerNavbar({ links }) {
       <div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
         <ul className="flex flex-row gap-8 items-center">
           <li>
-            <Image src={"./logo.svg"} width={24} height={24}></Image>
+            <img src={"./revs.png"} width={110} height={110}></img>
           </li>
           {links.map((link) => (
             <li key={link.route}>
@@ -70,11 +70,11 @@ export default function CustomerNavbar({ links }) {
           <GoogleTranslateWidget />
           <li>
             <Link href={"/employee/burgers"}>
-              <Image className="nav-image" src={"./user.svg"} width={24} height={24}></Image>
+              <Image className="nav-image" src={"./user.svg"} width={50} height={50}></Image>
             </Link>
           </li>
           <div onClick={toggleCart} className="cursor-pointer cart relative">
-            <Image className="nav-image" src={"./cart.svg"} width={24} height={24}></Image>
+            <Image className="nav-image" src={"./cart.svg"} width={50} height={50}></Image>
             {cartCount > 0 && (
               <span className="absolute top-[-15px] right-[-15px] inline-block px-1 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
                 {cartCount}

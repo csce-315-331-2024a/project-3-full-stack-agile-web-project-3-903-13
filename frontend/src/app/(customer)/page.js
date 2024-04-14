@@ -62,7 +62,7 @@ const carouselCategories = [
   {
       name: 'TEST NAME THIS IS BASIC THING',
       description: 'YAY IT WORKS',
-      image: '/logo.svg'
+      image: '/revs.png'
   },
   {
       name: 'ANOTHER TEST',

@@ -9,7 +9,7 @@ export default function LeftSidebar({ links }) {
   return (
     <nav className="w-[5rem] h-screen bg-white border-r-2 flex flex-col items-center gap-8 py-6">
       <Link href="/">
-        <Image src={"/logo.svg"} width={24} height={24}></Image>
+        <img src={"/revs.png"} width={60} height={60}></img>
       </Link>
       <Link href="/employee/burgers">
         <Image src={"/home.svg"} width={24} height={24}></Image>
