@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from 'next/link' 
 
 
 export default function KitchenStatePage() {
@@ -52,7 +53,7 @@ export default function KitchenStatePage() {
                     <div key={order.transactionid} className="bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                         <h1 className="text-lg font-bold">Order #{order.transactionid}</h1>
                         <div className="flex justify-between">
-                            <div> {order.components[0].name}</div>
+                            <div> {order.components[0].itemname}</div>
                             <div> &#215;{order.components[0].quantity} </div>
                         </div>
 
@@ -68,6 +69,22 @@ export default function KitchenStatePage() {
                         >
                             Complete
                         </button>
+
+                        <Link
+                            href={{
+                                pathname: '/employee/manager/order-management',
+                                query: {
+                                    'id': order.transactionid
+                                }
+                            }}
+                        >
+                            <button
+                                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 w-full"
+                            >
+                                Details
+                            </button>
+                        </Link>
+                        
                     </div>
                 ))}
             </div>
