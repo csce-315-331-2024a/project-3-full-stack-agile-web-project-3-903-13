@@ -26,8 +26,8 @@ const SignOutButton = () => {
     setCookie('access_token', null)
   }
   return (
-    <button onClick={clearCookie}>
-      sign out
+    <button onClick={clearCookie} className="px-4 py-2 w-full right-0 border flex flex-col justify-center align-center gap-2 border-slate-200 dark:border-slate-700 rounded-lg hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 text-center">
+        <span className='flex flex-col justify-center align-center'>Sign Out</span>
     </button>
   );
 }
