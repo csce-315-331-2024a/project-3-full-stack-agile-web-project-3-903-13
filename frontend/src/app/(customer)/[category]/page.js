@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
+import Image from 'next/image'
 
 const categories = [
-    "burgers",
-    "hotdogs",
-    "tenders",
-    "fries",
-    "shakes",
-    "beverages",
-    "seasonal"
+    "Burgers",
+    "Dogs",
+    "Tenders",
+    "Sides",
+    "Desserts",
+    "Beverages",
+    "Seasonal"
 ]
 
 export default function Page({ params }) {
@@ -78,16 +79,18 @@ export default function Page({ params }) {
             </style>
             <div className="container mx-auto">
                 <h1 className="text-3xl font-bold text-center mb-8">{params.category}</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {itemType.map((item) => (
-                        <div key={item.menuID} className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square ${getItemScale(item.menuid)}`} onClick={() => sendToTransaction(item)}>
+                        <div key={item.menuID} className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`} onClick={() => sendToTransaction(item)}>
                             <img
-                                src={"/* IDK HOW TO GET THIS TO WORK */"}
+                                src={`./menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
                                 alt={item.itemname}
-                                className="object-cover w-full h-full rounded-lg"
+                                className="object-cover w-2/3 h-2/3 rounded-lg mt-12"
                             />
                             <div className="absolute inset-0 flex flex-col justify-end p-4">
+                                <h5 className="text-xl font-bold text-gray-900 text-center">{item.price}</h5>
                                 <h5 className="text-xl font-bold text-gray-900 text-center">{item.itemname}</h5>
+                                <h5 className="text-xl font-bold text-gray-900 text-center">${item.price}</h5>
                             </div>
                         </div>
                     ))}
