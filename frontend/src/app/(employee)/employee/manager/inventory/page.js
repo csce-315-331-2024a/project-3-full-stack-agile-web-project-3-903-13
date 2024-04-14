@@ -263,7 +263,7 @@ export default function InventoryPage() {
       <div className="w-full  max-w-screen-xl">
         <div className = "flex justify-between mb-8">
             <div className="w-full md:w-1/3 flex flex-col items-center">
-              <h1 className="p-3 md:p">ADDING INVENTORY ITEMS</h1>
+              <h1 className="p-3 md:p text-xl font-semibold text-center">ADDING INVENTORY ITEMS</h1>
                 {addErrorMessage && (
                   <p className="text-red-500">{addErrorMessage}</p>
                 )}
@@ -297,17 +297,17 @@ export default function InventoryPage() {
                   />
                   <input
                     type="number"
-                    placeholder="Minimum Count Required"
+                    placeholder="Minimum Count"
                     value={addMinCount}
                     onChange={(e) => setAddMinCount(e.target.value)}
                     className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                     required
                   />
-                  <button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">Add</button>
+                  <button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">ADD</button>
                 </form>
               </div>
               <div className="w-full md:w-1/3 flex flex-col items-center">
-              <h1>UPDATE INVENTORY ITEM</h1>
+              <h1 className="p-3 md:p text-xl font-semibold text-center">UPDATE INVENTORY ITEM</h1>
               {updateErrorMessage && (
                 <p className="text-red-500">{updateErrorMessage}</p>
               )}
@@ -367,11 +367,11 @@ export default function InventoryPage() {
                   />
                 )}
 
-                <button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">Update</button>
+                <button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">UPDATE</button>
               </form>
               </div>
               <div className="w-full md:w-1/3 flex flex-col items-center">
-              <h1>REMOVE INVENTORY ITEM</h1>
+              <h1 className="p-3 md:p text-xl font-semibold text-center">REMOVE INVENTORY ITEM</h1>
               {removeErrorMessage && (
                 <p className="text-red-500">{removeErrorMessage}</p>
               )}
@@ -406,9 +406,9 @@ export default function InventoryPage() {
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {item.ingredientname}
             </h5>
-            <p>Count {item.count}</p>
-            <p>Price: {item.price}</p>
-            <p>Min Count: {item.mincount}</p>
+            <p className="mb-4 p-2 bg-gray-200 rounded-lg">Count: {item.count}</p>
+            <p className="mb-4 p-2 bg-gray-200 rounded-lg">Price: {item.price}</p>
+            <p className="mb-4 p-2 bg-gray-200 rounded-lg">Min Count: {item.mincount}</p>
           </a>
         ))}
         </div>

@@ -6,7 +6,7 @@
   export const getMenuItems = async () => {
     const items = await fetch("http://localhost:5000/api/menuitems");
     const data = await items.json();
-
+    
     return data;
   };
 
@@ -34,7 +34,29 @@
     }
   };
 
+  export const getMenuItemsWithIngredients = async () => {
+    try {
+      // Fetch menu items
+      const items = await fetch("http://localhost:5000/api/menuitems");
+      const data = await items.json();
+  
+      // Fetch ingredients for each menu item
+      const menuItemsWithIngredients = await Promise.all(
+        data.map(async (menuItems) => {
+          console.log(menuItems.itemname);
 
+          const ingredients = await getMenuItemIngredients({ itemName: menuItems.itemname });
+          return { ...menuItems, ingredients };
+        })
+      );
+  
+      return menuItemsWithIngredients;
+    } catch (error) {
+      console.error("Error fetching menu items with ingredients:", error);
+      throw error;
+    }
+  };
+  
 
 
   export const getInventoryItems = async () => {
@@ -170,10 +192,12 @@
     const [removeItemName, setRemoveMenuItem] = useState("");
     const [removeErrorMessage, setRemoveErrorMessage] = useState("");
     const [removeSuccessMessage, setRemoveSuccessMessage] = useState("");
+    const [menuItemsGrid, setMenuItemsGrid] = useState([]);
 
     useEffect(() => {
       fetchMenuItems();
       fetchInventoryItems();
+      fetchMenuItemsWithIngredients();
     }, []);
 
     const fetchMenuItems = async () => {
@@ -185,6 +209,16 @@
       }
     };
 
+    const fetchMenuItemsWithIngredients = async () => {
+      try {
+        const data = await getMenuItemsWithIngredients();
+        setMenuItemsGrid(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching menu items with ingredients:", error);
+      }
+    };
+
     const fetchInventoryItems = async () => {
       try {
         const data = await getInventoryItems();
@@ -192,6 +226,11 @@
       } catch (error) {
         console.error("Error fetching inventory items:", error);
       }
+    };
+
+    const getCategoryLabel = (categoryValue) => {
+      const category = categories.find(cat => cat.value === categoryValue);
+      return category ? category.label : "Unknown";
     };
 
     const handleAddMenuItem = async (e) => {
@@ -483,7 +522,7 @@
                 </select>
                 <h2 className="p-3 md:p text-xl font-semibold text-center">Ingredients</h2>
                 {ingredients.map((ingredient, index) => (
-                  <div key={index} className="flex items-center mb-2 ">
+                  <div key={index} className="flex justify-between mb-2 ">
                     <select
                       value={ingredients[index]?.name || ""}
                       onChange={(e) => handleIngredientSelection(e, index)}
@@ -586,11 +625,11 @@
                   </select>
                   {/* Display ingredients for the selected menu item */}
                   {selectedMenuItem && (
-                    <div>
+                    <div className="flex flex-col items-center justify-center">
                       <h3>Ingredients for {selectedMenuItem}</h3>
                       {/* Display ingredients using dropdown for ingredient selection */}
                       {updateIngred.map((ingredient, index) => (
-                        <div key={index} className="flex items-center mb-2">
+                        <div key={index} className="flex justify-between mb-2">
                           <select
                             value={ingredient.ingredientname} // Use inventoryItem property
                             onChange={(e) => handleUpdateIngredientName(e, index)}
@@ -648,18 +687,31 @@
           </div>
         </div>
         <div className="grid grid-cols-4 gap-4">
-        {menuItems.map((item) => (
-            <a
-              href="#"
-              className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-              key={item.menuid}
-            >
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {item.itemname}
-              </h5>
-              <p>Price: {item.price}</p>
-            </a>
-          ))}
+        {menuItemsGrid.map((item) => (
+          <div
+            key={item.menuid}
+            className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          >
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              {item.itemname}
+            </h5>
+            <p className="mb-4 p-2 bg-gray-200 rounded-lg">Price: {item.price}</p>
+            <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Category: {getCategoryLabel(item.category)}</p>
+            <div className="p-2 pt-1 bg-gray-200 rounded-lg">
+            <h6 className="mt-4 mb-2 text-lg font-semibold">Ingredients:</h6>
+            <ul>
+                {item.ingredients.map((ingredient, index) => {
+                  return (
+                    <li key={index}>
+                      {ingredient.ingredientname}: {ingredient.quantity}
+                    </li>
+                  );
+                })}
+            </ul>
+            </div>
+            
+          </div>
+        ))}
         </div>
           
           
