@@ -260,131 +260,147 @@ export default function InventoryPage() {
 
   return (
     <main className="min-h-screen flex flex-column items-center justify-center">
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="p-3 md:p">ADDING INVENTORY ITEMS</h1>
-        {addErrorMessage && (
-          <p className="text-red-500">{addErrorMessage}</p>
-        )}
-        {addSuccessMessage && (
-          <p className="text-green-500">{addSuccessMessage}</p>
-        )}
-        <form onSubmit={handleAddInventoryItem} className="flex flex-col items-center justify-center">
-          <input 
-            type="text"
-            placeholder="Item Name"
-            value={addItemName}
-            onChange={(e) => setAddItemName(e.target.value)}
-            className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Count"
-            value={addCount}
-            onChange={(e) => setAddCount(e.target.value)}
-            className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Price"
-            value={addPrice}
-            onChange={(e) => setAddPrice(e.target.value)}
-            className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Minimum count required in inventory"
-            value={addMinCount}
-            onChange={(e) => setAddMinCount(e.target.value)}
-            className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
-            required
-          />
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Add</button>
-        </form>
-        <h2>UPDATE INVENTORY ITEM</h2>
-        {updateErrorMessage && (
-          <p className="text-red-500">{updateErrorMessage}</p>
-        )}
-        {updateSuccessMessage && (
-          <p className="text-green-500">{updateSuccessMessage}</p>
-        )}
-        <form onSubmit={handleUpdateInventoryItem} className="flex flex-col items-center justify-center">
-        <select
-            value={updateCategory}
-            onChange={(e) => setUpdateCategory(parseInt(e.target.value))}
-            className="mb-2"
-            required
-          >
-            {categories.map((cat) => (
-              <option key={cat.value} value={cat.value}>{cat.label}</option>
-            ))}
-            </select>
-          <input
-            type="text"
-            placeholder="Item Name"
-            value={updateItemName}
-            onChange={(e) => setUpdateItemName(e.target.value)}
-            className="mb-2"
-            required
-          />
-          {updateCategory == 0 && (
-            <input
-              type="number"
-              placeholder="New Count"
-              value={updateCount}
-              onChange={(e) => setUpdateCount(e.target.value)}
-              className="mb-2"
-              required
-            />
-          )}
-          {updateCategory == 1 && (
-            <input
-              type="number"
-              placeholder="New Price"
-              value={updatePrice}
-              onChange={(e) => setUpdatePrice(e.target.value)}
-              className="mb-2"
-              required
-            />
-          )}
-          {updateCategory == 2 && (
-            <input
-              type="number"
-              placeholder="New minimum count"
-              value={updateMinCount}
-              onChange={(e) => setUpdateMinCount(e.target.value)}
-              className="mb-2"
-              required
-            />
-          )}
+      <div className="w-full  max-w-screen-xl">
+        <div className = "flex justify-between mb-8">
+            <div className="w-full md:w-1/3 flex flex-col items-center">
+              <h1 className="p-3 md:p">ADDING INVENTORY ITEMS</h1>
+                {addErrorMessage && (
+                  <p className="text-red-500">{addErrorMessage}</p>
+                )}
+                {addSuccessMessage && (
+                  <p className="text-green-500">{addSuccessMessage}</p>
+                )}
+                <form onSubmit={handleAddInventoryItem} className="flex flex-col items-center justify-center">
+                  <input 
+                    type="text"
+                    placeholder="Item Name"
+                    value={addItemName}
+                    onChange={(e) => setAddItemName(e.target.value)}
+                    className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                    required
+                  />
+                  <input
+                    type="number"
+                    placeholder="Count"
+                    value={addCount}
+                    onChange={(e) => setAddCount(e.target.value)}
+                    className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                    required
+                  />
+                  <input
+                    type="number"
+                    placeholder="Price"
+                    value={addPrice}
+                    onChange={(e) => setAddPrice(e.target.value)}
+                    className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                    required
+                  />
+                  <input
+                    type="number"
+                    placeholder="Minimum Count Required"
+                    value={addMinCount}
+                    onChange={(e) => setAddMinCount(e.target.value)}
+                    className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                    required
+                  />
+                  <button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">Add</button>
+                </form>
+              </div>
+              <div className="w-full md:w-1/3 flex flex-col items-center">
+              <h1>UPDATE INVENTORY ITEM</h1>
+              {updateErrorMessage && (
+                <p className="text-red-500">{updateErrorMessage}</p>
+              )}
+              {updateSuccessMessage && (
+                <p className="text-green-500">{updateSuccessMessage}</p>
+              )}
+              <form onSubmit={handleUpdateInventoryItem} className="flex flex-col items-center justify-center">
+              <select
+                  value={updateCategory}
+                  onChange={(e) => setUpdateCategory(parseInt(e.target.value))}
+                  className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                  required
+                >
+                  {categories.map((cat) => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  ))}
+                  </select>
+                  <select
+                      value={updateItemName}
+                      onChange={(e) => setUpdateItemName(e.target.value)}
+                      className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                      required
+                    >
+                      <option value="">Select Item Name</option>
+                      {inventoryItems.map(name => (
+                        <option key={name.ingredientname} value={name.ingredientname}>{name.ingredientname}</option>
+                      ))}
+                  </select>
+                {updateCategory == 0 && (
+                  <input
+                    type="number"
+                    placeholder="New Count"
+                    value={updateCount}
+                    onChange={(e) => setUpdateCount(e.target.value)}
+                    className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                    required
+                  />
+                )}
+                {updateCategory == 1 && (
+                  <input
+                    type="number"
+                    placeholder="New Price"
+                    value={updatePrice}
+                    onChange={(e) => setUpdatePrice(e.target.value)}
+                    className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                    required
+                  />
+                )}
+                {updateCategory == 2 && (
+                  <input
+                    type="number"
+                    placeholder="New Minimum Count"
+                    value={updateMinCount}
+                    onChange={(e) => setUpdateMinCount(e.target.value)}
+                    className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                    required
+                  />
+                )}
 
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Update</button>
-        </form>
-        <h2>REMOVE INVENTORY ITEM</h2>
-        {removeErrorMessage && (
-          <p className="text-red-500">{removeErrorMessage}</p>
-        )}
-        {removeSuccessMessage && (
-          <p className="text-green-500">{removeSuccessMessage}</p>
-        )}
-        <form onSubmit={handleRemoveInventoryItem} className="flex flex-col items-center justify-center">
-          <input 
-            type="text"
-            placeholder="Item Name"
-            value={removeItemName}
-            onChange={(e) => setRemoveItemName(e.target.value)}
-            className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
-            required
-          />
-          
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">REMOVE</button>
-        </form>
+                <button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">Update</button>
+              </form>
+              </div>
+              <div className="w-full md:w-1/3 flex flex-col items-center">
+              <h1>REMOVE INVENTORY ITEM</h1>
+              {removeErrorMessage && (
+                <p className="text-red-500">{removeErrorMessage}</p>
+              )}
+              {removeSuccessMessage && (
+                <p className="text-green-500">{removeSuccessMessage}</p>
+              )}
+              <form onSubmit={handleRemoveInventoryItem} className="flex flex-col items-center justify-center">
+              <select
+                value={removeItemName}
+                onChange={(e) => setRemoveItemName(e.target.value)}
+                className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                required
+              >
+                <option value="">Select Item Name</option>
+                {inventoryItems.map(name => (
+                  <option key={name.ingredientname} value={name.ingredientname}>{name.ingredientname}</option>
+                ))}
+              </select>
+                
+                <button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">REMOVE</button>
+              </form>
+              </div>
+            </div>
+        
+        <div className="grid grid-cols-3 gap-4">
         {inventoryItems.map((item) => (
           <a
             href="#"
-            className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            className="block max-w-sm p-6 pl-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
             key={item.inventid}
           >
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -395,6 +411,9 @@ export default function InventoryPage() {
             <p>Min Count: {item.mincount}</p>
           </a>
         ))}
+        </div>
+        
+        
       </div>
     </main>
   );

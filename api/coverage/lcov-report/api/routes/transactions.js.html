@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.05% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/17</span>
+                <span class='fraction'>10/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.05% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/17</span>
+                <span class='fraction'>10/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,66 +90,57 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express')
 const router = express.Router()
-const transcationsController = require('../services/transactions')
-const salesReportController = require('../services/salesReport')
+const transactionsController = require('../services/transactions')
 &nbsp;
-router.post("/new", transcationsController.createTransaction)
+router.post("/new", transactionsController.createTransaction)
 &nbsp;
-router.get("/", <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-})
-&nbsp;
-// Endpoint for retrieving the sales report
-router.get('/salesreport', <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
-    const { startDate, endDate } = <span class="cstat-no" title="statement not covered" >req.query;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!startDate || !endDate) {</span>
-<span class="cstat-no" title="statement not covered" >        res.status(400).send("Please provide both start and end dates.");</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-    }
+router.post('/getTransactionByID', <span class="fstat-no" title="function not covered" >as</span>ync (request, response) =&gt; {
+    const { transactionID} = <span class="cstat-no" title="statement not covered" >request.body;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
-        const reportData = <span class="cstat-no" title="statement not covered" >await salesReportController.getSalesReport(startDate, endDate);</span>
-<span class="cstat-no" title="statement not covered" >        res.status(200).json(reportData);</span>
+        const results = <span class="cstat-no" title="statement not covered" >await transactionsController.getTransactionInfo(transactionID);</span>
+<span class="cstat-no" title="statement not covered" >        response.status(200).json(results);</span>
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >        console.error(err);</span>
-<span class="cstat-no" title="statement not covered" >        res.status(500).send('Error retrieving sales report data');</span>
+<span class="cstat-no" title="statement not covered" >        response.status(500).send('Error retrieving transaction. ID may be invalid or deleted. Kindly check the ID');</span>
+        // response.status(500).send(err.message);
     }
 });
+&nbsp;
+router.post("/getTransactionsByPeriod", transactionsController.getTransactionsByPeriod)
+router.delete("/deletetransaction", transactionsController.deleteTransaction)
+&nbsp;
+router.get('/inProgressOrders', transactionsController.getInProgressOrders)
+router.patch('/fulfillOrder', transactionsController.fullfillOrder)
+&nbsp;
 &nbsp;
 module.exports = router
 // vim: tabstop=3
@@ -160,7 +151,7 @@ module.exports = router
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-09T14:58:20.212Z
+                at 2024-04-13T18:51:39.491Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

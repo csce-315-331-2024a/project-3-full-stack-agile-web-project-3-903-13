@@ -3,6 +3,7 @@ import "../globals.css";
 import CustomerNavbar from "@/components/CustomerNavbar";
 import { TransactionProvider } from "@/components/TransactionContext";
 import ClockWidget from "@/components/DigitalClock";
+import { TransactionProvider } from "@/components/transactions/TransactionContext";
 
 
 const inter = Inter({ subsets: ["latin"] });
