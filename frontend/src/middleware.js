@@ -20,7 +20,7 @@ export async function middleware(request) {
   ]
 
   let cookie = request.cookies.get('access_token')
-  if (!cookie) {
+  if (cookie['value'] == 'null') {
     return NextResponse.redirect(new URL('/', request.url))
   }
 

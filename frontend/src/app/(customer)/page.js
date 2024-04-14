@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import Link from 'next/link';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import GoogleSignInButton from "../../components/GoogleSignIn"
+import {GoogleSignInButton,SignOutButton} from "../../components/GoogleSignIn"
 import {GoogleOAuthProvider} from "@react-oauth/google"
 import { useRouter } from 'next/navigation';
 
@@ -91,7 +91,7 @@ const Home = () => {
   return (
     <GoogleOAuthProvider clientId={googleClientID}>
       <main className="min-h-screen bg-cream flex flex-col items-center">
-        <div className='mt-5 ml-auto right-0'><GoogleSignInButton/></div>
+        <div className='mt-5 ml-auto right-0'><GoogleSignInButton/><SignOutButton/></div>
           <Slider {...settings} className="w-full max-w-screen-lg px-4 py-2">
               {carouselCategories.map((category, index) => (
                   <div key={index} className="carousel-item">

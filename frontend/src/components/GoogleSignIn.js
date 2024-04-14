@@ -20,4 +20,16 @@ const GoogleSignInButton = () => {
   )
 }
 
-export default GoogleSignInButton
+const SignOutButton = () => {
+  const [cookies, setCookie] = useCookies('access_token')
+  const clearCookie = () => {
+    setCookie('access_token', null)
+  }
+  return (
+    <button onClick={clearCookie}>
+      sign out
+    </button>
+  );
+}
+
+export {GoogleSignInButton,SignOutButton}
