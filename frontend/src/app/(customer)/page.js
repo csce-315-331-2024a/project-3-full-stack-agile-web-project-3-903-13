@@ -118,21 +118,23 @@ const Home = () => {
           </div>
         ))}
       </Slider>
-      <div className="button-container flex justify-center items-center bg-white">
-        {buttonCategories.map((category) => (
-          <Link key={category.name} href={category.path}>
-            <div className="m-4 cursor-pointer">
-              <div className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                {/* <img src={category.image} alt={category.name} className="w-full h-auto max-h-20" /> */}
-                <div className="py-4 text-center bg-white">
-                  <span className="block text-lg font-semibold text-gray-800">
-                    {category.name}
-                  </span>
+      <div className="container px-10 mx-auto mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {buttonCategories.map((category) => (
+            <Link key={category.name} href={category.path}>
+              <div className="m-4 cursor-pointer aspect-square">
+                <div className="overflow-hidden rounded-lg hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
+                  <img className="flex w-full rounded-lg" src={"./menuItems/Rootbeerfloat.jpeg"} alt={category.name} />
+                  <div className="flex py-4 rounded-lg text-center bg-white">
+                    <span className="block text-lg font-semibold text-gray-800">
+                      {category.name}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
     </main>
   );
