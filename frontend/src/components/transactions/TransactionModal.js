@@ -11,7 +11,7 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
 
     const handleDelete = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/transactions/deletetransaction", {
+            const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/deletetransaction", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export default function KitchenStatePage() {
     useEffect(() => {
 
         const fetchCurrentOrders = async () => {
-            const response = await fetch('http://localhost:5000/api/transactions/inProgressOrders');
+            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/inProgressOrders');
             const data = await response.json();
             setCurrentOrders(data);
         };
@@ -21,7 +21,7 @@ export default function KitchenStatePage() {
 
     const handleCompleteClick = async (transaction) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/transactions/fulfillOrder`, {
+            const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/fulfillOrder`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
