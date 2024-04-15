@@ -53,28 +53,27 @@ export default function CustomerNavbar({ links }) {
   return (
     <nav className="flex w-full h-[5rem] bg-white shadow-md">
       <div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
-        <ul className="flex flex-row gap-8 items-center">
+        <ul className="flex flex-row items-center">
           <li>
-            <img src={"./revs.png"} width={110} height={110}></img>
+            <img className="hidden absolute md:relative md:flex mr-8" src={"./revs.png"} width={110} height={110}></img>
           </li>
           {links.map((link) => (
-            <li key={link.route}>
+            <li key={link.route} className="mr-8">
               <Link className={pathname === link.route ? "nav-link-active" : "nav-link"} href={link.route}>
                 {link.name}
               </Link>
             </li>
           ))}
         </ul>
-        <WeatherWidget />
         <ul className="flex flex-row gap-8 items-center">
-          <GoogleTranslateWidget />
+            <GoogleTranslateWidget />
           <li>
             <Link href={"/employee/burgers"}>
-              <Image className="nav-image" src={"./user.svg"} width={50} height={50}></Image>
+              <Image className="nav-image" src={"./user.svg"} width={30} height={30}></Image>
             </Link>
           </li>
           <div onClick={toggleCart} className="cursor-pointer cart relative">
-            <Image className="nav-image" src={"./cart.svg"} width={50} height={50}></Image>
+            <Image className="nav-image" src={"./cart.svg"} width={30} height={30}></Image>
             {cartCount > 0 && (
               <span className="absolute top-[-15px] right-[-15px] inline-block px-1 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
                 {cartCount}

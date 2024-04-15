@@ -27,7 +27,7 @@ const WeatherWidget = () => {
                     temperatureF,
                     weatherDescription
                 });
-                setWeatherIconUrl(`https://openweathermap.org/img/wn/${weatherIcon}.png`);
+                setWeatherIconUrl(`https://openweathermap.org/img/wn/${weatherIcon}@4x.png`);
             } catch (error) {
                 console.error('Error fetching weather data:', error);
             }
@@ -53,8 +53,8 @@ const WeatherWidget = () => {
     }, []);
 
     return (
-        <div className="flex items-center">
-            {weatherIconUrl && <Image src={weatherIconUrl} alt="Weather Icon" width={50} height={50} className="mr-2"/>}
+        <div className=" flex items-center w-full justify-center">
+            {weatherIconUrl && <Image src={weatherIconUrl} alt="Weather Icon" width={150} height={150} className="mr-2"/>}
             <div>
                 {weatherInfo && (
                     <>

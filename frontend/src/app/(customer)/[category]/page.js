@@ -57,7 +57,7 @@ export default function Page({ params }) {
     };
 
     return (
-        <main className="min-h-screen bg-cream py-10">
+        <main className="min-h-screen py-10">
             <style jsx>{`
                 .hover-effect {
                     transition: transform 0.3s ease-in-out;
@@ -78,11 +78,9 @@ export default function Page({ params }) {
                     padding: 8px;
                     background-color: rgba(255, 255, 255, 1);
                     border-radius: 8px;
-                    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
                 }
             `}</style>
-            <div className="container mx-auto">
+            <div className="container px-10 mx-auto">
                 <h1 className="text-3xl font-bold text-center mb-8">{params.category}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {itemType.map((item) => (

@@ -26,7 +26,7 @@ const ClockWidget = () => {
     };
 
     return (
-        <div className="fixed bottom-0 left-0 p-2 bg-gray-200 text-gray-800 z-[1000]">
+        <div className="fixed bottom-0 left-0 p-2 bg-white border-gray-400 rounded-xl border-2 text-gray-700 z-[1000]">
             <p>{formatTime(currentTime)}</p>
             <p>{formatDate(currentTime)}</p>
         </div>
