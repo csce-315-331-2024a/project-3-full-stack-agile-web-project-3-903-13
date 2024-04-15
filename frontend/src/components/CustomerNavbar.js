@@ -66,7 +66,6 @@ export default function CustomerNavbar({ links }) {
           ))}
         </ul>
         <ul className="flex flex-row gap-8 items-center">
-            <GoogleTranslateWidget />
           <li>
             <Link href={"/employee/burgers"}>
               <Image className="nav-image" src={"./user.svg"} width={30} height={30}></Image>
@@ -126,6 +125,8 @@ export default function CustomerNavbar({ links }) {
           handlePayment={handlePayment}
         />
       )}
+                  <GoogleTranslateWidget />
+
     </nav>
   );
 }

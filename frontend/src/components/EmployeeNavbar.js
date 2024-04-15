@@ -24,9 +24,7 @@ export default function EmployeeNavbar({ links }) {
             </li>
           ))}
         </ul>
-        <div className="flex justify-end items-center pr-4">
           <GoogleTranslateWidget />
-        </div>
       </div>
     </nav>
   );
