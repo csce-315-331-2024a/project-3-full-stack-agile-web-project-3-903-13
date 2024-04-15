@@ -48,7 +48,18 @@ export default function CustomerNavbar({ links }) {
     setShowPaymentOptions(false);
   };
 
-  const ref = useRef()
+  const ref = useRef();
+
+  
+  const handleMenuBoardClick = () => {
+    window.open("/menu_board/Board_1/", "_blank", "noopener,noreferrer");
+    setTimeout(() => {
+      window.open("/menu_board/Board_2", "_blank", "noopener,noreferrer");
+    }, 100);
+    setTimeout(() => {
+      window.open("/menu_board/Board_3", "_blank", "noopener,noreferrer");
+    }, 200);
+  };
 
   return (
     <nav className="flex w-full h-[5rem] bg-white shadow-md">
@@ -59,11 +70,27 @@ export default function CustomerNavbar({ links }) {
           </li>
           {links.map((link) => (
             <li key={link.route} className="mr-8">
-              <Link className={pathname === link.route ? "nav-link-active" : "nav-link"} href={link.route}>
+            {link.name === "Menu Board" ? (
+              <a onClick={handleMenuBoardClick} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</a>
+            ) : link.links ? (
+              <div className="relative">
                 {link.name}
-              </Link>
+                <ul className="absolute top-full left-0 z-10 bg-white border shadow-md">
+                  {link.links.map((sublink, subIndex) => (
+                    <li key={subIndex}>
+                      <a href={sublink.url} target="_blank" rel="noopener noreferrer">{sublink.name}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              ) : (
+                <Link className={pathname === link.route ? "nav-link-active" : "nav-link"} href={link.route}>
+                  {link.name}
+                </Link>
+              )}
             </li>
           ))}
+ 
         </ul>
         <ul className="flex flex-row gap-8 items-center">
           <li>

@@ -76,7 +76,7 @@ const carouselCategories = [
     name: "Order the classic hamburger today!",
     description:
       "Cheese, Lettuce, Tomatoes, Onions, and our signature patty all on artisan bread. Handcrafted with love by Rev's Grill!",
-    image: "/menuitems/ClassicHamburger.jpeg",
+    image: "/menuItems/ClassicHamburger.jpeg",
   },
   {
     name: "Try the all new Gig Em Patty Melt!",
