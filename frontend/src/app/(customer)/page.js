@@ -1,89 +1,100 @@
 "use client";
 
-import React from 'react';
-import Slider from 'react-slick';
-import Link from 'next/link';
+import React from "react";
+import Slider from "react-slick";
+import Link from "next/link";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {GoogleSignInButton,SignOutButton} from "../../components/GoogleSignIn"
 import {GoogleOAuthProvider} from "@react-oauth/google"
 import { useRouter } from 'next/navigation';
+import WeatherWidget from "@/components/WeatherAPI";
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
-      <div
-          className={`${className}`}
-          style={{ 
-              ...style, 
-              display: "block", 
-              fontSize: "36px", 
-              lineHeight: "60px",
-              height: "60px", 
-              color: "black", 
-              right: "-30px"
-          }}
-          onClick={onClick}
-      >
-          &gt;
-      </div>
+    <div
+      className={`${className}`}
+      style={{
+        ...style,
+        display: "block",
+        fontSize: "36px",
+        lineHeight: "60px",
+        height: "60px",
+        color: "black",
+        right: "-30px",
+      }}
+      onClick={onClick}
+    >
+      &gt;
+    </div>
   );
 }
 
 function PrevArrow(props) {
   const { className, style, onClick } = props;
   return (
-      <div
-          className={`${className}`}
-          style={{ 
-              ...style, 
-              display: "block", 
-              fontSize: "36px", 
-              lineHeight: "60px", 
-              height: "60px", 
-              color: "black", 
-              left: "-30px"
-          }}
-          onClick={onClick}
-      >
-          &lt;
-      </div>
+    <div
+      className={`${className}`}
+      style={{
+        ...style,
+        display: "block",
+        fontSize: "36px",
+        lineHeight: "60px",
+        height: "60px",
+        color: "black",
+        left: "-30px",
+      }}
+      onClick={onClick}
+    >
+      &lt;
+    </div>
   );
 }
 
 const googleClientID = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
 const buttonCategories = [
-  { name: "Burgers", path: "/burgers", image: "/images/burgers.png" },
-  { name: "Hotdogs/Corndogs", path: "/hotdogs", image: "/images/hotdogs-corndogs.jpg" },
-  { name: "Chicken Tenders", path: "/tenders", image: "/images/chicken-tenders.jpg" },
-  { name: "Sides", path: "/fries", image: "/images/sides.jpg" },
-  { name: "Shakes", path: "/shakes", image: "/images/shakes.jpg" },
-  { name: "Beverages", path: "/beverages", image: "/images/beverages.jpg" },
-  { name: "Seasonal", path: "/seasonal", image: "/images/seasonal.jpg" }
+  { name: "Burgers", path: "/Burgers", image: "/images/burgers.png" },
+  {
+    name: "Hotdogs/Corndogs",
+    path: "/Dogs",
+    image: "/images/hotdogs-corndogs.jpg",
+  },
+  {
+    name: "Chicken Tenders",
+    path: "/Tenders",
+    image: "/images/chicken-tenders.jpg",
+  },
+  { name: "Sides", path: "/Sides", image: "/images/sides.jpg" },
+  { name: "Shakes", path: "/Desserts", image: "/images/shakes.jpg" },
+  { name: "Beverages", path: "/Beverages", image: "/images/beverages.jpg" },
+  { name: "Seasonal", path: "/Seasonal", image: "/images/seasonal.jpg" },
 ];
 
 const carouselCategories = [
   {
-      name: 'TEST NAME THIS IS BASIC THING',
-      description: 'YAY IT WORKS',
-      image: '/logo.svg'
+    name: "Order the classic hamburger today!",
+    description:
+      "Cheese, Lettuce, Tomatoes, Onions, and our signature patty all on artisan bread. Handcrafted with love by Rev's Grill!",
+    image: "/menuitems/ClassicHamburger.jpeg",
   },
   {
-      name: 'ANOTHER TEST',
-      description: 'DOES IT WORK IF YOU SEE THIS YES.',
-      image: '/testPicture.svg'
-  }
+    name: "Try the all new Gig Em Patty Melt!",
+    description:
+      "This revolutionary sandwich will turn even the staunchest of 2%ers into redasses in no time!",
+    image: "/menuItems/GigEmPattyMelt.jpeg",
+  },
 ];
 
 const Home = () => {
   var settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      nextArrow: <NextArrow />,
-      prevArrow: <PrevArrow />
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   const router = useRouter()
@@ -91,6 +102,7 @@ const Home = () => {
   return (
     <GoogleOAuthProvider clientId={googleClientID}>
       <main className="min-h-screen bg-cream flex flex-col items-center">
+      <WeatherWidget />
         <div className='mt-5 flex flex-col space-y-2 ml-auto right-0'><GoogleSignInButton/><SignOutButton/></div>
           <Slider {...settings} className="w-full max-w-screen-lg px-4 py-2">
               {carouselCategories.map((category, index) => (
