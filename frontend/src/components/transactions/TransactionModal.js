@@ -3,11 +3,10 @@ import Link from 'next/link'
 
 
 export default function TransactionModal({ isOpen, onClose, transaction, alltransactionData, setAllData }) {
-    if (!isOpen) return null;
-
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
 
+    if (!isOpen) return null;
 
     const handleDelete = async () => {
         try {

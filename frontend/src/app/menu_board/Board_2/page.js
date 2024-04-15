@@ -100,7 +100,7 @@ const MenuBoard = () => {
 const HomePage = () => {
     return (
         <div>
-            <div className="menu-main-title">Rev's Menu</div>
+            <div className="menu-main-title">Rev&apos;s Menu</div>
             <MenuBoard />
         </div>
     );
