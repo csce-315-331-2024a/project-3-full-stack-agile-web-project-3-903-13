@@ -54,21 +54,21 @@ function PrevArrow(props) {
 
 const googleClientID = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
 const buttonCategories = [
-  { name: "Burgers", path: "/Burgers", image: "/images/burgers.png" },
+  { name: "Burgers", path: "/Burgers", image: "/menuItems/ClassicHamburger.jpeg" },
   {
     name: "Hotdogs/Corndogs",
     path: "/Dogs",
-    image: "/images/hotdogs-corndogs.jpg",
+    image: "/menuItems/2corndogvaluemeal.jpeg",
   },
   {
     name: "Chicken Tenders",
     path: "/Tenders",
-    image: "/images/chicken-tenders.jpg",
+    image: "/menuItems/3tenderentree.jpeg",
   },
-  { name: "Sides", path: "/Sides", image: "/images/sides.jpg" },
-  { name: "Shakes", path: "/Desserts", image: "/images/shakes.jpg" },
-  { name: "Beverages", path: "/Beverages", image: "/images/beverages.jpg" },
-  { name: "Seasonal", path: "/Seasonal", image: "/images/seasonal.jpg" },
+  { name: "Sides", path: "/Sides", image: "/menuItems/ClassicHamburger.jpeg" },
+  { name: "Shakes", path: "/Desserts", image: "/menuItems/ClassicHamburger.jpeg" },
+  { name: "Beverages", path: "/Beverages", image: "/menuItems/ClassicHamburger.jpeg" },
+  { name: "Seasonal", path: "/Seasonal", image: "/menuItems/ClassicHamburger.jpeg" },
 ];
 
 const carouselCategories = [
@@ -127,7 +127,7 @@ const Home = () => {
             <Link key={category.name} href={category.path}>
               <div className="m-4 cursor-pointer aspect-square">
                 <div className="overflow-hidden rounded-lg hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
-                  <img className="flex w-full rounded-lg" src={"./menuItems/Rootbeerfloat.jpeg"} alt={category.name} />
+                  <img className="flex w-full rounded-lg" src={`${category.image}`} alt={category.name} />
                   <div className="flex py-4 rounded-lg text-center bg-white">
                     <span className="block text-lg font-semibold text-gray-800">
                       {category.name}
