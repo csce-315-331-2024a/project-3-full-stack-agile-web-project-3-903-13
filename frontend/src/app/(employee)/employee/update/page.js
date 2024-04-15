@@ -333,7 +333,7 @@ export default function EmployeePOSPage() {
     }
 
     if (orderDetails && orderDetails.status != 'in progress') {
-        return <div className="text-2xl text-red-500 font-bold my-6 text-center"> Can't update already placed orders</div>
+        return <div className="text-2xl text-red-500 font-bold my-6 text-center"> Can&apos;t update already placed orders</div>
     }
 
     return (
