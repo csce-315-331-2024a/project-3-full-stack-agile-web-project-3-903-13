@@ -71,17 +71,11 @@ export default function CustomerNavbar({ links }) {
           {links.map((link) => (
             <li key={link.route} className="mr-8">
             {link.name === "Menu Board" ? (
-              <a onClick={handleMenuBoardClick} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</a>
+              // TODO: make this less complicated
+              <Link onClick={handleMenuBoardClick} href={link.route} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</Link>
             ) : link.links ? (
               <div className="relative">
                 {link.name}
-                <ul className="absolute top-full left-0 z-10 bg-white border shadow-md">
-                  {link.links.map((sublink, subIndex) => (
-                    <li key={subIndex}>
-                      <a href={sublink.url} target="_blank" rel="noopener noreferrer">{sublink.name}</a>
-                    </li>
-                  ))}
-                </ul>
               </div>
               ) : (
                 <Link className={pathname === link.route ? "nav-link-active" : "nav-link"} href={link.route}>
