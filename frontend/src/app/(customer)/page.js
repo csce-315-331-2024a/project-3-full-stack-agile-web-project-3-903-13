@@ -65,10 +65,10 @@ const buttonCategories = [
     path: "/Tenders",
     image: "/menuItems/3tenderentree.jpeg",
   },
-  { name: "Sides", path: "/Sides", image: "/menuItems/ClassicHamburger.jpeg" },
-  { name: "Shakes", path: "/Desserts", image: "/menuItems/ClassicHamburger.jpeg" },
-  { name: "Beverages", path: "/Beverages", image: "/menuItems/ClassicHamburger.jpeg" },
-  { name: "Seasonal", path: "/Seasonal", image: "/menuItems/ClassicHamburger.jpeg" },
+  { name: "Sides", path: "/Sides", image: "/menuItems/FrenchFries.jpeg" },
+  { name: "Shakes", path: "/Desserts", image: "/menuItems/AggieShakes.jpeg" },
+  { name: "Beverages", path: "/Beverages", image: "/menuItems/20ozfountaindrink.jpeg" },
+  { name: "Seasonal", path: "/Seasonal", image: "/menuItems/ChickenCaesarSalad.jpeg" },
 ];
 
 const carouselCategories = [
