@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
           links={[
             { name: "Menu", route: "/" },
             { name: "About", route: "/about" },
+            { name: "Menu Board" }
           ]}
         />
         {children}
