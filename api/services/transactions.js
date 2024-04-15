@@ -231,5 +231,9 @@ module.exports = {
 	deleteTransaction,
 	getInProgressOrders, 
 	fullfillOrder,
+	updateTransaction,
+	incrementInventory,
+	verifyOrderFormatting,
+	deleteTransaction,
 	updateTransaction
 }

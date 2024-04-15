@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for api/services/inventory.js</title>
+    <title>Code coverage report for services/transactions.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">api/services</a> inventory.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">services</a> transactions.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">64.91% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>91/91</span>
+                <span class='fraction'>74/114</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>4/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">63.63% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>21/21</span>
+                <span class='fraction'>14/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">65.76% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>91/91</span>
+                <span class='fraction'>73/111</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -302,284 +302,135 @@
 <a name='L237'></a><a href='#L237'>237</a>
 <a name='L238'></a><a href='#L238'>238</a>
 <a name='L239'></a><a href='#L239'>239</a>
-<a name='L240'></a><a href='#L240'>240</a>
-<a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a>
-<a name='L243'></a><a href='#L243'>243</a>
-<a name='L244'></a><a href='#L244'>244</a>
-<a name='L245'></a><a href='#L245'>245</a>
-<a name='L246'></a><a href='#L246'>246</a>
-<a name='L247'></a><a href='#L247'>247</a>
-<a name='L248'></a><a href='#L248'>248</a>
-<a name='L249'></a><a href='#L249'>249</a>
-<a name='L250'></a><a href='#L250'>250</a>
-<a name='L251'></a><a href='#L251'>251</a>
-<a name='L252'></a><a href='#L252'>252</a>
-<a name='L253'></a><a href='#L253'>253</a>
-<a name='L254'></a><a href='#L254'>254</a>
-<a name='L255'></a><a href='#L255'>255</a>
-<a name='L256'></a><a href='#L256'>256</a>
-<a name='L257'></a><a href='#L257'>257</a>
-<a name='L258'></a><a href='#L258'>258</a>
-<a name='L259'></a><a href='#L259'>259</a>
-<a name='L260'></a><a href='#L260'>260</a>
-<a name='L261'></a><a href='#L261'>261</a>
-<a name='L262'></a><a href='#L262'>262</a>
-<a name='L263'></a><a href='#L263'>263</a>
-<a name='L264'></a><a href='#L264'>264</a>
-<a name='L265'></a><a href='#L265'>265</a>
-<a name='L266'></a><a href='#L266'>266</a>
-<a name='L267'></a><a href='#L267'>267</a>
-<a name='L268'></a><a href='#L268'>268</a>
-<a name='L269'></a><a href='#L269'>269</a>
-<a name='L270'></a><a href='#L270'>270</a>
-<a name='L271'></a><a href='#L271'>271</a>
-<a name='L272'></a><a href='#L272'>272</a>
-<a name='L273'></a><a href='#L273'>273</a>
-<a name='L274'></a><a href='#L274'>274</a>
-<a name='L275'></a><a href='#L275'>275</a>
-<a name='L276'></a><a href='#L276'>276</a>
-<a name='L277'></a><a href='#L277'>277</a>
-<a name='L278'></a><a href='#L278'>278</a>
-<a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a>
-<a name='L282'></a><a href='#L282'>282</a>
-<a name='L283'></a><a href='#L283'>283</a>
-<a name='L284'></a><a href='#L284'>284</a>
-<a name='L285'></a><a href='#L285'>285</a>
-<a name='L286'></a><a href='#L286'>286</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L240'></a><a href='#L240'>240</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -589,31 +440,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -623,318 +453,350 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const db = require('../config/db');
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { response } = require('express');
+const db = require('../config/db')
 &nbsp;
-/* 
-	Retrieves all inventory items
-*/
-const getInventoryItems = (req,res) =&gt; {
-	db.query("SELECT * FROM inventory", (err,results) =&gt; {
-		if (err) {
-			res.status(400).send("Query Failed");
-			return;
+const verifyOrderFormatting = (orderContents) =&gt; {
+	var isValid = true
+	orderContents.forEach((element) =&gt; {
+		if (element.id === undefined || element.quantity === undefined) {
+			isValid = false
 		}
-		res.status(200).json(results.rows);
+	});
+	return isValid
+}
+&nbsp;
+const insertTransaction = async (totalCost, taxAmount) =&gt; {
+	var currentDate = new Date().toLocaleString()
+&nbsp;
+	try {
+		const results = await db.query("INSERT INTO transactions values (DEFAULT, $1::timestamp, $2, $3, 'in progress') RETURNING transactionid", [currentDate,totalCost,taxAmount])
+		return results.rows[0].transactionid
+	} catch (err) {
+		console.log(err)
+	}
+}
+&nbsp;
+const updateFoodItemsTable = async (id, orderContents) =&gt; {
+    for (const item of orderContents) {
+        try {
+            await db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)", [id, item.id, item.quantity]);
+        } catch (err) {
+            // console.error(err);
+            throw err; // Re-throw the error to handle it in the caller function
+        }
+    }
+};
+&nbsp;
+const decrementInventory = async (orderContents) =&gt; {
+	orderContents.map(async (item) =&gt; {
+		// Get entries from ingredients table (tells which menu items use which inventory items)
+		try {
+			const results = await db.query("SELECT inventid, quantity FROM ingredients WHERE menuid = $1", [item.id])
+			results.rows.map((inventory) =&gt; {
+				db.query("UPDATE inventory SET count = count - $1 WHERE inventid = $2", [item.quantity*inventory.quantity, inventory.inventid])
+			})
+		} catch (err) {
+			console.log(err)
+		}
 	})
 }
 &nbsp;
-/* 
-	Updates the quantity of an inventory item Given the name of the item and the new quantity
-*/
-const updateInventItemQuant = (req, res) =&gt; {
-    const { itemName, newCount } = req.body;
-	db.query(
-		"Select * from inventory where ingredientname = $1", [itemName],
-		(err, result) =&gt; {
-			if (err){
-				// console.log(err);
-				res.status(500);
-				return;
-			} else if (!(result.rows.length)){
-				res.status(401).send("Item Doesn't exist");
-				return;
-			} else {
-				db.query(
-					"UPDATE inventory SET count = $1 WHERE ingredientname = $2",
-					[newCount, itemName],
-					(err, result) =&gt; {
-						if (err) {
-							// console.log(err);
-							res.status(500);
-							return;
-						}
-						res.status(202).send(`Count of ${itemName} updated successfully`);
-					}
-				);
-			}
+const incrementInventory = async (components) =&gt; {
+	components.map(async (item) =&gt; {
+		try {
+			const results = await db.query("SELECT inventid, quantity FROM ingredients WHERE menuid = $1", [item.id])
+			results.rows.map(<span class="fstat-no" title="function not covered" >(i</span>nventory) =&gt; {
+<span class="cstat-no" title="statement not covered" >				db.query("UPDATE inventory SET count = count + $1 WHERE inventid = $2", [item.quantity*inventory.quantity, inventory.inventid])</span>
+			})
+		} catch (err) {
+			console.log(err)
 		}
-	);
-    
-};
+	})
+}
+&nbsp;
+const createTransaction = <span class="fstat-no" title="function not covered" >as</span>ync (req,res) =&gt; {
+	const totalCost = <span class="cstat-no" title="statement not covered" >req.body.totalCost</span>
+	const taxAmount = <span class="cstat-no" title="statement not covered" >req.body.taxAmount</span>
+	const orderContents = <span class="cstat-no" title="statement not covered" >req.body.orderContents</span>
+	
+<span class="cstat-no" title="statement not covered" >	if (!totalCost || !taxAmount || !orderContents) {</span>
+<span class="cstat-no" title="statement not covered" >		res.status(400).send("Missing parts of request")</span>
+<span class="cstat-no" title="statement not covered" >		return</span>
+	}
+&nbsp;
+	const valid = <span class="cstat-no" title="statement not covered" >verifyOrderFormatting(orderContents)</span>
+	// console.log(valid)
+<span class="cstat-no" title="statement not covered" >	if (!valid) {</span>
+<span class="cstat-no" title="statement not covered" >		res.status(400).send("Invalid formatting of error contents.")</span>
+<span class="cstat-no" title="statement not covered" >		return</span>
+	}
+	
+<span class="cstat-no" title="statement not covered" >	try {</span>
+		const transactionid = <span class="cstat-no" title="statement not covered" >await insertTransaction(totalCost,taxAmount)</span>
+<span class="cstat-no" title="statement not covered" >		res.status(200).send("Successfully added transaction to database")</span>
+<span class="cstat-no" title="statement not covered" >		updateFoodItemsTable(transactionid, orderContents)</span>
+<span class="cstat-no" title="statement not covered" >		decrementInventory(orderContents)</span>
+	} catch (error) {
+<span class="cstat-no" title="statement not covered" >		console.log(error)	</span>
+	}
+}
+&nbsp;
+&nbsp;
+const deleteTransaction = async (request, response) =&gt; {
+	const {transactionID, components} = request.body;
+&nbsp;
+	try {
+		// Delete from transactions table, fooditems table (menu items) and return items to inventory?
+		// Delete from fooditems first since it uses transactions as foreign key
+		const results = await db.query(`DELETE from fooditems WHERE transactionid = ${transactionID}`) 
+		const results2 = await db.query(`DELETE FROM transactions WHERE transactionID = ${transactionID}`);
+		incrementInventory(components)
+		response.status(200).send("Transaction Deleted")
+	}
+	catch (err) {
+		console.log(err)
+	}
+} 
+&nbsp;
+&nbsp;
+&nbsp;
+const updateTransaction = async (request, response) =&gt; {
+&nbsp;
+	const {transactionID, oldcomponents, newComponents} = request.body;
+	let subCost = newComponents.reduce((total, item) =&gt; total + item.price * item.quantity, 0)
+	const taxAmount = subCost * 0.0825;
+	const finalAmount = subCost + taxAmount
+&nbsp;
+	console.log(transactionID);
+	console.log(oldcomponents);
+	console.log(newComponents)
+&nbsp;
+&nbsp;
+	try {
+		// Delete old stuff (food items table entries, increment inventory)
+		const results = await db.query(`DELETE from fooditems WHERE transactionid = ${transactionID}`)
+		await incrementInventory(oldcomponents)
+&nbsp;
+&nbsp;
+		const results2 = await db.query(`UPDATE transactions SET totalcost = ${finalAmount}, tax = ${taxAmount} WHERE transactionid = ${transactionID}`)
+<span class="cstat-no" title="statement not covered" >		await updateFoodItemsTable(transactionID, newComponents)</span>
+<span class="cstat-no" title="statement not covered" >		decrementInventory(newComponents)</span>
+	}
+	catch (error) {
+		console.log(error)
+	}
+}
 &nbsp;
 /* 
-	Updates the price of an item in the inventory
+	Gets the information about a transaction based on a transaction ID
 */
-const updateInventItemPrice = (req, res) =&gt; {
-    const { itemName, newPrice } = req.body;
-	db.query(
-		"Select * from inventory where ingredientname = $1", [itemName],
-		(err, result) =&gt; {
-			if (err){
-				// console.log(err);
-				res.status(500);
-				return;
-			} else if (!(result.rows.length)){
-				res.status(401).send("Item Doesn't exist");
-				return;
-			} else {
-				db.query(
-					"UPDATE inventory SET price = $1 WHERE ingredientname = $2",
-					[newPrice, itemName],
-					(err, result) =&gt; {
-						if (err) {
-							// console.log(err);
-							res.status(500);
-							return;
-						}
-						res.status(202).send(`Price of ${itemName} updated successfully`);
-					}
-				);
-			}
-		}
-	);
-    
-};
+const getTransactionInfo = async (transactionid) =&gt; {
+	const queryTimeResults = await db.query(`SELECT transactiontime, totalcost, status FROM transactions WHERE transactionid = ${transactionid}`)
+	const transactiontime = queryTimeResults.rows[0]["transactiontime"]
+	const cost = queryTimeResults.rows[0]["totalcost"]
+	const status = queryTimeResults.rows[0]["status"]
 &nbsp;
-/*
-	Updates an inventory item's MIN COUNT
-*/
-const updateInventItemMin = (req, res) =&gt; {
-    const { itemName, newCount } = req.body;
-	db.query(
-		"Select * from inventory where ingredientname = $1", [itemName],
-		(err, result) =&gt; {
-			if (err){
-				// console.log(err);
-				res.status(500);
-				return;
-			} else if (!(result.rows.length)){
-				res.status(401).send("Item Doesn't exist");
-				return;
-			} else {
-				db.query(
-					"UPDATE inventory SET mincount = $1 WHERE ingredientname = $2",
-					[newCount, itemName],
-					(err, result) =&gt; {
-						if (err) {
-							// console.log(err);
-							res.status(500);
-							return;
-						}
-						res.status(202).send(`MinCount of ${itemName} updated successfully`);
-					}
-				);
-			}
-		}
-	);
-    
-};
+	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as itemname, menuitems.price as price, fooditems.quantity as Quantity
+			FROM fooditems
+			INNER JOIN menuitems 
+				ON menuitems.menuid = fooditems.menuid
+			WHERE fooditems.transactionid = ${transactionid}
+			ORDER BY itemname;`
+&nbsp;
+	try {
+		const results = await db.query(query);
+		return {transactiontime, cost, status, transactionid: transactionid, components: results.rows};
+	}
+	catch (err){
+<span class="cstat-no" title="statement not covered" >		throw err</span>
+	}
+	
+}
 &nbsp;
 /* 
-	Adds a NEW ITEM to the inventory
+	Gets the information about the first 50 transactions orders within given time frame
 */
-const addInventoryItem = (req, res) =&gt; {
-    const { itemName, count, price, mincount } = req.body;
-	db.query(
-		"Select * from inventory where ingredientname = $1", [itemName],
-		(err, result) =&gt; {
-			if (err){
-				// console.log(err);
-				res.status(500);
-				return;
-			} else if (result.rows.length){
-				res.status(401).send("Item Already exists");
-				return;
-			} else {
-				db.query(
-					'INSERT INTO inventory (ingredientname, count, price, mincount) VALUES ($1, $2, $3, $4)',
-					[itemName, count, price, mincount ],
-					(err, result) =&gt; {
-						if (err) {
-							// console.log(err);
-							res.status(500);
-							return;
-						}
-						res.status(201).send('Inventory item added successfully');
-					}
-				);
-			}
-		}
-	);
-    
-};
+const getTransactionsByPeriod = async (request, response) =&gt; {
+	const {startDate, endDate} = request.body;
+	
+	try{
+		const query = `SELECT transactionid as id
+						FROM transactions
+						WHERE transactiontime &gt;= $1::timestamp AND transactiontime &lt;= $2::timestamp
+						ORDER BY transactiontime 
+						LIMIT 50
+						`
 &nbsp;
-/* 
-	Removes an inventory item name given the NAME
-*/
-const removeInventoryItem = (req, res) =&gt; {
-    const { itemName } = req.body; 
-    db.query(
-        "DELETE FROM inventory WHERE ingredientname = $1",
-        [itemName],
-        (err, result) =&gt; {
-            if (err) {
-                // console.error("Error removing inventory item:", err);
-                res.status(500).send("Internal Server Error");
-                return;
-            }
-            if (result.rowCount === 0) {
-                // If no rows were deleted, it means the menu item with the specified ID was not found
-                res.status(404).send("Inventory item not found");
-                return;
-            }
-            res.status(200).send(`Inventory item with name ${itemName} removed successfully`);
-        }
-    );
-};
+		const result = await db.query(query, [startDate, endDate]);
+		const transactionIDs = <span class="cstat-no" title="statement not covered" >result.rows.map(<span class="fstat-no" title="function not covered" >ro</span>w =&gt; <span class="cstat-no" title="statement not covered" >row.id)</span>;</span>
+	
+		const transactionsInfo = <span class="cstat-no" title="statement not covered" >await getTransactionsInfo(transactionIDs)	</span>
+<span class="cstat-no" title="statement not covered" >		response.status(200).json(transactionsInfo)</span>
 &nbsp;
+	} catch (error){
+		throw error
+	}	
+}
 &nbsp;
-/* 
-	Query for features: Excess Report
-	Retrives the state of the inventory at the given start date
-*/
-const getInventoryState = (request, response) =&gt; {
-    const query = `
-        WITH prem AS (
-            SELECT 
-                t.transactionTime AS time,
-                t.transactionID AS transactionid,
-                f.menuID AS menuid,
-                i.inventID AS inventid,
-                f.quantity AS quantityItem
-            FROM fooditems f
-            JOIN transactions t ON t.transactionID = f.transactionID
-                AND t.transactionTime &gt;= $1::timestamp
-            JOIN ingredients i ON f.menuid = i.menuid
-        ), view AS (
-            SELECT 
-                prem.time,
-                invent.ingredientname AS name,
-                prem.quantityItem,
-                i.quantity AS quantityIngred,
-                prem.quantityItem * i.quantity AS totalQuant
-            FROM prem
-            JOIN ingredients i ON prem.menuid = i.menuid AND prem.inventid = i.inventid
-            JOIN inventory invent ON invent.inventID = prem.inventid
-        )
-        SELECT name, SUM(totalQuant) AS InventoryBegin
-        FROM view
-        GROUP BY name
-        ORDER BY name;
-    `;
+const getInProgressOrders = <span class="fstat-no" title="function not covered" >as</span>ync(request, response) =&gt; {
+	const query = <span class="cstat-no" title="statement not covered" >`SELECT transactionid FROM transactions WHERE status = 'in progress';`</span>
 &nbsp;
-    const {startDate} = request.query;
+<span class="cstat-no" title="statement not covered" >	try {</span>
+		const result = <span class="cstat-no" title="statement not covered" >await db.query(query);</span>
+		const transactionIDs = <span class="cstat-no" title="statement not covered" >result.rows.map(<span class="fstat-no" title="function not covered" >ro</span>w =&gt; <span class="cstat-no" title="statement not covered" >row.transactionid)</span>;</span>
 &nbsp;
-    db.query(query, [startDate], (err, results) =&gt; {
-        if (err) {
-            throw (err);
-        } else {
-            response.status(200).json(results.rows)
-        }
+		const transactionsInfo = <span class="cstat-no" title="statement not covered" >await getTransactionsInfo(transactionIDs);</span>
+<span class="cstat-no" title="statement not covered" >		response.status(200).json(transactionsInfo)</span>
+	}
+	catch (error){
+<span class="cstat-no" title="statement not covered" >		throw error</span>
+	}
+}
+&nbsp;
+const fullfillOrder = <span class="fstat-no" title="function not covered" >as</span>ync(request, response) =&gt; {
+	const {transactionID} = <span class="cstat-no" title="statement not covered" >request.body;</span>
+&nbsp;
+	const query = <span class="cstat-no" title="statement not covered" >`UPDATE transactions SET status = 'fulfilled' WHERE transactionid = ${transactionID};`</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >	try {</span>
+<span class="cstat-no" title="statement not covered" >		db.query(query);</span>
+	}
+	catch (error) {
+<span class="cstat-no" title="statement not covered" >		throw error </span>
+	}
+}
+&nbsp;
+// Gets information about each transactionID passed in an array
+const getTransactionsInfo = <span class="fstat-no" title="function not covered" >as</span>ync(transactionIDs) =&gt; {
+    const transactionsInfoPromises = <span class="cstat-no" title="statement not covered" >transactionIDs.map(<span class="fstat-no" title="function not covered" >as</span>ync id =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return await getTransactionInfo(id);</span>
     });
-};
 &nbsp;
-/* 
-	Query for Features: Excess Report and Restock Report
-	Gets inventory usage for each item between 2 dates provided: start date and end date
-*/
-&nbsp;
-const getInventoryUsage = (startDate, endDate) =&gt; {
-    return new Promise((resolve, reject) =&gt; {
-        if (!(new Date(startDate) &lt; new Date(endDate))) {
-            reject(new Error("Start date must be before end date."));
-            return;
-        }
-&nbsp;
-        // This SQL mimics the creation and utilization of views in the Java code without actually creating views in the database
-        const query = `
-            WITH prem AS (
-                SELECT 
-                    t.transactionTime AS time,
-                    t.transactionID AS transactionid,
-                    f.menuID AS menuid,
-                    i.inventID AS inventid,
-                    f.quantity AS quantityItem
-                FROM fooditems f
-                JOIN transactions t ON t.transactionID = f.transactionID
-                    AND t.transactionTime &gt;= $1::timestamp
-                    AND t.transactionTime &lt;= $2::timestamp
-                JOIN ingredients i ON f.menuid = i.menuid
-            ), view AS (
-                SELECT 
-                    prem.time,
-                    invent.ingredientname AS name,
-                    prem.quantityItem,
-                    i.quantity AS quantityIngred,
-                    prem.quantityItem * i.quantity AS totalQuant
-                FROM prem
-                JOIN ingredients i ON prem.menuid = i.menuid AND prem.inventid = i.inventid
-                JOIN inventory invent ON invent.inventID = prem.inventid
-            )
-            SELECT name, SUM(totalQuant) AS totalInventoryUsed
-            FROM view
-            GROUP BY name
-            ORDER BY name;
-        `;
-&nbsp;
-        db.query(query, [startDate, endDate], (err, results) =&gt; {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(results.rows);
-            }
-        });
-    });
-};
-&nbsp;
-&nbsp;
+<span class="cstat-no" title="statement not covered" >    return Promise.all(transactionsInfoPromises);</span>
+}
 &nbsp;
 module.exports = {
-	getInventoryItems,
-    updateInventItemQuant,
-    updateInventItemPrice,
-    updateInventItemMin,
-    addInventoryItem,
-    removeInventoryItem,
-	getInventoryState,
-	getInventoryUsage
-}</pre></td></tr></table></pre>
+    createTransaction,
+    insertTransaction,
+    updateFoodItemsTable,
+    decrementInventory,
+	getTransactionInfo,
+	getTransactionsByPeriod,
+	deleteTransaction,
+	getInProgressOrders, 
+	fullfillOrder,
+	updateTransaction,
+	incrementInventory,
+	verifyOrderFormatting,
+	deleteTransaction,
+	updateTransaction
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-15T00:39:02.593Z
+                at 2024-04-15T00:37:08.230Z
             </div>
-        <script src="../../prettify.js"></script>
+        <script src="../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../sorter.js"></script>
-        <script src="../../block-navigation.js"></script>
+        <script src="../sorter.js"></script>
+        <script src="../block-navigation.js"></script>
     </body>
 </html>
     
