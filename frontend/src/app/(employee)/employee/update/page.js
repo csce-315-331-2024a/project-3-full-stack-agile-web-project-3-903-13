@@ -379,7 +379,7 @@ export default function EmployeePOSPage() {
   }
 
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
     <main className="min-h-screen bg-cream py-1">
       <div className="flex flex-row h-[90vh]">
         <div className="container max-w-[66%] p-5">
