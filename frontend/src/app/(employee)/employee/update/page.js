@@ -379,6 +379,7 @@ export default function EmployeePOSPage() {
   }
 
   return (
+    <Suspense>
     <main className="min-h-screen bg-cream py-1">
       <div className="flex flex-row h-[90vh]">
         <div className="container max-w-[66%] p-5">
@@ -394,7 +395,6 @@ export default function EmployeePOSPage() {
             ))}
           </div>
         </div>
-        <Suspense>
           {" "}
           <UpdateOrder
             components={components}
@@ -402,8 +402,8 @@ export default function EmployeePOSPage() {
             shallowCopy={shallowCopy}
             setShallowCopy={setShallowCopy}
           />
-        </Suspense>
       </div>
     </main>
+    </Suspense>
   );
 }
