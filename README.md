@@ -17,6 +17,7 @@
 - [Sprint 2 Retrospective Meeting Agenda](#sprint-2-retrospective-meeting-agenda)
 - [Sprint 2 Retrospective Meeting Minutes](#sprint-2-retrospective-meeting-minutes)
 - [Sprint 3 Planning Meeting Agenda](#sprint-3-planning-meeting-agenda)
+- [Sprint 3 Planning Meeting Minutes](#sprint-3-planning-meeting-minutes)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -1198,3 +1199,60 @@ The objective of this meeting is to plan and kickstart Sprint 2 by deciding on a
    - Recap of action items and responsibilities for Sprint 3.
    - Confirmation of next meeting date and time.
    - Thank everyone for their participation and commitment.
+
+# Sprint 3 Planning Meeting Minutes
+
+## Meeting Details
+- **Date:** 4/16/2024
+- **Time:** 4:30 PM
+- **Location:** Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+## Agenda Items
+
+1. **Welcome and Introductions** (4:30 - 4:31)
+   - The meeting commenced at 4:30 PM with a warm welcome to all team members
+   - The purpose of the meeting was briefly outlined
+
+2. **Overview of Sprint 2 Progress** (4:31 - 4:36)
+   - The team reviewed completed tasks and achievements from Sprint 2, noting any outstanding tasks or issues.
+
+3. **Sprint Goal** (4:36- 4:43)
+   - Discussion ensued to formulate the Sprint 3 goal, building upon the progress made in Sprint 2.
+   - Consensus was reached on the sprint goal: "Complete remaining tasks from Sprint 2, successfully integrate user management, and finalize all project components for final deployment."
+
+4. **Product Backlog Review**  (4:43 - 4:53)
+   - The team reviewed user stories and tasks from Sprint 2 and decided on user stories for the Sprint 3 backlog.
+
+5. **Sprint Planning** (4:53 - 5:01)
+   - Selected user stories G, H, F, I, O, K, N, and O for the tasks for Sprint 3
+   - Effort estimation was discussed for each task.
+   - Tasks were assigned to team members based on their expertise and availability.
+      - Customize Menu Items: Karan
+      - Manager Landing Page: Aditya
+      - Testing: Isaac
+      - Dietary/Nutritional Information: Kelvin
+      - User Management: Wyatt
+      - UI Improvements: Kunal
+
+6. **Definition of Done for Sprint 3** (5:01 - 5:05)
+   - Criteria for tasks or user stories to be considered complete for Sprint 3 were clarified and agreed upon.
+
+7. **Q&A and Open Discussion** (5:05 - 5:09)
+   - Team members had the opportunity to ask questions or seek clarification on Sprint 3 planning.
+
+8. **Next Steps and Closing** (5:09 - 5:13)
+   - Action items and responsibilities for Sprint 3 were summarized.
+   - The next meeting date and time were confirmed.
+   - Appreciation was expressed to all participants for their active participation and commitment to the project.
+
+**Meeting Adjourned**
+The meeting was adjourned at 5:13 PM.
+
