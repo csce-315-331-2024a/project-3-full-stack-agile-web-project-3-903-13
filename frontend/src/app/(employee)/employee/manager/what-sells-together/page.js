@@ -32,7 +32,7 @@ export default function SalesReportPage() {
             "endDate": endDate
         })
         try {
-            const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/reports/whatSellsTogether", {
+            const response = await fetch("http://localhost:5000/api/reports/whatSellsTogether", {
                 method: "POST",
                 headers: {"Content-type": "application/json"},
                 body: object 

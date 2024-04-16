@@ -9,7 +9,7 @@ const MenuBoard = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems')
+        fetch('http://localhost:5000/api/menuitems')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

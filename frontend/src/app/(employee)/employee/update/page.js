@@ -53,7 +53,7 @@ function UpdateOrder({
 
   const updatePlacedOrder = async () => {
     const response = await fetch(
-      "https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/updateTransaction",
+      "http://localhost:5000/api/transactions/updateTransaction",
       {
         method: "PATCH",
         headers: {
@@ -320,7 +320,7 @@ export default function EmployeePOSPage() {
   useEffect(() => {
     const fetchMenuItems = async () => {
       const response = await fetch(
-        "https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems"
+        "http://localhost:5000/api/menuitems"
       );
       const data = await response.json();
       setMenuItems(data);
@@ -333,7 +333,7 @@ export default function EmployeePOSPage() {
     const fetchOrder = async () => {
       try {
         const response = await fetch(
-          "https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/getTransactionByID",
+          "http://localhost:5000/api/transactions/getTransactionByID",
           {
             method: "POST",
             headers: {
