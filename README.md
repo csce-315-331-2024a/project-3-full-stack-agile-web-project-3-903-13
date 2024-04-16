@@ -15,6 +15,7 @@
 - [Sprint 2 Plan](#sprint-2-plan)
 - [Sprint 2 Daily Meetings](#sprint-2-daily-meetings)
 - [Sprint 2 Retrospective Meeting Agenda](#sprint-2-retrospective-meeting-agenda)
+- [Sprint 2 Retrospective Meeting Minutes](#sprint-2-retrospective-meeting-minutes)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -1100,3 +1101,55 @@ The objective of this meeting is to reflect on our Sprint 2 and decide on change
 7. **Closing** 
    - Summarize key points discussed during the meeting
    - Express gratitude to the team for their particiaption and contributions
+
+# Sprint 2 Retrospective Meeting Minutes
+
+## Meeting Details
+- **Date:** 4/15/2024
+- **Time:** 7:15 PM
+- **Location:** Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+## Agenda Items
+
+1. **Opening and Welcome** (7:15 - 7:16)
+   - The meeting commenced at 7:15 PM with a warm welcome to all team members
+   - The purpose of the meeting was briefly outlined
+
+2. **Review of Previous Sprint** (7:16 - 7:19)
+   - **What went right**: Consistency of work significantly improved, early initiation of tasks, increased consistency throughout the week, and rapid learning
+   - **Areas for Improvement**: Rushed completion towards the end of the sprint, lack of test-driven development, insufficient communication
+
+3. **Procedure Evaluation** (7:19- 7:25)
+   - **Procedures and methodologies evaluation**: Agile methodology was generally followed, except for the last sprint meeting. Suggestions included better and more frequent communication, and running commands to ensure success for deployment
+   - **Inefficiencies or challenges encountered**: Issues identified included a lack of foresight regarding reusable components and the need for a cleaner repository. Leaving merging until the end.
+
+4. **Product Backlog Adjustments**  (7:25 - 7:33)
+   - **Current state of the product backlog**: The current state of the product backlog was discussed including all user stories and the status of tasks
+   - **New items to be added or prioritized**: Testing was suggested as a new user story rather than just a task.
+
+5. **Action Planning** (7:33 - 7:35)
+   - **Identified action items**: Increase communication, adopt more test-driven development practices, utlize to-do list
+   - **Capitalizing on successes**: Learning from improved consistency and early initiation of tasks.
+
+6. **Meeting Planing** (7:35 - 7:38)
+   - **Agreed meeting times**: Sprint 2 planning meeting scheduled for April 16, 2024. Daily meetings scheduled for Monday, Wednesday, and Friday.
+
+7. **Closing** (7:38 - 7:39)
+   - Key points of the meeting were summarized
+   - Gratitude was expressed to all participants for their valuable contributions.
+
+**Action Items** 
+   - Increase communication within the team.
+   - Implement more test-driven development practices.
+   - Establish a shared to-do list visible to everyone.
+
+**Meeting Adjourned**
+The meeting was adjourned at 7:39 PM.
