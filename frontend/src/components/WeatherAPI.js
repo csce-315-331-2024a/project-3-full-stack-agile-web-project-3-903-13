@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Image from "next/image";
 
-const WeatherWidget = () => {
+const WeatherWidget = ( {onWeatherLoaded} ) => {
     const [weatherInfo, setWeatherInfo] = useState(null);
     const [weatherIconUrl, setWeatherIconUrl] = useState('');
 
@@ -28,6 +28,7 @@ const WeatherWidget = () => {
                     weatherDescription
                 });
                 setWeatherIconUrl(`https://openweathermap.org/img/wn/${weatherIcon}@4x.png`);
+                onWeatherLoaded(parseFloat(temperatureF));
             } catch (error) {
                 console.error('Error fetching weather data:', error);
             }
@@ -50,7 +51,7 @@ const WeatherWidget = () => {
 
         // Fetch weather data when component mounts
         getLocation();
-    }, []);
+    }, [onWeatherLoaded]);
 
     return (
         <div className=" flex items-center w-full justify-center">

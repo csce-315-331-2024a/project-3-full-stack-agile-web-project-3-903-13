@@ -151,4 +151,3 @@ export default function CustomerNavbar({ links }) {
     </nav>
   );
 }
-
