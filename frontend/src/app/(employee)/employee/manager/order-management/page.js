@@ -109,7 +109,7 @@ export default function OrderManagementPage() {
     };
 
     return (
-        <main className="min-h-screen min-w-screen-lg bg-slate-100">
+        <main className="min-h-screen flex flex-col min-w-screen-lg bg-slate-100">
             <h1 className="text-4xl font-bold mb-3 text-center py-4">
                 Order Management
             </h1>
@@ -173,7 +173,7 @@ export default function OrderManagementPage() {
 
                     <button
                         type="submit"
-                        className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-md font-semibold"
+                        className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-md font-semibold"
                     >
                         {" "}
                         {loading ? "Loading..." : "Find"}{" "}
