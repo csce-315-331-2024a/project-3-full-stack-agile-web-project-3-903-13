@@ -31,7 +31,7 @@ export default function Page({ params }) {
         };
 
         fetchMenuItems();
-    }, []);
+    }, [params.category]);
 
     const sendToTransaction = (dish) => {
         var quantity = 0;
@@ -85,7 +85,7 @@ export default function Page({ params }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {itemType.map((item) => (
                         <div key={item.menuID} className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`} onClick={() => sendToTransaction(item)}>
-                            <img
+                            <Image
                                 src={`./menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
                                 alt={item.itemname}
                                 className="object-cover w-2/3 h-2/3 rounded-lg mt-12"

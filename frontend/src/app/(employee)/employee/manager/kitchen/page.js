@@ -52,8 +52,8 @@ export default function KitchenStatePage() {
                 {currentOrders.map(order => (
                     <div key={order.transactionid} className="bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                         <h1 className="text-lg font-bold pb-2">Order #{order.transactionid}</h1>
-                        {order.components.map(item => (
-                            <div className="flex justify-between">
+                        {order.components.map((item, index) => (
+                            <div key = {index} className="flex justify-between">
                                 <div> {item.itemname}</div>
                                 <div> &#215;{item.quantity} </div>
                             </div>

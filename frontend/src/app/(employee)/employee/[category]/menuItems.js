@@ -188,7 +188,7 @@ export function MenuItemList({ categoryNum, categoryName }) {
         };
 
         fetchMenuItems();
-    }, []);
+    }, [categoryNum]);
 
     return (
 
