@@ -64,6 +64,15 @@ export default function CustomerNavbar({ links }) {
   };
 
   return (
+    <>
+    <style jsx>{`
+      .bg-light-maroon {
+        background-color: #b03060;
+      }
+      .text-dark-maroon {
+        color: #800000;
+      }
+    `}</style>
     <nav className="flex w-full h-[5rem] bg-white shadow-md">
       <div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
         <ul className="flex flex-row items-center">
@@ -105,7 +114,7 @@ export default function CustomerNavbar({ links }) {
         </ul>
 
         <div ref={ref} className="w-200 sideCart fixed top-0 right-0 bg-pink-100 px-8 py-10 transform transition-transform translate-x-full z-50 overflow-y-auto max-h-screen">
-          <span onClick={toggleCart} className="cursor-pointer absolute top-5 left-2 text-lg text-blue-600 hover:text-blue-800">&lt; Return to Menu</span>
+          <span onClick={toggleCart} className="cursor-pointer absolute top-5 left-2 text-lg text-dark-maroon hover:text-blue-800">&lt; Return to Menu</span>
           <hr className="my-2 border-t-2 border-gray-300" />
           <div className="flex flex-col justify-evenly items-center">
             {transactionsList ? transactionsList.map((item, index) => (
@@ -157,5 +166,6 @@ export default function CustomerNavbar({ links }) {
                   <GoogleTranslateWidget />
                   <ToastContainer limit ={1}/>
     </nav>
+    </>
   );
 }
