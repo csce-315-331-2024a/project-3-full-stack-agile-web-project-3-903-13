@@ -99,8 +99,8 @@ export default function ItemPopularityPage() {
             <div className="w-full max-w-4xl p-5 bg-white shadow-lg rounded" style={{ height: '800px' }}>
                 <h1 className="text-xl font-semibold text-center mb-6">Menu Item Popularity</h1>
                 <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center mb-4">
-                    <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
-                    <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+                    <input type="date" data-testid="start date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+                    <input type="date" data-testid="end date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
                     <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2" disabled={loading}>
                         {loading ? 'Loading...' : 'Generate Report'}
                     </button>
@@ -110,7 +110,7 @@ export default function ItemPopularityPage() {
                     {!hasData && !loading && <p>No sales data found for the selected date range. Try another time period.</p>}
                 </div>
                 <div style={{ height: '650px' }}>
-                    {hasData && <canvas ref={chartRef}></canvas>}
+                    {hasData && <canvas data-testid="chart-container" ref={chartRef}></canvas>}
                 </div>
             </div>
         </main>

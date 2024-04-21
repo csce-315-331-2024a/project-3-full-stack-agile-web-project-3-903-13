@@ -98,6 +98,7 @@ export default function InventoryUsagePage() {
                     <h1 className="text-xl font-semibold text-center mb-6">INVENTORY USAGE REPORT</h1>
                     <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center mb-4">
                         <input
+                            data-testid = "start date"
                             type="date"
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
@@ -105,6 +106,7 @@ export default function InventoryUsagePage() {
                             required
                         />
                         <input
+                            data-testid = "end date"
                             type="date"
                             value={endDate}
                             onChange={(e) => setEndDate(e.target.value)}
@@ -120,7 +122,7 @@ export default function InventoryUsagePage() {
                         {!hasData && !loading && <p>There was no inventory usage during this time range, try another time period.</p>}
                     </div>
                     <div style={{ height: '650px' }}>
-                        {hasData && <canvas ref={chartRef}></canvas>}
+                        {hasData && <canvas data-testid="chart-container" ref={chartRef}></canvas>}
                     </div>
                 </div>
             </div>

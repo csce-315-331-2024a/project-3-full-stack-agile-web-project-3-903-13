@@ -1,3 +1,5 @@
 // jest.setup.js
-global.TextEncoder = require('util').TextEncoder;
-global.TextDecoder = require('util').TextDecoder;
+import '@testing-library/jest-dom';
+import '@testing-library/user-event';
+
+import {render, fireEvent, screen, waitFor} from '@testing-library/react';
