@@ -66,7 +66,7 @@ export default function CustomerNavbar({ links }) {
       <div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
         <ul className="flex flex-row items-center">
           <li>
-            <Image alt = "Rev logo" className="hidden absolute md:relative md:flex mr-8" src={"./revs.png"} width={110} height={110}></Image>
+            <Image alt = "Rev logo" className="hidden absolute md:relative md:flex mr-8" src={"/revs.png"} width={110} height={110}></Image>
           </li>
           {links.map((link) => (
             <li key={link.route} className="mr-8">

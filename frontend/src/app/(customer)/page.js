@@ -110,7 +110,7 @@ const Home = () => {
                   <div key={index} className="carousel-item">
                       <div className="container flex flex-wrap justify-center">
                           <div className="w-full sm:w-1/2 p-4">
-                              <Image src={category.image} alt={category.name} className="carousel-image max-h-64 w-auto mx-auto" />
+                              <Image src={category.image} alt={category.name} className="carousel-image max-h-64 w-auto mx-auto" width = {500} height={500}/>
                           </div>
                           <div className="w-full sm:w-1/2 p-4">
                               <div className="carousel-content">
@@ -128,7 +128,7 @@ const Home = () => {
             <Link key={category.name} href={category.path}>
               <div className="m-4 cursor-pointer aspect-square">
                 <div className="overflow-hidden rounded-lg hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
-                  <Image className="flex w-full rounded-lg" src={`${category.image}`} alt={category.name} />
+                  <Image className="flex w-full rounded-lg" src={`${category.image}`} alt={category.name} width = {1500} height = {500}/>
                   <div className="flex py-4 rounded-lg text-center bg-white">
                     <span className="block text-lg font-semibold text-gray-800">
                       {category.name}

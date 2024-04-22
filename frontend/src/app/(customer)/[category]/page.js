@@ -86,9 +86,11 @@ export default function Page({ params }) {
                     {itemType.map((item) => (
                         <div key={item.menuID} className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`} onClick={() => sendToTransaction(item)}>
                             <Image
-                                src={`./menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
+                                src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
                                 alt={item.itemname}
                                 className="object-cover w-2/3 h-2/3 rounded-lg mt-12"
+                                width={150}
+                                height={150}
                             />
                             <div className="absolute bottom-0 w-full text-center p-2">
                                 <div className="info-text">
