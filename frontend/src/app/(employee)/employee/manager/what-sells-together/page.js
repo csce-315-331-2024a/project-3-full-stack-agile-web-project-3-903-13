@@ -66,6 +66,7 @@ export default function SalesReportPage() {
                 <h1 className="text-xl font-semibold text-center mb-6">What Sells Together</h1>
                 <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center mb-4">
                     <input
+                        data-testid = "start date"
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
@@ -73,6 +74,7 @@ export default function SalesReportPage() {
                         required
                     />
                     <input
+                        data-testid = "end date"
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
