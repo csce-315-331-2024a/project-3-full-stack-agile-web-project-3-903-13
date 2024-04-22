@@ -21,6 +21,15 @@ export default function CreditCardModal({ showCreditCardModal, setShowCreditCard
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const plainCardNumber = cardNumber.replace(/\s/g, '');
+        if (plainCardNumber.length !== 16) {
+            alert('Please enter a valid 16-digit credit card number.');
+            return;
+        }
+        if (cvc.length !== 3) {
+            alert('Please enter a valid 3-digit CVC.');
+            return;
+        }
         handlePayment();
         setShowCreditCardModal(false);
     };
