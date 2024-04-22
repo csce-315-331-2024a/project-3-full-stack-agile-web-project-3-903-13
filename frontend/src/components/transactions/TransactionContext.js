@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const TransactionContext = createContext();
 
@@ -57,7 +58,20 @@ export const TransactionProvider = ({ children }) => {
         "Content-Type": "Application/json",
       },
       body: JSON.stringify(requestData)
-    })
+    }).then(() => {
+      clearTransaction();
+      toast.success("The transaction was a success!", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }).catch(error => {
+      console.error('Error submitting transaction:', error);
+    });
     clearTransaction();
   }
 

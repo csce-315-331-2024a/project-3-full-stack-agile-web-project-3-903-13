@@ -65,8 +65,11 @@ function TransactionPanel() {
                                 <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
                             </div>
                             <div className="flex items-center justify-between">
-                                <button onClick={() => openKeypad(item.id, item.quantity)} className="py-2 text-blue-500 hover:text-blue-700">
-                                    Quantity: {item.quantity}
+                                <button
+                                    onClick={() => openKeypad(item.id, item.quantity)}
+                                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded inline-flex items-center"
+                                >
+                                    <span>Quantity: {item.quantity}</span>
                                 </button>
                                 <button onClick={() => removeItemCompletely(item.id)} className="text-red-500 hover:text-red-700">
                                     Remove Item
