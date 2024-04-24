@@ -9,7 +9,6 @@ import {GoogleSignInButton,SignOutButton} from "../../components/GoogleSignIn"
 import {GoogleOAuthProvider} from "@react-oauth/google"
 import { useRouter } from 'next/navigation';
 import WeatherWidget from "@/components/WeatherAPI";
-import ClockWidget from "@/components/DigitalClock";
 
 const customStyles = {
   orderButton: {
@@ -157,7 +156,6 @@ const Home = () => {
       <main className="min-h-screen bg-cream flex flex-col items-center">
         <div className="flex items-center justify-center space-x-4 mt-5">
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
-          <ClockWidget />
         </div>
         <div className='mt-5 flex flex-col space-y-2 ml-auto right-0'><GoogleSignInButton/><SignOutButton/></div>
         <Carousel
@@ -168,7 +166,7 @@ const Home = () => {
           ssr
           infinite
           autoPlay
-          autoPlaySpeed={4000}
+          autoPlaySpeed={6000}
           keyBoardControl
           customTransition="all .5s ease-in-out"
           transitionDuration={500}
