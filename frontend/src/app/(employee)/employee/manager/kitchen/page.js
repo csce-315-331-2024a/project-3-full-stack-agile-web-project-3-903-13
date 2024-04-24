@@ -53,7 +53,7 @@ export default function KitchenStatePage() {
                     <div key={order.transactionid} className="bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                         <h1 className="text-lg font-bold pb-2">Order #{order.transactionid}</h1>
                         {order.components.map((item, index) => (
-                            <div key = {index} className="flex justify-between">
+                            <div key={index} className="flex justify-between">
                                 <div> {item.itemname}</div>
                                 <div> &#215;{item.quantity} </div>
                             </div>
@@ -61,12 +61,28 @@ export default function KitchenStatePage() {
 
                         }
 
-                        <button
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4"
-                            onClick={() => handleCompleteClick(order)}
-                        >
-                            Complete
-                        </button>
+                        <div className="flex flex-row justify-between items-center mt-4">
+                            <button
+                                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded my-2"
+                                onClick={() => handleCompleteClick(order)}
+                            >
+                                Complete
+                            </button>
+                            <Link
+                                href={{
+                                    pathname: '/employee/update',
+                                    query: {
+                                        'status': order.status,
+                                        'id': order.transactionid
+                                    }
+                                }}
+                            >
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Update
+                                </button>
+                            </Link>
+                        </div>
 
 
 

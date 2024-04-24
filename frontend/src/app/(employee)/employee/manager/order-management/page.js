@@ -186,9 +186,9 @@ export default function OrderManagementPage() {
                 </div>
             </form>
 
-            <div className="mt-7 max-h-[400px] max-w-[70%] mx-auto overflow-y-auto">
+            <div className="mx-auto mt-7 max-h-[400px] min-w-[50%] overflow-y-auto">
                 {transactionsData.length > 0 && (
-                    <div className="flex flex-col gap-4 p-4">
+                    <div className="flex flex-col gap-4 p-4 w-full">
                         {transactionsData.map((item, index) => (
                             <div key={index}>
                                 <div
