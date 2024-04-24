@@ -1,6 +1,7 @@
 import EmployeeNavbar from "@/components/EmployeeNavbar";
 import "../../../globals.css";
 import { TransactionProvider } from "@/components/transactions/TransactionContext";
+import { Suspense } from "react";
 
 export default function CategoryLayout({ children }) {
   return (
@@ -20,7 +21,10 @@ export default function CategoryLayout({ children }) {
 
         ]}
       ></EmployeeNavbar>
-      <main className="flex-1">{children}</main>
+      
+	  <Suspense>
+      	<main className="flex-1">{children}</main>
+      </Suspense>
     </>
     </TransactionProvider>
   );

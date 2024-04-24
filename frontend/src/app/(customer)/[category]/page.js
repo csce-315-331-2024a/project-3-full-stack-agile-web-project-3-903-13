@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
 import Image from 'next/image'
+import { toast } from 'react-toastify';
 
 const categories = [
     "Burgers",
@@ -50,6 +51,15 @@ export default function Page({ params }) {
         setTimeout(() => {
             setScaleStates(prev => ({ ...prev, [dish.menuid]: 'normal' }));
         }, 300);
+        toast.success(`${dish.itemname} added to cart!`, {
+            position: "bottom-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     const getItemScale = (menuId) => {

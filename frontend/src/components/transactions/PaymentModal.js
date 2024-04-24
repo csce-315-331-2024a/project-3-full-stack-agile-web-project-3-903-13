@@ -1,12 +1,20 @@
-export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions, handlePayment, }) {
+import CreditCardModal from "@/components/transactions/CreditCardModal";
+import { useState } from "react";
 
+export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions, handlePayment, }) {
+    const [showCreditCardModal, setShowCreditCardModal] = useState(false);
+
+    const handleCardPaymentClick = () => {
+        setShowCreditCardModal(true);
+    };
+    
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <h3 className="text-lg font-semibold text-center mb-4">Select Payment Method</h3>
                 <ul className="space-y-4">
                     <li>
-                        <button className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" onClick={handlePayment}>
+                        <button className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" onClick={handleCardPaymentClick}>
                             Card
                         </button>
                     </li>
@@ -27,6 +35,13 @@ export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions
                     </button>
                 </div>
             </div>
+            {showCreditCardModal && (
+                <CreditCardModal
+                    showCreditCardModal={showCreditCardModal}
+                    setShowCreditCardModal={setShowCreditCardModal}
+                    handlePayment={handlePayment}
+                />
+            )}
         </div>
     )
 

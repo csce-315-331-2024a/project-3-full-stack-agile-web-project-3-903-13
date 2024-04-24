@@ -15,6 +15,10 @@
 - [Sprint 2 Plan](#sprint-2-plan)
 - [Sprint 2 Daily Meetings](#sprint-2-daily-meetings)
 - [Sprint 2 Retrospective Meeting Agenda](#sprint-2-retrospective-meeting-agenda)
+- [Sprint 2 Retrospective Meeting Minutes](#sprint-2-retrospective-meeting-minutes)
+- [Sprint 3 Planning Meeting Agenda](#sprint-3-planning-meeting-agenda)
+- [Sprint 3 Planning Meeting Minutes](#sprint-3-planning-meeting-minutes)
+- [Sprint 3 Plan](#sprint-3-plan)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -1100,3 +1104,398 @@ The objective of this meeting is to reflect on our Sprint 2 and decide on change
 7. **Closing** 
    - Summarize key points discussed during the meeting
    - Express gratitude to the team for their particiaption and contributions
+
+# Sprint 2 Retrospective Meeting Minutes
+
+## Meeting Details
+- **Date:** 4/15/2024
+- **Time:** 7:15 PM
+- **Location:** Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+## Agenda Items
+
+1. **Opening and Welcome** (7:15 - 7:16)
+   - The meeting commenced at 7:15 PM with a warm welcome to all team members
+   - The purpose of the meeting was briefly outlined
+
+2. **Review of Previous Sprint** (7:16 - 7:19)
+   - **What went right**: Consistency of work significantly improved, early initiation of tasks, increased consistency throughout the week, and rapid learning
+   - **Areas for Improvement**: Rushed completion towards the end of the sprint, lack of test-driven development, insufficient communication
+
+3. **Procedure Evaluation** (7:19- 7:25)
+   - **Procedures and methodologies evaluation**: Agile methodology was generally followed, except for the last sprint meeting. Suggestions included better and more frequent communication, and running commands to ensure success for deployment
+   - **Inefficiencies or challenges encountered**: Issues identified included a lack of foresight regarding reusable components and the need for a cleaner repository. Leaving merging until the end.
+
+4. **Product Backlog Adjustments**  (7:25 - 7:33)
+   - **Current state of the product backlog**: The current state of the product backlog was discussed including all user stories and the status of tasks
+   - **New items to be added or prioritized**: Testing was suggested as a new user story rather than just a task.
+
+5. **Action Planning** (7:33 - 7:35)
+   - **Identified action items**: Increase communication, adopt more test-driven development practices, utlize to-do list
+   - **Capitalizing on successes**: Learning from improved consistency and early initiation of tasks.
+
+6. **Meeting Planing** (7:35 - 7:38)
+   - **Agreed meeting times**: Sprint 2 planning meeting scheduled for April 16, 2024. Daily meetings scheduled for Monday, Wednesday, and Friday.
+
+7. **Closing** (7:38 - 7:39)
+   - Key points of the meeting were summarized
+   - Gratitude was expressed to all participants for their valuable contributions.
+
+**Action Items** 
+   - Increase communication within the team.
+   - Implement more test-driven development practices.
+   - Establish a shared to-do list visible to everyone.
+
+**Meeting Adjourned**
+The meeting was adjourned at 7:39 PM.
+
+# Sprint 3 Planning Meeting Agenda
+
+**Objective:**  
+The objective of this meeting is to plan and kickstart Sprint 2 by deciding on a sprint goal and a sprint backlog.
+
+## Meeting Details
+- **Date:** 4/16/2024
+- **Time:** 4:30 PM
+- **Location:** Discord
+
+## Agenda Items
+
+1. **Welcome and Introductions** 
+   - Brief introduction of team members, including roles and responsibilities.
+
+2. **Overview of Sprint 2 Progress** 
+   - Recap of completed tasks and acheivements from Sprint 2.
+   - Overview of any outstanding tasks or issues
+
+3. **Sprint Goal** 
+   - Discussion to create the Sprint 3 goal based on Sprint 3 progress.
+   - Alignment on what success looks like for Sprint 3.
+
+4. **Product Backlog Review** 
+   - Review of user stories and tasks from Sprint 2.
+   - Decide on user stories for the sprint backlog
+
+5. **Sprint Planning** 
+   - Breakdown of selected user stories into tasks for Sprint 3.
+   - Estimation of effort for each task.
+   - Assignment of tasks to team members.
+
+6. **Definition of Done for Sprint 2** 
+   - Clarification of the criteria for tasks or user stories to be considered complete for Sprint 3.
+   - Agreement on the definition of done.
+
+7. **Q&A and Open Discussion**
+   - Opportunity for team members to ask questions or seek clarification on Sprint 3 planning.
+
+8. **Next Steps and Closing**
+   - Recap of action items and responsibilities for Sprint 3.
+   - Confirmation of next meeting date and time.
+   - Thank everyone for their participation and commitment.
+
+# Sprint 3 Planning Meeting Minutes
+
+## Meeting Details
+- **Date:** 4/16/2024
+- **Time:** 4:30 PM
+- **Location:** Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+## Agenda Items
+
+1. **Welcome and Introductions** (4:30 - 4:31)
+   - The meeting commenced at 4:30 PM with a warm welcome to all team members
+   - The purpose of the meeting was briefly outlined
+
+2. **Overview of Sprint 2 Progress** (4:31 - 4:36)
+   - The team reviewed completed tasks and achievements from Sprint 2, noting any outstanding tasks or issues.
+
+3. **Sprint Goal** (4:36- 4:43)
+   - Discussion ensued to formulate the Sprint 3 goal, building upon the progress made in Sprint 2.
+   - Consensus was reached on the sprint goal: "Complete remaining tasks from Sprint 2, successfully integrate user management, and finalize all project components for final deployment."
+
+4. **Product Backlog Review**  (4:43 - 4:53)
+   - The team reviewed user stories and tasks from Sprint 2 and decided on user stories for the Sprint 3 backlog.
+
+5. **Sprint Planning** (4:53 - 5:01)
+   - Selected user stories G, H, F, I, O, K, N, and O for the tasks for Sprint 3
+   - Effort estimation was discussed for each task.
+   - Tasks were assigned to team members based on their expertise and availability.
+      - Customize Menu Items: Karan
+      - Manager Landing Page: Aditya
+      - Testing: Isaac
+      - Dietary/Nutritional Information: Kelvin
+      - User Management: Wyatt
+      - UI Improvements: Kunal
+
+6. **Definition of Done for Sprint 3** (5:01 - 5:05)
+   - Criteria for tasks or user stories to be considered complete for Sprint 3 were clarified and agreed upon.
+
+7. **Q&A and Open Discussion** (5:05 - 5:09)
+   - Team members had the opportunity to ask questions or seek clarification on Sprint 3 planning.
+
+8. **Next Steps and Closing** (5:09 - 5:13)
+   - Action items and responsibilities for Sprint 3 were summarized.
+   - The next meeting date and time were confirmed.
+   - Appreciation was expressed to all participants for their active participation and commitment to the project.
+
+**Meeting Adjourned**
+The meeting was adjourned at 5:13 PM.
+
+# Sprint 3 Plan
+
+## Sprint Goal:
+
+Complete remaining tasks from Sprint 2, successfully integrate user management, and finalize all project components for final deployment.
+
+## Sprint 3 Backlog:
+
+**As a customer who is a health worker, I want to be able to see the dietary information and nutritional facts, as well as allergen warnings if the menu item contains any. (2 tasks)[F]**
+
+
+- **F1:** Within each menu item, display important information regarding its dietary information and nutritional facts
+  - **Dependencies: B3 (If database modifications are needed for menu items, those can be made concurrently with task B3)**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done:  Dietary information and nutritional facts are displayed within each menu item. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+- **F2:** If a menu item contains allergen risks, have a clear warning mentioning the risk
+  - **Dependencies: B3 (If database modifications are needed for menu items, those can be made concurrently with task B3)**
+  - **Time Estimate: 1.5 hr, 2 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done: Clear warning implemented mentioning allergen risks for menu items. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kelvin**
+
+
+**As primarily a phone user, I want the website to be easily accessible with a mobile device and still readable on a smaller screen. (2 tasks)[G]**
+
+
+- **G1:** Make the website easy on the eyes and readable on mobile devices
+  - **Dependencies: B**
+  - **Time Estimate: 1 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Website optimized for readability and accessibility on mobile devices. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **G2:** Maintain ease of navigation on mobile devices
+  - **Dependencies: B**
+  - **Time Estimate: 3 hr, 4 pt**
+  - **Priority: High**
+  - **Status: Complete**
+  - **Definition of Done: Ease of navigation maintained on mobile devices. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+
+
+**As a customer with bad eyesight, I want the ability to easily enlarge text on the website and make the website have high contrasting colors so that I can read without straining my eyes, and it should expectedly be clean to look at. (11 tasks)[H]**
+
+
+- **H1:** Identify areas for improvement in the user layout
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: Complete**
+  - **Definition of Done: Areas for improvement in the user layout identified.**
+  - **Assigned to: Kunal**
+- **H2:** Identify areas for improvement in the user navigation
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: Complete**
+  - **Definition of Done: Areas for improvement in the user navigation identified.**
+  - **Assigned to: Kunal**
+- **H3:** Identify areas for improvement in the aesthetics
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority:  Medium**
+  - **Status: Complete**
+  - **Definition of Done: Areas for improvement in the aesthetics identified.**
+  - **Assigned to: Kunal**
+- **H4:** Identify color scheme(s) that work universally for individuals with varying levels of eyesight and apply these scheme(s) to the webpage
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done:  Color schemes identified and applied universally for individuals with varying levels of eyesight.**
+  - **Assigned to: Kunal**
+- **H5:** Identify areas for improvement in the user experience
+  - **Dependencies: B**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority:  Medium**
+  - **Status: Complete**
+  - **Definition of Done:  Areas for improvement in the user experience identified.**
+  - **Assigned to: Kunal**
+- **H6:** Incorporate interactive components to enhance user experience
+  - **Dependencies: B**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority:  Medium**
+  - **Status: Complete**
+  - **Definition of Done: Interactive components incorporated to enhance user experience. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H7:** Incorporate animations to enhance visual appeal
+  - **Dependencies: B**
+  - **Time Estimate: 3 hr, 3 pt**
+  - **Priority:  Medium**
+  - **Status: To-do**
+  - **Definition of Done: Animations incorporated to enhance visual appeal. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H8:** Add in pictures of the menu items
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Low**
+  - **Status: Complete**
+  - **Definition of Done: Pictures of menu items added. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt and Isaac**
+- **H9:** Implement responsive design principles to ensure the GUI adapts smoothly to different screen sizes and devices
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done:**
+  - **Assigned to: Kunal**
+- **H10:** Create a toggle that would make everything larger so that it is easier to view
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 3 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done:  Toggle created to enlarge everything for easier viewing. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **H11:** Create another toggle button for light and dark mode
+  - **Dependencies: B**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: Low**
+  - **Status: To-do**
+  - **Definition of Done: Toggle button created for light and dark mode. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+
+
+**As a customer with unsteady hands, I want the buttons to be large enough and easily clickable so that I do not have excessive trouble navigating. (3 tasks) [I]**
+
+
+- **I1:** Ensure buttons are amply sized so people can easily navigate without trouble
+  - **Dependencies: H**
+  - **Time Estimate: 1 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Buttons ensured to be amply sized for easy navigation. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **I2:** Make sure interactive elements are spaced out enough so that customers do not accidentally click on the wrong element
+  - **Dependencies: H**
+  - **Time Estimate: 0.5 hr, 1 pt**
+  - **Priority: Medium**
+  - **Status: To-do**
+  - **Definition of Done: Interactive elements spaced out to prevent accidental clicks. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+- **I3:** Make it so that the text and buttons are concise enough to understand at a glance. An example of this can be high contrast between the buttons and the screen
+  - **Dependencies: H**
+  - **Time Estimate 0.5 hr, 1 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Text and buttons are made concise and high contrast for easy understanding at a glance. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Kunal**
+
+
+**As a user who orders items, I want to be able to customize the ingredients for menu items I order (2 tasks) [J]**
+
+
+- **K1:** Create back-end functionality to allow a menu item to use different ingredients than the default.
+  - **Dependencies: B**
+  - **Time Estimate:3.5 hr, 4 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: The back end successfully allows for functionality to customize menu items. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Karan**
+- **K2:** Create front-end functionality to allow a user to customize menu items when placing an order.
+  - **Dependencies: B**
+  - **Time Estimate: 4.5 hr, 5 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: The front end successfully allows for functionality to customize menu items. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Karan**
+
+
+**As an administrator, I want to be able to have access to user management tools. (4 tasks) [M]**
+
+
+- **M1:** Create front and back end functionality to create new users.
+  - **Dependencies: C**
+  - **Time Estimate:3 hr, 3 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: User creation implemented to allow an admin to create new users for the website. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+- **M2:** Create front and back end functionality to view current users.
+  - **Dependencies: C**
+  - **Time Estimate:2 hr, 2 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: User viewing implemented to allow an admin to view all registered users. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+- **M3:** Create front and back end functionality to update attributes corresponding to current users.
+  - **Dependencies: C**
+  - **Time Estimate:4 hr, 4 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: User updating implemented to allow an admin to modify a user's name, role/privileges, contact info, etc. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+- **M4:** Create front and back end functionality to remove a user from the system.
+  - **Dependencies: C**
+  - **Time Estimate:3 hr, 3 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: User removal implemented to allow an admin to remove a user from the system. Implementation reviewed, tested, and functioning as expected.**
+  - **Assigned to: Wyatt**
+
+
+**As a developer, I would like all of my code to be tested (2 tasks) [N]**
+
+
+- **N1:** Write unit tests for back-end functionality.
+  - **Dependencies: None**
+  - **Time Estimate: 3.5 hr, 4 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Unit tests ensure the critical functionalities of the back-end code are tested with at least 50% coverage.**
+  - **Assigned to: Isaac**
+- **N2:** Write unit tests for front-end functionality.
+  - **Dependencies: B**
+  - **Time Estimate: 7 hr, 5 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: Unit tests ensure the critical functionalities of the front-end code are tested with at least 50% coverage.**
+  - **Assigned to: Isaac**
+
+
+**As a manager, I want a landing page where I can access reports and manage different aspects of the restaurant. (2 tasks) [O]**
+
+
+- **O1:** Design and implement the layout of the landing page with sections for reports and management
+  - **Dependencies: None**
+  - **Time Estimate: 2 hr, 2 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: The landing page layout is designed and implemented according to specifications, ensuring intuitive navigation.**
+  - **Assigned to: Aditya**
+- **O2:** Implement navigation to different manager-related areas from the landing page.
+  - **Dependencies: B**
+  - **Time Estimate: 1.5 hr, 2 pt**
+  - **Priority: High**
+  - **Status: To-do**
+  - **Definition of Done: The landing page allows managers to effectively navigate to different features available to them.**
+  - **Assigned to: Aditya**
