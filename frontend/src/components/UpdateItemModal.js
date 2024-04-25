@@ -1,15 +1,33 @@
 import React, { useEffect, useState } from "react";
 // import Link from 'next/link'
 import Image from 'next/image'
+import { useTransaction } from "@/components/transactions/TransactionContext";
 
 
-export default function UpdateModal({ isOpen, onClose, item, sendFunction }) {
+export default function UpdateModal({ isOpen, onClose, item}) {
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
 
     const [ingredients, setIngredients] = useState()
     const [removedIngredients, setRemovedIngredients] = useState([]);
+    const [modificationString, setModificationString] = useState("")
 
+    const { updateTransaction, transactions } = useTransaction();
+
+    const sendToTransaction = (dish) => {
+        var quantity = 0;
+        if (transactions) {
+            transactions.forEach(item => {
+                if (dish.menuid === item.id && dish.modif === item.modif) {
+                    quantity = item.quantity + 1;
+                }
+            });
+        }
+        if (quantity === 0) {
+            quantity = 1;
+        }
+        updateTransaction({ "id": dish.menuid, "itemname": dish.itemname, "price": dish.price, "quantity": quantity, "modif": modificationString});
+    };
 
     useEffect(() => {
         setRemovedIngredients([])
@@ -34,6 +52,7 @@ export default function UpdateModal({ isOpen, onClose, item, sendFunction }) {
                 const filteredData = data.filter(item => !isItemFilterOut(item.ingredientname));
 
                 setIngredients(filteredData)
+                setRemovedIngredients(new Array(filteredData.length).fill(false))
 
             } catch (error) {
                 console.error("Error fetching ingredient for menu item:", error);
@@ -47,7 +66,12 @@ export default function UpdateModal({ isOpen, onClose, item, sendFunction }) {
 
     }, [item]);
 
-    if (!isOpen) return null;
+    useEffect(() => {
+        if (isOpen) {
+            sendToTransaction(item);
+        }
+    }, [modificationString]);
+
 
     const handleIngredientClick = (index) => {
         const ingredient = ingredients[index];
@@ -58,8 +82,27 @@ export default function UpdateModal({ isOpen, onClose, item, sendFunction }) {
             return newState;
         });
 
-        console.log("Clicked", ingredient.ingredientname);
     };
+
+    const handleAddCart = () => {
+        if (removedIngredients.every(item => item === false)){
+            setModificationString("")
+        }
+        else{
+            let temp = "";
+            for (let i = 0; i < removedIngredients.length; i++){
+                if (removedIngredients[i]){
+                    temp += "No " + ingredients[i].ingredientname.toString() + ","
+                    
+                }
+            }
+            setModificationString(temp)
+        }
+    }
+
+    
+    if (!isOpen) return null;
+
 
 
     return (
@@ -129,7 +172,7 @@ export default function UpdateModal({ isOpen, onClose, item, sendFunction }) {
                             <button
                                 className="bg-red-800 font-semibold text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 hover:text-black 
                                         transition duration-200 ease-in-out"
-                                onClick={() => sendFunction(item)}
+                                onClick={() => handleAddCart()}
                             >
                                 Add to Bag
                             </button>

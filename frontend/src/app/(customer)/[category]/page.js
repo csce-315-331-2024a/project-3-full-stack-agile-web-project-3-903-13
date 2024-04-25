@@ -63,7 +63,6 @@ export default function Page({ params }) {
         setSelectedItem(item)
         setIsModalOpen(true)
         // sendToTransaction(item); 
-        console.log(item)
     }
 
     const closeUpdateModal = () => {
@@ -131,7 +130,6 @@ export default function Page({ params }) {
                     isOpen={isModalOpen}
                     onClose={closeUpdateModal}
                     item = {selectedItem}
-                    sendFunction = {sendToTransaction}
                 />
 
             </div>

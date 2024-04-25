@@ -21,7 +21,10 @@ export const TransactionProvider = ({ children }) => {
     } else {
       var itemFound = false
       transactions.forEach((menuItem,index,transactions) => {
-        if (item.id == menuItem.id) {
+        if (item.id == menuItem.id && item.modif == menuItem.modif) {
+          console.log(item.motif)
+          console.log(menuItem.motif)
+
           transactions[index].quantity = menuItem.quantity + 1
           itemFound = true 
         }
@@ -51,7 +54,7 @@ export const TransactionProvider = ({ children }) => {
       "taxAmount": taxAmount,
       "orderContents": orderContents
     }
-    fetch("http://localhost:5000/api//transactions/new", {
+    fetch("http://localhost:5000/api/transactions/new", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",

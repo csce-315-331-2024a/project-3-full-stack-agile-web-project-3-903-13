@@ -25,7 +25,7 @@ const insertTransaction = async (totalCost, taxAmount) => {
 const updateFoodItemsTable = async (id, orderContents) => {
     for (const item of orderContents) {
         try {
-            await db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)", [id, item.id, item.quantity]);
+            await db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3, '')", [id, item.id, item.quantity]);
         } catch (err) {
             // console.error(err);
             throw err; // Re-throw the error to handle it in the caller function
@@ -142,7 +142,7 @@ const getTransactionInfo = async (transactionid) => {
 	const cost = queryTimeResults.rows[0]["totalcost"]
 	const status = queryTimeResults.rows[0]["status"]
 
-	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as itemname, menuitems.price as price, fooditems.quantity as Quantity
+	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as itemname, menuitems.price as price, fooditems.quantity as Quantity, fooditems.modif as Modif
 			FROM fooditems
 			INNER JOIN menuitems 
 				ON menuitems.menuid = fooditems.menuid
