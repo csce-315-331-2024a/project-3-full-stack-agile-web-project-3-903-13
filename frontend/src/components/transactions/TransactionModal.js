@@ -80,13 +80,13 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                             <div className="text-lg font-bold"> Quantity </div>
                         </div>
                         {transaction.components.map((item, index) => (
-                            <div>
+                            <div className="mb-2">
                                 <div key={index} className="flex justify-between">
                                     <div> {item.itemname}</div>
                                     <div> {item.quantity} </div>
                                 </div>
                                 {item.modif.length > 0 && item.modif.split(',').map((modif, index) => (
-                                    <div key={index} className="text-sm"> &nbsp;&nbsp;&nbsp;{modif}</div>
+                                    modif.length > 0 && <div key={index} className="text-sm"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{modif}</div>
                                 ))}
                             </div>
                         ))}

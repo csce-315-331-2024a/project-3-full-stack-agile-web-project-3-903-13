@@ -151,7 +151,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
                                         <button
                                             key={index}
                                             className={`rounded-md px-3 py-1 m-1 transition duration-100 ease-in-out 
-                                                        ${removedIngredients[index] ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-300 hover:bg-gray-400'}`}
+                                                        ${removedIngredients[index] ? 'line-through' : 'bg-gray-300 hover:bg-gray-400'}`}
                                             onClick={() => { handleIngredientClick(index) }}
                                         >
                                             {item.ingredientname}
