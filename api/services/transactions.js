@@ -205,7 +205,20 @@ const fullfillOrder = async(request, response) => {
 	const query = `UPDATE transactions SET status = 'fulfilled' WHERE transactionid = ${transactionID};`
 
 	try {
-		db.query(query);
+		await db.query(query);
+	}
+	catch (error) {
+		throw error 
+	}
+}
+
+const cancelOrder = async(request, response) => {
+	const {transactionID} = request.body;
+
+	const query = `UPDATE transactions SET status = 'cancelled' WHERE transactionid = ${transactionID};`
+	try {
+		await db.query(query);
+		response.status(200).send("Order cancelled successfully");
 	}
 	catch (error) {
 		throw error 
@@ -235,5 +248,6 @@ module.exports = {
 	incrementInventory,
 	verifyOrderFormatting,
 	deleteTransaction,
-	updateTransaction
+	updateTransaction,
+	cancelOrder
 }
