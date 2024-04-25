@@ -77,7 +77,7 @@ export default function CustomerNavbar({ links }) {
       <div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
         <ul className="flex flex-row items-center">
           <li>
-            <img className="hidden absolute md:relative md:flex mr-8" src={"./revs.png"} width={110} height={110}></img>
+            <Image alt = "Rev logo" className="hidden absolute md:relative md:flex mr-8" src={"/revs.png"} width={110} height={110}></Image>
           </li>
           {links.map((link) => (
             <li key={link.route} className="mr-8">
@@ -100,11 +100,11 @@ export default function CustomerNavbar({ links }) {
         <ul className="flex flex-row gap-8 items-center">
           <li>
             <Link href={"/employee/burgers"}>
-              <Image className="nav-image" src={"./user.svg"} width={30} height={30}></Image>
+              <Image alt = "employee log in" className="nav-image" src={"./user.svg"} width={30} height={30}></Image>
             </Link>
           </li>
           <div onClick={toggleCart} className="cursor-pointer cart relative">
-            <Image className="nav-image" src={"./cart.svg"} width={30} height={30}></Image>
+            <Image alt = "cart" className="nav-image" src={"./cart.svg"} width={30} height={30}></Image>
             {cartCount > 0 && (
               <span className="absolute top-[-15px] right-[-15px] inline-block px-1 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
                 {cartCount}
@@ -121,10 +121,10 @@ export default function CustomerNavbar({ links }) {
               <div key={index} className="flex flex-col items-center justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow">
                 <div className="flex w-full justify-between items-center">
                   <span className="font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
-                  <FaWindowClose className="text-red-600 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id)} />
+                  <FaWindowClose className="text-red-600 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id, item.modif)} />
                 </div>
                 <div className="flex items-center justify-center mt-2">
-                  <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id)} />
+                  <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
                   <span className="mx-2 text-lg">x{item.quantity}</span>
                   <FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
                 </div>
