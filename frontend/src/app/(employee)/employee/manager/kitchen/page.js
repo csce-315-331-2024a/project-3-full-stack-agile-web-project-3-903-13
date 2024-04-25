@@ -53,9 +53,13 @@ export default function KitchenStatePage() {
                     <div key={order.transactionid} className="bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                         <h1 className="text-lg font-bold pb-2">Order #{order.transactionid}</h1>
                         {order.components.map((item, index) => (
-                            <div key={index} className="flex justify-between">
-                                <div> {item.itemname}</div>
-                                <div> &#215;{item.quantity} </div>
+                            
+                            <div>
+                                <div key={index} className="flex justify-between">
+                                    <div> {item.itemname}</div>
+                                    <div> &#215;{item.quantity} </div>
+                                </div>
+                                <div className="text-xs"> {item.modif && item.modif.slice(0, item.modif.length - 1)} </div>
                             </div>
                         ))
 

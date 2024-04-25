@@ -23,7 +23,7 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
         }
 
         if (alltransactionData.length === 1) {
-            setAllData(""); 
+            setAllData("");
         } else {
             const updatedData = alltransactionData.filter(item => item.transactionid !== transaction.transactionid);
             setAllData(updatedData);
@@ -80,10 +80,14 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                             <div className="text-lg font-bold"> Quantity </div>
                         </div>
                         {transaction.components.map((item, index) => (
-                            <div key={index} className="flex justify-between">
-                                <div> {item.itemname}</div>
-
-                                <div> {item.quantity} </div>
+                            <div>
+                                <div key={index} className="flex justify-between">
+                                    <div> {item.itemname}</div>
+                                    <div> {item.quantity} </div>
+                                </div>
+                                {item.modif.length > 0 && item.modif.split(',').map((modif, index) => (
+                                    <div key={index} className="text-sm"> &nbsp;&nbsp;&nbsp;{modif}</div>
+                                ))}
                             </div>
                         ))}
 
