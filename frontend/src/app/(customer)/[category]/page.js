@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
 import Image from 'next/image'
+import UpdateModal from "@/components/UpdateItemModal";
+ 
 
 const categories = [
     "Burgers",
@@ -18,6 +20,10 @@ export default function Page({ params }) {
     const [itemType, setItemType] = useState([]);
     const { updateTransaction, transactions } = useTransaction();
     const [scaleStates, setScaleStates] = useState({});
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
 
     useEffect(() => {
         const fetchMenuItems = async () => {
@@ -52,6 +58,20 @@ export default function Page({ params }) {
         }, 300);
     };
 
+
+    const handleItemClick = (item) => {
+        setSelectedItem(item)
+        setIsModalOpen(true)
+        // sendToTransaction(item); 
+        console.log(item)
+    }
+
+    const closeUpdateModal = () => {
+        setIsModalOpen(false);
+    }
+
+
+
     const getItemScale = (menuId) => {
         return scaleStates[menuId] === 'clicked' ? 'pulse' : 'hover-effect';
     };
@@ -80,11 +100,15 @@ export default function Page({ params }) {
                     border-radius: 8px;
                 }
             `}</style>
+
             <div className="container px-10 mx-auto">
                 <h1 className="text-3xl font-bold text-center mb-8">{params.category}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {itemType.map((item) => (
-                        <div key={item.menuID} className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`} onClick={() => sendToTransaction(item)}>
+                        <div key={item.menuID} 
+                        className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`} 
+                        onClick={() => handleItemClick(item)}>
+
                             <Image
                                 src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
                                 alt={item.itemname}
@@ -92,6 +116,7 @@ export default function Page({ params }) {
                                 width={150}
                                 height={150}
                             />
+
                             <div className="absolute bottom-0 w-full text-center p-2">
                                 <div className="info-text">
                                     <h5 className="text-xl font-bold text-gray-900">{item.itemname}</h5>
@@ -101,6 +126,14 @@ export default function Page({ params }) {
                         </div>
                     ))}
                 </div>
+                
+                <UpdateModal
+                    isOpen={isModalOpen}
+                    onClose={closeUpdateModal}
+                    item = {selectedItem}
+                    sendFunction = {sendToTransaction}
+                />
+
             </div>
         </main>
     );
