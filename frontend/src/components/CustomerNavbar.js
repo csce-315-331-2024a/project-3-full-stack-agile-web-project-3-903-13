@@ -110,14 +110,14 @@ export default function CustomerNavbar({ links }) {
               <div key={index} className="flex items-center justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow space-x-4">
                 <span className="flex-1 font-semibold truncate pr-2">{item.itemname}</span>
                 <div className="flex items-center flex-none">
-                  <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id)} />
+                  <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
                   <span className="mx-2 text-lg">x{item.quantity}</span>
                   <FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
                 </div>
                 <span className="flex-none font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
                 <FaWindowClose
                   className="ml-2 text-xl text-red-600 cursor-pointer flex-none"
-                  onClick={() => removeItemCompletely(item.id)}
+                  onClick={() => removeItemCompletely(item.id, item.modif)}
                 />
               </div>
             )) : <div className="flex flex-col items-center">No items in current transaction!</div>}

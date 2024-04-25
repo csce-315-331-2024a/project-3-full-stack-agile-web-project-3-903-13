@@ -4,17 +4,17 @@ import Image from 'next/image'
 import { useTransaction } from "@/components/transactions/TransactionContext";
 
 
-export default function UpdateModal({ isOpen, onClose, item}) {
+export default function UpdateModal({ isOpen, onClose, item }) {
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
 
     const [ingredients, setIngredients] = useState()
     const [removedIngredients, setRemovedIngredients] = useState([]);
-    const [modificationString, setModificationString] = useState("")
+    // const [modificationString, setModificationString] = useState("")
 
     const { updateTransaction, transactions } = useTransaction();
 
-    const sendToTransaction = (dish) => {
+    const sendToTransaction = (dish, modificationString) => {
         var quantity = 0;
         if (transactions) {
             transactions.forEach(item => {
@@ -26,7 +26,7 @@ export default function UpdateModal({ isOpen, onClose, item}) {
         if (quantity === 0) {
             quantity = 1;
         }
-        updateTransaction({ "id": dish.menuid, "itemname": dish.itemname, "price": dish.price, "quantity": quantity, "modif": modificationString});
+        updateTransaction({ "id": dish.menuid, "itemname": dish.itemname, "price": dish.price, "quantity": quantity, "modif": modificationString });
     };
 
     useEffect(() => {
@@ -66,11 +66,11 @@ export default function UpdateModal({ isOpen, onClose, item}) {
 
     }, [item]);
 
-    useEffect(() => {
-        if (isOpen) {
-            sendToTransaction(item);
-        }
-    }, [modificationString]);
+    // useEffect(() => {
+    //     if (isOpen) {
+    //         sendToTransaction(item);
+    //     }
+    // }, [modificationString]);
 
 
     const handleIngredientClick = (index) => {
@@ -85,22 +85,16 @@ export default function UpdateModal({ isOpen, onClose, item}) {
     };
 
     const handleAddCart = () => {
-        if (removedIngredients.every(item => item === false)){
-            setModificationString("")
-        }
-        else{
-            let temp = "";
-            for (let i = 0; i < removedIngredients.length; i++){
-                if (removedIngredients[i]){
-                    temp += "No " + ingredients[i].ingredientname.toString() + ","
-                    
-                }
+        let temp = "";
+        for (let i = 0; i < removedIngredients.length; i++) {
+            if (removedIngredients[i]) {
+                temp += "No " + ingredients[i].ingredientname.toString() + ",";
             }
-            setModificationString(temp)
         }
+        sendToTransaction(item, temp)
     }
 
-    
+
     if (!isOpen) return null;
 
 
@@ -158,7 +152,7 @@ export default function UpdateModal({ isOpen, onClose, item}) {
                                             key={index}
                                             className={`rounded-md px-3 py-1 m-1 transition duration-100 ease-in-out 
                                                         ${removedIngredients[index] ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-300 hover:bg-gray-400'}`}
-                                            onClick={() => {handleIngredientClick(index)}}
+                                            onClick={() => { handleIngredientClick(index) }}
                                         >
                                             {item.ingredientname}
                                         </button>
