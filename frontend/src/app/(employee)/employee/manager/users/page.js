@@ -2,128 +2,76 @@
 
 import React, { useEffect, useState } from 'react';
 
-// Function to safely format total sales as a fixed decimal string
-const formatTotalSales = (totalSales) => {
-    if (typeof totalSales === 'number') {
-        return totalSales.toFixed(2);
-    } else if (typeof totalSales === 'string') {
-        const parsed = parseFloat(totalSales);
-        return isNaN(parsed) ? 'N/A' : parsed.toFixed(2);
-    }
-    return 'N/A'; // Return 'N/A' or some other placeholder if the value is not a number
-};
+export default function usersPage() {
 
-export default function ExcessReportPage() {
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [employees, setEmployees] = useState([])
 
-    const [reportData, setReportData] = useState([]);
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                const employees = await fetch(`http://localhost:5000/api/employees`);
 
-    const [loading, setLoading] = useState(false);
-
-    const [success, setSuccess] = useState(false);
-    const [message, setMessage] = useState('');
-
-    const fetchExcessReport = async () => {
-        setLoading(true);
-        setSuccess(false);
-        setMessage('');
-        setReportData([]);
-
-        try {
-            const responseState = await fetch(`http://localhost:5000/api/inventory/state?startDate=${startDate}`);
-            const responseUsage = await fetch(`http://localhost:5000/api/inventory/usage?startDate=${startDate}&endDate=${endDate}`)
-
-            if (!responseState.ok || !responseUsage.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const stateData = await responseState.json();
-            const usedInventData = await responseUsage.json();
-
-            if (stateData.length === 0 || usedInventData === 0) {
-                setSuccess(false);
-                setMessage('No entries found for the selected date range. Please try a different time range.');
-            } else {
-
-                let tempData = [];
-
-                for (let i = 0; i < stateData.length; i++) {
-                    const name = stateData[i].name;
-                    const percentUsed = 100 * parseFloat(usedInventData[i].totalinventoryused) / parseFloat(stateData[i].inventorybegin)
-                    tempData.push({ name: name, percentUsed: percentUsed });
+                if (!employees.ok) {
+                    throw new Error('Network response was not ok');
                 }
 
-                tempData = tempData.filter(el => el.percentUsed < 10)
-                setReportData(tempData);
-                setSuccess(true);
-                setMessage('Excess report generated successfully');
+                const employeesData = await employees.json();
+                setEmployees(employeesData)
+            } catch (error) {
+                console.error('Error retrieving users:', error);
             }
-        } catch (error) {
-            console.error('Error fetching excess report:', error);
-            setSuccess(false);
-            setMessage('Failed to fetch excess report. Please try again.');
-        }
-        setLoading(false);
-    };
+        };
 
-    const handleGenerateReport = (e) => {
-        e.preventDefault();
-        fetchExcessReport();
-    };
+        fetchEmployees()
+
+    }, [])
 
     return (
         <main className="min-h-screen bg-gray-100 flex items-center justify-center">
-            <div className="w-full max-w-4xl p-5 bg-white shadow-lg rounded">
-                <h1 className="text-xl font-semibold text-center mb-6"> EXCESS REPORT</h1>
-                <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center mb-4">
-                    <input
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        className="mb-2 md:mb-0 md:mr-2"
-                        required
-                    />
-                    <input
-                        type="date"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        className="mb-2 md:mb-0 md:mr-2"
-                        required
-                    />
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2" disabled={loading}>
-                        {loading ? 'Loading...' : 'Generate Report'}
-                    </button>
-                </form>
-                {!(success && reportData.length === 0) && (
-                    <div className="text-center">
-                        <p className={success ? "text-green-500" : "text-red-500"}> {message} </p>
+        <div className="flex flex-col w-4/5 border-solid border-grey border-2">
+          <div className="-m-1.5 overflow-x-auto">
+            <div className="p-1.5 min-w-full inline-block align-middle">
+              <div className="border rounded-lg divide-y divide-gray-200">
+                <div className="py-3 px-4">
+                  <div className="relative max-w-xs">
+                    <label htmlFor="hs-table-search" className="sr-only" text="Search">Search</label>
+                    <input type="text" name="hs-table-search" id="hs-table-search" className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Search Employees"/>
+                    <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+                      <svg className="size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                      </svg>
                     </div>
-                )}
-                {success && reportData.length === 0 && !loading && (
-                    <p className="text-center text-green-500"> No item was used less than 10% for the given timeperiod </p>
-                )}
-                {reportData.length > 0 && (
-                    <div className="overflow-auto">
-                        <table className="w-full table-auto border-collapse border border-gray-500">
-                            <thead>
-                                <tr>
-                                    <th className="border border-gray-400 px-4 py-2">Item Name</th>
-                                    <th className="border border-gray-400 px-4 py-2"> Percent Sold</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {reportData.map((item, index) => (
-                                    <tr key={index}>
-                                        <td className="border border-gray-400 px-4 py-2">{item.name}</td>
-                                        <td className="border border-gray-400 px-4 py-2">{formatTotalSales(item.percentUsed)}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-            </div>
+                  </div>
+                </div>
+                <div className="overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Employee ID</th>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Phone Number</th>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Age</th>
+                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Weekly Hours</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                    {employees.map((employee, index) => (
+                        <tr key={index} onClick={() => {}}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{employee.employeename}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeeid}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeephonenumber}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeeage}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeehours}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                    </table>
+                  </div>
+                  </div>
+              </div>
+              </div>
+          </div>
         </main>
     );
 }
