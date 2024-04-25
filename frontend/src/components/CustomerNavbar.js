@@ -121,10 +121,10 @@ export default function CustomerNavbar({ links }) {
               <div key={index} className="flex flex-col items-center justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow">
                 <div className="flex w-full justify-between items-center">
                   <span className="font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
-                  <FaWindowClose className="text-red-600 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id)} />
+                  <FaWindowClose className="text-red-600 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id, item.modif)} />
                 </div>
                 <div className="flex items-center justify-center mt-2">
-                  <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id)} />
+                  <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
                   <span className="mx-2 text-lg">x{item.quantity}</span>
                   <FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
                 </div>
