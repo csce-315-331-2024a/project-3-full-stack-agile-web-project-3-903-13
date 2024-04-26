@@ -202,7 +202,7 @@ const getInProgressOrders = async(request, response) => {
 const fullfillOrder = async(request, response) => {
 	const {transactionID} = request.body;
 
-	const query = `UPDATE transactions SET status = 'fulfilled' WHERE transactionid = ${transactionID};`
+	const query = `UPDATE transactions SET status = 'fulfilled', transactiontime = NOW() WHERE transactionid = ${transactionID};`
 
 	try {
 		await db.query(query);
