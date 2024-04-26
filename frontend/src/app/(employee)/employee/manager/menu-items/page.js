@@ -2,47 +2,42 @@
 
   import { useEffect, useState } from "react";
   import { FaTrash } from "react-icons/fa";
+  import axios from 'axios';
 
   export const getMenuItems = async () => {
-    const items = await fetch("http://localhost:5000/api/menuitems");
-    const data = await items.json();
-    
-    return data;
+    try {
+      const response = await axios.get('http://localhost:5000/api/menuitems');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching menu items:', error);
+      // Handle error appropriately, e.g., throw error or return default menu items
+    }
   };
 
   export const getMenuItemIngredients = async (menuItem) => {
     try {
       // Construct the query string from the menuItem object
       const queryString = new URLSearchParams(menuItem).toString();
-      
+  
       // Append the query string to the URL
       const url = `http://localhost:5000/api/menuitems/getIngreds?${queryString}`;
-
+  
       // Make the GET request
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
-      }
-
-      const data = await response.json();
-      return data;
+      const response = await axios.get(url);
+  
+      return response.data;
     } catch (error) {
-      console.error("Error fetching ingredient for menu item:", error);
+      console.error("Error fetching ingredients for menu item:", error);
       throw error;
     }
   };
 
   export const getMenuItemsWithIngredients = async () => {
     try {
-      // Fetch menu items
-      const items = await fetch("http://localhost:5000/api/menuitems");
-      const data = await items.json();
-  
+      const response = await axios.get('http://localhost:5000/api/menuitems');
       // Fetch ingredients for each menu item
       const menuItemsWithIngredients = await Promise.all(
-        data.map(async (menuItems) => {
+        response.data.map(async (menuItems) => {
           console.log(menuItems.itemname);
 
           const ingredients = await getMenuItemIngredients({ itemName: menuItems.itemname });
@@ -60,94 +55,77 @@
 
 
   export const getInventoryItems = async () => {
-    const items = await fetch("http://localhost:5000/api/inventory");
-    const data = await items.json();
-
-    return data;
+    try {
+      const response = await axios.get('http://localhost:5000/api/inventory');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching inventory items:', error);
+      // Handle error appropriately, e.g., throw error or return empty inventory
+    }
   };
 
   export const addMenuItem = async (menuItem) => {
-    const response = await fetch("http://localhost:5000/api/menuitems", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(menuItem),
-    });
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
+    try {
+      const response = await axios.post('http://localhost:5000/api/menuitems', menuItem, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
       return { success: true, message: "Menu item added successfully" };
+    } catch (error) {
+      console.error('Error adding menu item:', error);
+      // Handle error appropriately, e.g., throw error or display error message
     }
   };
 
   export const updateMenuItemPrice = async (menuItem) => {
-    const response = await fetch("http://localhost:5000/api/menuitems/updatePrice", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(menuItem),
-    });
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
+    try {
+      const response = await axios.patch('http://localhost:5000/api/menuitems/updatePrice', menuItem, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
       return { success: true, message: "Menu item price updated successfully" };
+    } catch (error) {
+      console.error('Error updating menu item price:', error);
+      // Handle error appropriately, e.g., throw error or display error message
     }
   };
 
   export const updateMenuItemCat = async (menuItem) => {
-    const response = await fetch("http://localhost:5000/api/menuitems/updateCat", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(menuItem),
-    });
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
+    try {
+      const response = await axios.patch('http://localhost:5000/api/menuitems/updateCat', menuItem, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
       return { success: true, message: "Menu item category updated successfully" };
+    } catch (error) {
+      console.error('Error updating menu item category:', error);
+      // Handle error appropriately, e.g., throw error or display error message
     }
   };
 
   export const updateMenuItemIngred = async (menuItem) => {
-    const response = await fetch("http://localhost:5000/api/menuitems/updateIngred", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(menuItem),
-    });
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
+    try {
+      const response = await axios.patch('http://localhost:5000/api/menuitems/updateIngred', menuItem, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
       return { success: true, message: "Menu item ingredients updated successfully" };
+    } catch (error) {
+      console.error('Error updating menu item ingredients:', error);
+      // Handle error appropriately, e.g., throw error or display error message
     }
   };
 
   export const removeMenuItem = async (menuItem) => {
-    const response = await fetch("http://localhost:5000/api/menuitems", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(menuItem),
-    });
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
+    try {
+      const response = await axios.delete('http://localhost:5000/api/menuitems', {
+        data: menuItem, // Axios automatically sets Content-Type header for DELETE requests
+      });
+  
       return { success: true, message: "Menu item removed successfully" };
+    } catch (error) {
+      console.error('Error removing menu item:', error);
+      // Handle error appropriately, e.g., throw error or display error message
     }
   };
 
@@ -571,9 +549,10 @@
             </select>
             {updateCategory < 2 &&  (
               <select
-              value={updateItemName}
-              onChange={(e) => setUpdateItemName(e.target.value)}
-              className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+                  data-testid = "updateName"
+                  value={updateItemName}
+                  onChange={(e) => setUpdateItemName(e.target.value)}
+                  className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
             >
               <option value="">Select Menu Item</option>
               {menuItems.map(item => (
@@ -673,7 +652,8 @@
           )}
           <form onSubmit={handleRemoveMenuItem} className = "flex flex-col items-center justify-center">
             <select
-                  value={removeItemName}
+                    data-testid = "removeName"
+                    value={removeItemName}
                     onChange={(e) =>setRemoveMenuItem(e.target.value)}
                     className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                   >

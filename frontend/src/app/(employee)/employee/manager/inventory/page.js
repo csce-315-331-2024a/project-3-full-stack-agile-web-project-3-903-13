@@ -1,101 +1,97 @@
 "use client"
 
 import { useEffect, useState } from "react";
-
+import axios from 'axios';
 
 export const getInventoryItems = async () => {
-  const items = await fetch("http://localhost:5000/api/inventory");
-  const data = await items.json();
-
-  return data;
+  try {
+    const response = await axios.get("http://localhost:5000/api/inventory");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching inventory items:", error);
+    throw error; // Re-throw the error for handling in the component
+  }
 };
 
 export const updateInventCount = async (inventItem) => {
-  const response = await fetch("http://localhost:5000/api/inventory/updateQuantity", {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(inventItem),
-  });
-
-  if (!response.ok) {
-    const errorMessage = await response.text();
-    throw new Error(errorMessage);
-  } else {
-    return { success: true, message: "Inventory item count updated successfully" };
+  try {
+    const response = await axios.patch(
+      "http://localhost:5000/api/inventory/updateQuantity",
+      inventItem,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating inventory count:", error);
+    throw error; // Re-throw the error for handling in the component
   }
 };
 
 export const updateInventPrice = async (inventItem) => {
-    const response = await fetch("http://localhost:5000/api/inventory/updatePrice", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(inventItem),
-    });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
-      return { success: true, message: "Inventory item price updated successfully" };
-    }
-  };
+  try {
+    const response = await axios.patch(
+      "http://localhost:5000/api/inventory/updatePrice",
+      inventItem,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating inventory price:", error);
+    throw error; // Re-throw the error for handling in the component
+  }
+};
 
-
-  export const updateInventMin = async (inventItem) => {
-    const response = await fetch("http://localhost:5000/api/inventory/updateMinCount", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(inventItem),
-    });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
-      return { success: true, message: "Inventory item minimum count updated successfully" };
-    }
-  };
-
+export const updateInventMin = async (inventItem) => {
+  try {
+    const response = await axios.patch(
+      "http://localhost:5000/api/inventory/updateMinCount",
+      inventItem,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating inventory minimum count:", error);
+    throw error; // Re-throw the error for handling in the component
+  }
+};
 
 export const addInventoryItem = async (inventItem) => {
-  const response = await fetch("http://localhost:5000/api/inventory", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(inventItem),
-  });
-
-  if (!response.ok) {
-    const errorMessage = await response.text();
-    throw new Error(errorMessage);
-  } else {
-    return { success: true, message: "Inventory item added successfully" };
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/inventory",
+      inventItem,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding inventory item:", error);
+    throw error; // Re-throw the error for handling in the component
   }
 };
 
 export const removeInventoryItem = async (inventItem) => {
-    const response = await fetch("http://localhost:5000/api/inventory", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(inventItem),
-    });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
-      return { success: true, message: "Inventory item removed successfully" };
-    }
-  };
+  try {
+    const response = await axios.delete(
+      "http://localhost:5000/api/inventory",
+      {
+        data: inventItem, // You can send the item data in the request body if needed
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error removing inventory item:", error);
+    throw error; // Re-throw the error for handling in the component
+  }
+};
 
   const categories = [
     { label: "Update Item Count", value: 0 },
@@ -263,7 +259,7 @@ export default function InventoryPage() {
       <div className="w-full  max-w-screen-xl">
         <div className = "flex justify-between mb-8">
             <div className="w-full md:w-1/3 flex flex-col items-center">
-              <h1 className="p-3 md:p text-xl font-semibold text-center">ADDING INVENTORY ITEMS</h1>
+              <h1 className="p-3 md:p text-xl font-semibold text-center">ADD INVENTORY ITEM</h1>
                 {addErrorMessage && (
                   <p className="text-red-500">{addErrorMessage}</p>
                 )}

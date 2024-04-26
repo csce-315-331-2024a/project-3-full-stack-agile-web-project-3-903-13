@@ -1,94 +1,143 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import axios from 'axios';
 import InventoryPage from '../src/app/(employee)/employee/manager/inventory/page';
 
+jest.mock('axios');
+
 describe('InventoryPage', () => {
-  const mockInventoryItems = [
-    { inventid: 1, ingredientname: 'Item 1', count: 10, price: 5.99, mincount: 5 },
-    { inventid: 2, ingredientname: 'Item 2', count: 20, price: 3.99, mincount: 10 },
-  ];
-
-  it('renders inventory items', () => {
-    render(<InventoryPage />);
-    const itemElements = screen.getAllByRole('article');
-    expect(itemElements).toHaveLength(mockInventoryItems.length);
+  beforeEach(() => {
+    axios.get.mockResolvedValue({ data: [] });
+    axios.patch.mockResolvedValue({ data: { message: 'Success' } });
+    axios.post.mockResolvedValue({ data: { message: 'Success' } });
+    axios.delete.mockResolvedValue({ data: { message: 'Success' } });
   });
 
-  it('renders input fields for adding an inventory item', () => {
-    render(<InventoryPage />);
-    const addItemNameInput = screen.getByPlaceholderText('Item Name');
-    const addCountInput = screen.getByPlaceholderText('Count');
-    const addPriceInput = screen.getByPlaceholderText('Price');
-    const addMinCountInput = screen.getByPlaceholderText('Minimum Count');
-    const addButton = screen.getByRole('button', { name: 'ADD' });
-
-    expect(addItemNameInput).toBeInTheDocument();
-    expect(addCountInput).toBeInTheDocument();
-    expect(addPriceInput).toBeInTheDocument();
-    expect(addMinCountInput).toBeInTheDocument();
-    expect(addButton).toBeInTheDocument();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('renders input fields and dropdowns for updating an inventory item', () => {
+  test('renders the inventory items', async () => {
+    axios.get.mockResolvedValue({ data: [{ inventid: 1, ingredientname: 'Item 1', count: 10, price: 5.99, mincount: 5 }] });
     render(<InventoryPage />);
+    const items = await waitFor(() => screen.getAllByText('Item 1'));
+    expect(items.length).toBeGreaterThan(0);
+  });
+
+  test('adds an inventory item', async () => {
+    render(<InventoryPage />);
+    const itemNameInput = screen.getByPlaceholderText('Item Name');
+    const countInput = screen.getByPlaceholderText('Count');
+    const priceInput = screen.getByPlaceholderText('Price');
+    const minCountInput = screen.getByPlaceholderText('Minimum Count');
+    const addButton = screen.getByText('ADD');
+
+    fireEvent.change(itemNameInput, { target: { value: 'New Item' } });
+    fireEvent.change(countInput, { target: { value: '20' } });
+    fireEvent.change(priceInput, { target: { value: '9.99' } });
+    fireEvent.change(minCountInput, { target: { value: '10' } });
+    fireEvent.click(addButton);
+
+    const successMessage = await waitFor(() => screen.getByText('Success'));
+    expect(successMessage).toBeInTheDocument();
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:5000/api/inventory', {
+      itemName: 'New Item',
+      count: '20',
+      price: '9.99',
+      mincount: '10',
+    }, { headers: { 'Content-Type': 'application/json' } });
+  });
+
+  test('adds an inventory item - error handling', async () => {
+    render(<InventoryPage />);
+    // Simulate API error (e.g., network error)
+    axios.post.mockRejectedValueOnce(new Error('Network Error'));
+  
+    const itemNameInput = screen.getByPlaceholderText('Item Name');
+    const countInput = screen.getByPlaceholderText('Count');
+    const priceInput = screen.getByPlaceholderText('Price');
+    const minCountInput = screen.getByPlaceholderText('Minimum Count');
+    const addButton = screen.getByText('ADD');
+  
+    fireEvent.change(itemNameInput, { target: { value: 'New Item' } });
+    fireEvent.change(countInput, { target: { value: '20' } });
+    fireEvent.change(priceInput, { target: { value: '9.99' } });
+    fireEvent.change(minCountInput, { target: { value: '10' } });
+    fireEvent.click(addButton);
+  
+    // Expect an error message to be displayed
+    const errorMessage = await waitFor(() => screen.getByText(/Error/i)); // Look for error text
+    expect(errorMessage).toBeInTheDocument();
+  
+    // Optionally, verify axios.post was called with correct data
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:5000/api/inventory', {
+      itemName: 'New Item',
+      count: '20',
+      price: '9.99',
+      mincount: '10',
+    }, { headers: { 'Content-Type': 'application/json' } });
+  });
+  
+  test('updates an inventory item count', async () => {
+    axios.get.mockResolvedValue({ data: [{ inventid: 1, ingredientname: 'Item 1', count: 10, price: 5.99, mincount: 5 }] });
+    render(<InventoryPage />);
+    const items = await waitFor(() => screen.getAllByText('Item 1'));
+    expect(items.length).toBeGreaterThan(0);
     const updateCategorySelect = screen.getByTestId('updateCat');
     const itemNameSelect = screen.getByTestId('updateName');
-    const updateCountInput = screen.queryByPlaceholderText('New Count');
-    const updatePriceInput = screen.queryByPlaceholderText('New Price');
-    const updateMinCountInput = screen.queryByPlaceholderText('New Minimum Count');
-    const updateButton = screen.getByRole('button', { name: 'UPDATE' });
+    const countInput = screen.getByPlaceholderText('New Count');
+    const updateButton = screen.getByText('UPDATE');
 
-    expect(updateCategorySelect).toBeInTheDocument();
-    expect(itemNameSelect).toBeInTheDocument();
-    expect(updateCountInput || updatePriceInput || updateMinCountInput).toBeTruthy();
-    expect(updateButton).toBeInTheDocument();
+    fireEvent.change(updateCategorySelect, { target: { value: '0' } });
+    fireEvent.change(itemNameSelect, { target: { value: 'Item 1' } });
+    fireEvent.change(countInput, { target: { value: '20' } });
+    fireEvent.click(updateButton);
+
+    expect(axios.patch).toHaveBeenCalledWith('http://localhost:5000/api/inventory/updateQuantity', {
+      itemName: 'Item 1',
+      newCount: '20',
+    }, { headers: { 'Content-Type': 'application/json' } });
   });
 
-  it('renders dropdown for removing an inventory item', () => {
+  test('updates an inventory item price', async () => {
+    axios.get.mockResolvedValue({ data: [{ inventid: 1, ingredientname: 'Item 1', count: 10, price: 5.99, mincount: 5 }] });
     render(<InventoryPage />);
-    const itemNameSelect = screen.getByTestId('removeName');
-    const removeButton = screen.getByRole('button', { name: 'REMOVE' });
-
-    expect(itemNameSelect).toBeInTheDocument();
-    expect(removeButton).toBeInTheDocument();
-  });
-
-  it('handles input changes for adding an inventory item', () => {
-    render(<InventoryPage />);
-    const addItemNameInput = screen.getByPlaceholderText('Item Name');
-    const addCountInput = screen.getByPlaceholderText('Count');
-    const addPriceInput = screen.getByPlaceholderText('Price');
-    const addMinCountInput = screen.getByPlaceholderText('Minimum Count');
-
-    fireEvent.change(addItemNameInput, { target: { value: 'New Item' } });
-    fireEvent.change(addCountInput, { target: { value: '30' } });
-    fireEvent.change(addPriceInput, { target: { value: '7.99' } });
-    fireEvent.change(addMinCountInput, { target: { value: '15' } });
-
-    expect(addItemNameInput).toHaveValue('New Item');
-    expect(addCountInput).toHaveValue(30);
-    expect(addPriceInput).toHaveValue(7.99);
-    expect(addMinCountInput).toHaveValue(15);
-  });
-
-  it('handles dropdown changes for updating an inventory item', () => {
-    render(<InventoryPage />);
+    const items = await waitFor(() => screen.getAllByText('Item 1'));
+    expect(items.length).toBeGreaterThan(0);
     const updateCategorySelect = screen.getByTestId('updateCat');
     const itemNameSelect = screen.getByTestId('updateName');
+    const updateButton = screen.getByText('UPDATE');
 
     fireEvent.change(updateCategorySelect, { target: { value: '1' } });
-    fireEvent.change(itemNameSelect, { target: { value: mockInventoryItems[0].ingredientname } });
+    fireEvent.change(itemNameSelect, { target: { value: 'Item 1' } });
+    const countInput = screen.getByPlaceholderText('New Price');
+    fireEvent.change(countInput, { target: { value: '20' } });
+    fireEvent.click(updateButton);
 
-    expect(updateCategorySelect).toHaveValue('1');
-    expect(itemNameSelect).toHaveValue(mockInventoryItems[0].ingredientname);
+    expect(axios.patch).toHaveBeenCalledWith('http://localhost:5000/api/inventory/updatePrice', {
+      itemName: 'Item 1',
+      newPrice: '20',
+    }, { headers: { 'Content-Type': 'application/json' } });
   });
 
-  it('handles dropdown change for removing an inventory item', () => {
+  test('removes an inventory item', async () => {
+    axios.get.mockResolvedValue({ data: [{ inventid: 1, ingredientname: 'Item 1', count: 10, price: 5.99, mincount: 5 }] });
     render(<InventoryPage />);
+    const items = await waitFor(() => screen.getAllByText('Item 1'));
+    expect(items.length).toBeGreaterThan(0);
     const itemNameSelect = screen.getByTestId('removeName');
+    const removeButton = screen.getByText('REMOVE');
 
-    fireEvent.change(itemNameSelect, { target: { value: mockInventoryItems[0].ingredientname } });
+    fireEvent.change(itemNameSelect, { target: { value: 'Item 1' } });
+    fireEvent.click(removeButton);
 
-    expect(itemNameSelect).toHaveValue(mockInventoryItems[0].ingredientname);
+    const successMessage = await waitFor(() => screen.getByText('Success'));
+    expect(successMessage).toBeInTheDocument();
+    expect(axios.delete).toHaveBeenCalledWith('http://localhost:5000/api/inventory', {
+      data: { itemName: 'Item 1' },
+      headers: { 'Content-Type': 'application/json' },
+    });
   });
+
+  // Add more tests for other features, error handling, and edge cases
 });
