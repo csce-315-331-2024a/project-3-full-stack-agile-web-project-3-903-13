@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 const OrderDisplayPage = () => {
     const [ordersInPreparation, setOrdersInPreparation] = useState([]);
-    const [ordersToCollect, setOrdersToCollect] = useState({});
+    const [ordersToCollect, setOrdersToCollect] = useState([]);
 
     // Fetch in-progress orders from the backend
     const fetchInProgressOrders = async () => {
@@ -19,10 +19,28 @@ const OrderDisplayPage = () => {
             console.error("Error fetching in-progress orders:", error);
         }
     };
+    
+    const fetchRecentFulfilledOrders = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/transactions/recentFulfilledOrders');
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data); 
+            setOrdersToCollect(data);
+        } catch (error) {
+            console.error("Error fetching recent fulfilled orders:", error);
+        }
+    };
 
     useEffect(() => {
         fetchInProgressOrders();
-        const intervalId = setInterval(fetchInProgressOrders, 10000);
+        fetchRecentFulfilledOrders();
+        const intervalId = setInterval(() => {
+            fetchInProgressOrders();
+            fetchRecentFulfilledOrders();
+        }, 10000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -39,9 +57,9 @@ const OrderDisplayPage = () => {
 
             <section className="collect-section w-1/2 bg-gray-100 p-10">
                 <h1 className="text-3xl font-bold underline mb-10 text-green-600">Please Collect</h1>
-                {Object.keys(ordersToCollect).map(transactionId => (
-                    <p key={transactionId} className="text-4xl font-bold mb-4">
-                        #{String(transactionId).padStart(3, '0')}
+                {ordersToCollect.map(order => (
+                    <p key={order.transactionid} className="text-4xl font-bold mb-4">
+                        #{String(order.transactionid).padStart(3, '0')}
                     </p>
                 ))}
             </section>

@@ -85,7 +85,7 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                                     <div> {item.itemname}</div>
                                     <div> {item.quantity} </div>
                                 </div>
-                                {item.modif.length > 0 && item.modif.split(',').map((modif, index) => (
+                                {item.modif && item.modif.length > 0 && item.modif.split(',').map((modif, index) => (
                                     modif.length > 0 && <div key={index} className="text-sm"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{modif}</div>
                                 ))}
                             </div>
