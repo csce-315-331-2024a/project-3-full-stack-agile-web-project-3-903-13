@@ -316,6 +316,7 @@ export default function InventoryPage() {
               )}
               <form onSubmit={handleUpdateInventoryItem} className="flex flex-col items-center justify-center">
               <select
+                  data-testid = "updateCat"
                   value={updateCategory}
                   onChange={(e) => setUpdateCategory(parseInt(e.target.value))}
                   className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
@@ -326,6 +327,7 @@ export default function InventoryPage() {
                   ))}
                   </select>
                   <select
+                      data-testid = "updateName"
                       value={updateItemName}
                       onChange={(e) => setUpdateItemName(e.target.value)}
                       className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
@@ -380,6 +382,7 @@ export default function InventoryPage() {
               )}
               <form onSubmit={handleRemoveInventoryItem} className="flex flex-col items-center justify-center">
               <select
+                data-testid = "removeName"
                 value={removeItemName}
                 onChange={(e) => setRemoveItemName(e.target.value)}
                 className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
