@@ -63,6 +63,10 @@ export default function CustomerNavbar({ links }) {
     }, 200);
   };
 
+  const handleOrderDisplayClick = () => {
+    window.open("/orderDisplay", "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
     <style jsx>{`
@@ -81,13 +85,13 @@ export default function CustomerNavbar({ links }) {
           </li>
           {links.map((link) => (
             <li key={link.route} className="mr-8">
-            {link.name === "Menu Board" ? (
-              // TODO: make this less complicated
-              <Link onClick={handleMenuBoardClick} href={link.route} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</Link>
-            ) : link.links ? (
-              <div className="relative">
-                {link.name}
-              </div>
+              {link.name === "Menu Board" ? (
+                <Link onClick={handleMenuBoardClick} href={link.route} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</Link>
+              ) : link.name === "Order Display" ? (
+                // Using an anchor tag instead of Link because we're opening a new tab
+                <a onClick={handleOrderDisplayClick} className={pathname === "/order_display" ? "nav-link-active" : "nav-link"} style={{cursor: "pointer"}}>
+                  {link.name}
+                </a>
               ) : (
                 <Link className={pathname === link.route ? "nav-link-active" : "nav-link"} href={link.route}>
                   {link.name}

@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
                   { name: "About", route: "/about" },
                   { name: "Menu Board", route: "" },
                   { name: "Nutrition", route: "/nutrition" },
-                  { name: "Order Display", route: "/orderDisplay" },
+                  { name: "Order Display", route: "" },
                 ]}
               />
             {children}
