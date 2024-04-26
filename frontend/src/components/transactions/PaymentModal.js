@@ -78,18 +78,20 @@ export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions
           >
             Cancel
           </button>
-          <button
-            style={{
-              backgroundColor: maroon,
-              color: 'white',
-              padding: '0.5rem 1rem',
-              borderRadius: '0.375rem',
-              boxShadow: '0 2px 4px 0 rgba(0,0,0,0.10)',
-              transition: 'all 200ms ease-in-out',
-            }}
-            className="hover:bg-maroon-dark font-semibold"
-            onClick={handleContinueClick}
-          >
+            <button
+              disabled={!selectedPaymentMethod}
+              style={{
+                backgroundColor: selectedPaymentMethod ? maroon : '#ccc',
+                color: selectedPaymentMethod ? 'white' : '#999',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.375rem',
+                boxShadow: '0 2px 4px 0 rgba(0,0,0,0.10)',
+                transition: 'all 200ms ease-in-out',
+                opacity: selectedPaymentMethod ? 1 : 0.5,
+              }}
+              className={`hover:bg-${selectedPaymentMethod ? 'maroon-dark' : 'none'} font-semibold`}
+              onClick={handleContinueClick}
+            >
             Continue
           </button>
         </div>
