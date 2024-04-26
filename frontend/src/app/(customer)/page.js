@@ -4,45 +4,84 @@ import React, { useState } from 'react';
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import Carousel from "react-multi-carousel";
 import Link from "next/link";
+import Image from "next/image";
 import "react-multi-carousel/lib/styles.css";
-import {GoogleSignInButton,SignOutButton} from "../../components/GoogleSignIn"
-import {GoogleOAuthProvider} from "@react-oauth/google"
 import { useRouter } from 'next/navigation';
 import WeatherWidget from "@/components/WeatherAPI";
 import ClockWidget from "@/components/DigitalClock";
 
 const customStyles = {
   orderButton: {
-    backgroundColor: '#ffd700',
-    border: 'none',
+    backgroundColor: 'transparent',
+    border: '2px solid #ffffff',
     padding: '10px 20px',
-    borderRadius: '5px',
+    borderRadius: '20px', 
     fontWeight: 'bold',
+    color: '#ffffff',
     cursor: 'pointer',
-    marginTop: '10px'
+    transition: 'background-color 0.3s ease',
+  },
+  orderButtonHover: {
+    backgroundColor: '#ffffff',
+    color: 'maroon', 
+  },
+  carouselContent: {
+    textAlign: 'left', 
+    color: '#ffffff',
+    textShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)', 
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center', 
+    height: '100%', 
+    paddingLeft: '1px', 
+  },
+  heading: {
+    fontSize: '2.5rem',
+    fontWeight: '700',
+    marginBottom: '1rem',
   },
   arrowButton: {
-    color: '#fff',
+    color: '#ffffff',
     cursor: 'pointer',
     fontSize: '24px',
     padding: '10px',
     borderRadius: '50%',
-    background: 'none', 
-    zIndex: 100
+    zIndex: 100,
+    border: 'none',
+    opacity: 0.8,
+    transition: 'opacity 0.3s ease',
+  },
+  arrowButtonHover: {
+    opacity: 1,
   },
   carouselBackground: {
     backgroundColor: 'maroon',
-  }
+  },
+  description: {
+    fontSize: '1rem',
+    fontWeight: '400', 
+    marginBottom: '1rem', 
+  },
 };
 
 const ArrowLeft = ({ onClick }) => (
-  <div onClick={onClick} style={{ ...customStyles.arrowButton, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}>
+  <div
+    onClick={onClick}
+    style={{ ...customStyles.arrowButton, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}
+    onMouseEnter={(e) => e.target.style.opacity = '1'}
+    onMouseLeave={(e) => e.target.style.opacity = '0.5'}
+  >
     &lt;
   </div>
 );
 
 const ArrowRight = ({ onClick }) => (
-  <div onClick={onClick} style={{ ...customStyles.arrowButton, position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)' }}>
+  <div
+    onClick={onClick}
+    style={{ ...customStyles.arrowButton, position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)' }}
+    onMouseEnter={(e) => e.target.style.opacity = '1'}
+    onMouseLeave={(e) => e.target.style.opacity = '0.5'}
+  >
     &gt;
   </div>
 );
@@ -129,6 +168,8 @@ const responsive = {
 const Home = () => {
   const [temperature, setTemperature] = useState(null);
   const { updateTransaction } = useTransaction();
+  const [isHovered, setIsHovered] = useState(false);
+
   let displayCategories;
 
   const handleWeatherLoaded = (temp) => {
@@ -153,17 +194,14 @@ const Home = () => {
 
 
   return (
-    <GoogleOAuthProvider clientId={googleClientID}>
-      <main className="min-h-screen bg-cream flex flex-col items-center">
+      <main className="min-h-screen flex flex-col items-center">
         <div className="flex items-center justify-center space-x-4 mt-5">
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
           <ClockWidget />
         </div>
-        <div className='mt-5 flex flex-col space-y-2 ml-auto right-0'><GoogleSignInButton/><SignOutButton/></div>
         <Carousel
           swipeable
           draggable
-          showDots
           responsive={responsive}
           ssr
           infinite
@@ -174,7 +212,6 @@ const Home = () => {
           transitionDuration={500}
           containerClass="carousel-container"
           removeArrowOnDeviceType={["tablet", "mobile"]}
-          dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px w-full"
           customLeftArrow={<ArrowLeft />}
           customRightArrow={<ArrowRight />}
@@ -182,41 +219,45 @@ const Home = () => {
         >
           {displayCategories.map((category, index) => (
             <div key={index} className="carousel-item" style={customStyles.carouselBackground}>
-              <div className="container flex flex-wrap justify-center">
+              <div className="container flex flex-wrap justify-center items-center">
                 <div className="w-full sm:w-1/2 p-4">
                   <img src={category.image} alt={category.phrase} className="carousel-image max-h-64 w-auto mx-auto" />
                 </div>
-                <div className="w-full sm:w-1/2 p-4">
-                  <div className="carousel-content text-white">
-                    <h3 className="text-xl font-bold mb-2">{category.phrase}</h3>
-                    <p>{category.description}</p>
-                    <button style={customStyles.orderButton} onClick={() => handleOrder(category)}>Order Now</button>
-                  </div>
+                <div className="w-full sm:w-1/2 p-4" style={customStyles.carouselContent}>
+                  <h3 style={customStyles.heading}>{category.name}</h3>
+                  <p style={customStyles.description}>{category.description}</p>
+                  <button
+                    style={isHovered ? { ...customStyles.orderButton, ...customStyles.orderButtonHover } : customStyles.orderButton}
+                    onClick={() => handleOrder(category)}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    Order Now
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </Carousel>
         <div className="container px-10 mx-auto mt-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {buttonCategories.map((category) => (
-            <Link key={category.phrase} href={category.path}>
-              <div className="m-4 cursor-pointer aspect-square">
-                <div className="overflow-hidden rounded-lg hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
-                  <img className="flex w-full rounded-lg" src={`${category.image}`} alt={category.phrase} />
-                  <div className="flex py-4 rounded-lg text-center bg-white">
-                    <span className="block text-lg font-semibold text-gray-800">
-                      {category.phrase}
-                    </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {buttonCategories.map((category) => (
+              <Link key={category.phrase} href={category.path}>
+                <div className="m-4 cursor-pointer aspect-square transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl border-[#877F7D] border-2 rounded-lg">
+                  <div className="overflow-hidden rounded-lg">
+                    <img className="w-full rounded-t-lg" src={`${category.image}`} alt={category.phrase} />
+                    <div className="py-4 rounded-b-lg bg-white shadow text-center">
+                      <span className="text-3xl font-bold bg-clip-text text-transparent bg-black">
+                        {category.phrase}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
       </main>
-    </GoogleOAuthProvider>
   );
 };
 
