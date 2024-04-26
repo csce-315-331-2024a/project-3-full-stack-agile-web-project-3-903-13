@@ -147,7 +147,21 @@ export default function CustomerNavbar({ links }) {
             </button>
             <button
               className="text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 rounded-md shadow-sm px-4 py-2"
-              onClick={() => setShowPaymentOptions(true)}
+              onClick={() => {
+                if (cartCount > 0) {
+                  setShowPaymentOptions(true);
+                } else {
+                  toast.error('Your cart is empty. Add items before charging.', {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                }
+              }}
             >
               Charge
             </button>
