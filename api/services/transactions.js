@@ -234,6 +234,22 @@ const getTransactionsInfo = async(transactionIDs) => {
     return Promise.all(transactionsInfoPromises);
 }
 
+const getRecentFulfilledOrders = async (request, response) => {
+    const query = `
+        SELECT transactionid, transactiontime, totalcost, tax, status
+        FROM transactions
+		WHERE status = 'fulfilled' AND transactiontime AT TIME ZONE 'UTC' AT TIME ZONE 'America/Chicago' > (NOW() AT TIME ZONE 'America/Chicago' 
+		- INTERVAL '5 HOURS 5 MINUTES');
+		`;
+    try {
+        const result = await db.query(query);
+        response.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Failed to fetch recent fulfilled orders:', error);
+        response.status(500).send('Failed to fetch recent fulfilled orders.');
+    }
+};
+
 module.exports = {
     createTransaction,
     insertTransaction,
@@ -249,5 +265,6 @@ module.exports = {
 	verifyOrderFormatting,
 	deleteTransaction,
 	updateTransaction,
-	cancelOrder
+	cancelOrder,
+	getRecentFulfilledOrders
 }

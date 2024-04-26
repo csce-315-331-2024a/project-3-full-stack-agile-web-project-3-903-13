@@ -63,6 +63,10 @@ export default function CustomerNavbar({ links }) {
     }, 200);
   };
 
+  const handleOrderDisplayClick = () => {
+    window.open("/orderDisplay", "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
     <style jsx>{`
@@ -81,13 +85,13 @@ export default function CustomerNavbar({ links }) {
           </li>
           {links.map((link) => (
             <li key={link.route} className="mr-8">
-            {link.name === "Menu Board" ? (
-              // TODO: make this less complicated
-              <Link onClick={handleMenuBoardClick} href={link.route} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</Link>
-            ) : link.links ? (
-              <div className="relative">
-                {link.name}
-              </div>
+              {link.name === "Menu Board" ? (
+                <Link onClick={handleMenuBoardClick} href={link.route} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</Link>
+              ) : link.name === "Order Display" ? (
+                // Using an anchor tag instead of Link because we're opening a new tab
+                <a onClick={handleOrderDisplayClick} className={pathname === "/order_display" ? "nav-link-active" : "nav-link"} style={{cursor: "pointer"}}>
+                  {link.name}
+                </a>
               ) : (
                 <Link className={pathname === link.route ? "nav-link-active" : "nav-link"} href={link.route}>
                   {link.name}
@@ -147,7 +151,21 @@ export default function CustomerNavbar({ links }) {
             </button>
             <button
               className="text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 rounded-md shadow-sm px-4 py-2"
-              onClick={() => setShowPaymentOptions(true)}
+              onClick={() => {
+                if (cartCount > 0) {
+                  setShowPaymentOptions(true);
+                } else {
+                  toast.error('Your cart is empty. Add items before charging.', {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                }
+              }}
             >
               Charge
             </button>
@@ -161,6 +179,7 @@ export default function CustomerNavbar({ links }) {
           showPaymentOptions={showPaymentOptions}
           setShowPaymentOptions={setShowPaymentOptions}
           handlePayment={handlePayment}
+          enableCreditCardInput={true}
         />
       )}
                   <GoogleTranslateWidget />
