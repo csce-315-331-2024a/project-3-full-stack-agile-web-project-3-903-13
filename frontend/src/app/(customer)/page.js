@@ -35,9 +35,9 @@ const customStyles = {
     paddingLeft: '1px', 
   },
   heading: {
-    fontSize: '2rem',
+    fontSize: '2.5rem',
     fontWeight: '700',
-    marginBottom: '0.9rem',
+    marginBottom: '1rem',
   },
   arrowButton: {
     color: '#ffffff',
@@ -193,7 +193,7 @@ const Home = () => {
 
 
   return (
-      <main className="min-h-screen bg-cream flex flex-col items-center">
+      <main className="min-h-screen flex flex-col items-center">
         <div className="flex items-center justify-center space-x-4 mt-5">
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
           <ClockWidget />
@@ -239,23 +239,23 @@ const Home = () => {
           ))}
         </Carousel>
         <div className="container px-10 mx-auto mt-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {buttonCategories.map((category) => (
-            <Link key={category.phrase} href={category.path}>
-              <div className="m-4 cursor-pointer aspect-square">
-                <div className="overflow-hidden rounded-lg hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
-                  <img className="flex w-full rounded-lg" src={`${category.image}`} alt={category.phrase} />
-                  <div className="flex py-4 rounded-lg text-center bg-white">
-                    <span className="block text-lg font-semibold text-gray-800">
-                      {category.phrase}
-                    </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {buttonCategories.map((category) => (
+              <Link key={category.phrase} href={category.path}>
+                <div className="m-4 cursor-pointer aspect-square transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl border-[#877F7D] border-2 rounded-lg">
+                  <div className="overflow-hidden rounded-lg">
+                    <img className="w-full rounded-t-lg" src={`${category.image}`} alt={category.phrase} />
+                    <div className="py-4 rounded-b-lg bg-white shadow text-center">
+                      <span className="text-3xl font-bold bg-clip-text text-transparent bg-black">
+                        {category.phrase}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
       </main>
   );
 };
