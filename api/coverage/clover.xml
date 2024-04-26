@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1713372212925" clover="3.2.0">
-  <project timestamp="1713372212926" name="All files">
-    <metrics statements="500" coveredstatements="466" conditionals="121" coveredconditionals="117" methods="91" coveredmethods="81" elements="712" coveredelements="664" complexity="0" loc="500" ncloc="500" packages="5" files="15" classes="15"/>
+<coverage generated="1714095504406" clover="3.2.0">
+  <project timestamp="1714095504407" name="All files">
+    <metrics statements="516" coveredstatements="469" conditionals="121" coveredconditionals="117" methods="93" coveredmethods="81" elements="730" coveredelements="667" complexity="0" loc="516" ncloc="516" packages="5" files="15" classes="15"/>
     <package name="api">
       <metrics statements="30" coveredstatements="28" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="index.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\index.js">
@@ -48,7 +48,7 @@
       </file>
     </package>
     <package name="api.routes">
-      <metrics statements="80" coveredstatements="74" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="5"/>
+      <metrics statements="82" coveredstatements="76" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="5"/>
       <file name="employees.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\employees.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
@@ -132,7 +132,7 @@
         <line num="33" count="3" type="stmt"/>
       </file>
       <file name="transactions.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\transactions.js">
-        <metrics statements="16" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="18" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -147,12 +147,14 @@
         <line num="20" count="2" type="stmt"/>
         <line num="22" count="2" type="stmt"/>
         <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
         <line num="25" count="2" type="stmt"/>
-        <line num="28" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
       </file>
     </package>
     <package name="api.services">
-      <metrics statements="339" coveredstatements="316" conditionals="97" coveredconditionals="96" methods="70" coveredmethods="63"/>
+      <metrics statements="353" coveredstatements="317" conditionals="97" coveredconditionals="96" methods="72" coveredmethods="63"/>
       <file name="inventory.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\inventory.js">
         <metrics statements="91" coveredstatements="91" conditionals="36" coveredconditionals="36" methods="21" coveredmethods="21"/>
         <line num="1" count="4" type="stmt"/>
@@ -388,7 +390,7 @@
         <line num="276" count="3" type="stmt"/>
       </file>
       <file name="transactions.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\transactions.js">
-        <metrics statements="111" coveredstatements="88" conditionals="11" coveredconditionals="11" methods="22" coveredmethods="15"/>
+        <metrics statements="125" coveredstatements="89" conditionals="11" coveredconditionals="11" methods="24" coveredmethods="15"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
@@ -404,10 +406,10 @@
         <line num="19" count="2" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="25" count="3" type="stmt"/>
-        <line num="26" count="3" type="stmt"/>
-        <line num="27" count="3" type="stmt"/>
-        <line num="28" count="3" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
         <line num="36" count="3" type="stmt"/>
         <line num="37" count="3" type="stmt"/>
         <line num="39" count="3" type="stmt"/>
@@ -495,11 +497,25 @@
         <line num="207" count="0" type="stmt"/>
         <line num="208" count="0" type="stmt"/>
         <line num="211" count="0" type="stmt"/>
-        <line num="216" count="3" type="stmt"/>
-        <line num="217" count="0" type="stmt"/>
+        <line num="215" count="3" type="stmt"/>
+        <line num="216" count="0" type="stmt"/>
         <line num="218" count="0" type="stmt"/>
+        <line num="219" count="0" type="stmt"/>
+        <line num="220" count="0" type="stmt"/>
         <line num="221" count="0" type="stmt"/>
-        <line num="224" count="3" type="stmt"/>
+        <line num="224" count="0" type="stmt"/>
+        <line num="229" count="3" type="stmt"/>
+        <line num="230" count="0" type="stmt"/>
+        <line num="231" count="0" type="stmt"/>
+        <line num="234" count="0" type="stmt"/>
+        <line num="237" count="3" type="stmt"/>
+        <line num="238" count="0" type="stmt"/>
+        <line num="244" count="0" type="stmt"/>
+        <line num="245" count="0" type="stmt"/>
+        <line num="246" count="0" type="stmt"/>
+        <line num="248" count="0" type="stmt"/>
+        <line num="249" count="0" type="stmt"/>
+        <line num="253" count="3" type="stmt"/>
       </file>
     </package>
     <package name="api.services.reports">

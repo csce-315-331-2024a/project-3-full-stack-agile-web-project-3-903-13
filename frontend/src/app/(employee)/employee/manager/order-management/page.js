@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import TransactionModal from "@/components/transactions/TransactionModal";
-import { useSearchParams } from 'next/navigation'
 
 const formatTime = (isoDateString) => {
     const date = new Date(isoDateString);
@@ -110,7 +109,7 @@ export default function OrderManagementPage() {
     };
 
     return (
-        <main className="min-h-screen min-w-screen-lg bg-slate-100">
+        <main className="min-h-screen flex flex-col min-w-screen-lg bg-slate-100">
             <h1 className="text-4xl font-bold mb-3 text-center py-4">
                 Order Management
             </h1>
@@ -174,7 +173,7 @@ export default function OrderManagementPage() {
 
                     <button
                         type="submit"
-                        className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-md font-semibold"
+                        className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-md font-semibold"
                     >
                         {" "}
                         {loading ? "Loading..." : "Find"}{" "}
@@ -187,9 +186,9 @@ export default function OrderManagementPage() {
                 </div>
             </form>
 
-            <div className="mt-7 max-h-[400px] max-w-[70%] mx-auto overflow-y-auto">
+            <div className="mx-auto mt-7 max-h-[400px] min-w-[50%] overflow-y-auto">
                 {transactionsData.length > 0 && (
-                    <div className="flex flex-col gap-4 p-4">
+                    <div className="flex flex-col gap-4 p-4 w-full">
                         {transactionsData.map((item, index) => (
                             <div key={index}>
                                 <div

@@ -455,8 +455,11 @@
     
 
     return (
-      <main className="min-h-screen flex flex-column items-center justify-center">
-        <div  className="w-full  max-w-screen-xl">
+      <main className="min-h-screen flex flex-col">
+		<h1 className="text-4xl font-bold text-center mb-3 py-4">
+				Menu Hub
+			</h1>
+        <div  className="w-full  max-w-screen-xl mx-auto">
           <div className="flex justify-between mb-8">
             <div className="w-1/2 md:w-1/3 flex flex-col items-center ">
               <h1 className="p-3 md:p text-xl font-semibold text-center ">ADDING MENU ITEMS</h1>

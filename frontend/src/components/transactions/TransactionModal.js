@@ -8,14 +8,14 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
 
     if (!isOpen) return null;
 
-    const handleDelete = async () => {
+    const handleCancel = async () => {
         try {
-            const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/deletetransaction", {
-                method: "DELETE",
+            const response = await fetch("http://localhost:5000/api/transactions/cancelOrder", {
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ transactionID: transaction.transactionid, components: transaction.components }),
+                body: JSON.stringify({ transactionID: transaction.transactionid })
             });
         }
         catch (error) {
@@ -23,17 +23,11 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
         }
 
         if (alltransactionData.length === 1) {
-            setAllData("")
+            setAllData("");
         } else {
-            const indexToDelete = alltransactionData.findIndex(item => item.transactionid === transaction.transactionid);
-            if (indexToDelete !== -1) {
-                // Use the splice method to remove the item at the specified index
-                alltransactionData.splice(indexToDelete, 1);
-            }
-            setAllData(alltransactionData)
+            const updatedData = alltransactionData.filter(item => item.transactionid !== transaction.transactionid);
+            setAllData(updatedData);
         }
-
-        onClose();
     };
 
     return (
@@ -66,13 +60,17 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                                 Transaction Details
                             </h2>
 
-                            {
-                                transaction.status === 'in progress' ? (
-                                    <div className="font-semibold text-yellow-400 text-lg"> In Progress </div>
-                                ) : (
-                                    <div className="font-semibold text-green-500 text-lg"> Completed </div>
-                                )
-                            }
+                            {transaction.status === 'in progress' && (
+                                <div className="font-semibold text-yellow-400 text-lg"> In Progress </div>
+                            )}
+
+                            {transaction.status === "fulfilled" && (
+                                <div className="font-semibold text-green-500 text-lg"> Completed </div>
+                            )}
+
+                            {transaction.status === "cancelled" && (
+                                <div className="font-semibold text-red-500 text-lg"> Cancelled </div>
+                            )}
 
                         </div>
 
@@ -82,10 +80,14 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                             <div className="text-lg font-bold"> Quantity </div>
                         </div>
                         {transaction.components.map((item, index) => (
-                            <div key={index} className="flex justify-between">
-                                <div> {item.itemname}</div>
-
-                                <div> {item.quantity} </div>
+                            <div className="mb-2">
+                                <div key={index} className="flex justify-between">
+                                    <div> {item.itemname}</div>
+                                    <div> {item.quantity} </div>
+                                </div>
+                                {item.modif && item.modif.length > 0 && item.modif.split(',').map((modif, index) => (
+                                    modif.length > 0 && <div key={index} className="text-sm"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{modif}</div>
+                                ))}
                             </div>
                         ))}
 
@@ -97,9 +99,13 @@ export default function TransactionModal({ isOpen, onClose, transaction, alltran
                         {transaction.status === "in progress" && (
                             <div className="flex justify-between">
                                 <button
-                                    onClick={handleDelete}
+                                    onClick={() => {
+                                        handleCancel();
+                                        console.log(alltransactionData)
+                                        onClose();
+                                    }}
                                     className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                    Delete
+                                    Cancel
                                 </button>
 
                                 <Link

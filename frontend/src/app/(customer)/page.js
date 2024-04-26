@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import Carousel from "react-multi-carousel";
 import Link from "next/link";
+import Image from "next/image";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from 'next/navigation';
 import WeatherWidget from "@/components/WeatherAPI";
