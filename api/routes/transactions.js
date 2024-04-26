@@ -21,7 +21,8 @@ router.delete("/deletetransaction", transactionsController.deleteTransaction)
 
 router.get('/inProgressOrders', transactionsController.getInProgressOrders)
 router.patch('/fulfillOrder', transactionsController.fullfillOrder)
-
+router.patch('/cancelOrder', transactionsController.cancelOrder)
+router.get('/recentFulfilledOrders', transactionsController.getRecentFulfilledOrders);
 router.patch('/updateTransaction', transactionsController.updateTransaction)
 
 

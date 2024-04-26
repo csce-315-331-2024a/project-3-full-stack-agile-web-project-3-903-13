@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import Carousel from "react-multi-carousel";
 import Link from "next/link";
+import Image from "next/image";
 import "react-multi-carousel/lib/styles.css";
 import {GoogleSignInButton,SignOutButton} from "../../components/GoogleSignIn"
 import {GoogleOAuthProvider} from "@react-oauth/google"
@@ -203,7 +204,7 @@ const Home = () => {
             <Link key={category.phrase} href={category.path}>
               <div className="m-4 cursor-pointer aspect-square">
                 <div className="overflow-hidden rounded-lg hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
-                  <img className="flex w-full rounded-lg" src={`${category.image}`} alt={category.phrase} />
+                  <Image className="flex w-full rounded-lg" src={`${category.image}`} alt={category.name} width = {1500} height = {500}/>
                   <div className="flex py-4 rounded-lg text-center bg-white">
                     <span className="block text-lg font-semibold text-gray-800">
                       {category.phrase}
