@@ -161,6 +161,7 @@ export default function CustomerNavbar({ links }) {
           showPaymentOptions={showPaymentOptions}
           setShowPaymentOptions={setShowPaymentOptions}
           handlePayment={handlePayment}
+          enableCreditCardInput={true}
         />
       )}
                   <GoogleTranslateWidget />

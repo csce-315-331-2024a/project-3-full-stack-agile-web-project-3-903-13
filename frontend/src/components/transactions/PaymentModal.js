@@ -6,7 +6,7 @@ const maroon = '#800000';
 const maroonLight = '#a05252';
 const maroonDark = '#5c0000';
 
-export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions, handlePayment }) {
+export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions, handlePayment, enableCreditCardInput = false }) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [showCreditCardModal, setShowCreditCardModal] = useState(false);
 
@@ -21,7 +21,7 @@ export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions
   };
 
   const handleContinueClick = () => {
-    if (selectedPaymentMethod === 'card') {
+    if (selectedPaymentMethod === 'card' && enableCreditCardInput) {
       setShowCreditCardModal(true);
     } else {
       handlePayment();
@@ -94,7 +94,7 @@ export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions
           </button>
         </div>
       </div>
-      {showCreditCardModal && (
+      {showCreditCardModal && enableCreditCardInput && (
         <CreditCardModal
           showCreditCardModal={showCreditCardModal}
           setShowCreditCardModal={setShowCreditCardModal}

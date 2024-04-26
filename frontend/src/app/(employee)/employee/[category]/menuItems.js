@@ -102,6 +102,7 @@ function TransactionPanel() {
                     showPaymentOptions={showPaymentOptions}
                     setShowPaymentOptions={setShowPaymentOptions}
                     handlePayment={handlePayment}
+                    enableCreditCardInput={false}
                 />
             )}
 
