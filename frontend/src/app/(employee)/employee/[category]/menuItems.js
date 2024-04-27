@@ -52,7 +52,7 @@ function TransactionPanel() {
     };
 
     return (
-        <div className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5">
+        <div role = "region" aria-label = "Current Sale Transaction Panel" className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5">
             <div className="px-6 py-4 border-b">
                 <div className="font-bold text-xl mb-2">Current Sale</div>
             </div>
@@ -173,8 +173,16 @@ function MenuItem(props) {
                 `}
             </style>
             <div
+                role = "button"
+                aria-label={`Add ${props.item.itemname} to Cart`}
                 className={`menu-item flex justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
                 onClick={sendToTransaction}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        sendToTransaction();
+                    }
+                }}
+                tabIndex="0" // Make the element focusable
             >
                 <div className="text-xl font-semibold text-gray-900 text-center">
                     {props.item.itemname}
@@ -199,7 +207,7 @@ export function MenuItemList({ categoryNum, categoryName }) {
 
     return (
 
-        <div className="flex flex-row h-[75vh]">
+        <div role="region" aria-label={`${categoryName} Menu`} className="flex flex-row h-[75vh]">
             <div className="container max-w-[66%] p-5">
                 <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
