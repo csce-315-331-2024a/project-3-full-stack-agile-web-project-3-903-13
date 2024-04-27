@@ -84,8 +84,8 @@ export default function usersPage() {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                     {employees.map((employee, index) => (
-                        <tr key={index} onClick={() => {employeeClick(employee)}} className="hover:cursor-pointer">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{employee.employeename}</td>
+                        <tr key={index} onClick={() => {employeeClick(employee)}} className="hover:bg-gray-400 hover:cursor-pointer">
+                            <td className=" px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{employee.employeename}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeeid}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeephonenumber}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeeage}</td>
