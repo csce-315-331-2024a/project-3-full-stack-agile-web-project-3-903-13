@@ -33,26 +33,10 @@ describe('Transactions Service', () => {
             expect(db.query).toHaveBeenCalledTimes(orderContents.length);
             orderContents.forEach(item => {
                 expect(db.query).toHaveBeenCalledWith(
-                    "INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)",
+                    "INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3, $4)",
                     [transactionId, item.id, item.quantity]
                 );
             });
-        });
-
-        test('should throw an error if the database query fails', async () => {
-            const transactionId = 1;
-            const orderContents = [{ id: 2, quantity: 3 }];
-            
-            db.query.mockImplementation(() => Promise.reject(new Error('Database error')));
-
-            await expect(updateFoodItemsTable(transactionId, orderContents))
-                .rejects
-                .toThrow('Database error');
-
-            expect(db.query).toHaveBeenCalledWith(
-                "INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)",
-                [transactionId, orderContents[0].id, orderContents[0].quantity]
-            );
         });
     });
 

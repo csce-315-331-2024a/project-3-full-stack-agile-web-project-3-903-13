@@ -91,7 +91,11 @@ function TransactionPanel() {
                 <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
                     Clear Transaction
                 </button>
-                <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow" onClick={() => setShowPaymentOptions(true)}>
+                <button 
+                    className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow ${!transactionsList || transactionsList.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={() => setShowPaymentOptions(true)}
+                    disabled={!transactionsList || transactionsList.length === 0}
+                >
                     Charge
                 </button>
             </div>
