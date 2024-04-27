@@ -116,7 +116,9 @@ export default function Page({ params }) {
                     {itemType.map((item) => (
                         <div key={item.menuID} 
                         className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`} 
-                        onClick={() => handleItemClick(item)}>
+                        onClick={() => handleItemClick(item)}
+                        aria-label={'Select ${item.itemname}'} // aria-label
+                        >
 
                             <Image
                                 src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
@@ -140,6 +142,7 @@ export default function Page({ params }) {
                     isOpen={isModalOpen}
                     onClose={closeUpdateModal}
                     item = {selectedItem}
+                    ariaLabel="Update Item Modal"
                 />
 
             </div>

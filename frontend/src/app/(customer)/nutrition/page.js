@@ -45,17 +45,17 @@ const NutritionPage = () => {
     
     const Legend = () => {
         return (
-            <div className="my-10 p-4 bg-white rounded shadow-lg flex justify-around items-center">
-                <div className="grid grid-cols-3 gap-4 items-center">
+            <div className="my-10 p-4 bg-white rounded shadow-lg flex justify-around items-center" aria-label="Legend of Symbols">
+                <div className="grid grid-cols-3 gap-4 items-center" aria-label = "Vegetarian Option">
                     <div className="flex items-center">
                         <img src="/vegetarian.svg" alt="Vegetarian" width={24} height={24} />
                         <span className="ml-2 text-gray-600">Vegetarian</span>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center" aria-label = "Pescatarian Option">
                         <img src="/pescatarian.png" alt="Pescatarian" width={24} height={24} />
                         <span className="ml-2 text-gray-600">Pescatarian</span>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center" aria-label ="Gluten Free Option" >
                         <img src="/gluten-free.png" alt="Gluten Free" width={24} height={24} />
                         <span className="ml-2 text-gray-600">Gluten Free</span>
                     </div>
@@ -77,7 +77,9 @@ const NutritionPage = () => {
             <div className="mt-5">
                 {menuItems.map((item, index) => (
                     <div key={item.menuid} className={`grid grid-cols-4 gap-2 items-center mb-2 p-2 rounded-lg shadow ${index % 2 === 0 ? "bg-white" : "bg-gray-200"}`}
-                    style={index % 2 === 0 ? { border: '2px solid #800000' } : {} }>
+                    style={index % 2 === 0 ? { border: '2px solid #800000' } : {} }
+                    role="listitem" aria-label={`${item.itemname}, ${item.Calories} calories, ${mapSpecialDiet(item.specialdiet)}${mapAllergies(item.allergy) ? ', Gluten Free' : ''}`}
+                    >
                         <div className="font-bold col-span-1">{item.itemname}</div>
                         <div className="text-center col-span-1">{item.Calories} cal</div>
                         <div className="text-center col-span-1">{mapSpecialDiet(item.specialdiet)}</div>
