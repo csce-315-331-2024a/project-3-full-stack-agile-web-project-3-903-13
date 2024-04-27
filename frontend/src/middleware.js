@@ -1,44 +1,23 @@
+import {auth} from "@/auth"
 import { NextResponse } from 'next/server'
-import { jwtDecode } from 'jwt-decode'
- 
-// This function can be marked `async` if using `await` inside
-export async function middleware(request) {
-  const managers = [ 
-    'cadewya@tamu.edu',
-    'adityabiradar25@tamu.edu',
-    'isaacambro@tamu.edu',
-    'karanbhalla204@tamu.edu',
-    'sukelv0802@tamu.edu',
-    'kjain@tamu.edu'
-  ]
 
-  const cashiers = [
-    'wyattrcade@gmail.com',
-    'isaacambro@gmail.com',
-    'karanbhalla204@gmail.com',
-    'sukelv0802@gmail.com'
-  ]
-
-  let cookie = request.cookies.get('access_token')
-  if (!cookie || cookie['value'] == 'null') {
-    return NextResponse.redirect(new URL('/', request.url))
+export default auth(async (req) => {
+  if (!req.auth) {
+    console.log("USER NOT AUTHENTICATED")
+    return NextResponse.redirect(new URL('/api/auth/signin', req.url))
   }
 
-  let token = cookie['value']
-  const decoded = jwtDecode(token)
-  const email = decoded.email
-  if (request.nextUrl.pathname.startsWith('/employee/manager')) {
-    if (!managers.includes(email)) {
-      return NextResponse.redirect(new URL('/', request.url))
-    }
-  } else {
-    if (!cashiers.includes(email) && !managers.includes(email)) {
-      return NextResponse.redirect(new URL('/', request.url))
-    }
-  }
-}
- 
-// See "Matching Paths" below to learn more
+  let userEmail = req.auth.user.email
+  // Query role of user with corresponding email in database
+  // Cases: 
+  //    - /employee/manager/users: Only admin can access this
+  //    - /employee/manager/kitchen: Manager/Admin/Kitchen
+  //    - /employee/manager/*: Must be manager or admin
+  //    - /employee/*: Must be at least a cashier
+  //    Go by longest prefix match
+  console.log(userEmail)
+})
+
 export const config = {
-  matcher: '/employee/:path*',
+  matcher: ["/employee/:path*"],
 }
