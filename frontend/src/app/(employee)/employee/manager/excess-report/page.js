@@ -79,6 +79,7 @@ export default function ExcessReportPage() {
             <div className="w-full max-w-4xl p-5 bg-white shadow-lg rounded mx-auto">
                 <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center my-4">
                     <input
+                        id="startDate"
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
@@ -86,6 +87,7 @@ export default function ExcessReportPage() {
                         required
                     />
                     <input
+                        id="endDate"
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
@@ -106,7 +108,7 @@ export default function ExcessReportPage() {
                 )}
                 {reportData.length > 0 && (
                     <div className="overflow-auto">
-                        <table className="w-full table-auto border-collapse border border-gray-500">
+                        <table className="w-full table-auto border-collapse border border-gray-500" aria-label= "Excess Report Data">
                             <thead>
                                 <tr>
                                     <th className="border border-gray-400 px-4 py-2">Item Name</th>

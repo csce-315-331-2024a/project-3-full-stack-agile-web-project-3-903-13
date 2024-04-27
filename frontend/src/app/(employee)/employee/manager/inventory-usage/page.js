@@ -98,15 +98,20 @@ export default function InventoryUsagePage() {
             <div className="flex w-full max-w-4xl mx-auto">
                 <div className="p-5 w-full bg-white shadow-lg rounded">
                     <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center mb-4">
+                        <label htmlFor="startDate" className="sr-only">Start Date</label>
                         <input
                             type="date"
+                            id="startDate"
+                            //type="date"
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
                             className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                             required
                         />
+                        <label htmlFor="endDate" className="sr-only">End Date</label>
                         <input
                             type="date"
+                            id="endDate"
                             value={endDate}
                             onChange={(e) => setEndDate(e.target.value)}
                             className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
@@ -121,7 +126,7 @@ export default function InventoryUsagePage() {
                         {!hasData && !loading && <p>There was no inventory usage during this time range, try another time period.</p>}
                     </div>
                     <div style={{ height: '650px' }} >
-                        {hasData && <canvas ref={chartRef}></canvas>}
+                        {hasData && <canvas ref={chartRef} aria-label="Inventory Usage Chart" ></canvas>}
                     </div>
                 </div>
             </div>

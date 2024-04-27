@@ -144,6 +144,7 @@ export default function OrderManagementPage() {
                                 onChange={(e) =>
                                     setTransactionID(e.target.value)
                                 }
+                                aria-label="Enter order ID"
                             />
                         </div>
                     ) : (
@@ -153,20 +154,24 @@ export default function OrderManagementPage() {
                             </label>
                             <input
                                 type="date"
+                                id="start-date"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                                 className="my-1 w-full p-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                 required
+                                aria-label="Select start date"
                             />
                             <label className="block text-base font-medium text-gray-700">
                                 End Date:
                             </label>
                             <input
                                 type="date"
+                                id="end-date"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                                 className="my-1 w-full p-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                 required
+                                aria-label="Select end date"
                             />
                         </div>
                     )}
@@ -174,6 +179,7 @@ export default function OrderManagementPage() {
                     <button
                         type="submit"
                         className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-md font-semibold"
+                        aria-label="Submit form"
                     >
                         {" "}
                         {loading ? "Loading..." : "Find"}{" "}
@@ -188,12 +194,13 @@ export default function OrderManagementPage() {
 
             <div className="mx-auto mt-7 max-h-[400px] min-w-[50%] overflow-y-auto">
                 {transactionsData.length > 0 && (
-                    <div className="flex flex-col gap-4 p-4 w-full">
+                    <div className="flex flex-col gap-4 p-4 w-full"  aria-live="polite">
                         {transactionsData.map((item, index) => (
                             <div key={index}>
                                 <div
                                     onClick={() => handleTransactionClick(item)}
                                     className="flex justify-between bg-slate-400 p-4 rounded-md cursor-pointer hover:bg-slate-600 hover:text-white"
+                                    aria-label={`Transaction ID: ${item.transactionid}, Cost: $${item.cost.toFixed(2)}, Time: ${formatTime(item.transactiontime)}`}
                                 >
                                     <div>
                                         <p className="text-lg font-semibold">

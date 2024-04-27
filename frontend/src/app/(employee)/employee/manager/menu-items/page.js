@@ -464,10 +464,10 @@
             <div className="w-1/2 md:w-1/3 flex flex-col items-center ">
               <h1 className="p-3 md:p text-xl font-semibold text-center ">ADDING MENU ITEMS</h1>
               {addErrorMessage && (
-                <p className="text-red-500">{addErrorMessage}</p>
+                <p className="text-red-500"  role="alert" aria-live="assertive" >{addErrorMessage}</p>
               )}
               {addSuccessMessage && (
-                <p className="text-green-500">{addSuccessMessage}</p>
+                <p className="text-green-500"  role="status" aria-live="polite" >{addSuccessMessage}</p>
               )}
               <form onSubmit={handleAddMenuItem} className="flex flex-col items-center justify-center">
                 <input 
@@ -477,6 +477,7 @@
                   onChange={(e) => setAddItemName(e.target.value)}
                   className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                   required
+                  aria-label="Enter item name"
                 />
                 <input
                   type="number"
@@ -485,6 +486,7 @@
                   onChange={(e) => setAddPrice(e.target.value)}
                   className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                   required
+                  aria-label="Enter Price"
                 />
                 <div className="flex justify-between items-center mb-2 bg-white shadow-input outline-none border focus:border-red-800 rounded-lg px-2 py-2.5 ">
                     <div className="flex items-center">
@@ -493,6 +495,7 @@
                         checked={isSeasonal}
                         onChange={(e) => setIsSeasonal(e.target.checked)}
                         className={`mb-1.5 px-4 justify-center items-center accent-red-800 form-checkbox h-4 w-5`}
+                        aria-label="Checkbox if item is seasonal item"
                       />
                       <label className="ml-1 mb-2 justify-centere items-center">
                         Seasonal Item
@@ -518,6 +521,7 @@
                   onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
                   className="mb-1 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                   disabled={isSeasonal}
+                  aria-label="Select category"
                 >
                   {categories.map((cat) => (
                     <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -550,7 +554,7 @@
                   </div>
                 ))}
                 <button type="button" onClick={addIngredient} className=" mb-4 bg-gray-500 text-white rounded px-2 py-1" >Add Ingredient</button>
-                <button type="submit" className="bg-red-800 text-white rounded px-4 py-2">ADD</button>
+                <button type="submit" className="bg-red-800 text-white rounded px-4 py-2" aria-label="Add menu item confirmation button">ADD</button>
               </form>
           </div>
           <div className="w-full md:w-1/3 flex flex-col items-center">
@@ -694,6 +698,8 @@
           <div
             key={item.menuid}
             className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            role = "region"
+            aria-labelledby={`menu-item-${item.menuid}`}
           >
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {item.itemname}

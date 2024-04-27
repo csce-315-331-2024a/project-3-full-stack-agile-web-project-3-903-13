@@ -52,7 +52,7 @@ export default function usersPage() {
     }, [])
 
     return (
-        <main className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <main className="min-h-screen bg-gray-100 flex items-center justify-center" aria-labelledby="users-page-title">
         <div className="flex flex-col w-4/5 border-solid border-grey border-2">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
@@ -60,7 +60,7 @@ export default function usersPage() {
                 <div className="py-3 px-4">
                   <div className="relative max-w-xs flex flex-row gap-5">
                     <label htmlFor="hs-table-search" className="sr-only" text="Search">Search</label>
-                    <input type="text" name="hs-table-search" id="hs-table-search" className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Search Employees"/>
+                    <input type="text" name="hs-table-search" id="hs-table-search" className="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Search Employees" aria-label="Search Employees"/>
                     <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
                       <svg className="size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -71,7 +71,7 @@ export default function usersPage() {
                   </div>
                 </div>
                 <div className="overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
+                  <table className="min-w-full divide-y divide-gray-200" aria-labelledby="users-table">
                     <thead className="bg-gray-50">
                       <tr>
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>
