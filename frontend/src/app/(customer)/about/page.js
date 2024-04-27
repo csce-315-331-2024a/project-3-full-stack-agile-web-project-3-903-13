@@ -8,7 +8,7 @@ export default function AboutPage() {
                 <h2 className="text-4xl font-bold text-center mb-8">About Rev&apos;s American Grill</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="md:order-2">
-                        <Image src="/revs-restaurant-image.jpg" alt="Rev's American Grilled Restaurant" className="rounded-lg shadow-lg" />
+                        <Image src="/revs-restaurant-image.jpg" alt="Rev's American Grilled Restaurant" className="rounded-lg shadow-lg" width = {100} height = {100}/>
                     </div>
                     <div className="md:order-1">
                         <p className="text-lg mb-4">Welcome to Rev&apos;s American Grilled, located in the Memorial Student Center (MSC) at Texas A&M University!</p>

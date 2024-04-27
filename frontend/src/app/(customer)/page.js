@@ -181,7 +181,8 @@ const Home = () => {
       id: item.id,
       itemname: item.name,
       price: item.price,
-      quantity: 1
+      quantity: 1,
+      modif: ""
     });
   };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 // import Link from 'next/link'
 import Image from 'next/image'
 import { useTransaction } from "@/components/transactions/TransactionContext";
+import { toast } from 'react-toastify';
 
 
 export default function UpdateModal({ isOpen, onClose, item }) {
@@ -10,7 +11,6 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
     const [ingredients, setIngredients] = useState()
     const [removedIngredients, setRemovedIngredients] = useState([]);
-    // const [modificationString, setModificationString] = useState("")
 
     const { updateTransaction, transactions } = useTransaction();
 
@@ -27,6 +27,15 @@ export default function UpdateModal({ isOpen, onClose, item }) {
             quantity = 1;
         }
         updateTransaction({ "id": dish.menuid, "itemname": dish.itemname, "price": dish.price, "quantity": quantity, "modif": modificationString });
+        toast.success(`${dish.itemname} added to cart!`, {
+            position: "bottom-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     useEffect(() => {
@@ -66,16 +75,10 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
     }, [item]);
 
-    // useEffect(() => {
-    //     if (isOpen) {
-    //         sendToTransaction(item);
-    //     }
-    // }, [modificationString]);
+    
 
 
     const handleIngredientClick = (index) => {
-        const ingredient = ingredients[index];
-        // Toggle the clicked state of the ingredient
         setRemovedIngredients(prevState => {
             const newState = [...prevState];
             newState[index] = !newState[index];
@@ -146,6 +149,11 @@ export default function UpdateModal({ isOpen, onClose, item }) {
                                 </div>
 
 
+                                <span className="ml-1 font-semibold text-xl">
+                                    Customize
+                                    <hr className="border-[3px] border-black mb-1 w-28" />
+
+                                </span>
                                 <div>
                                     {ingredients && ingredients.map((item, index) => (
                                         <button

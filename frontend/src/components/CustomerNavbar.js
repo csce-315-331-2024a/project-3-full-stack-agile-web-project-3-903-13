@@ -82,8 +82,8 @@ export default function CustomerNavbar({ links }) {
           <li>
             <Image alt = "Rev logo" className="hidden absolute md:relative md:flex mr-8" src={"/revs.png"} width={110} height={110}></Image>
           </li>
-          {links.map((link) => (
-            <li key={link.route} className="mr-8">
+          {links.map((link, index) => (
+            <li key={index} className="mr-8">
               {link.name === "Menu Board" ? (
                 <Link onClick={handleMenuBoardClick} href={link.route} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</Link>
               ) : link.name === "Order Display" ? (
@@ -116,37 +116,65 @@ export default function CustomerNavbar({ links }) {
           </div>
         </ul>
 
-        <div ref={ref} className="w-200 sideCart fixed top-0 right-0 bg-pink-100 px-8 py-10 transform transition-transform translate-x-full z-50 overflow-y-auto max-h-screen">
-          <span onClick={toggleCart} className="cursor-pointer absolute top-5 left-2 text-lg text-dark-maroon hover:text-blue-800">&lt; Return to Menu</span>
+        <div ref={ref} className="w-200 sideCart fixed top-0 right-0 bg-pink-100 px-8 py-8 pt-4 transform transition-transform translate-x-full z-50 overflow-y-auto max-h-screen">
+
+			<div className="flex justify-between">
+				<div>
+					<h3 className="text-2xl text-dark-maroon"> My Cart </h3>
+				</div>
+				<div class="flex justify-center items-center">
+				<button
+                        onClick={toggleCart}
+                    >
+                        <svg
+                            className="h-7 w-7"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </button>
+				</div>
+			</div>
+
           <hr className="my-2 border-t-2 border-gray-300" />
           <div className="flex flex-col justify-evenly items-center">
             {transactionsList ? transactionsList.map((item, index) => (
-              <div key={index} className="flex flex-col items-center justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow">
+              <div key={index} className="flex flex-col justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow">
                 <div className="flex w-full justify-between items-center">
                   <span className="font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
                   <FaWindowClose className="text-red-600 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id, item.modif)} />
                 </div>
+
+				<div className="text-xs"> {item.modif && item.modif.slice(0, item.modif.length - 1)} </div>
+
+
                 <div className="flex items-center justify-center mt-2">
                   <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
-                  <span className="mx-2 text-lg">x{item.quantity}</span>
+                  <span className="mx-2 text-lg">{item.quantity}</span>
                   <FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
                 </div>
-                <hr className="w-full border-t my-2" />
               </div>
-            )) : <div className="flex flex-col items-center">No items in current transaction!</div>}
+            )) : <div className="flex flex-col items-center">No items !</div>}
           </div>
-          <hr className="border-t-2 border-gray-300" /> 
-          <div className="px-6 pt-4 pb-2 flex flex-col items-center">
-            <h1>Total Price: {
+          <div className="p-4 pt-4 pb-2 flex justify-between">
+            <h1> Total </h1>
+			{
               transactionsList ? "$" + transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2) : "$0.00"
-            }</h1>
+            }
           </div>
           <div className="flex justify-between mt-4">
             <button
               className="text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 rounded-md shadow-sm px-4 py-2"
               onClick={clearTransaction}
             >
-              Clear Transaction
+              Clear Cart
             </button>
             <button
               className="text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 rounded-md shadow-sm px-4 py-2"
@@ -166,22 +194,23 @@ export default function CustomerNavbar({ links }) {
                 }
               }}
             >
-              Charge
+              Checkout
             </button>
           </div>
         </div>
       </div>
 
-      {/* Payment options modal */}
-      {showPaymentOptions && (
-        <PaymentModal
-          showPaymentOptions={showPaymentOptions}
-          setShowPaymentOptions={setShowPaymentOptions}
-          handlePayment={handlePayment}
-          enableCreditCardInput={true}
-        />
-      )}
-                  <ToastContainer limit ={1}/>
+		{/* Payment options modal */}
+		{showPaymentOptions && (
+			<PaymentModal
+			showPaymentOptions={showPaymentOptions}
+			setShowPaymentOptions={setShowPaymentOptions}
+			handlePayment={handlePayment}
+			enableCreditCardInput={true}
+			/>
+		)}
+    
+		<ToastContainer limit ={1}/>
     </nav>
     </>
   );
