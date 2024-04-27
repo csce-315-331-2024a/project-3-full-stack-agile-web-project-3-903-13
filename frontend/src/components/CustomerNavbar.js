@@ -44,6 +44,14 @@ export default function CustomerNavbar({ links }) {
     }
   }
 
+  const getSubtotal = () => {
+	return transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2)
+  }
+
+  const getTax = () => {
+	return (getSubtotal() * 0.0825).toFixed(2)
+  }
+
   const handlePayment = () => {
     submitTransaction();
     setShowPaymentOptions(false);
@@ -122,7 +130,7 @@ export default function CustomerNavbar({ links }) {
 				<div>
 					<h3 className="text-2xl text-dark-maroon"> My Cart </h3>
 				</div>
-				<div class="flex justify-center items-center">
+				<div className="flex justify-center items-center">
 				<button
                         onClick={toggleCart}
                     >
@@ -148,11 +156,13 @@ export default function CustomerNavbar({ links }) {
             {transactionsList ? transactionsList.map((item, index) => (
               <div key={index} className="flex flex-col justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow">
                 <div className="flex w-full justify-between items-center">
-                  <span className="font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-md font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
                   <FaWindowClose className="text-red-600 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id, item.modif)} />
                 </div>
 
-				<div className="text-xs"> {item.modif && item.modif.slice(0, item.modif.length - 1)} </div>
+				<div className="max-w-48"> 
+					<p className="font-normal text-sm "> {item.modif && item.modif.slice(0, item.modif.length - 1)} </p> 
+				</div>
 
 
                 <div className="flex items-center justify-center mt-2">
@@ -163,12 +173,30 @@ export default function CustomerNavbar({ links }) {
               </div>
             )) : <div className="flex flex-col items-center">No items !</div>}
           </div>
-          <div className="p-4 pt-4 pb-2 flex justify-between">
-            <h1> Total </h1>
-			{
-              transactionsList ? "$" + transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2) : "$0.00"
-            }
-          </div>
+
+		  {transactions && (
+			<div>
+				<div className="flex justify-between">
+					<p>Subtotal</p>
+					<p>{transactionsList ? "$" + getSubtotal() : "$0.00"}</p>
+				</div>
+
+				<div className="flex justify-between">
+					<p>Tax</p>
+					<p>{transactionsList ? "$" + getTax() : "$0.00"}</p>
+				</div>
+
+				<div className="flex justify-between">
+					<p>Total</p>
+					<p>
+						{transactionsList
+						? "$" + (parseFloat(getSubtotal()) + parseFloat(getTax())).toFixed(2)
+						: "$0.00"}
+					</p>
+				</div>
+			</div>
+			)}
+
           <div className="flex justify-between mt-4">
             <button
               className="text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 rounded-md shadow-sm px-4 py-2"

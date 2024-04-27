@@ -24,6 +24,14 @@ function TransactionPanel() {
         setShowPaymentOptions(false);
     };
 
+    const getSubtotal = () => {
+        return transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2)
+    }
+
+    const getTax = () => {
+        return (getSubtotal() * 0.0825).toFixed(2)
+    }
+
     const handleQuantityChange = (itemId, newQuantity) => {
         const updatedItem = transactions.find(item => item.id === itemId);
         if (updatedItem) {
@@ -54,7 +62,7 @@ function TransactionPanel() {
     return (
         <div className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5">
             <div className="px-6 py-4 border-b">
-                <div className="font-bold text-xl mb-2">Current Sale</div>
+                <div className="font-bold text-xl">Current Sale</div>
             </div>
             <div className="flex-1 overflow-auto">
                 {transactionsList && transactionsList.length > 0 ? (
@@ -64,7 +72,9 @@ function TransactionPanel() {
                                 <span className="font-semibold truncate">{item.itemname}</span>
                                 <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
                             </div>
-                            <div className="flex items-center justify-between">
+                            <div className="max-w-64 text-[13px]"> {item.modif && item.modif.slice(0, item.modif.length - 1)} </div>
+
+                            <div className="flex items-center justify-between mt-4">
                                 <button
                                     onClick={() => openKeypad(item.id, item.quantity)}
                                     className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded inline-flex items-center"
@@ -81,17 +91,35 @@ function TransactionPanel() {
                     <div className="px-6 py-4 text-center">No items in current transaction!</div>
                 )}
             </div>
-            <div className="px-6 py-4">
-                <div className="font-semibold text-lg">
-                    Total Price: $
-                    {transactionsList ? transactionsList.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2) : "0.00"}
+        
+
+            {transactionsList && (
+                <div className="px-6 py-4 font-semibold text-lg">
+                    <div className="flex justify-between">
+                        <p>Subtotal</p>
+                        <p>{transactionsList ? "$" + getSubtotal() : "$0.00"}</p>
+                    </div>
+
+                    <div className="flex justify-between">
+                        <p>Tax</p>
+                        <p>{transactionsList ? "$" + getTax() : "$0.00"}</p>
+                    </div>
+
+                    <div className="flex justify-between">
+                        <p>Total</p>
+                        <p>
+                            {transactionsList
+                                ? "$" + (parseFloat(getSubtotal()) + parseFloat(getTax())).toFixed(2)
+                                : "$0.00"}
+                        </p>
+                    </div>
                 </div>
-            </div>
+            )}
             <div className="px-6 py-4 flex flex-col space-y-2">
                 <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
                     Clear Transaction
                 </button>
-                <button 
+                <button
                     className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow ${!transactionsList || transactionsList.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={() => setShowPaymentOptions(true)}
                     disabled={!transactionsList || transactionsList.length === 0}
@@ -199,7 +227,7 @@ export function MenuItemList({ categoryNum, categoryName }) {
 
     return (
 
-        <div className="flex flex-row h-[75vh]">
+        <div className="flex flex-row h-[90vh]">
             <div className="container max-w-[66%] p-5">
                 <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

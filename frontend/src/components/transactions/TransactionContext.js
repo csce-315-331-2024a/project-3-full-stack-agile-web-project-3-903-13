@@ -44,11 +44,12 @@ export const TransactionProvider = ({ children }) => {
   }
 
   const submitTransaction = () => {
-    const price = transactions.reduce((total, currentItem) => {return total + currentItem.price * currentItem.quantity}, 0)
-    const taxAmount = price * 0.0825
+    const price = parseFloat(transactions.reduce((total, currentItem) => {return total + currentItem.price * currentItem.quantity}, 0).toFixed(2))
+    const taxAmount = parseFloat((price * 0.0825).toFixed(2))
+    const total = parseFloat((price + taxAmount).toFixed(2))
     const orderContents = transactions
     const requestData = {
-      "totalCost": price + taxAmount,
+      "totalCost": total,
       "taxAmount": taxAmount,
       "orderContents": orderContents
     }
