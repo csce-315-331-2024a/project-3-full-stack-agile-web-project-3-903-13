@@ -116,7 +116,7 @@ function TransactionPanel() {
                 </div>
             )}
             <div className="px-6 py-4 flex flex-col space-y-2">
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
+                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
                     Clear Transaction
                 </button>
                 <button
