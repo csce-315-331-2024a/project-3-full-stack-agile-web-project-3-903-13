@@ -46,8 +46,8 @@ const OrderDisplayPage = () => {
     }, []);
 
     return (
-        <div className="order-display-page flex h-screen">
-            <section className="preparing-section w-1/2 bg-gray-200 p-10">
+        <div className="order-display-page flex h-screen" role="main" >
+            <section className="preparing-section w-1/2 bg-gray-200 p-10" aria-labelledby="preparing-heading" >
                 <h1 className="text-3xl font-bold underline mb-10">Preparing...</h1>
                 {ordersInPreparation.map(order => (
                     <p key={order.transactionid} className="text-4xl font-bold mb-4">
@@ -56,7 +56,7 @@ const OrderDisplayPage = () => {
                 ))}
             </section>
 
-            <section className="collect-section w-1/2 bg-gray-100 p-10">
+            <section className="collect-section w-1/2 bg-gray-100 p-10" aria-labelledby="collect-heading" >
                 <h1 className="text-3xl font-bold underline mb-10 text-green-600">Please Collect</h1>
                 {ordersToCollect.map(order => (
                     <p key={order.transactionid} className="text-4xl font-bold mb-4">

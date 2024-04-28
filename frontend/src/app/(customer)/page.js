@@ -226,6 +226,7 @@ const Home = () => {
         <div className="flex items-center justify-center space-x-4 mt-5">
           <section aria-label= "Weather and Time">
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
+          </section>
         </div>
         <Carousel
           swipeable
