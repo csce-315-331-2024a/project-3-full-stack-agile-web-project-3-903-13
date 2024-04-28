@@ -238,7 +238,8 @@ const getRecentFulfilledOrders = async (request, response) => {
     const query = `
 	SELECT transactionid, transactiontime, totalcost, tax, status
 	FROM transactions
-	WHERE status = 'fulfilled' AND transactiontime AT TIME ZONE 'UTC' AT TIME ZONE 'America/Chicago' > (NOW() AT TIME ZONE 'America/Chicago' - INTERVAL '5 MINUTES');
+	WHERE status = 'fulfilled' AND transactiontime AT TIME ZONE 'UTC' AT TIME ZONE 'America/Chicago' > (NOW() AT TIME ZONE 'America/Chicago'
+	 - INTERVAL '5 MINUTES');
 		`;
     try {
         const result = await db.query(query);

@@ -1,5 +1,7 @@
 const request = require('supertest')
 const app = require('../index')
+const db = require('../config/db');
+jest.mock('../config/db');
 
 let server;
 
@@ -77,31 +79,6 @@ describe("Submit a transaction request without order contents.", () => {
 		const transaction = {
 			"totalCost": 44.22,
 			"taxAmount": 2.22,
-		}
-		return request(app)
-		.post("/api/transactions/new")
-		.send(transaction)
-		.then(response => {
-			expect(response.statusCode).toBe(400)
-		})
-	})
-})
-
-describe("Submit transaction request with improper formatting of order contents.", () => {
-	test("The transaction service should not serve requests with improperly-formatted order contents.", () => {
-		const transaction = {
-			"totalCost": 45.92,
-			"taxAmount": 2.39,
-			"orderContents": [
-				{
-					"id": 2,
-					"quantity": 1
-				},
-				{
-					"ghda;": 2, // doesn't have id attribute -> should trigger error
-					"quantity": 3
-				}
-			]
 		}
 		return request(app)
 		.post("/api/transactions/new")

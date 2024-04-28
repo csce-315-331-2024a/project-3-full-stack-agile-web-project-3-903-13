@@ -108,7 +108,7 @@ const buttonCategories = [
 const carouselHotCategories = [
   {
     id: 2,
-    name: "Classic Hamburger",
+    name: "CLASSIC HAMBURGER",
     phrase: "Order the classic hamburger today!",
     description:
       "Cheese, Lettuce, Tomatoes, Onions, and our signature patty all on artisan bread. Handcrafted with love by Rev's Grill!",
@@ -117,7 +117,7 @@ const carouselHotCategories = [
   },
   {
     id: 4,
-    name: "Gig Em Patty Melt",
+    name: "GIG EM PATTY MELT",
     phrase: "Try the all new Gig Em Patty Melt!",
     description:
       "This revolutionary sandwich will turn even the staunchest of 2%ers into redasses in no time!",
@@ -129,7 +129,7 @@ const carouselHotCategories = [
 const carouselColdCategories = [
   {
     id: 16,
-    name: "Cookie ice cream sundae",
+    name: "COOKIE ICE CREAM SUNDAE",
     phrase: "Indulge in our Cookie Ice Cream Sundae!",
     description:
       "Layers of freshly baked cookies topped with rich vanilla ice cream. A sweet treat to satisfy your cravings!",
@@ -138,7 +138,7 @@ const carouselColdCategories = [
   },
   {
     id: 22,
-    name: "Chicken Caesar Salad",
+    name: "CHICKEN CAESAR SALAD",
     phrase: "Enjoy our Fresh Chicken Caesar Salad!",
     description:
       "Crisp romaine lettuce, juicy grilled chicken, shredded parmesan cheese, croutons, and a creamy Caesar dressing. Perfect for a refreshing and healthy meal!",
