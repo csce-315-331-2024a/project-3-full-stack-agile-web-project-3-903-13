@@ -99,7 +99,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
     const handleAddCart = () => {
         let temp = "";
         const inventToRemove = []
-        console.log(otherIngredients)
+        // console.log(otherIngredients)
         for (let i = 0; i < ingredientsRemoved.length; i++) {
             const ingred = removableIngredients[i]
             if (ingredientsRemoved[i]) {

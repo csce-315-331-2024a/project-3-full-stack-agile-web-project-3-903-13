@@ -283,14 +283,12 @@ function MenuItem(props) {
                     onClick={() => handleItemClick(props.item)}>
                     Customize
                 </div>
-
-                </div>
-
-            <UpdateModal
+                <UpdateModal
                 isOpen={isModalOpen}
                 onClose={closeUpdateModal}
                 item={selectedItem}
             />
+                </div>
             )}
         </>
     );
