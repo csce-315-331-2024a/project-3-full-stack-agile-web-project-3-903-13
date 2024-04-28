@@ -91,7 +91,7 @@ const MenuBoard = () => {
                         {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
                             <div key={index} className="menu_column">
                                 {column.map(item => (
-                                    <div key={item.id} className="bg-gray-800 p-1.5 rounded-lg shadow-md flex border border-gray">
+                                    <div key={item.id} className="bg-[#800000] p-1.5 rounded-lg shadow-md flex border border-4 border-gray-800">
                                         
                                         <Image
                                             src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}

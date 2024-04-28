@@ -88,7 +88,7 @@ const MenuBoard = () => {
         <div className="min-h-screen max-h-screen bg-white  p-6">
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="menu-category">
-                    <div className="text-2xl text-black font-bold uppercase pb-2 border-b border-gray-200 flex items-center">
+                    <div className="text-2xl text-black font-bold uppercase pb-2 border border-gray-200 flex items-center">
                         {category === '1' && (
                             <>
                                 <span >HotDogs/Corndogs</span>
@@ -132,16 +132,9 @@ const MenuBoard = () => {
                             </>
                         )}
                     </div>
-
-
-                    
-
-
-
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                        
+                    <div className="grid grid-cols-2 gap-4 mt-4 ">
                         {groupedMenuItems[category].map(item => (
-                            <div key={item.id} className="bg-gray-800 p-1.5 rounded-lg shadow-md flex border border-gray">
+                            <div key={item.id} className="bg-[#800000] p-1.5 rounded-lg shadow-md flex border border-4 border-gray-800">
                                 <Image
                                     src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
                                     alt={item.itemname}
