@@ -5,9 +5,9 @@ import Link from 'next/link'
 
 export default function EmployeeModal({isOpen, onClose, employee, isUpdateDelete}) {
 
-  if (!isOpen) return null;
-
   const [message, setMessage] = useState(null)
+
+  if (!isOpen) return null;
 
   const updateUser = async () => {
     let updateResult = await fetch(``, {
