@@ -69,6 +69,7 @@ export default function KitchenStatePage() {
                             <button
                                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded my-2"
                                 onClick={() => handleCompleteClick(order)}
+                                aria-label={`Complete order ${order.transactionid}`}
                             >
                                 Complete
                             </button>
@@ -82,7 +83,9 @@ export default function KitchenStatePage() {
                                 }}
                             >
                                 <button
-                                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    aria-label={`Update order ${order.transactionid}`}
+                                >
                                     Update
                                 </button>
                             </Link>

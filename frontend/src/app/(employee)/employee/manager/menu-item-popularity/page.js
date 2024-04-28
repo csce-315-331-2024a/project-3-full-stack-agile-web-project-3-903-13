@@ -110,6 +110,7 @@ export default function ItemPopularityPage() {
                 <form
                     onSubmit={handleGenerateReport}
                     className="flex flex-col md:flex-row justify-between items-center mb-4"
+                    aria-label="Date Range Selection Form"
                 >
                     <input
                         type="date"
@@ -117,6 +118,8 @@ export default function ItemPopularityPage() {
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         onChange={(e) => setStartDate(e.target.value)}
                         required
+                        aria-label="Start Date"
+
                     />
                     <input
                         type="date"
@@ -124,16 +127,19 @@ export default function ItemPopularityPage() {
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         onChange={(e) => setEndDate(e.target.value)}
                         required
+                        aria-label="End Date"
                     />
                     <button
                         type="submit"
                         className="w-1/5 bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2 font-semibold"
                         disabled={loading}
+                        aria-label="Generate Report Button"
+
                     >
                         {loading ? "Loading..." : "Generate Report"}
                     </button>
                 </form>
-                <div className="text-center">
+                <div className="text-center" aria-live="polite">
                     {errorMessage && (
                         <p className="text-red-500">{errorMessage}</p>
                     )}
@@ -144,8 +150,8 @@ export default function ItemPopularityPage() {
                         </p>
                     )}
                 </div>
-                <div style={{ height: "650px" }}>
-                    {hasData && <canvas ref={chartRef}></canvas>}
+                <div style={{ height: "650px" }} aria-label="Sales Report Chart">
+                    {hasData && <canvas ref={chartRef} aria-label="Sales Chart" ></canvas>}
                 </div>
             </div>
         </main>

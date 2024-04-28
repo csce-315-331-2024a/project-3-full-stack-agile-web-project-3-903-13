@@ -399,7 +399,7 @@ export default function InventoryPage() {
 					</div>
 				</div>
 
-				<div className="grid grid-cols-4 gap-4">
+				<div className="grid grid-cols-4 gap-4" aria-label="Invetory Items">
 					{inventoryItems.map((item) => (
 						<a
 							href="#"

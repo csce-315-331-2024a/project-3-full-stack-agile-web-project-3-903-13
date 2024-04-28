@@ -85,7 +85,7 @@ export default function SalesReportPage() {
     };
 
     return (
-        <main className="min-h-screen bg-slate-100 flex flex-col">
+        <main className="min-h-screen bg-slate-100 flex flex-col" aria-labelledby="sales-report-title">
             <h1 className="text-4xl font-bold text-center mb-3 py-4">What Sells Together</h1>
 
             <div className="w-full max-w-4xl mx-auto p-5 bg-white shadow-md rounded-lg">
@@ -96,6 +96,7 @@ export default function SalesReportPage() {
                         onChange={(e) => setStartDate(e.target.value)}
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         required
+                        aria-label="Start Date"
                     />
                     <input
                         type="date"
@@ -103,6 +104,7 @@ export default function SalesReportPage() {
                         onChange={(e) => setEndDate(e.target.value)}
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         required
+                        aria-label="End Date"
                     />
                     <button type="submit" className="w-1/5 bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2 font-semibold" disabled={loading}>
                         {loading ? 'Loading...' : 'Generate Report'}
@@ -117,7 +119,7 @@ export default function SalesReportPage() {
                     ))}
                 </select>
                 </div>
-                <div className="text-center">
+                <div className="text-center" aria-live="polite">
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                     {successMessage && <p className="text-green-500">{successMessage}</p>}
                 </div>

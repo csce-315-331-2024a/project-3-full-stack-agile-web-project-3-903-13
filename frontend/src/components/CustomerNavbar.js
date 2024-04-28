@@ -243,6 +243,7 @@ export default function CustomerNavbar({ links }) {
 								<button
 									className="text-white w-1/2 bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
 									onClick={clearTransaction}
+									aria-label ="Clear Cart"
 								>
 									Clear
 								</button>
@@ -263,6 +264,7 @@ export default function CustomerNavbar({ links }) {
 											});
 										}
 									}}
+									aria-label="Checkout"
 								>
 									Checkout
 								</button>
