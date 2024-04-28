@@ -117,13 +117,6 @@ const MenuBoard = () => {
                                         height={25}
                                     />
                                 </div>
-
-
-
-                                <div style={{ display: 'inline-block', marginLeft: '1450px' }}>
-                                    Page 3/3
-                                </div>
-
                             </>
                         )}
                         {category === '4' && (
@@ -147,7 +140,7 @@ const MenuBoard = () => {
                         {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
                             <div key={index} className="menu_column">
                                 {column.map(item => (
-                                    <div key={item.id} className="menu_item bg-gray-800 p-3 rounded-lg shadow-md flex border border-gray">
+                                    <div key={item.id} className="menu_item bg-gray-800 rounded-lg shadow-md flex border border-gray">
                                         <div className="object-cover w-20 h-20 rounded-lg overflow-hidden">
                                             <img src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`} alt={item.itemname} className="w-full h-full object-cover" />
                                         </div>
@@ -172,7 +165,7 @@ const MenuBoard = () => {
 const HomePage = () => {
     return (
         <div className="min-h-screen max-h-screen overflow-hidden text-white">
-            <div className="bg-[#800000] text-white text-center text-3xl font-bold p-1">Rev&apos;s Menu</div>
+            <div className="bg-[#800000] text-white text-center text-3xl font-bold">Rev&apos;s Menu</div>
             <MenuBoard />
         </div>
     );

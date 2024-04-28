@@ -102,11 +102,6 @@ const MenuBoard = () => {
                             />
                         </div>
 
-                        <div style={{ display: 'inline-block', marginLeft: '1400px' }}>
-                            Page 1/3
-                        </div>
-
-
                     </div>
 
 

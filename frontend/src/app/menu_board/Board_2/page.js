@@ -102,11 +102,6 @@ const MenuBoard = () => {
                                         height={25}
                                     />
                                 </div>
-
-
-                                <div style={{ display: 'inline-block', marginLeft: '1250px' }}>
-                                    Page 2/3
-                                </div>
                             </>
                         )}
                         {category === '2' && (
