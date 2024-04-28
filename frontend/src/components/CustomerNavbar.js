@@ -146,16 +146,25 @@ export default function CustomerNavbar({ links }) {
 									{transactionsList ? transactionsList.map((item, index) => (
 										<div key={index} className="flex flex-col justify-between w-full bg-gray-100 p-4 my-2 rounded-lg shadow">
 											<div className="flex w-full justify-between items-center">
-												<span className="font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
-												<FaTimesCircle className="text-red-500 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id, item.modif)} />
+												<span className="font-semibold flex-1 mr-2">{item.itemname}</span>
+												<span> ${(item.price * item.quantity).toFixed(2)}</span>
 											</div>
-											<div className="max-w-48">
+											<div className="max-w-[55%]">
 												<p className="font-normal text-sm "> {item.modif && item.modif.slice(0, item.modif.length - 1)} </p>
 											</div>
-											<div className="flex items-center justify-center mt-2">
-												<FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
-												<span className="mx-2 text-lg">{item.quantity}</span>
-												<FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
+											<div className="flex items-center justify-between mt-2">
+												<div>
+													<button
+														className="font-semibold text-red-600 hover:underline"
+														onClick={() => removeItemCompletely(item.id, item.modif)}> Remove 
+													</button>
+
+												</div>
+												<div className="flex items-center">
+													<FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
+													<span className="mx-2 text-lg">{item.quantity}</span>
+													<FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
+												</div>
 											</div>
 										</div>
 									)) : <div className="flex flex-col items-center">No items!</div>}
