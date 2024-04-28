@@ -24,7 +24,7 @@ const Page = () => {
             <div
                 key={page}
                 className={`w-6 h-6 rounded-full flex items-center justify-center mx-1 cursor-pointer border-2 ${
-                    currentIndex === page ? 'bg-white text-black border-black' : 'text-white border-white'
+                    currentIndex === page ? 'text-white border-black bg-gray-800' : 'bg-white text-black border-black'
                 }`}
                 onClick={() => setCurrentIndex(page)}
             >
