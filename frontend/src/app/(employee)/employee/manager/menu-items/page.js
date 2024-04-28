@@ -228,44 +228,45 @@ export default function ManagerPage() {
       <div className="w-full  max-w-screen-xl mx-auto">
         
         <div className="flex justify-evenly mb-8">
-        <button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2">
+        <button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
           Add Menu Item
         </button>
-        <button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2">
+        <button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
           Update Menu Item
         </button>
-        <button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2">
+        <button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
           Remove Menu Item
         </button>
         </div>
         <div className="grid grid-cols-4 gap-4">
-        {menuItemsGrid.map((item) => (
-          <div
-            key={item.menuid}
-            className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-            role = "region"
-            aria-labelledby={`menu-item-${item.menuid}`}
-          >
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              {item.itemname}
-            </h5>
-            <p className="mb-4 p-2 bg-gray-200 rounded-lg">Price: {item.price}</p>
-            <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Category: {getCategoryLabel(item.category)}</p>
-            <div className="p-2 pt-1 bg-gray-200 rounded-lg">
-            <h6 className="mt-4 mb-2 text-lg font-semibold">Ingredients:</h6>
-            <ul>
-                {item.ingredients.map((ingredient, index) => {
-                  return (
-                    <li key={index}>
-                      {ingredient.ingredientname}: {ingredient.quantity}
-                    </li>
-                  );
-                })}
-            </ul>
+          {menuItemsGrid.map((item) => (
+            <div
+              key={item.menuid}
+              className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            >
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {item.itemname}
+              </h5>
+              <p className="mb-4 p-2 bg-gray-200 rounded-lg">Price: {item.price}</p>
+              <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Category: {getCategoryLabel(item.category)}</p>
+              <p className="mb-4 p-2 bg-gray-200 rounded-lg">Description: {item.description}</p>
+              <p className="mb-4 p-2 bg-gray-200 rounded-lg">Calories: {item.Calories}</p>
+              <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Special Diet: {getDietCategoryLabel(item.specialdiet)}</p>
+              <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Gluten Free: {getAllergyLabel(item.allergy)}</p>
+              <div className="p-2 pt-1 bg-gray-200 rounded-lg">
+                <h6 className="mt-4 mb-2 text-lg font-semibold">Ingredients:</h6>
+                <ul>
+                  {item.ingredients.map((ingredient, index) => {
+                    return (
+                      <li key={index}>
+                        {ingredient.ingredientname}: {ingredient.quantity}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             </div>
-            
-          </div>
-        ))}
+          ))}
         </div>
       </div>
       <MenuAddModal 
