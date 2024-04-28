@@ -41,7 +41,8 @@ export default function ExcessReportPage() {
             const stateData = await responseState.json();
             const usedInventData = await responseUsage.json();
 
-            if (stateData.length === 0 || usedInventData === 0) {
+
+            if (stateData.length.length === 0 || usedInventData.length === 0) {
                 setSuccess(false);
                 setMessage('No entries found for the selected date range. Please try a different time range.');
             } else {

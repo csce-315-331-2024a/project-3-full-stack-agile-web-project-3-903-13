@@ -76,7 +76,7 @@ function TransactionPanel() {
 
                             <div className="flex items-center justify-between mt-4">
                                 <button
-                                    onClick={() => { openKeypad(item, item.quantity)}}
+                                    onClick={() => { openKeypad(item, item.quantity) }}
                                     className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded inline-flex items-center"
                                 >
                                     <span>Quantity: {item.quantity}</span>
@@ -153,6 +153,7 @@ function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
     // const [isClicked, setIsClicked] = useState(false);
     const [seasonalItems, setSeasonalItems] = useState(new Map());
+    const [isCustomizable, setIsCustomizable] = useState(true)
 
     const getMenuItemSeasonal = async (menuItem) => {
         try {
@@ -174,6 +175,12 @@ function MenuItem(props) {
     };
 
     useEffect(() => {
+        const nonCustomizable = ["16 oz aquafina water", "20 oz aquafina water", "20 oz fountain drink", "20 oz Aquafina", "French Fries"]
+
+        if (nonCustomizable.indexOf(props.item.itemname) !== -1) {
+            setIsCustomizable(false)
+        }
+
         const fetchSeasonalInfo = async () => {
             const seasonalData = await getMenuItemSeasonal({ itemName: props.item.itemname });
             const isSeasonal = seasonalData.length === 0 || (seasonalData.length > 0 && new Date(seasonalData[0].expirationdate) >= new Date());
@@ -200,7 +207,7 @@ function MenuItem(props) {
             }
 
             const data = await response.json();
-            const paramsNeeded = data.map(obj => ({"inventid": obj.inventid, "ingredientname": obj.ingredientname, "quantity": obj.quantity}))
+            const paramsNeeded = data.map(obj => ({ "inventid": obj.inventid, "ingredientname": obj.ingredientname, "quantity": obj.quantity }))
             return paramsNeeded
 
         } catch (error) {
@@ -208,7 +215,7 @@ function MenuItem(props) {
         }
     };
 
-    const sendToTransaction = async() => {
+    const sendToTransaction = async () => {
         const ingreds = await getMenuItemIngredients()
         var quantity = 0
         if (transactions) {
@@ -223,9 +230,9 @@ function MenuItem(props) {
         }
         if (seasonalItems.get(props.item.menuid)) {
             updateTransaction({
-            "id": props.item.menuid, "itemname": props.item.itemname,
-            "price": props.item.price, "quantity": quantity, "modif": "", "inventToRemove": ingreds
-        });
+                "id": props.item.menuid, "itemname": props.item.itemname,
+                "price": props.item.price, "quantity": quantity, "modif": "", "inventToRemove": ingreds
+            });
             // setIsClicked(true);
             // setTimeout(() => setIsClicked(false), 600);
         }
@@ -271,23 +278,25 @@ function MenuItem(props) {
             {seasonalItems.get(props.item.menuid) && (
                 <div
                     className="flex relative justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md"
-            // className={`menu-item flex relative justify-center px-10 py-14 items-center 
-            // bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
-                    >
+                // className={`menu-item flex relative justify-center px-10 py-14 items-center 
+                // bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
+                >
                     <div className="hover:cursor-pointer menu-item text-xl font-semibold text-gray-900 text-center py-4"
-                    onClick={sendToTransaction}>
+                        onClick={sendToTransaction}>
                         {props.item.itemname}
                     </div>
 
-                <div className="absolute right-2 bottom-3 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 py-1 px-1 rounded"
-                    onClick={() => handleItemClick(props.item)}>
-                    Customize
-                </div>
-                <UpdateModal
-                isOpen={isModalOpen}
-                onClose={closeUpdateModal}
-                item={selectedItem}
-            />
+                    {isCustomizable && (
+                        <div className="absolute right-2 bottom-3 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 py-1 px-1 rounded"
+                            onClick={() => handleItemClick(props.item)}>
+                            Customize
+                        </div>
+                    )}
+                    <UpdateModal
+                        isOpen={isModalOpen}
+                        onClose={closeUpdateModal}
+                        item={selectedItem}
+                    />
                 </div>
             )}
         </>
