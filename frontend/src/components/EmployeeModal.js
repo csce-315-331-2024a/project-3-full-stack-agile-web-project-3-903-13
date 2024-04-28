@@ -15,6 +15,7 @@ export default function EmployeeModal({isOpen, onClose, employee, isUpdateDelete
       body: {
         'age': age,
         'number': number,
+        'email': email, 
         'hours': hours,
         'role': role
       }
