@@ -12,9 +12,9 @@ export default function UpdateModal({ isOpen, onClose, item }) {
     const [ingredients, setIngredients] = useState()
     const [removedIngredients, setRemovedIngredients] = useState([]);
 
-    const { updateTransaction, transactions } = useTransaction();
+    const { updateTransaction, transactions} = useTransaction();
 
-    const sendToTransaction = (dish, modificationString) => {
+    const sendToTransaction = (dish, modificationString, inventToRemove) => {
         var quantity = 0;
         if (transactions) {
             transactions.forEach(item => {
@@ -26,7 +26,10 @@ export default function UpdateModal({ isOpen, onClose, item }) {
         if (quantity === 0) {
             quantity = 1;
         }
-        updateTransaction({ "id": dish.menuid, "itemname": dish.itemname, "price": dish.price, "quantity": quantity, "modif": modificationString });
+        updateTransaction({
+            "id": dish.menuid, "itemname": dish.itemname, "price": dish.price,
+            "quantity": quantity, "modif": modificationString, "inventToRemove": inventToRemove
+        });
         toast.success(`${dish.itemname} added to cart!`, {
             position: "bottom-center",
             autoClose: 1000,
@@ -75,7 +78,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
     }, [item]);
 
-    
+
 
 
     const handleIngredientClick = (index) => {
@@ -89,12 +92,19 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
     const handleAddCart = () => {
         let temp = "";
+        const inventToRemove = []
         for (let i = 0; i < removedIngredients.length; i++) {
+            const ingred = ingredients[i]
             if (removedIngredients[i]) {
-                temp += "No " + ingredients[i].ingredientname.toString() + ",";
+                temp += "No " + ingred.ingredientname.toString() + ", ";
+                // addToModif({ "inventid": ingred.inventid, "ingredientname": ingred.ingredientname, "quantity": ingred.quantity })
+            }
+            else {
+                inventToRemove.push({ "inventid": ingred.inventid, "ingredientname": ingred.ingredientname, "quantity": ingred.quantity })
             }
         }
-        sendToTransaction(item, temp)
+        temp = temp.slice(0, temp.length - 1)
+        sendToTransaction(item, temp, inventToRemove)
     }
 
 

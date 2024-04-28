@@ -5,6 +5,8 @@ import { useEffect, useState, useContext } from "react";
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
 import NumericKeypad from "@/components/transactions/NumericKeypad"
 import PaymentModal from "@/components/transactions/PaymentModal"
+import UpdateModal from "@/components/updateItems/employeeView";
+
 
 
 function TransactionPanel() {
@@ -81,7 +83,7 @@ function TransactionPanel() {
                                 >
                                     <span>Quantity: {item.quantity}</span>
                                 </button>
-                                <button onClick={() => removeItemCompletely(item.id)} className="text-red-500 hover:text-red-700">
+                                <button onClick={() => removeItemCompletely(item.id, item.modif)} className="text-red-500 hover:text-red-700">
                                     Remove Item
                                 </button>
                             </div>
@@ -91,7 +93,7 @@ function TransactionPanel() {
                     <div className="px-6 py-4 text-center">No items in current transaction!</div>
                 )}
             </div>
-        
+
 
             {transactionsList && (
                 <div className="px-6 py-4 font-semibold text-lg">
@@ -155,21 +157,34 @@ function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
     const [isClicked, setIsClicked] = useState(false);
 
-    const sendToTransaction = () => {
-        var quantity = 0
-        if (transactions) {
-            transactions.forEach(item => {
-                if (props.item.menuid == item.id) {
-                    quantity = item.quantity + 1
-                }
-            });
-        }
-        if (quantity == 0) {
-            quantity += 1
-        }
-        updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity });
-        setIsClicked(true);
-        setTimeout(() => setIsClicked(false), 600);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    // const sendToTransaction = () => {
+    //     var quantity = 0
+    //     if (transactions) {
+    //         transactions.forEach(item => {
+    //             if (props.item.menuid == item.id) {
+    //                 quantity = item.quantity + 1
+    //             }
+    //         });
+    //     }
+    //     if (quantity == 0) {
+    //         quantity += 1
+    //     }
+    //     updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity });
+    //     setIsClicked(true);
+    //     setTimeout(() => setIsClicked(false), 600);
+    // }
+
+    const handleItemClick = (item) => {
+        console.log(item)
+        setSelectedItem(item)
+        setIsModalOpen(true)
+    }
+
+    const closeUpdateModal = () => {
+        setIsModalOpen(false);
     }
 
     const clickEffect = isClicked ? 'border-animate' : '';
@@ -201,13 +216,20 @@ function MenuItem(props) {
                 `}
             </style>
             <div
-                className={`menu-item flex justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
-                onClick={sendToTransaction}
+                className={`menu-item flex relative justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
+                onClick={() => handleItemClick(props.item)}
             >
                 <div className="text-xl font-semibold text-gray-900 text-center">
                     {props.item.itemname}
                 </div>
+                
             </div>
+
+            <UpdateModal
+                isOpen={isModalOpen}
+                onClose={closeUpdateModal}
+                item={selectedItem}
+            />
         </>
     );
 }

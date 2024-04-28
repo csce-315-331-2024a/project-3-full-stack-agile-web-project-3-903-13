@@ -174,7 +174,7 @@ export default function CustomerNavbar({ links }) {
             )) : <div className="flex flex-col items-center">No items !</div>}
           </div>
 
-		  {transactions && (
+		  {transactionsList && (
 			<div>
 				<div className="flex justify-between">
 					<p>Subtotal</p>

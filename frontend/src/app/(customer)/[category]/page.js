@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
 import Image from 'next/image'
 import { toast } from 'react-toastify';
-import UpdateModal from "@/components/UpdateItemModal";
+import UpdateModal from "@/components/updateItems/customerView";
  
 
 const categories = [
