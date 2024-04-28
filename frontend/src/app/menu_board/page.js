@@ -14,19 +14,37 @@ const Page = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % boards.length);
-        }, 10000); // Change slide every 5 seconds
+        }, 10000); // Change slide every 10 seconds
 
         return () => clearInterval(interval);
     }, [boards.length]);
 
-    return (
-        <div className="slideshow-container">
-        {boards.map((board, index) => (
-            <div key={index} style={{ display: index === currentIndex ? 'block' : 'none' }}>
-                {board}
+    const renderIndicator = (page) => {
+        return (
+            <div
+                key={page}
+                className={`w-6 h-6 rounded-full flex items-center justify-center mx-1 cursor-pointer border-2 ${
+                    currentIndex === page ? 'text-white border-black bg-gray-800' : 'bg-white text-black border-black'
+                }`}
+                onClick={() => setCurrentIndex(page)}
+            >
+                {page + 1}
             </div>
-        ))}
-    </div>
+        );
+    };
+
+
+    return (
+        <div className="relative">
+            {boards.map((board, index) => (
+                <div key={index} className={index === currentIndex ? "block" : "hidden"}>
+                    {board}
+                </div>
+            ))}
+            <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex">
+                {boards.map((_, index) => renderIndicator(index))}
+            </div>
+        </div>
     );
 };
 

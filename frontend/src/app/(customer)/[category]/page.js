@@ -6,29 +6,29 @@ import Image from 'next/image'
 import { toast } from 'react-toastify';
 import UpdateModal from "@/components/updateItems/customerView";
 import moment from 'moment';
- 
+
 export const getMenuItemSeasonal = async (menuItem) => {
     try {
-        
-      // Construct the query string from the menuItem object
-      const queryString = new URLSearchParams(menuItem).toString();
-      // Append the query string to the URL
-      const url = `http://localhost:5000/api/menuitems/seasonal?${queryString}`;
-      // Make the GET request
-      const response = await fetch(url);
 
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
-      }
+        // Construct the query string from the menuItem object
+        const queryString = new URLSearchParams(menuItem).toString();
+        // Append the query string to the URL
+        const url = `http://localhost:5000/api/menuitems/seasonal?${queryString}`;
+        // Make the GET request
+        const response = await fetch(url);
 
-      const data = await response.json();
-      return data;
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        return data;
     } catch (error) {
-      console.error("Error fetching seasonal info for menu item:", error);
-      throw error;
+        console.error("Error fetching seasonal info for menu item:", error);
+        throw error;
     }
-  };
+};
 
 
 
@@ -57,25 +57,25 @@ export default function Page({ params }) {
             const data = await response.json();
             const items = data.filter(item => item.category === parseInt(categories.indexOf(params.category)));
             setItemType(items);
-    
+
             let initialScales = {};
             const seasonalInfoMap = new Map();
-    
+
             for (const item of items) {
                 const seasonalData = await getMenuItemSeasonal({ itemName: item.itemname });
                 const isSeasonal = seasonalData.length === 0 || (seasonalData.length > 0 && new Date(seasonalData[0].expirationdate) >= new Date());
                 seasonalInfoMap.set(item.menuid, isSeasonal);
                 initialScales[item.menuid] = 'normal';
             }
-    
+
             setScaleStates(initialScales);
             setSeasonalItems(seasonalInfoMap);
         };
-    
+
         fetchMenuItems();
     }, [params.category]);
 
-    
+
     const handleItemClick = (item) => {
         setSelectedItem(item)
         setIsModalOpen(true)
@@ -85,8 +85,20 @@ export default function Page({ params }) {
         setIsModalOpen(false);
     }
 
-    
-      
+    const isCustomizable = (item) => {
+        if (item == null){
+            return true;
+        }
+
+        const nonCustomizable = ["16 oz aquafina water", "20 oz aquafina water", "20 oz fountain drink", "20 oz Aquafina", "French Fries"]
+        if (nonCustomizable.indexOf(item.itemname) !== -1) {
+            return false
+        }
+        return true
+    }
+
+
+
 
     const getItemScale = (menuId) => {
         return scaleStates[menuId] === 'clicked' ? 'pulse' : 'hover-effect';
@@ -126,6 +138,7 @@ export default function Page({ params }) {
             key={index}
             className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`}
             onClick={() => handleItemClick(item)}
+            aria-label={'Select ${item.itemname}'}
         >
             <>
                 <Image
@@ -146,11 +159,13 @@ export default function Page({ params }) {
     )
 ))}
                 </div>
-                
+
                 <UpdateModal
+                    isCustomizable={isCustomizable(selectedItem)}
                     isOpen={isModalOpen}
                     onClose={closeUpdateModal}
                     item = {selectedItem}
+                    ariaLabel="Update Item Modal"
                 />
 
             </div>

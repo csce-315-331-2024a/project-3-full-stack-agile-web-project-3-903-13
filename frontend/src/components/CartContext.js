@@ -10,7 +10,7 @@ export const CartProvider = ({ children }) => {
   const [isCartVisible, setIsCartVisible] = useState(false);
 
   return (
-    <CartContext.Provider value={{ isCartVisible, setIsCartVisible }}>
+    <CartContext.Provider value={{ isCartVisible, setIsCartVisible }} aria-hidden={!isCartVisible}>
       {children}
     </CartContext.Provider>
   );

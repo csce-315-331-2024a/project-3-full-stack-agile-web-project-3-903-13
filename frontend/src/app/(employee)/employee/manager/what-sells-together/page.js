@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Function to safely format total sales as a fixed decimal string
 const formatTotalSales = (totalSales) => {
@@ -13,6 +13,14 @@ const formatTotalSales = (totalSales) => {
     return 'N/A'; // Return 'N/A' or some other placeholder if the value is not a number
 };
 
+const getMenuItems = async () => {
+    const items = await fetch("http://localhost:5000/api/menuitems");
+    const data = await items.json();
+
+    return data;
+};
+
+
 export default function SalesReportPage() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -21,6 +29,21 @@ export default function SalesReportPage() {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [hasFetched, setHasFetched] = useState(false);
+    const [choice, setChoice] = useState("Select Menu Item")
+    const [menuItems, setMenuItems] = useState([])
+
+    const fetchMenuItems = async () => {
+      try {
+        const data = await getMenuItems();
+        setMenuItems(data);
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+      }
+    };
+
+    useEffect(() => {
+        fetchMenuItems()
+    }, [])
 
     const fetchSalesReport = async () => {
         setLoading(true);
@@ -55,13 +78,14 @@ export default function SalesReportPage() {
         setLoading(false);
     };
 
+
     const handleGenerateReport = (e) => {
         e.preventDefault();
         fetchSalesReport();
     };
 
     return (
-        <main className="min-h-screen bg-slate-100 flex flex-col">
+        <main className="min-h-screen bg-slate-100 flex flex-col" aria-labelledby="sales-report-title">
             <h1 className="text-4xl font-bold text-center mb-3 py-4">What Sells Together</h1>
 
             <div className="w-full max-w-4xl mx-auto p-5 bg-white shadow-md rounded-lg">
@@ -72,6 +96,7 @@ export default function SalesReportPage() {
                         onChange={(e) => setStartDate(e.target.value)}
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         required
+                        aria-label="Start Date"
                     />
                     <input
                         type="date"
@@ -79,12 +104,22 @@ export default function SalesReportPage() {
                         onChange={(e) => setEndDate(e.target.value)}
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         required
+                        aria-label="End Date"
                     />
                     <button type="submit" className="w-1/5 bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2 font-semibold" disabled={loading}>
                         {loading ? 'Loading...' : 'Generate Report'}
                     </button>
                 </form>
-                <div className="text-center">
+                <div className='flex flex-row gap-5'>
+                <h1>Filter by item:</h1>
+                <select name='menuItems' id='menuItemsSelect' className='mb-2' onChange={(e) => setChoice(e.target.value)}>
+                <option>Select Menu Item</option>
+                {menuItems.map((item,index) => ( 
+                    <option key={item.menuid} value={item.itemname}>{item.itemname}</option> 
+                    ))}
+                </select>
+                </div>
+                <div className="text-center" aria-live="polite">
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                     {successMessage && <p className="text-green-500">{successMessage}</p>}
                 </div>
@@ -103,11 +138,20 @@ export default function SalesReportPage() {
                             </thead>
                             <tbody>
                                 {reportData.map((item, index) => (
-                                    <tr key={index}>
+                                    choice == "Select Menu Item" || item.m1name == choice 
+                                     ?
+                                        <tr key={index}>
                                         <td className="border border-gray-400 px-4 py-2">{item.m1name}</td>
                                         <td className="border border-gray-400 px-4 py-2">{item.m2name}</td>
                                         <td className="border border-gray-400 px-4 py-2">{(item.paircount)}</td>
                                     </tr>
+                                    : choice == "Select Menu Item" || item.m2name == choice ?
+                                        <tr key={index}>
+                                        <td className="border border-gray-400 px-4 py-2">{item.m2name}</td>
+                                        <td className="border border-gray-400 px-4 py-2">{item.m1name}</td>
+                                        <td className="border border-gray-400 px-4 py-2">{(item.paircount)}</td>
+                                        </tr>
+                                    : <h1></h1>
                                 ))}
                             </tbody>
                         </table>

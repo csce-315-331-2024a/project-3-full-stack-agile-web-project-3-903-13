@@ -9,23 +9,7 @@ const MenuBoard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // useEffect(() => {
-    //     fetch('http://localhost:5000/api/menuitems')
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             setMenuItems(data);
-    //             setIsLoading(false);
-    //         })
-    //         .catch(error => {
-    //             setError(error);
-    //             setIsLoading(false);
-    //         });
-    // }, []);
+   
 
 
     useEffect(() => {
@@ -45,13 +29,12 @@ const MenuBoard = () => {
             }
         };
     
-        // Fetch menu items initially
+       
         fetchMenuItems();
     
-        // Polling mechanism to fetch menu items every 10 seconds
+      
         const interval = setInterval(fetchMenuItems, 35000);
     
-        // Cleanup function to clear the interval when the component unmounts
         return () => clearInterval(interval);
     }, []);
 
@@ -84,8 +67,7 @@ const MenuBoard = () => {
     };
 
     return (
-        <div className="min-h-screen max-h-screen bg-black text-white p-6">
-            {/* Display menu items grouped by category */}
+        <div className="min-h-screen max-h-screen bg-white text-black p-6">
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="category_container">
                     <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200 flex items-center">
@@ -117,13 +99,6 @@ const MenuBoard = () => {
                                         height={25}
                                     />
                                 </div>
-
-
-
-                                <div style={{ display: 'inline-block', marginLeft: '1450px' }}>
-                                    Page 3/3
-                                </div>
-
                             </>
                         )}
                         {category === '4' && (
@@ -147,14 +122,14 @@ const MenuBoard = () => {
                         {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
                             <div key={index} className="menu_column">
                                 {column.map(item => (
-                                    <div key={item.id} className="menu_item bg-gray-800 p-3 rounded-lg shadow-md flex border border-gray">
+                                    <div key={item.id} className="menu_item bg-[#800000] rounded-lg shadow-md flex border border-4 border-gray-800">
                                         <div className="object-cover w-20 h-20 rounded-lg overflow-hidden">
                                             <img src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`} alt={item.itemname} className="w-full h-full object-cover" />
                                         </div>
                                         <div className="ml-4">
-                                            <div className="text-lg font-bold">{item.itemname}</div>
-                                            <div className="text-sm">{item.description}</div>
-                                            <div className="text-lg font-bold mt-2">${item.price}</div>
+                                            <div className="text-lg text-white font-bold">{item.itemname}</div>
+                                            <div className="text-sm text-white">{item.description}</div>
+                                            <div className="text-lg text-white font-bold mt-2">${item.price}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -172,7 +147,7 @@ const MenuBoard = () => {
 const HomePage = () => {
     return (
         <div className="min-h-screen max-h-screen overflow-hidden text-white">
-            <div className="bg-[#800000] text-white text-center text-3xl font-bold p-1">Rev&apos;s Menu</div>
+            <div className="bg-[#800000] text-white text-center text-3xl font-bold">Rev&apos;s Menu</div>
             <MenuBoard />
         </div>
     );

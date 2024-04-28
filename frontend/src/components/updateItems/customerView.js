@@ -5,7 +5,7 @@ import { useTransaction } from "@/components/transactions/TransactionContext";
 import { toast } from 'react-toastify';
 
 
-export default function UpdateModal({ isOpen, onClose, item }) {
+export default function UpdateModal({ isCustomizable, isOpen, onClose, item }) {
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
 
@@ -16,7 +16,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
     const [removableIngredients, setRemovableIngredients] = useState()
     const [ingredientsRemoved, setIngredientsRemoved] = useState([]);
 
-    const { updateTransaction, transactions} = useTransaction();
+    const { updateTransaction, transactions } = useTransaction();
 
     const sendToTransaction = (dish, modificationString, inventToRemove) => {
         var quantity = 0;
@@ -64,7 +64,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
                 const itemsFilterOut = ["Utensils", "To Go Boxes", "Bags", "Napkins"];
                 const isItemFilterOut = (item) => itemsFilterOut.includes(item)
-                
+
                 setOtherIngredients(data.filter(item => isItemFilterOut(item.ingredientname)))
 
                 const filteredData = data.filter(item => !isItemFilterOut(item.ingredientname));
@@ -110,7 +110,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
             }
         }
 
-        for (let i = 0; i < otherIngredients.length; i++){
+        for (let i = 0; i < otherIngredients.length; i++) {
             const item = otherIngredients[i]
             inventToRemove.push({ "inventid": item.inventid, "ingredientname": item.ingredientname, "quantity": item.quantity })
         }
@@ -170,24 +170,28 @@ export default function UpdateModal({ isOpen, onClose, item }) {
                                     <h5 className="text-md"> {item.description}</h5>
                                 </div>
 
+                                {isCustomizable && (
+                                    <div>
+                                        <span className="ml-1 font-semibold text-xl">
+                                            Customize
+                                            <hr className="border-[3px] border-black mb-1 w-28" />
 
-                                <span className="ml-1 font-semibold text-xl">
-                                    Customize
-                                    <hr className="border-[3px] border-black mb-1 w-28" />
-
-                                </span>
-                                <div>
-                                    {removableIngredients && removableIngredients.map((item, index) => (
-                                        <button
-                                            key={index}
-                                            className={`rounded-md px-3 py-1 m-1 transition duration-100 ease-in-out 
+                                        </span>
+                                        <div>
+                                            {removableIngredients && removableIngredients.map((item, index) => (
+                                                <button
+                                                    key={index}
+                                                    className={`rounded-md px-3 py-1 m-1 transition duration-100 ease-in-out 
                                                         ${ingredientsRemoved[index] ? 'line-through' : 'bg-gray-300 hover:bg-gray-400'}`}
-                                            onClick={() => { handleIngredientClick(index) }}
-                                        >
-                                            {item.ingredientname}
-                                        </button>
-                                    ))}
-                                </div>
+                                                    onClick={() => { handleIngredientClick(index) }}
+                                                >
+                                                    {item.ingredientname}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                             </div>
                         </div>
 
