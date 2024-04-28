@@ -9,23 +9,7 @@ const MenuBoard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // useEffect(() => {
-    //     fetch('http://localhost:5000/api/menuitems')
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             setMenuItems(data);
-    //             setIsLoading(false);
-    //         })
-    //         .catch(error => {
-    //             setError(error);
-    //             setIsLoading(false);
-    //         });
-    // }, []);
+   
 
 
     useEffect(() => {
@@ -45,13 +29,12 @@ const MenuBoard = () => {
             }
         };
     
-        // Fetch menu items initially
+       
         fetchMenuItems();
     
-        // Polling mechanism to fetch menu items every 10 seconds
+      
         const interval = setInterval(fetchMenuItems, 35000);
     
-        // Cleanup function to clear the interval when the component unmounts
         return () => clearInterval(interval);
     }, []);
 
@@ -84,8 +67,7 @@ const MenuBoard = () => {
     };
 
     return (
-        <div className="min-h-screen max-h-screen bg-black text-white p-6">
-            {/* Display menu items grouped by category */}
+        <div className="min-h-screen max-h-screen bg-white text-black p-6">
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="category_container">
                     <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200 flex items-center">
@@ -145,9 +127,9 @@ const MenuBoard = () => {
                                             <img src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`} alt={item.itemname} className="w-full h-full object-cover" />
                                         </div>
                                         <div className="ml-4">
-                                            <div className="text-lg font-bold">{item.itemname}</div>
-                                            <div className="text-sm">{item.description}</div>
-                                            <div className="text-lg font-bold mt-2">${item.price}</div>
+                                            <div className="text-lg text-white font-bold">{item.itemname}</div>
+                                            <div className="text-sm text-white">{item.description}</div>
+                                            <div className="text-lg text-white font-bold mt-2">${item.price}</div>
                                         </div>
                                     </div>
                                 ))}
