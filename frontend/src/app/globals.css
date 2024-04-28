@@ -27,7 +27,7 @@
         @apply p-5 rounded-2xl scale-100 transition duration-200 ease-in-out hover:scale-110;
     }
     .left-sidebar-link-active {
-        @apply p-5 rounded-2xl bg-red-800 [&>*]:invert;
+        @apply p-4 md:p-5 rounded-2xl bg-red-800 [&>*]:invert;
     }
 
     .nav-image {

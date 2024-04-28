@@ -16,9 +16,9 @@ export default function LeftSidebar({  }) {
   ];
 
   return (
-    <nav className="w-[5rem] h-screen bg-white border-r-2 flex items-center flex-col">
-      <Image src={"/revs.png"} alt="Rev's Grill Logo" width={0} height={0} sizes="100vw" className="w-full"></Image>
-      <div className="flex flex-col items-center pt-5">
+    <nav className="fixed md:relative left-[calc(20%/2)] md:left-0 bottom-2 md:bottom-0 z-[9999] md:z-auto w-4/5 md:w-[5rem] h-[5rem] md:h-[calc(100vh+5rem)] flex flex-row md:flex-col items-center justify-center md:justify-normal bg-white border-2 md:border-l-0 md:border-r-2 border-gray-200 shadow-2xl md:shadow-none rounded-xl md:rounded-none px-2 md:px-0">
+      <Image src={"/revs.png"} alt="Rev's Grill Logo" width={0} height={0} sizes="100vw" className="hidden md:flex w-full"></Image>
+      <div className="flex flex-row md:flex-col items-center md:pt-5">
       {links.map(link => (
         <Link className={`${isActive(link.href) ? "left-sidebar-link-active" : "left-sidebar-link"}`} key={link.href} href={link.href} title={link.title}>
             <Image src={link.imgSrc} alt={link.imgAlt} width={24} height={24} />
