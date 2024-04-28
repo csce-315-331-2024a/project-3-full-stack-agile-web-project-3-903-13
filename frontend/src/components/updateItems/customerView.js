@@ -9,8 +9,12 @@ export default function UpdateModal({ isOpen, onClose, item }) {
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
 
-    const [ingredients, setIngredients] = useState()
-    const [removedIngredients, setRemovedIngredients] = useState([]);
+    // Other ingredients contains non-removable ingredients like bags, utensils, etc.
+    // removable ingredients contains those that CAN be removed
+    // ingredientsRemoved is mainly a boolean array to track which ingredients have been removed by the User
+    const [otherIngredients, setOtherIngredients] = useState()
+    const [removableIngredients, setRemovableIngredients] = useState()
+    const [ingredientsRemoved, setIngredientsRemoved] = useState([]);
 
     const { updateTransaction, transactions} = useTransaction();
 
@@ -42,7 +46,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
     };
 
     useEffect(() => {
-        setRemovedIngredients([])
+        setIngredientsRemoved([])
         const getMenuItemIngredients = async () => {
             try {
 
@@ -60,11 +64,13 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
                 const itemsFilterOut = ["Utensils", "To Go Boxes", "Bags", "Napkins"];
                 const isItemFilterOut = (item) => itemsFilterOut.includes(item)
+                
+                setOtherIngredients(data.filter(item => isItemFilterOut(item.ingredientname)))
 
                 const filteredData = data.filter(item => !isItemFilterOut(item.ingredientname));
 
-                setIngredients(filteredData)
-                setRemovedIngredients(new Array(filteredData.length).fill(false))
+                setRemovableIngredients(filteredData)
+                setIngredientsRemoved(new Array(filteredData.length).fill(false))
 
             } catch (error) {
                 console.error("Error fetching ingredient for menu item:", error);
@@ -82,7 +88,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
 
     const handleIngredientClick = (index) => {
-        setRemovedIngredients(prevState => {
+        setIngredientsRemoved(prevState => {
             const newState = [...prevState];
             newState[index] = !newState[index];
             return newState;
@@ -93,16 +99,22 @@ export default function UpdateModal({ isOpen, onClose, item }) {
     const handleAddCart = () => {
         let temp = "";
         const inventToRemove = []
-        for (let i = 0; i < removedIngredients.length; i++) {
-            const ingred = ingredients[i]
-            if (removedIngredients[i]) {
+        console.log(otherIngredients)
+        for (let i = 0; i < ingredientsRemoved.length; i++) {
+            const ingred = removableIngredients[i]
+            if (ingredientsRemoved[i]) {
                 temp += "No " + ingred.ingredientname.toString() + ", ";
-                // addToModif({ "inventid": ingred.inventid, "ingredientname": ingred.ingredientname, "quantity": ingred.quantity })
             }
             else {
                 inventToRemove.push({ "inventid": ingred.inventid, "ingredientname": ingred.ingredientname, "quantity": ingred.quantity })
             }
         }
+
+        for (let i = 0; i < otherIngredients.length; i++){
+            const item = otherIngredients[i]
+            inventToRemove.push({ "inventid": item.inventid, "ingredientname": item.ingredientname, "quantity": item.quantity })
+        }
+
         temp = temp.slice(0, temp.length - 1)
         sendToTransaction(item, temp, inventToRemove)
     }
@@ -165,11 +177,11 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
                                 </span>
                                 <div>
-                                    {ingredients && ingredients.map((item, index) => (
+                                    {removableIngredients && removableIngredients.map((item, index) => (
                                         <button
                                             key={index}
                                             className={`rounded-md px-3 py-1 m-1 transition duration-100 ease-in-out 
-                                                        ${removedIngredients[index] ? 'line-through' : 'bg-gray-300 hover:bg-gray-400'}`}
+                                                        ${ingredientsRemoved[index] ? 'line-through' : 'bg-gray-300 hover:bg-gray-400'}`}
                                             onClick={() => { handleIngredientClick(index) }}
                                         >
                                             {item.ingredientname}

@@ -38,10 +38,8 @@ export const TransactionProvider = ({ children }) => {
 
   const clearTransaction = () => {
     setTransaction(null)
-    // setInventoryModif([])
     if (typeof window !== 'undefined'){
       localStorage.setItem("currentTransaction", [])
-      // localStorage.setItem("inventoryModif", [])
     }
   }
 
@@ -105,48 +103,6 @@ export const TransactionProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("currentTransaction", JSON.stringify(transactions))
   }, [transactions])
-
-
-  // Array to hold value of ingredients which we have to adjust later
-  // const [inventoryModif, setInventoryModif] = useState(() => {
-  //   if (typeof window !== 'undefined') {
-  //     const inventoryModif = localStorage.getItem("inventoryModif");
-  //     return inventoryModif ? JSON.parse(inventoryModif) : [];
-  //   }
-  //   return [];
-  // });
-
-  // const addToModif = (inventoryItem) => {
-  //   setInventoryModif(prevInventoryModif => {
-  //     if (!prevInventoryModif || prevInventoryModif.length === 0) {
-  //       return [inventoryItem];
-  //     } else {
-  //       const updatedInventoryModif = prevInventoryModif.map(item => ({ ...item }));
-  //       let found = false;
-  //       for (let i = 0; i < updatedInventoryModif.length; i++) {
-  //         if (updatedInventoryModif[i].inventid === inventoryItem.inventid) {
-  //           updatedInventoryModif[i].quantity += inventoryItem.quantity;
-  //           found = true;
-  //           break;
-  //         }
-  //       }
-  //       if (!found) {
-  //         updatedInventoryModif.push(inventoryItem);
-  //       }
-  //       return updatedInventoryModif;
-  //     }
-  //   });
-  // };
-
-  // const removeFromModif = (menuItem) => {
-  //   const ingreds = menuItem.modif.split(',')
-  //   console.log(ingreds)
-  // }
-  
-
-  // useEffect(() => {
-  //   localStorage.setItem("inventoryModif", JSON.stringify(inventoryModif))
-  // }, [inventoryModif])
 
   return (
     <TransactionContext.Provider 

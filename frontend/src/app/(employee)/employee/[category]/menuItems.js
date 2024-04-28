@@ -14,7 +14,7 @@ function TransactionPanel() {
     const [transactionsList, setTransactionsList] = useState(null);
     const [showPaymentOptions, setShowPaymentOptions] = useState(false);
     const [keypadVisible, setKeypadVisible] = useState(false);
-    const [currentItemId, setCurrentItemId] = useState(null);
+    const [currentItem, setCurrentItem] = useState(null);
     const [inputValue, setInputValue] = useState("");
 
     useEffect(() => {
@@ -34,16 +34,16 @@ function TransactionPanel() {
         return (getSubtotal() * 0.0825).toFixed(2)
     }
 
-    const handleQuantityChange = (itemId, newQuantity) => {
-        const updatedItem = transactions.find(item => item.id === itemId);
+    const handleQuantityChange = (dish, newQuantity) => {
+        const updatedItem = transactions.find(item => item.id === dish.id && item.modif === dish.modif);
         if (updatedItem) {
             updatedItem.quantity = newQuantity;
             updateTransaction(updatedItem);
         }
     };
 
-    const openKeypad = (itemId, currentQuantity) => {
-        setCurrentItemId(itemId);
+    const openKeypad = (item, currentQuantity) => {
+        setCurrentItem(item);
         setInputValue(String(currentQuantity));
         setKeypadVisible(true);
     };
@@ -54,9 +54,9 @@ function TransactionPanel() {
 
     const onQuantityUpdate = (newQuantity) => {
         if (newQuantity === -1) {
-            removeItemCompletely(currentItemId);
+            removeItemCompletely(currentItem.id, currentItem.modif);
         } else {
-            handleQuantityChange(currentItemId, newQuantity);
+            handleQuantityChange(currentItem, newQuantity);
         }
         onKeypadClose();
     };
@@ -78,7 +78,7 @@ function TransactionPanel() {
 
                             <div className="flex items-center justify-between mt-4">
                                 <button
-                                    onClick={() => openKeypad(item.id, item.quantity)}
+                                    onClick={() => { openKeypad(item, item.quantity)}}
                                     className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded inline-flex items-center"
                                 >
                                     <span>Quantity: {item.quantity}</span>
@@ -95,8 +95,8 @@ function TransactionPanel() {
             </div>
 
 
-            {transactionsList && (
-                <div className="px-6 py-4 font-semibold text-lg">
+            {transactionsList && transactionsList.length > 0 && (
+                <div className="px-6 py-2 font-semibold text-lg">
                     <div className="flex justify-between">
                         <p>Subtotal</p>
                         <p>{transactionsList ? "$" + getSubtotal() : "$0.00"}</p>
@@ -155,30 +155,55 @@ function TransactionPanel() {
 
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
-    const [isClicked, setIsClicked] = useState(false);
+    // const [isClicked, setIsClicked] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
-    // const sendToTransaction = () => {
-    //     var quantity = 0
-    //     if (transactions) {
-    //         transactions.forEach(item => {
-    //             if (props.item.menuid == item.id) {
-    //                 quantity = item.quantity + 1
-    //             }
-    //         });
-    //     }
-    //     if (quantity == 0) {
-    //         quantity += 1
-    //     }
-    //     updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity });
-    //     setIsClicked(true);
-    //     setTimeout(() => setIsClicked(false), 600);
-    // }
+    const getMenuItemIngredients = async () => {
+        try {
+
+            const name = props.item.itemname
+            const params = name.split(' ').join("+")
+
+            const response = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+            }
+
+            const data = await response.json();
+            const paramsNeeded = data.map(obj => ({"inventid": obj.inventid, "ingredientname": obj.ingredientname, "quantity": obj.quantity}))
+            return paramsNeeded
+
+        } catch (error) {
+            console.error("Error fetching ingredient for menu item:", error);
+        }
+    };
+
+    const sendToTransaction = async() => {
+        const ingreds = await getMenuItemIngredients()
+        var quantity = 0
+        if (transactions) {
+            transactions.forEach(item => {
+                if (props.item.menuid == item.id) {
+                    quantity = item.quantity + 1
+                }
+            });
+        }
+        if (quantity == 0) {
+            quantity += 1
+        }
+        updateTransaction({
+            "id": props.item.menuid, "itemname": props.item.itemname,
+            "price": props.item.price, "quantity": quantity, "modif": "", "inventToRemove": ingreds
+        });
+        // setIsClicked(true);
+        // setTimeout(() => setIsClicked(false), 600);
+    }
 
     const handleItemClick = (item) => {
-        console.log(item)
         setSelectedItem(item)
         setIsModalOpen(true)
     }
@@ -187,7 +212,7 @@ function MenuItem(props) {
         setIsModalOpen(false);
     }
 
-    const clickEffect = isClicked ? 'border-animate' : '';
+    // const clickEffect = isClicked ? 'border-animate' : '';
 
     return (
         <>
@@ -216,13 +241,20 @@ function MenuItem(props) {
                 `}
             </style>
             <div
-                className={`menu-item flex relative justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
-                onClick={() => handleItemClick(props.item)}
+                className="flex relative justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md"
+            // className={`menu-item flex relative justify-center px-10 py-14 items-center 
+            // bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
             >
-                <div className="text-xl font-semibold text-gray-900 text-center">
+                <div className="hover:cursor-pointer menu-item text-xl font-semibold text-gray-900 text-center py-4"
+                    onClick={sendToTransaction}>
                     {props.item.itemname}
                 </div>
-                
+
+                <div className="absolute right-2 bottom-3 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 py-1 px-1 rounded"
+                    onClick={() => handleItemClick(props.item)}>
+                    Customize
+                </div>
+
             </div>
 
             <UpdateModal
