@@ -175,12 +175,38 @@ const Home = () => {
     setTemperature(temp);
   };
 
-  const handleOrder = (item) => {
+  const getMenuItemIngredients = async (item) => {
+    try {
+
+        const name = item.name
+        const params = name.split(' ').join("+")
+
+        const response = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        const paramsNeeded = data.map(obj => ({"inventid": obj.inventid, "ingredientname": obj.ingredientname, "quantity": obj.quantity}))
+        return paramsNeeded
+
+    } catch (error) {
+        console.error("Error fetching ingredient for menu item:", error);
+    }
+};
+
+  const handleOrder = async(item) => {
+    const ingreds = await getMenuItemIngredients(item);
+
     updateTransaction({
       id: item.id,
       itemname: item.name,
       price: item.price,
-      quantity: 1
+      quantity: 1,
+      modif: "",
+      itemToRemove: ingreds
     });
   };
 

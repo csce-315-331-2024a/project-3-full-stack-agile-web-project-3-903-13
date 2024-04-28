@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
 import Image from 'next/image'
 import { toast } from 'react-toastify';
-import UpdateModal from "@/components/UpdateItemModal";
+import UpdateModal from "@/components/updateItems/customerView";
 import moment from 'moment';
  
 export const getMenuItemSeasonal = async (menuItem) => {
@@ -75,39 +75,10 @@ export default function Page({ params }) {
         fetchMenuItems();
     }, [params.category]);
 
-    const sendToTransaction = (dish) => {
-        var quantity = 0;
-        if (transactions) {
-            transactions.forEach(item => {
-                if (dish.menuid === item.id) {
-                    quantity = item.quantity + 1;
-                }
-            });
-        }
-        if (quantity === 0) {
-            quantity = 1;
-        }
-        updateTransaction({ "id": dish.menuid, "itemname": dish.itemname, "price": dish.price, "quantity": quantity });
-        setScaleStates(prev => ({ ...prev, [dish.menuid]: 'clicked' }));
-        setTimeout(() => {
-            setScaleStates(prev => ({ ...prev, [dish.menuid]: 'normal' }));
-        }, 300);
-        toast.success(`${dish.itemname} added to cart!`, {
-            position: "bottom-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-        });
-    };
-
-
+    
     const handleItemClick = (item) => {
         setSelectedItem(item)
         setIsModalOpen(true)
-        // sendToTransaction(item); 
     }
 
     const closeUpdateModal = () => {
@@ -149,10 +120,10 @@ export default function Page({ params }) {
             <div className="container px-10 mx-auto">
                 <h1 className="text-3xl font-bold text-center mb-8">{params.category}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {itemType.map((item) => (
+                {itemType.map((item, index) => (
     seasonalItems.get(item.menuid) && (
         <div
-            key={item.menuID}
+            key={index}
             className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`}
             onClick={() => handleItemClick(item)}
         >
