@@ -8,7 +8,6 @@ import Image from "next/image";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from 'next/navigation';
 import WeatherWidget from "@/components/WeatherAPI";
-import ClockWidget from "@/components/DigitalClock";
 
 const customStyles = {
   orderButton: {
@@ -223,7 +222,6 @@ const Home = () => {
       <main className="min-h-screen flex flex-col items-center">
         <div className="flex items-center justify-center space-x-4 mt-5">
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
-          <ClockWidget />
         </div>
         <Carousel
           swipeable
@@ -232,7 +230,7 @@ const Home = () => {
           ssr
           infinite
           autoPlay
-          autoPlaySpeed={4000}
+          autoPlaySpeed={6000}
           keyBoardControl
           customTransition="all .5s ease-in-out"
           transitionDuration={500}

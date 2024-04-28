@@ -1,7 +1,5 @@
 import React from "react";
-
 import { useEffect, useState, useContext } from "react";
-
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
 import NumericKeypad from "@/components/transactions/NumericKeypad"
 import PaymentModal from "@/components/transactions/PaymentModal"
@@ -151,11 +149,39 @@ function TransactionPanel() {
     );
 }
 
-
-
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
     // const [isClicked, setIsClicked] = useState(false);
+    const [seasonalItems, setSeasonalItems] = useState(new Map());
+
+    const getMenuItemSeasonal = async (menuItem) => {
+        try {
+            const queryString = new URLSearchParams(menuItem).toString();
+            const url = `http://localhost:5000/api/menuitems/seasonal?${queryString}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error fetching seasonal info for menu item:", error);
+            throw error;
+        }
+    };
+
+    useEffect(() => {
+        const fetchSeasonalInfo = async () => {
+            const seasonalData = await getMenuItemSeasonal({ itemName: props.item.itemname });
+            const isSeasonal = seasonalData.length === 0 || (seasonalData.length > 0 && new Date(seasonalData[0].expirationdate) >= new Date());
+            setSeasonalItems(prevSeasonalItems => new Map(prevSeasonalItems.set(props.item.menuid, isSeasonal)));
+        };
+
+        fetchSeasonalInfo();
+    }, [props.item.itemname, props.item.menuid]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -187,21 +213,23 @@ function MenuItem(props) {
         var quantity = 0
         if (transactions) {
             transactions.forEach(item => {
-                if (props.item.menuid == item.id) {
-                    quantity = item.quantity + 1
+                if (props.item.menuid === item.id) {
+                    quantity = item.quantity + 1;
                 }
             });
         }
-        if (quantity == 0) {
-            quantity += 1
+        if (quantity === 0) {
+            quantity += 1;
         }
-        updateTransaction({
+        if (seasonalItems.get(props.item.menuid)) {
+            updateTransaction({
             "id": props.item.menuid, "itemname": props.item.itemname,
             "price": props.item.price, "quantity": quantity, "modif": "", "inventToRemove": ingreds
         });
-        // setIsClicked(true);
-        // setTimeout(() => setIsClicked(false), 600);
-    }
+            // setIsClicked(true);
+            // setTimeout(() => setIsClicked(false), 600);
+        }
+    };
 
     const handleItemClick = (item) => {
         setSelectedItem(item)
@@ -231,40 +259,43 @@ function MenuItem(props) {
                     }
                     .border-animate {
                         animation: border-animation 0.6s ease-out;
-                    }
-                    .menu-item {
-                        transition: transform 0.15s ease-in-out;
-                    }
-                    .menu-item:hover {
-                        transform: scale(0.95);
-                    }
-                `}
+                        }
+                   .menu-item {
+                       transition: transform 0.15s ease-in-out;
+                   }
+                   .menu-item:hover {
+                       transform: scale(0.95);
+                   }
+               `}
             </style>
-            <div
-                className="flex relative justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md"
+            {seasonalItems.get(props.item.menuid) && (
+                <div
+                    className="flex relative justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md"
             // className={`menu-item flex relative justify-center px-10 py-14 items-center 
             // bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
-            >
-                <div className="hover:cursor-pointer menu-item text-xl font-semibold text-gray-900 text-center py-4"
+                    >
+                    <div className="hover:cursor-pointer menu-item text-xl font-semibold text-gray-900 text-center py-4"
                     onClick={sendToTransaction}>
-                    {props.item.itemname}
-                </div>
+                        {props.item.itemname}
+                    </div>
 
                 <div className="absolute right-2 bottom-3 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 py-1 px-1 rounded"
                     onClick={() => handleItemClick(props.item)}>
                     Customize
                 </div>
 
-            </div>
+                </div>
 
             <UpdateModal
                 isOpen={isModalOpen}
                 onClose={closeUpdateModal}
                 item={selectedItem}
             />
+            )}
         </>
     );
 }
+
 export function MenuItemList({ categoryNum, categoryName }) {
     const [itemType, setItemType] = useState([]);
 
@@ -286,16 +317,12 @@ export function MenuItemList({ categoryNum, categoryName }) {
                 <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {itemType.map((item, index) => (
-                        <MenuItem key={index}
-                            item={item}
-                        />
+                        <MenuItem key={index} item={item} />
                     ))}
                 </div>
             </div>
 
             <TransactionPanel />
-
         </div>
     );
 }
-
