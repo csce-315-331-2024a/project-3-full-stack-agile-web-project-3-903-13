@@ -38,6 +38,34 @@ const retrieveMenuItemIngredients = (req,res) => {
 	})
 }
 
+const retrieveSeasonalInfo = (req,res) => {
+	const { itemName } = req.query; // Extract itemName from query parameters
+	db.query("SELECT * FROM menuitems where itemname = $1", 
+	[itemName],
+	(err,result) => {
+		if (err) {
+			res.status(400).send("Query Failed");
+			return;
+		} else if (!(result.rows.length)) {
+			res.status(401).send("Item Doesn't exist");
+			return;
+		} else {
+			const menuID = result.rows[0].menuid; // Retrieve the menuID
+			db.query("SELECT * from seasonalitems WHERE menuid = $1",
+			[menuID],
+			(err, results) => {
+				if (err){
+					console.error("Error checking if item exists:", err);
+					res.status(500).send("Internal Server Error");
+					return;
+				}
+				res.status(200).json(results.rows);
+			}
+			)
+		}
+	})
+}
+
 const addMenuItem = (req, res) => {
     const { itemName, price, category, ingredients, isSeasonal, expirationDate } = req.body;
     db.query(
@@ -281,6 +309,7 @@ module.exports = {
 	updateMenuItemCat,
 	removeMenuItem,
 	updateMenuItemIngred,
+	retrieveSeasonalInfo,
 	
 }
 // vim: tabstop=3

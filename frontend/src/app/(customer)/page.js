@@ -8,7 +8,6 @@ import Image from "next/image";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from 'next/navigation';
 import WeatherWidget from "@/components/WeatherAPI";
-import ClockWidget from "@/components/DigitalClock";
 
 const customStyles = {
   orderButton: {
@@ -176,12 +175,38 @@ const Home = () => {
     setTemperature(temp);
   };
 
-  const handleOrder = (item) => {
+  const getMenuItemIngredients = async (item) => {
+    try {
+
+        const name = item.name
+        const params = name.split(' ').join("+")
+
+        const response = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        const paramsNeeded = data.map(obj => ({"inventid": obj.inventid, "ingredientname": obj.ingredientname, "quantity": obj.quantity}))
+        return paramsNeeded
+
+    } catch (error) {
+        console.error("Error fetching ingredient for menu item:", error);
+    }
+};
+
+  const handleOrder = async(item) => {
+    const ingreds = await getMenuItemIngredients(item);
+
     updateTransaction({
       id: item.id,
       itemname: item.name,
       price: item.price,
-      quantity: 1
+      quantity: 1,
+      modif: "",
+      itemToRemove: ingreds
     });
   };
 
@@ -197,7 +222,6 @@ const Home = () => {
       <main className="min-h-screen flex flex-col items-center">
         <div className="flex items-center justify-center space-x-4 mt-5">
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
-          <ClockWidget />
         </div>
         <Carousel
           swipeable
@@ -206,7 +230,7 @@ const Home = () => {
           ssr
           infinite
           autoPlay
-          autoPlaySpeed={4000}
+          autoPlaySpeed={6000}
           keyBoardControl
           customTransition="all .5s ease-in-out"
           transitionDuration={500}

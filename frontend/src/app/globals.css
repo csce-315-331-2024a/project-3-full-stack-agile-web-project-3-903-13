@@ -26,6 +26,10 @@
     .nav-image {
         @apply scale-100 transition duration-200 ease-in-out hover:scale-110;
     }
+
+    .no-scroll {
+        @apply h-full overflow-hidden;
+    }
 }
 
 body, html {
