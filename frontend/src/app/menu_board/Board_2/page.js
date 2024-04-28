@@ -67,8 +67,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/hotdogs_icon.jpeg"
                                         alt="Hotdogs Icon"
                                         className="object-cover rounded-lg"
-                                        width={100}
-                                        height={100}
+                                        width={70}
+                                        height={70}
                                     />
                                 </div>
                             </>
@@ -81,8 +81,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/tendersm_icon.jpeg"
                                         alt="Tenders Icon"
                                         className="object-cover rounded-lg"
-                                        width={100}
-                                        height={100}
+                                        width={70}
+                                        height={70}
                                     />
                                 </div>
                             </>
@@ -95,8 +95,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/beveragesm_icon.jpeg"
                                         alt="Beverages Icon"
                                         className="object-cover rounded-lg"
-                                        width={100}
-                                        height={100}
+                                        width={70}
+                                        height={70}
                                     />
                                 </div>
                             </>

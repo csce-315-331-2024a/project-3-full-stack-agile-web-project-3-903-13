@@ -69,8 +69,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/seasonalm_icon.jpeg"
                                         alt="Seasonal Icon"
                                         className="object-cover rounded-lg"
-                                        width={100}
-                                        height={100}
+                                        width={70}
+                                        height={70}
                                     />
                                 </div>
                             </>
@@ -84,8 +84,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/sidesm_icon.jpeg"
                                         alt="Sides Icon"
                                         className="object-cover rounded-lg"
-                                        width={100}
-                                        height={100}
+                                        width={70}
+                                        height={70}
                                     />
                                 </div>
                             </>
@@ -99,8 +99,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/shakesm_icon.jpeg"
                                         alt="Shakes Icon"
                                         className="object-cover rounded-lg"
-                                        width={100}
-                                        height={100}
+                                        width={70}
+                                        height={70}
                                     />
                                 </div>
                             </>

@@ -14,7 +14,7 @@ const Page = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % boards.length);
-        }, 5000); // Change slide every 5 seconds
+        }, 10000); // Change slide every 5 seconds
 
         return () => clearInterval(interval);
     }, [boards.length]);

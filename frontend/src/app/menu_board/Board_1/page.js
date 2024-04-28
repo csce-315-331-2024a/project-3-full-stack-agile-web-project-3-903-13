@@ -65,8 +65,8 @@ const MenuBoard = () => {
                                 src="/menu_board_icons/burgersm_icon.jpeg"
                                 alt="Burgers Icon"
                                 className="object-cover rounded-lg"
-                                width={100}
-                                height={100}
+                                width={70}
+                                height={70}
                             />
                         </div>
                     </div>
