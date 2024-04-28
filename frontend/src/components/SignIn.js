@@ -8,7 +8,7 @@ export function SignIn() {
   return (
     <main className="h-full min-h-screen min-w-screen flex flex-col items-center justify-evenly">
     <div className="flex flex-col items-center justify-between">
-        <h1 className="text-2xl">Welcome to Rev's Grill! Please sign in below.</h1>
+        <h1 className="text-2xl">Welcome to Rev&apos;s Grill! Please sign in below.</h1>
         <Image alt = "Rev logo" className="hidden absolute md:relative md:flex mr-8" src={"/revs.png"} width={110} height={110}></Image>
     </div>
     <form

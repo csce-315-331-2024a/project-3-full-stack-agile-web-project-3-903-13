@@ -6,12 +6,12 @@ export default function EmployeeAddForm() {
     age: '',
     phone: '', 
     hours: '',
+    email: '',
     role: 'manager'
   });
 
   const addUser = async (event) => {
     event.preventDefault()
-    console.log(formData)
     const result = await fetch("http://localhost:5000/api/employees", {
       method: "POST",
       headers: {
@@ -30,7 +30,6 @@ export default function EmployeeAddForm() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
-    console.log(formData)
   };
 
   const rolesList = ["manager", "cashier", "kitchen", "admin"]
@@ -63,6 +62,12 @@ export default function EmployeeAddForm() {
                 Weekly Hours
           </label>
           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="hours" name="hours" type="text" onChange={handleChange}/>
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2" for="email">
+              Email
+          </label>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="text" onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="role">
