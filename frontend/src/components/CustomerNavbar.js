@@ -3,9 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { FaWindowClose, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
+import { FaMinusCircle, FaPlusCircle, FaTimesCircle } from "react-icons/fa";
 import { useRef, useState, useEffect } from "react";
-import WeatherWidget from "@/components/WeatherAPI";
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import PaymentModal from "@/components/transactions/PaymentModal"
 import { ToastContainer, toast } from 'react-toastify';
@@ -26,6 +25,7 @@ export default function CustomerNavbar({ links }) {
   const [transactionsList, setTransactionsList] = useState(null);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     setTransactionsList(transactions);
@@ -36,11 +36,15 @@ export default function CustomerNavbar({ links }) {
 
   const toggleCart = () => {
     if (ref.current && ref.current.classList.contains('translate-x-full')) {
+      setIsCartOpen(true)
       ref.current.classList.remove('translate-x-full')
       ref.current.classList.add('translate-x-0')
+      document.body.classList.add('no-scroll');
     } else if (ref.current && !ref.current.classList.contains('translate-x-full')) {
+      setIsCartOpen(false);
       ref.current.classList.add('translate-x-full')
       ref.current.classList.remove('translate-x-0')
+      document.body.classList.remove('no-scroll');
     }
   }
 
@@ -116,60 +120,75 @@ export default function CustomerNavbar({ links }) {
           </div>
         </ul>
 
-        <div ref={ref} className="w-200 sideCart fixed top-0 right-0 bg-pink-100 px-8 py-10 transform transition-transform translate-x-full z-50 overflow-y-auto max-h-screen">
-          <span onClick={toggleCart} className="cursor-pointer absolute top-5 left-2 text-lg text-dark-maroon hover:text-blue-800">&lt; Return to Menu</span>
-          <hr className="my-2 border-t-2 border-gray-300" />
-          <div className="flex flex-col justify-evenly items-center">
-            {transactionsList ? transactionsList.map((item, index) => (
-              <div key={index} className="flex flex-col items-center justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow">
-                <div className="flex w-full justify-between items-center">
-                  <span className="font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
-                  <FaWindowClose className="text-red-600 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id, item.modif)} />
-                </div>
-                <div className="flex items-center justify-center mt-2">
-                  <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
-                  <span className="mx-2 text-lg">x{item.quantity}</span>
-                  <FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
-                </div>
-                <hr className="w-full border-t my-2" />
-              </div>
-            )) : <div className="flex flex-col items-center">No items in current transaction!</div>}
+        <div onClick={toggleCart} className={`fixed z-[40] left-0 top-0 bottom-0 right-0 w-screen h-screen bg-black/40 backdrop-blur-sm ${isCartOpen ? "" : "hidden"}`}></div>
+
+        <div ref={ref} className="w-200 h-full fixed top-0 right-0 bg-white transform transition-transform translate-x-full z-50 shadow-2xl">
+  <div className="flex flex-col h-full">
+    <div className="flex justify-end p-2">
+      <button onClick={toggleCart} className="text-gray-500 hover:text-gray-700">
+        <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div className="border-t-2 border-gray-300" />
+
+    <div className="flex-grow overflow-y-auto">
+      <div className="flex flex-col justify-evenly items-center">
+        {transactionsList ? transactionsList.map((item, index) => (
+          <div key={index} className="flex flex-col items-center justify-between w-full bg-gray-50 p-4 my-2 rounded-lg shadow">
+            <div className="flex w-full justify-between items-center">
+              <span className="font-semibold flex-1 mr-2">{item.itemname} - ${(item.price * item.quantity).toFixed(2)}</span>
+              <FaTimesCircle className="text-red-500 cursor-pointer flex-shrink-0" onClick={() => removeItemCompletely(item.id, item.modif)} />
+            </div>
+            <div className="flex items-center justify-center mt-2">
+              <FaMinusCircle className="text-red-500 cursor-pointer" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
+              <span className="mx-2 text-lg">x{item.quantity}</span>
+              <FaPlusCircle className="text-green-500 cursor-pointer" onClick={() => updateTransaction(item)} />
+            </div>
+            <hr className="w-full border-t my-2" />
           </div>
-          <hr className="border-t-2 border-gray-300" /> 
-          <div className="px-6 pt-4 pb-2 flex flex-col items-center">
-            <h1>Total Price: {
-              transactionsList ? "$" + transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2) : "$0.00"
-            }</h1>
-          </div>
-          <div className="flex justify-between mt-4">
-            <button
-              className="text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 rounded-md shadow-sm px-4 py-2"
-              onClick={clearTransaction}
-            >
-              Clear Transaction
-            </button>
-            <button
-              className="text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 rounded-md shadow-sm px-4 py-2"
-              onClick={() => {
-                if (cartCount > 0) {
-                  setShowPaymentOptions(true);
-                } else {
-                  toast.error('Your cart is empty. Add items before charging.', {
-                    position: "bottom-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                }
-              }}
-            >
-              Charge
-            </button>
-          </div>
-        </div>
+        )) : <div className="flex flex-col items-center">No items in current transaction!</div>}
+      </div>
+    </div>
+    <div className="border-t-2 border-gray-300" />
+
+    <div className="px-6 py-2 flex flex-col items-center">
+      <h1>Total Price: {
+        transactionsList ? "$" + transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2) : "$0.00"
+      }</h1>
+    </div>
+    <div className="flex mt-auto">
+      <button
+        className="text-white w-1/2 bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
+        onClick={clearTransaction}
+      >
+        Clear
+      </button>
+      <button
+        className="text-white w-1/2 bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
+        onClick={() => {
+          if (cartCount > 0) {
+            setShowPaymentOptions(true);
+          } else {
+            toast.error('Your cart is empty. Add items before charging.', {
+              position: "bottom-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }}
+      >
+        Checkout
+      </button>
+    </div>
+  </div>
+</div>
+
       </div>
 
       {/* Payment options modal */}
