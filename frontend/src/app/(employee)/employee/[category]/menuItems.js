@@ -284,14 +284,8 @@ function MenuItem(props) {
                 // bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
                 >
                     <div className="hover:cursor-pointer menu-item text-xl font-semibold text-gray-900 text-center py-4"
-                        onClick={sendToTransaction}>
+                    onClick={sendToTransaction}>
                         {props.item.itemname}
-                    onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                sendToTransaction();
-                            }
-                        }}
-                        tabIndex="0"
                     </div>
 
                     {isCustomizable && (
