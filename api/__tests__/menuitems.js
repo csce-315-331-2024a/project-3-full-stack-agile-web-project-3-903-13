@@ -6,7 +6,8 @@ const {
     updateMenuItemPrice,
     updateMenuItemCat,
 	updateMenuItemIngred,
-    removeMenuItem
+    removeMenuItem,
+	retrieveSeasonalInfo
 } = require('../services/menuitems');
 
 jest.mock('../config/db');
@@ -569,4 +570,68 @@ describe('MenuItems Service', () => {
 		});
 	});
 	
+	describe('retrieveSeasonalInfo', () => {
+		const itemName = 'Seasonal Pizza';
+	
+		test('should return seasonal information for an existing item', async () => {
+			const mockSeasonalInfo = [{ menuid: 1, expirationdate: '2023-12-31' }];
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: mockSeasonalInfo }));
+	
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				json: jest.fn()
+			};
+			const mockReq = { query: { itemName } };
+	
+			await retrieveSeasonalInfo(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(200);
+			expect(mockRes.json).toHaveBeenCalledWith(mockSeasonalInfo);
+		});
+	
+		test('should return 401 if the item does not exist', async () => {
+			db.query.mockImplementation((sql, params, callback) => callback(null, { rows: [], rowCount: 0 }));
+	
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+			const mockReq = { query: { itemName } };
+	
+			await retrieveSeasonalInfo(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(401);
+			expect(mockRes.send).toHaveBeenCalledWith("Item Doesn't exist");
+		});
+	
+		test('should return 400 if there is an error in the initial query', async () => {
+			db.query.mockImplementationOnce((sql, params, callback) => callback(new Error("Query Failed")));
+	
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+			const mockReq = { query: { itemName } };
+	
+			await retrieveSeasonalInfo(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(400);
+			expect(mockRes.send).toHaveBeenCalledWith("Query Failed");
+		});
+	
+		test('should return 500 if there is an error in the second query', async () => {
+			db.query
+				.mockImplementationOnce((sql, params, callback) => callback(null, { rows: [{ menuid: 1 }], rowCount: 1 }))
+				.mockImplementationOnce((sql, params, callback) => callback(new Error("Internal Server Error")));
+	
+			const mockRes = {
+				status: jest.fn().mockReturnThis(),
+				send: jest.fn()
+			};
+			const mockReq = { query: { itemName } };
+	
+			await retrieveSeasonalInfo(mockReq, mockRes);
+			expect(mockRes.status).toHaveBeenCalledWith(500);
+			expect(mockRes.send).toHaveBeenCalledWith("Internal Server Error");
+		});
+	});
 });
