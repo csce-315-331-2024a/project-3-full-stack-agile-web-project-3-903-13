@@ -39,10 +39,12 @@ export default function CustomerNavbar({ links }) {
       setIsCartOpen(true)
       ref.current.classList.remove('translate-x-full')
       ref.current.classList.add('translate-x-0')
+      document.body.classList.add('no-scroll');
     } else if (ref.current && !ref.current.classList.contains('translate-x-full')) {
       setIsCartOpen(false);
       ref.current.classList.add('translate-x-full')
       ref.current.classList.remove('translate-x-0')
+      document.body.classList.remove('no-scroll');
     }
   }
 
