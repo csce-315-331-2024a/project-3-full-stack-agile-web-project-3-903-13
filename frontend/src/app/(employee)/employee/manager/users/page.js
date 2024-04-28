@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import EmployeeModal from "@/components/EmployeeModal"
 
-export default function usersPage() {
+export default function UsersPage() {
 
     const [employees, setEmployees] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
