@@ -59,11 +59,54 @@ const MenuBoard = () => {
             {/* Display menu items grouped by category */}
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="category_container">
-                    <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200">
-                        {category === '6' && 'Seasonal'}
-                        {category === '3' && 'Sides'}
-                        {category === '4' && 'Shakes'}
+                    <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200 flex items-center">
+                        {category === '6' && (
+                            <>
+                                <span>Seasonal</span>
+                                <div className="ml-2 mt-4">
+                                    
+                                    <Image
+                                        src="/menu_board_icons/seasonalm_icon.jpeg"
+                                        alt="Seasonal Icon"
+                                        className="object-cover rounded-lg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        {category === '3' && (
+                            <>
+                                <span>Sides</span>
+                                <div className="ml-2 ">
+                                    
+                                    <Image
+                                        src="/menu_board_icons/sidesm_icon.jpeg"
+                                        alt="Sides Icon"
+                                        className="object-cover rounded-lg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        {category === '4' && (
+                            <>
+                                <span>Shakes</span>
+                                <div className="ml-2 mt-4">
+                                    
+                                    <Image
+                                        src="/menu_board_icons/shakesm_icon.jpeg"
+                                        alt="Shakes Icon"
+                                        className="object-cover rounded-lg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                            </>
+                        )}
                     </div>
+
                     <div className="grid grid-cols-2 gap-4 mt-4">
                         {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
                             <div key={index} className="menu_column">
@@ -93,7 +136,7 @@ const MenuBoard = () => {
 const HomePage = () => {
     return (
         <div className="min-h-screen max-h-screen overflow-hidden text-white">
-            <div className="bg-[#800000] text-white text-center text-3xl font-bold p-3">Rev&apos;s Menu</div>
+            <div className="bg-[#800000] text-white text-center text-3xl font-bold p-1">Rev&apos;s Menu</div>
             <MenuBoard />
         </div>
     );

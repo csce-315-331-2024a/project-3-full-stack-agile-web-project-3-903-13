@@ -58,11 +58,56 @@ const MenuBoard = () => {
         <div className="min-h-screen max-h-screen bg-black text-white p-6">
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="menu-category">
-                    <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200">
-                        {category === '1' && 'HotDogs/Corndogs'}
-                        {category === '2' && 'Chicken Tenders'}
-                        {category === '5' && 'Beverages'}
+                    <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200 flex items-center">
+                        {category === '1' && (
+                            <>
+                                <span>HotDogs/Corndogs</span>
+                                <div className="ml-2">
+                                    <Image
+                                        src="/menu_board_icons/hotdogs_icon.jpeg"
+                                        alt="Hotdogs Icon"
+                                        className="object-cover rounded-lg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        {category === '2' && (
+                            <>
+                                <span>Chicken Tenders</span>
+                                <div className="ml-2 mt-4">
+                                    <Image
+                                        src="/menu_board_icons/tendersm_icon.jpeg"
+                                        alt="Tenders Icon"
+                                        className="object-cover rounded-lg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        {category === '5' && (
+                            <>
+                                <span>Beverages</span>
+                                <div className="ml-2 mt-4">
+                                    <Image
+                                        src="/menu_board_icons/beveragesm_icon.jpeg"
+                                        alt="Beverages Icon"
+                                        className="object-cover rounded-lg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                            </>
+                        )}
                     </div>
+
+
+                    
+
+
+
                     <div className="grid grid-cols-2 gap-4 mt-4">
                         {/* Using grid layout for menu items */}
                         {groupedMenuItems[category].map(item => (
