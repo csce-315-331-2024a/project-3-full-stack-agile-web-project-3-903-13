@@ -247,13 +247,13 @@ export default function ManagerPage() {
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 {item.itemname}
               </h5>
-              <p className="mb-4 p-2 bg-gray-200 rounded-lg">Price: {item.price}</p>
-              <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Category: {getCategoryLabel(item.category)}</p>
-              <p className="mb-4 p-2 bg-gray-200 rounded-lg">Description: {item.description}</p>
-              <p className="mb-4 p-2 bg-gray-200 rounded-lg">Calories: {item.Calories}</p>
-              <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Special Diet: {getDietCategoryLabel(item.specialdiet)}</p>
-              <p className=" mb-4 p-2 bg-gray-200 rounded-lg">Gluten Free: {getAllergyLabel(item.allergy)}</p>
-              <div className="p-2 pt-1 bg-gray-200 rounded-lg">
+              <p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Price: {item.price}</p>
+              <p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Category: {getCategoryLabel(item.category)}</p>
+              <p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Description: {item.description}</p>
+              <p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Calories: {item.Calories}</p>
+              <p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Special Diet: {getDietCategoryLabel(item.specialdiet)}</p>
+              <p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Gluten Free: {getAllergyLabel(item.allergy)}</p>
+              <div className="p-2 pt-1 bg-gray-200 rounded-lg border border-gray-900">
                 <h6 className="mt-4 mb-2 text-lg font-semibold">Ingredients:</h6>
                 <ul>
                   {item.ingredients.map((ingredient, index) => {
