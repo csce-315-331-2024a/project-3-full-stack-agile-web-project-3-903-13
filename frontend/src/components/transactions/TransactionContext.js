@@ -22,7 +22,7 @@ export const TransactionProvider = ({ children }) => {
     } else {
       var itemFound = false
       transactions.forEach((menuItem,index,transactions) => {
-        if (item.id == menuItem.id) {
+        if (item.id == menuItem.id && item.modif == menuItem.modif) {
           transactions[index].quantity = menuItem.quantity + 1
           itemFound = true 
         }
@@ -52,7 +52,7 @@ export const TransactionProvider = ({ children }) => {
       "taxAmount": taxAmount,
       "orderContents": orderContents
     }
-    fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/new", {
+    fetch("http://localhost:5000/api/transactions/new", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
@@ -75,9 +75,9 @@ export const TransactionProvider = ({ children }) => {
     clearTransaction();
   }
 
-  const removeItemFromTransaction = (itemId) => {
+  const removeItemFromTransaction = (itemId, modifString) => {
     const updatedTransactions = transactions.reduce((acc, item) => {
-      if (item.id === itemId) {
+      if (item.id === itemId && item.modif == modifString) {
         if (item.quantity > 1) {
           acc.push({ ...item, quantity: item.quantity - 1 });
         }
@@ -90,8 +90,8 @@ export const TransactionProvider = ({ children }) => {
     setTransaction(updatedTransactions);
   };
 
-  const removeItemCompletely = (itemId) => {
-    const updatedTransactions = transactions.filter(item => item.id !== itemId);
+  const removeItemCompletely = (itemId, modifString) => {
+    const updatedTransactions = transactions.filter(item => item.id !== itemId || item.modif != modifString);
     setTransaction(updatedTransactions);
   }
 

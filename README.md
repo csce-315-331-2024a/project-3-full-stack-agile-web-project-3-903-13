@@ -19,6 +19,7 @@
 - [Sprint 3 Planning Meeting Agenda](#sprint-3-planning-meeting-agenda)
 - [Sprint 3 Planning Meeting Minutes](#sprint-3-planning-meeting-minutes)
 - [Sprint 3 Plan](#sprint-3-plan)
+- [Sprint 3 Daily Meetings](#sprint-3-daily-meetings)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -1499,3 +1500,50 @@ Complete remaining tasks from Sprint 2, successfully integrate user management, 
   - **Status: To-do**
   - **Definition of Done: The landing page allows managers to effectively navigate to different features available to them.**
   - **Assigned to: Aditya**
+
+# Sprint 3 Daily Meetings
+## Meeting Summary - Sprint 3 Daily Scrum Meeting #1
+Date: 4/22/2024
+Time: 11:30 AM
+Location: Zach
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 4.25
+
+**Discussion Points:**
+- Sprint Backlog:
+  - User story F completed
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: None mentioned during the meeting.
+- Blockers: No blockers raised during the discussion.
+
+## Meeting Summary - Sprint 3 Daily Scrum Meeting #2
+Date: 4/25/2024
+Time: 4:30 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 4
+
+**Discussion Points:**
+- Sprint Backlog:
+  - User Management and Menu Item Customization are each 50% done
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: Order status page.
+- Blockers: No blockers raised during the discussion.

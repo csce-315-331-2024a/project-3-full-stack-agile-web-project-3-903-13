@@ -53,25 +53,26 @@ export default function SalesReportPage() {
     };
 
     return (
-        <main className="min-h-screen bg-gray-100 flex items-center justify-center">
-            <div className="w-full max-w-4xl p-5 bg-white shadow-lg rounded">
-                <h1 className="text-xl font-semibold text-center mb-6">SALES REPORT</h1>
-                <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center mb-4">
+        <main className="min-h-screen bg-slate-100 flex flex-col">
+            <h1 className="text-4xl font-bold text-center mb-3 py-4">Sales Report</h1>
+
+            <div className="w-full max-w-4xl p-5 bg-white shadow-md rounded-md mx-auto">
+                <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center my-4">
                     <input
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
-                        className="mb-2 md:mb-0 md:mr-2"
+                        className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         required
                     />
                     <input
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
-                        className="mb-2 md:mb-0 md:mr-2"
+                        className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
                         required
                     />
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2" disabled={loading}>
+                    <button type="submit" className="w-1/5 bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2 font-semibold" disabled={loading}>
                         {loading ? 'Loading...' : 'Generate Report'}
                     </button>
                 </form>
@@ -106,5 +107,5 @@ export default function SalesReportPage() {
                 )}
             </div>
         </main>
-    );   
+    );
 }

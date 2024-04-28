@@ -2,6 +2,8 @@
 import { Inter } from "next/font/google";
 import "../globals.css";
 import CustomerNavbar from "@/components/CustomerNavbar";
+import ClockWidget from "@/components/DigitalClock";
+import CustomerFooter from "@/components/Footer";
 import { TransactionProvider } from "@/components/transactions/TransactionContext";
 import { CartProvider } from '@/components/CartContext';
 
@@ -20,9 +22,11 @@ export default function RootLayout({ children }) {
                   { name: "About", route: "/about" },
                   { name: "Menu Board", route: "" },
                   { name: "Nutrition", route: "/nutrition" },
+                  { name: "Order Display", route: "" },
                 ]}
               />
             {children}
+            <CustomerFooter />
           </body>
         </html>
       </CartProvider>

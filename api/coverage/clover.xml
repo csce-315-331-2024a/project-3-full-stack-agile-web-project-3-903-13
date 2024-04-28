@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1713372212925" clover="3.2.0">
-  <project timestamp="1713372212926" name="All files">
-    <metrics statements="500" coveredstatements="466" conditionals="121" coveredconditionals="117" methods="91" coveredmethods="81" elements="712" coveredelements="664" complexity="0" loc="500" ncloc="500" packages="5" files="15" classes="15"/>
+<coverage generated="1714251237218" clover="3.2.0">
+  <project timestamp="1714251237218" name="All files">
+    <metrics statements="549" coveredstatements="481" conditionals="129" coveredconditionals="118" methods="100" coveredmethods="82" elements="778" coveredelements="681" complexity="0" loc="549" ncloc="549" packages="5" files="16" classes="16"/>
     <package name="api">
       <metrics statements="30" coveredstatements="28" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
-      <file name="index.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\index.js">
+      <file name="index.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/index.js">
         <metrics statements="30" coveredstatements="28" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -40,7 +40,7 @@
     </package>
     <package name="api.config">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="db.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\config\db.js">
+      <file name="db.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/config/db.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="9" type="stmt"/>
         <line num="3" count="9" type="stmt"/>
@@ -48,8 +48,19 @@
       </file>
     </package>
     <package name="api.routes">
-      <metrics statements="80" coveredstatements="74" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="5"/>
-      <file name="employees.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\employees.js">
+      <metrics statements="85" coveredstatements="79" conditionals="8" coveredconditionals="8" methods="5" coveredmethods="4"/>
+      <file name="employees.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/routes/employees.js">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+      </file>
+      <file name="foodItems.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/routes/foodItems.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -57,7 +68,7 @@
         <line num="5" count="1" type="stmt"/>
         <line num="8" count="3" type="stmt"/>
       </file>
-      <file name="foodItems.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\foodItems.js">
+      <file name="ingredients.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/routes/ingredients.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -65,15 +76,7 @@
         <line num="5" count="1" type="stmt"/>
         <line num="8" count="3" type="stmt"/>
       </file>
-      <file name="ingredients.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\ingredients.js">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="8" count="3" type="stmt"/>
-      </file>
-      <file name="inventory.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\inventory.js">
+      <file name="inventory.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/routes/inventory.js">
         <metrics statements="20" coveredstatements="20" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -96,7 +99,7 @@
         <line num="40" count="3" type="stmt"/>
         <line num="42" count="3" type="stmt"/>
       </file>
-      <file name="menuItems.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\menuItems.js">
+      <file name="menuItems.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/routes/menuItems.js">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -110,7 +113,7 @@
         <line num="18" count="2" type="stmt"/>
         <line num="21" count="2" type="stmt"/>
       </file>
-      <file name="reports.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\reports.js">
+      <file name="reports.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/routes/reports.js">
         <metrics statements="18" coveredstatements="17" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -131,8 +134,8 @@
         <line num="30" count="3" type="stmt"/>
         <line num="33" count="3" type="stmt"/>
       </file>
-      <file name="transactions.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\routes\transactions.js">
-        <metrics statements="16" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="transactions.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/routes/transactions.js">
+        <metrics statements="18" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -147,13 +150,48 @@
         <line num="20" count="2" type="stmt"/>
         <line num="22" count="2" type="stmt"/>
         <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
         <line num="25" count="2" type="stmt"/>
-        <line num="28" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
       </file>
     </package>
     <package name="api.services">
-      <metrics statements="339" coveredstatements="316" conditionals="97" coveredconditionals="96" methods="70" coveredmethods="63"/>
-      <file name="inventory.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\inventory.js">
+      <metrics statements="383" coveredstatements="326" conditionals="105" coveredconditionals="97" methods="80" coveredmethods="65"/>
+      <file name="employees.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/services/employees.js">
+        <metrics statements="30" coveredstatements="9" conditionals="8" coveredconditionals="1" methods="8" coveredmethods="2"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="39" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="49" count="3" type="stmt"/>
+      </file>
+      <file name="inventory.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/services/inventory.js">
         <metrics statements="91" coveredstatements="91" conditionals="36" coveredconditionals="36" methods="21" coveredmethods="21"/>
         <line num="1" count="4" type="stmt"/>
         <line num="6" count="4" type="stmt"/>
@@ -247,7 +285,7 @@
         <line num="269" count="1" type="stmt"/>
         <line num="277" count="4" type="stmt"/>
       </file>
-      <file name="menuitems.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\menuitems.js">
+      <file name="menuitems.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/services/menuitems.js">
         <metrics statements="137" coveredstatements="137" conditionals="50" coveredconditionals="49" methods="27" coveredmethods="27"/>
         <line num="1" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -387,8 +425,8 @@
         <line num="258" count="1" type="stmt"/>
         <line num="276" count="3" type="stmt"/>
       </file>
-      <file name="transactions.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\transactions.js">
-        <metrics statements="111" coveredstatements="88" conditionals="11" coveredconditionals="11" methods="22" coveredmethods="15"/>
+      <file name="transactions.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/services/transactions.js">
+        <metrics statements="125" coveredstatements="89" conditionals="11" coveredconditionals="11" methods="24" coveredmethods="15"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
@@ -404,10 +442,10 @@
         <line num="19" count="2" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="25" count="3" type="stmt"/>
-        <line num="26" count="3" type="stmt"/>
-        <line num="27" count="3" type="stmt"/>
-        <line num="28" count="3" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
         <line num="36" count="3" type="stmt"/>
         <line num="37" count="3" type="stmt"/>
         <line num="39" count="3" type="stmt"/>
@@ -495,16 +533,30 @@
         <line num="207" count="0" type="stmt"/>
         <line num="208" count="0" type="stmt"/>
         <line num="211" count="0" type="stmt"/>
-        <line num="216" count="3" type="stmt"/>
-        <line num="217" count="0" type="stmt"/>
+        <line num="215" count="3" type="stmt"/>
+        <line num="216" count="0" type="stmt"/>
         <line num="218" count="0" type="stmt"/>
+        <line num="219" count="0" type="stmt"/>
+        <line num="220" count="0" type="stmt"/>
         <line num="221" count="0" type="stmt"/>
-        <line num="224" count="3" type="stmt"/>
+        <line num="224" count="0" type="stmt"/>
+        <line num="229" count="3" type="stmt"/>
+        <line num="230" count="0" type="stmt"/>
+        <line num="231" count="0" type="stmt"/>
+        <line num="234" count="0" type="stmt"/>
+        <line num="237" count="3" type="stmt"/>
+        <line num="238" count="0" type="stmt"/>
+        <line num="243" count="0" type="stmt"/>
+        <line num="244" count="0" type="stmt"/>
+        <line num="245" count="0" type="stmt"/>
+        <line num="247" count="0" type="stmt"/>
+        <line num="248" count="0" type="stmt"/>
+        <line num="252" count="3" type="stmt"/>
       </file>
     </package>
     <package name="api.services.reports">
       <metrics statements="48" coveredstatements="45" conditionals="14" coveredconditionals="12" methods="13" coveredmethods="12"/>
-      <file name="restockReport.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\reports\restockReport.js">
+      <file name="restockReport.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/services/reports/restockReport.js">
         <metrics statements="15" coveredstatements="15" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -522,7 +574,7 @@
         <line num="43" count="1" type="stmt"/>
         <line num="47" count="4" type="stmt"/>
       </file>
-      <file name="salesReport.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\reports\salesReport.js">
+      <file name="salesReport.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/services/reports/salesReport.js">
         <metrics statements="14" coveredstatements="14" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="4"/>
         <line num="1" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
@@ -539,7 +591,7 @@
         <line num="28" count="2" type="stmt"/>
         <line num="34" count="4" type="stmt"/>
       </file>
-      <file name="whatSellsTogether.js" path="C:\Users\mrder\OneDrive\Documents\College Stuff\TAMU YEAR 3\CSCE331\project-3-full-stack-agile-web-project-3-903-13\api\services\reports\whatSellsTogether.js">
+      <file name="whatSellsTogether.js" path="/home/isaacambro/CSCE331/Project-3/project-3-full-stack-agile-web-project-3-903-13/api/services/reports/whatSellsTogether.js">
         <metrics statements="19" coveredstatements="16" conditionals="6" coveredconditionals="4" methods="4" coveredmethods="4"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>

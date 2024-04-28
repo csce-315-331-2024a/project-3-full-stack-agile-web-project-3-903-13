@@ -25,7 +25,7 @@ const insertTransaction = async (totalCost, taxAmount) => {
 const updateFoodItemsTable = async (id, orderContents) => {
     for (const item of orderContents) {
         try {
-            await db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3)", [id, item.id, item.quantity]);
+            await db.query("INSERT INTO fooditems VALUES (DEFAULT, $1, $2, $3, $4)", [id, item.id, item.quantity, item.modif]);
         } catch (err) {
             // console.error(err);
             throw err; // Re-throw the error to handle it in the caller function
@@ -142,7 +142,7 @@ const getTransactionInfo = async (transactionid) => {
 	const cost = queryTimeResults.rows[0]["totalcost"]
 	const status = queryTimeResults.rows[0]["status"]
 
-	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as itemname, menuitems.price as price, fooditems.quantity as Quantity
+	const query = `SELECT fooditems.menuid as ID, menuitems.itemname as itemname, menuitems.price as price, fooditems.quantity as Quantity, fooditems.modif as Modif
 			FROM fooditems
 			INNER JOIN menuitems 
 				ON menuitems.menuid = fooditems.menuid
@@ -202,10 +202,23 @@ const getInProgressOrders = async(request, response) => {
 const fullfillOrder = async(request, response) => {
 	const {transactionID} = request.body;
 
-	const query = `UPDATE transactions SET status = 'fulfilled' WHERE transactionid = ${transactionID};`
+	const query = `UPDATE transactions SET status = 'fulfilled', transactiontime = NOW() WHERE transactionid = ${transactionID};`
 
 	try {
-		db.query(query);
+		await db.query(query);
+	}
+	catch (error) {
+		throw error 
+	}
+}
+
+const cancelOrder = async(request, response) => {
+	const {transactionID} = request.body;
+
+	const query = `UPDATE transactions SET status = 'cancelled' WHERE transactionid = ${transactionID};`
+	try {
+		await db.query(query);
+		response.status(200).send("Order cancelled successfully");
 	}
 	catch (error) {
 		throw error 
@@ -221,6 +234,21 @@ const getTransactionsInfo = async(transactionIDs) => {
     return Promise.all(transactionsInfoPromises);
 }
 
+const getRecentFulfilledOrders = async (request, response) => {
+    const query = `
+	SELECT transactionid, transactiontime, totalcost, tax, status
+	FROM transactions
+	WHERE status = 'fulfilled' AND transactiontime AT TIME ZONE 'UTC' AT TIME ZONE 'America/Chicago' > (NOW() AT TIME ZONE 'America/Chicago' - INTERVAL '5 MINUTES');
+		`;
+    try {
+        const result = await db.query(query);
+        response.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Failed to fetch recent fulfilled orders:', error);
+        response.status(500).send('Failed to fetch recent fulfilled orders.');
+    }
+};
+
 module.exports = {
     createTransaction,
     insertTransaction,
@@ -235,5 +263,7 @@ module.exports = {
 	incrementInventory,
 	verifyOrderFormatting,
 	deleteTransaction,
-	updateTransaction
+	updateTransaction,
+	cancelOrder,
+	getRecentFulfilledOrders
 }
