@@ -3,9 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { FaWindowClose, FaMinusCircle, FaPlusCircle, FaXbox, FaXing, FaTimesCircle } from "react-icons/fa";
+import { FaMinusCircle, FaPlusCircle, FaTimesCircle } from "react-icons/fa";
 import { useRef, useState, useEffect } from "react";
-import WeatherWidget from "@/components/WeatherAPI";
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import PaymentModal from "@/components/transactions/PaymentModal"
 import { ToastContainer, toast } from 'react-toastify';
