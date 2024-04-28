@@ -9,19 +9,6 @@ const MenuBoard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-
-    // useEffect(() => {
-
-    //     const fetchCurrentOrders = async () => {
-    //         const response = await fetch('http://localhost:5000/api/transactions/inProgressOrders');
-    //         const data = await response.json();
-    //         setCurrentOrders(data);
-    //     };
-
-    //     fetchCurrentOrders()
-
-    // }, [currentOrders])
-
     // useEffect(() => {
     //     fetch('http://localhost:5000/api/menuitems')
     //         .then(response => {
@@ -50,15 +37,26 @@ const MenuBoard = () => {
                 }
                 const data = await response.json();
                 setMenuItems(data);
-                setIsLoading(false);
+                setError(null); // Clear any previous errors
             } catch (error) {
                 setError(error);
+            } finally {
                 setIsLoading(false);
             }
         };
     
+        // Fetch menu items initially
         fetchMenuItems();
+    
+        // Polling mechanism to fetch menu items every 10 seconds
+        const interval = setInterval(fetchMenuItems, 15000);
+    
+        // Cleanup function to clear the interval when the component unmounts
+        return () => clearInterval(interval);
     }, []);
+
+
+
 
     if (isLoading) {
         return <div className="text-center text-lg font-bold">Loading...</div>;

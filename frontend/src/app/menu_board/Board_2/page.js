@@ -37,15 +37,26 @@ const MenuBoard = () => {
                 }
                 const data = await response.json();
                 setMenuItems(data);
-                setIsLoading(false);
+                setError(null); // Clear any previous errors
             } catch (error) {
                 setError(error);
+            } finally {
                 setIsLoading(false);
             }
         };
     
+        // Fetch menu items initially
         fetchMenuItems();
+    
+        // Polling mechanism to fetch menu items every 10 seconds
+        const interval = setInterval(fetchMenuItems, 25000);
+    
+        // Cleanup function to clear the interval when the component unmounts
+        return () => clearInterval(interval);
     }, []);
+
+
+    
 
     if (isLoading) {
         return <div className="text-center text-lg font-bold">Loading...</div>;
