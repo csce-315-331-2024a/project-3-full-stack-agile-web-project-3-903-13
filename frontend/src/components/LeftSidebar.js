@@ -17,6 +17,12 @@ export default function LeftSidebar({ links }) {
       <Link href="/employee/manager/inventory">
         <Image alt = "manager home" src={"/user.svg"} width={24} height={24}></Image>
       </Link>
+      <Link href="/employee/manager/users">
+        Users
+      </Link>
+      <Link href="/user">
+        Sign Out
+      </Link>
     </nav>
   );
 }

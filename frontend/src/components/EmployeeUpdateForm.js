@@ -5,6 +5,7 @@ export default function EmployeeUpdateForm(employee) {
   const [formData, setFormData] = useState({
     id: employeeObject.employeeid,
     age: employeeObject.employeeage,
+    employee: employeeObject.email,
     phone: employeeObject.employeephonenumber,
     role: employeeObject.role,
     hours: employeeObject.employeehours,
@@ -68,6 +69,12 @@ export default function EmployeeUpdateForm(employee) {
                 Weekly Hours
           </label>
           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="hours" name="hours" type="text" placeholder={employeeObject.employeehours} onChange={handleChange}/>
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2" for="email">
+               Email 
+          </label>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="text" placeholder={employeeObject.email} onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="role">

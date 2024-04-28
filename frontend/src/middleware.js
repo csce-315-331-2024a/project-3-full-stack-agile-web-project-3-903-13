@@ -1,44 +1,75 @@
+import {auth} from "@/auth"
+import { redirect } from "next/dist/server/api-utils"
 import { NextResponse } from 'next/server'
-import { jwtDecode } from 'jwt-decode'
- 
-// This function can be marked `async` if using `await` inside
-export async function middleware(request) {
-  const managers = [ 
-    'cadewya@tamu.edu',
-    'adityabiradar25@tamu.edu',
-    'isaacambro@tamu.edu',
-    'karanbhalla204@tamu.edu',
-    'sukelv0802@tamu.edu',
-    'kjain@tamu.edu'
-  ]
+import {getRole} from "./auth"
 
-  const cashiers = [
-    'wyattrcade@gmail.com',
-    'isaacambro@gmail.com',
-    'karanbhalla204@gmail.com',
-    'sukelv0802@gmail.com'
-  ]
+const unauthorizedHTML = `
+  <html>
+  <body style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+  <div style="display: flex; flex-direction: column; align-items: center">
+  <h1>Error 401</h1>
+  <h1>You are not allowed to access this resource</h1>
+  </div>
+  </body>
+  </html>
+`
 
-  let cookie = request.cookies.get('access_token')
-  if (!cookie || cookie['value'] == 'null') {
-    return NextResponse.redirect(new URL('/', request.url))
+export default auth(async (req) => {
+  if (!req.auth) {
+    return NextResponse.redirect(new URL('/user', req.url))
   }
 
-  let token = cookie['value']
-  const decoded = jwtDecode(token)
-  const email = decoded.email
-  if (request.nextUrl.pathname.startsWith('/employee/manager')) {
-    if (!managers.includes(email)) {
-      return NextResponse.redirect(new URL('/', request.url))
-    }
+  let userEmail = req.auth.user.email
+  let role;
+  if (!req.auth.user.role) {
+    role = await getRole(userEmail)
   } else {
-    if (!cashiers.includes(email) && !managers.includes(email)) {
-      return NextResponse.redirect(new URL('/', request.url))
-    }
+    role = req.auth.user.role
   }
-}
- 
-// See "Matching Paths" below to learn more
+  // Query role of user with corresponding email in database
+  // Cases: 
+  //    - /employee/manager/users: Only admin can access this
+  //    - /employee/manager/kitchen: Manager/Admin/Kitchen
+  //    - /employee/manager/*: Must be manager or admin
+  //    - /employee/*: Must be at least a cashier
+  //    Go by longest prefix match
+
+
+  if (req.nextUrl.pathname.startsWith('/employee/manager/users')) {
+    if (role != "admin") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  } else if (req.nextUrl.pathname.startsWith('/employee/manager/kitchen')) {
+    if (role != "admin" && role != "kitchen" && role != "manager") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  } else if (req.nextUrl.pathname.startsWith('/employee/manager/')) {
+    if (role != "admin" && role != "manager") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  } else if (req.nextUrl.pathname.startsWith('/employee')) {
+    if (role != "admin" && role != "kitchen" && role != "cashier" && role != "manager") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  }
+})
+
 export const config = {
-  matcher: '/employee/:path*',
+  matcher: ["/employee/:path*"],
 }

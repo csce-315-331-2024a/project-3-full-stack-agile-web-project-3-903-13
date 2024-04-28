@@ -1,7 +1,18 @@
 const db = require('../config/db')
 
+const getRoleByEmail = (req,res) => {
+	db.query(`SELECT role FROM employees WHERE email = '${req.body.email}'`, (err,results) => {
+		if (err) {
+			console.log(err)
+			res.status(500).send(`Could not get role of employee with email ${req.body.email}`)
+			return
+		}
+		res.status(200).json(results.rows)
+	})
+}
+
 const addEmployee = (req,res) => {
-	db.query(`INSERT INTO employees VALUES(default, '${req.body.name}', ${req.body.age}, '${req.body.phone}', ${req.body.hours}, 'f', 1111, '${req.body.role}')`, (err,results) => {
+	db.query(`INSERT INTO employees VALUES(default, '${req.body.name}', ${req.body.age}, '${req.body.phone}', ${req.body.hours}, 'f', 1111, '${req.body.role}', '${req.body.email}')`, (err,results) => {
 		if (err) {
 			console.log(err)
 			res.status(500).send("Could not add employee")
@@ -34,7 +45,7 @@ const deleteEmployee = (req, res) => {
 
 const updateEmployee = (req,res) => {
 	db.query(`UPDATE employees
-	SET employeeage = ${req.body.age}, employeephonenumber = '${req.body.phone}', employeehours = ${req.body.hours}, role = '${req.body.role}' WHERE employeeid = ${req.body.id}
+	SET employeeage = ${req.body.age}, employeephonenumber = '${req.body.phone}', employeehours = ${req.body.hours}, role = '${req.body.role}', email = '${req.body.email}' WHERE employeeid = ${req.body.id}
 	`, (err, results) => {
 			if (err) {
 				 console.log(err)
@@ -51,4 +62,5 @@ module.exports = {
 	retrieveEmployees,
 	deleteEmployee,
 	updateEmployee,
+	getRoleByEmail
 };

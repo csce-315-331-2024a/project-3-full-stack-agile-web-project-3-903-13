@@ -61,6 +61,8 @@ body, html {
     overflow: hidden;
 }
 
+/*
+
 .menu_item {
     flex: 1 1 50%;
     border: 2px solid black;
@@ -77,6 +79,7 @@ body, html {
     margin-top: 2px;
 
 }
+*/
 
 .item_name {
     font-weight: bold;
