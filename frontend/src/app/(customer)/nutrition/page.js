@@ -66,7 +66,7 @@ const NutritionPage = () => {
 
 
     return (
-        <div className="max-w-4xl mx-auto p-5 bg-gray-100 rounded-lg shadow-sm">
+        <div className="max-w-4xl mx-auto p-5 bg-gray-100 rounded-lg shadow-sm" role="main" >
             <div className="text-center mb-5">
                 <h1 className="text-2xl text-gray-800 mb-2">Allergens & Special Diets</h1>
                 <p className="text-gray-600 text-base max-w-xl mx-auto leading-relaxed">
@@ -78,7 +78,8 @@ const NutritionPage = () => {
                 {menuItems.map((item, index) => (
                     <div key={item.menuid} className={`grid grid-cols-4 gap-2 items-center mb-2 p-2 rounded-lg shadow ${index % 2 === 0 ? "bg-white" : "bg-gray-200"}`}
                     style={index % 2 === 0 ? { border: '2px solid #800000' } : {} }
-                    role="listitem" aria-label={`${item.itemname}, ${item.Calories} calories, ${mapSpecialDiet(item.specialdiet)}${mapAllergies(item.allergy) ? ', Gluten Free' : ''}`}
+                    role="listitem" 
+                    aria-label={`${item.itemname}, ${item.Calories} calories, ${mapSpecialDiet(item.specialdiet)}${mapAllergies(item.allergy) ? ', Gluten Free' : ''}`}
                     >
                         <div className="font-bold col-span-1">{item.itemname}</div>
                         <div className="text-center col-span-1">{item.Calories} cal</div>
