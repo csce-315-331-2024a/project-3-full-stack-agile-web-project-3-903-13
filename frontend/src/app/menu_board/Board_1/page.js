@@ -58,9 +58,20 @@ const MenuBoard = () => {
         <div className="min-h-screen max-h-screen bg-black text-white p-6 grid grid-cols-2 gap-3 overflow-hidden">
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="col-span-2">
-                    <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200">
-                        {category === '0' && 'Burgers'}
+                    <div className="text-2xl font-bold uppercase flex items-center pb-2 border-b border-gray-200">
+                        <span className="uppercase">{category === '0' && 'Burgers'}</span>
+                        <div className="ml-2">
+                            <Image
+                                src="/menu_board_icons/burgersm_icon.jpeg"
+                                alt="Burgers Icon"
+                                className="object-cover rounded-lg"
+                                width={100}
+                                height={100}
+                            />
+                        </div>
                     </div>
+
+
                     <div className="grid grid-cols-2 gap-4 mt-4">
                         {/* Split menu items into two columns */}
                         {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
