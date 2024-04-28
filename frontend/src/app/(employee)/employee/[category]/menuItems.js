@@ -1,11 +1,8 @@
 import React from "react";
-
 import { useEffect, useState, useContext } from "react";
-
 import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
-import NumericKeypad from "@/components/transactions/NumericKeypad"
-import PaymentModal from "@/components/transactions/PaymentModal"
-
+import NumericKeypad from "@/components/transactions/NumericKeypad";
+import PaymentModal from "@/components/transactions/PaymentModal";
 
 function TransactionPanel() {
     const { transactions, updateTransaction, removeItemCompletely, submitTransaction, clearTransaction } = useTransaction();
@@ -91,7 +88,7 @@ function TransactionPanel() {
                 <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
                     Clear Transaction
                 </button>
-                <button 
+                <button
                     className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow ${!transactionsList || transactionsList.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={() => setShowPaymentOptions(true)}
                     disabled={!transactionsList || transactionsList.length === 0}
@@ -121,28 +118,58 @@ function TransactionPanel() {
     );
 }
 
-
-
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
     const [isClicked, setIsClicked] = useState(false);
+    const [seasonalItems, setSeasonalItems] = useState(new Map());
+
+    const getMenuItemSeasonal = async (menuItem) => {
+        try {
+            const queryString = new URLSearchParams(menuItem).toString();
+            const url = `http://localhost:5000/api/menuitems/seasonal?${queryString}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error fetching seasonal info for menu item:", error);
+            throw error;
+        }
+    };
+
+    useEffect(() => {
+        const fetchSeasonalInfo = async () => {
+            const seasonalData = await getMenuItemSeasonal({ itemName: props.item.itemname });
+            const isSeasonal = seasonalData.length === 0 || (seasonalData.length > 0 && new Date(seasonalData[0].expirationdate) >= new Date());
+            setSeasonalItems(prevSeasonalItems => new Map(prevSeasonalItems.set(props.item.menuid, isSeasonal)));
+        };
+
+        fetchSeasonalInfo();
+    }, [props.item.itemname, props.item.menuid]);
 
     const sendToTransaction = () => {
-        var quantity = 0
+        var quantity = 0;
         if (transactions) {
             transactions.forEach(item => {
-                if (props.item.menuid == item.id) {
-                    quantity = item.quantity + 1
+                if (props.item.menuid === item.id) {
+                    quantity = item.quantity + 1;
                 }
             });
         }
-        if (quantity == 0) {
-            quantity += 1
+        if (quantity === 0) {
+            quantity += 1;
         }
-        updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity });
-        setIsClicked(true);
-        setTimeout(() => setIsClicked(false), 600);
-    }
+        if (seasonalItems.get(props.item.menuid)) {
+            updateTransaction({ "id": props.item.menuid, "itemname": props.item.itemname, "price": props.item.price, "quantity": quantity });
+            setIsClicked(true);
+            setTimeout(() => setIsClicked(false), 600);
+        }
+    };
 
     const clickEffect = isClicked ? 'border-animate' : '';
 
@@ -163,26 +190,29 @@ function MenuItem(props) {
                     }
                     .border-animate {
                         animation: border-animation 0.6s ease-out;
-                    }
-                    .menu-item {
-                        transition: transform 0.15s ease-in-out;
-                    }
-                    .menu-item:hover {
-                        transform: scale(0.95);
-                    }
-                `}
+                        }
+                   .menu-item {
+                       transition: transform 0.15s ease-in-out;
+                   }
+                   .menu-item:hover {
+                       transform: scale(0.95);
+                   }
+               `}
             </style>
-            <div
-                className={`menu-item flex justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
-                onClick={sendToTransaction}
-            >
-                <div className="text-xl font-semibold text-gray-900 text-center">
-                    {props.item.itemname}
+            {seasonalItems.get(props.item.menuid) && (
+                <div
+                    className={`menu-item flex justify-center px-10 py-14 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
+                    onClick={sendToTransaction}
+                >
+                    <div className="text-xl font-semibold text-gray-900 text-center">
+                        {props.item.itemname}
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 }
+
 export function MenuItemList({ categoryNum, categoryName }) {
     const [itemType, setItemType] = useState([]);
 
@@ -198,22 +228,17 @@ export function MenuItemList({ categoryNum, categoryName }) {
     }, [categoryNum]);
 
     return (
-
         <div className="flex flex-row h-[75vh]">
             <div className="container max-w-[66%] p-5">
                 <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {itemType.map((item, index) => (
-                        <MenuItem key={index}
-                            item={item}
-                        />
+                        <MenuItem key={index} item={item} />
                     ))}
                 </div>
             </div>
 
             <TransactionPanel />
-
         </div>
     );
 }
-
