@@ -35,8 +35,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session
     },
     async redirect({url, baseUrl}) {
-      console.log(url)
-      console.log(baseUrl)
       return baseUrl
     }
   }

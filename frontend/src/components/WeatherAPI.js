@@ -4,6 +4,27 @@ import Image from "next/image";
 const WeatherWidget = ( {onWeatherLoaded} ) => {
     const [weatherInfo, setWeatherInfo] = useState(null);
     const [weatherIconUrl, setWeatherIconUrl] = useState('');
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000); // Update every second
+
+        // Clear interval on component unmount
+        return () => clearInterval(interval);
+    }, []);
+
+    // Format the date to display day of the week and date
+    const formatDate = (date) => {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString();
+    };
+
+    // Format the time to display hours, minutes, and seconds
+    const formatTime = (date) => {
+        return date.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: '2-digit' });
+    };
 
     useEffect(() => {
         // Function to fetch weather data based on user's location
@@ -60,6 +81,7 @@ const WeatherWidget = ( {onWeatherLoaded} ) => {
                 {weatherInfo && (
                     <>
                         <p className="font-bold">{weatherInfo.place}</p>
+                        <p>{formatDate(currentTime)} {formatTime(currentTime)}</p>
                         <p>{weatherInfo.temperatureF}°F |  {weatherInfo.weatherDescription}</p>
                     </>
                 )}

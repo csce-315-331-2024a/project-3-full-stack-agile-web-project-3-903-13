@@ -8,6 +8,7 @@ router.post("/", menuItemsController.addMenuItem);
 // READ existing menuItems and ingredients
 router.get("/", menuItemsController.retrieveMenuItems);
 router.get("/getIngreds", menuItemsController.retrieveMenuItemIngredients);
+router.get("/seasonal", menuItemsController.retrieveSeasonalInfo);
 
 // UPDATE various attributes
 router.patch("/updatePrice", menuItemsController.updateMenuItemPrice);

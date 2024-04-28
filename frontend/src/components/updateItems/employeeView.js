@@ -2,19 +2,24 @@ import React, { useEffect, useState } from "react";
 // import Link from 'next/link'
 import Image from 'next/image'
 import { useTransaction } from "@/components/transactions/TransactionContext";
+import { toast } from 'react-toastify';
 
 
 export default function UpdateModal({ isOpen, onClose, item }) {
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
 
-    const [ingredients, setIngredients] = useState()
-    const [removedIngredients, setRemovedIngredients] = useState([]);
-    // const [modificationString, setModificationString] = useState("")
+    // Other ingredients contains non-removable ingredients like bags, utensils, etc.
+    // removable ingredients contains those that CAN be removed
+    // ingredientsRemoved is mainly a boolean array to track which ingredients have been removed by the User
+    const [otherIngredients, setOtherIngredients] = useState()
+    const [removableIngredients, setRemovableIngredients] = useState()
+    const [ingredientsRemoved, setIngredientsRemoved] = useState([]);
+
 
     const { updateTransaction, transactions } = useTransaction();
 
-    const sendToTransaction = (dish, modificationString) => {
+    const sendToTransaction = (dish, modificationString, inventToRemove) => {
         var quantity = 0;
         if (transactions) {
             transactions.forEach(item => {
@@ -26,11 +31,23 @@ export default function UpdateModal({ isOpen, onClose, item }) {
         if (quantity === 0) {
             quantity = 1;
         }
-        updateTransaction({ "id": dish.menuid, "itemname": dish.itemname, "price": dish.price, "quantity": quantity, "modif": modificationString });
+        updateTransaction({
+            "id": dish.menuid, "itemname": dish.itemname, "price": dish.price,
+            "quantity": quantity, "modif": modificationString, "inventToRemove": inventToRemove
+        });
+        toast.success(`${dish.itemname} added to cart!`, {
+            position: "bottom-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     useEffect(() => {
-        setRemovedIngredients([])
+        setIngredientsRemoved([])
         const getMenuItemIngredients = async () => {
             try {
 
@@ -49,10 +66,12 @@ export default function UpdateModal({ isOpen, onClose, item }) {
                 const itemsFilterOut = ["Utensils", "To Go Boxes", "Bags", "Napkins"];
                 const isItemFilterOut = (item) => itemsFilterOut.includes(item)
 
+                setOtherIngredients(data.filter(item => isItemFilterOut(item.ingredientname)))
+
                 const filteredData = data.filter(item => !isItemFilterOut(item.ingredientname));
 
-                setIngredients(filteredData)
-                setRemovedIngredients(new Array(filteredData.length).fill(false))
+                setRemovableIngredients(filteredData)
+                setIngredientsRemoved(new Array(filteredData.length).fill(false))
 
             } catch (error) {
                 console.error("Error fetching ingredient for menu item:", error);
@@ -64,19 +83,13 @@ export default function UpdateModal({ isOpen, onClose, item }) {
             getMenuItemIngredients()
         }
 
-    }, [item]);
+    }, [item, isOpen]);
 
-    // useEffect(() => {
-    //     if (isOpen) {
-    //         sendToTransaction(item);
-    //     }
-    // }, [modificationString]);
+
 
 
     const handleIngredientClick = (index) => {
-        const ingredient = ingredients[index];
-        // Toggle the clicked state of the ingredient
-        setRemovedIngredients(prevState => {
+        setIngredientsRemoved(prevState => {
             const newState = [...prevState];
             newState[index] = !newState[index];
             return newState;
@@ -86,12 +99,22 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
     const handleAddCart = () => {
         let temp = "";
-        for (let i = 0; i < removedIngredients.length; i++) {
-            if (removedIngredients[i]) {
-                temp += "No " + ingredients[i].ingredientname.toString() + ",";
+        const inventToRemove = []
+        for (let i = 0; i < ingredientsRemoved.length; i++) {
+            const ingred = removableIngredients[i]
+            if (ingredientsRemoved[i]) {
+                temp += "No " + ingred.ingredientname.toString() + ", ";
+            }
+            else {
+                inventToRemove.push({ "inventid": ingred.inventid, "ingredientname": ingred.ingredientname, "quantity": ingred.quantity })
             }
         }
-        sendToTransaction(item, temp)
+        for (let i = 0; i < otherIngredients.length; i++){
+            const item = otherIngredients[i]
+            inventToRemove.push({ "inventid": item.inventid, "ingredientname": item.ingredientname, "quantity": item.quantity })
+        }
+        temp = temp.slice(0, temp.length - 1)
+        sendToTransaction(item, temp, inventToRemove)
     }
 
 
@@ -102,7 +125,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="relative">
-                <div className="max-w-3xl bg-white p-12 pb-4 rounded-lg shadow-lg">
+                <div className="max-w-lg bg-white p-12 pb-4 rounded-lg shadow-lg">
                     <button
                         className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                         onClick={onClose}
@@ -123,41 +146,34 @@ export default function UpdateModal({ isOpen, onClose, item }) {
                     </button>
 
                     <div className="flex flex-col">
-                        <div className="flex flex-row">
-
-                            <div className="mr-8 w-[50%]">
-                                <Image
-                                    src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
-                                    alt={item.itemname}
-                                    className="object-cover rounded-lg"
-                                    width={300}
-                                    height={350}
-                                    priority={true}
-                                />
-                            </div>
-
-                            <div className="flex flex-col min-w-[50%] max-w-[60%]">
-                                <div className="mb-8">
-                                    <h3 className="font-semibold text-3xl">
-                                        {item.itemname}
-                                    </h3>
-                                    <hr className="border-[3px] border-black my-2" />
-                                    <h5 className="text-md"> {item.description}</h5>
-                                </div>
 
 
-                                <div>
-                                    {ingredients && ingredients.map((item, index) => (
-                                        <button
-                                            key={index}
-                                            className={`rounded-md px-3 py-1 m-1 transition duration-100 ease-in-out 
-                                                        ${removedIngredients[index] ? 'line-through' : 'bg-gray-300 hover:bg-gray-400'}`}
-                                            onClick={() => { handleIngredientClick(index) }}
-                                        >
-                                            {item.ingredientname}
-                                        </button>
-                                    ))}
-                                </div>
+                        <div className="flex flex-col">
+                            {/* <div className="mb-8">
+                                <h3 className="font-semibold text-3xl">
+                                    {item.itemname}
+                                </h3>
+                                <hr className="border-[3px] border-black my-2" />
+                                <h5 className="text-md"> {item.description}</h5>
+                            </div> */}
+
+
+                            <span className="ml-1 font-semibold text-2xl">
+                                Customize
+                                <hr className="border-[3px] border-black mb-1" />
+
+                            </span>
+                            <div>
+                                {removableIngredients && removableIngredients.map((item, index) => (
+                                    <button
+                                        key={index}
+                                        className={`rounded-md px-3 py-1 m-1 transition duration-100 ease-in-out 
+                                                        ${ingredientsRemoved[index] ? 'line-through' : 'bg-gray-300 hover:bg-gray-400'}`}
+                                        onClick={() => { handleIngredientClick(index) }}
+                                    >
+                                        {item.ingredientname}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 

@@ -16,10 +16,8 @@ const unauthorizedHTML = `
 
 export default auth(async (req) => {
   if (!req.auth) {
-    console.log("USER NOT AUTHENTICATED")
-    return NextResponse.redirect(new URL('/test', req.url))
+    return NextResponse.redirect(new URL('/user', req.url))
   }
-  console.log(req.auth)
 
   let userEmail = req.auth.user.email
   let role;
