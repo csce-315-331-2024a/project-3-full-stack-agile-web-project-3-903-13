@@ -10,11 +10,11 @@ export default function AboutPage() {
                     <div className="md:order-2">
                         <Image src="/revs-restaurant-image.jpg" alt="Rev's American Grilled Restaurant" className="rounded-lg shadow-lg" />
                     </div>
-                    <div className="md:order-1">
-                        <p className="text-lg mb-4">Welcome to Rev&apos;s American Grilled, located in the Memorial Student Center (MSC) at Texas A&M University!</p>
-                        <p className="text-lg mb-4">We specialize in serving delicious American-style grilled dishes, featuring mouthwatering burgers, sandwiches, tenders,  and more.</p>
-                        <p className="text-lg mb-4">Our restaurant offers a cozy and inviting atmosphere, perfect for enjoying a meal with friends and family.</p>
-                        <p className="text-lg">Come visit us at the MSC and experience the taste of Rev&apos;s American Grilled!</p>
+                    <div className="md:order-1 text-lg [&>*]:mb-4">
+                        <p>Welcome to Rev's American Grill, located in the Memorial Student Center (MSC) at Texas A&M University!</p>
+                        <p>We specialize in serving delicious American-style grilled dishes, featuring mouthwatering burgers, sandwiches, tenders,  and more.</p>
+                        <p>Our restaurant offers a cozy and inviting atmosphere, perfect for enjoying a meal with friends and family.</p>
+                        <p>Come visit us at the MSC and experience the taste of Rev's American Grill!</p>
                     </div>
                 </div>
             </div>

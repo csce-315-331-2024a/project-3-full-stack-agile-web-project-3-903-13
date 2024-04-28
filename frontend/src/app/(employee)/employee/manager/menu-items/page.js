@@ -242,7 +242,13 @@
       }
 
       try {
-        const response = await addMenuItem({ itemName: addItemName, price: addPrice, category: addItemCategory, ingredients, isSeasonal: isSeasonal, expirationDate: expirationDate  });
+        const response = await addMenuItem({ 
+          itemName: addItemName,
+           price: addPrice,
+            category: isSeasonal ? 6 : addItemCategory,
+             ingredients,
+              isSeasonal: isSeasonal,
+               expirationDate: expirationDate  });
         setAddSuccessMessage(response.message);
         setAddErrorMessage("");
         setAddItemName("");

@@ -35,15 +35,17 @@ const updateFoodItemsTable = async (id, orderContents) => {
 
 const decrementInventory = async (orderContents) => {
 	orderContents.map(async (item) => {
-		// Get entries from ingredients table (tells which menu items use which inventory items)
-		try {
-			const results = await db.query("SELECT inventid, quantity FROM ingredients WHERE menuid = $1", [item.id])
-			results.rows.map((inventory) => {
-				db.query("UPDATE inventory SET count = count - $1 WHERE inventid = $2", [item.quantity*inventory.quantity, inventory.inventid])
-			})
-		} catch (err) {
-			console.log(err)
-		}
+		const quantity = item.quantity;
+		item.inventToRemove.map(async(ingred) => {
+			try {
+				await db.query("UPDATE inventory SET count = count - $1 WHERE inventid = $2", [ingred.quantity*quantity, ingred.inventid])
+			}
+			catch (err){
+				console.log(err)
+			}
+
+		})
+
 	})
 }
 
