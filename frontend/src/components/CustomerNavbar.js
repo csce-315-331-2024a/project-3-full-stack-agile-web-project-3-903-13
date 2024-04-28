@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { FaMinusCircle, FaPlusCircle, FaTimesCircle } from "react-icons/fa";
+import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { useRef, useState, useEffect } from "react";
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import PaymentModal from "@/components/transactions/PaymentModal"
@@ -14,6 +14,26 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function CustomerNavbar({ links }) {
 	const pathname = usePathname();
+    
+  const [isOpen, setOpen] = useState(false);
+  const menuToggle = () => {
+    setOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        setOpen(false);
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); 
+
 	const {
 		transactions,
 		clearTransaction,
@@ -75,38 +95,66 @@ export default function CustomerNavbar({ links }) {
 
 	return (
 		<>
-			<style jsx>{`
-      .bg-light-maroon {
-        background-color: #b03060;
-      }
-      .text-dark-maroon {
-        color: #800000;
-      }
-    `}</style>
 			<nav className="flex w-full h-[5rem] bg-white shadow-md">
-				<div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
-					<ul className="flex flex-row items-center">
-						<li>
-							<Image alt="Rev logo" className="hidden absolute md:relative md:flex mr-8" src={"/revs.png"} width={110} height={110}></Image>
-						</li>
-						{links.map((link, index) => (
-							<li key={index} className="mr-8">
-								{link.name === "Menu Board" ? (
-									<Link onClick={handleMenuBoardClick} href={link.route} className={pathname === link.route ? "nav-link-active" : "nav-link"}>{link.name}</Link>
-								) : link.name === "Order Display" ? (
-									// Using an anchor tag instead of Link because we're opening a new tab
-									<a onClick={handleOrderDisplayClick} className={pathname === "/order_display" ? "nav-link-active" : "nav-link"} style={{ cursor: "pointer" }}>
-										{link.name}
-									</a>
-								) : (
-									<Link className={pathname === link.route ? "nav-link-active" : "nav-link"} href={link.route}>
-										{link.name}
-									</Link>
-								)}
-							</li>
-						))}
+				<div className="flex w-full h-full items-center justify-between px-6 font-bold [&>*>li]:relative">
 
+        <div
+          className="absolute right-[1.5rem] md:hidden group"
+          onClick={menuToggle}
+        >
+          <div className="space-y-2">
+            <span
+              className={`block h-1 w-8 bg-black rounded-full transition-opacity ${
+                isOpen ? "opacity-0" : "opacity-100"
+              }`}
+            ></span>
+            <div className="relative">
+              <span
+                className={`block absolute h-1 w-8 bg-black rounded-full transition-transform duration-200 ease-in-out origin-center ${
+                  isOpen ? "rotate-45" : ""
+                }`}
+              ></span>
+              <span
+                className={`block h-1 w-8 bg-black transition-transform duration-200 ease-in-out rounded-full origin-center ${
+                  isOpen ? "-rotate-45" : ""
+                }`}
+              ></span>
+            </div>
+            <span
+              className={`block h-1 w-8 bg-black rounded-full transition-opacity ${
+                isOpen ? "opacity-0" : "opacity-100"
+              }`}
+            ></span>
+          </div>
+        </div>
+        <Image alt="Rev logo" className="hidden absolute md:block" src={"/revs.png"} width={110} height={110}></Image>
+        <ul
+        className={`${
+          isOpen ? "block bg-white border shadow mr-1" : "hidden"
+        } ml-[calc(110px+2rem)] absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 text-sm md:text-base`}
+        style={{ marginTop: isOpen ? `${links.length * 3 + 1}rem` : "0rem" }}
+        >
+          {links.map((link, index) => (
+            <li key={index}>
+              <Link
+                onClick={
+                  link.name === "Menu Board"
+                    ? handleMenuBoardClick
+                    : link.name === "Order Display"
+                    ? handleOrderDisplayClick
+                    : null
+                }
+                className={
+                  pathname === link.route ? "nav-link-active" : "nav-link"
+                }
+                href={link.route}
+              >
+                {link.name}
+              </Link>
+            </li>
+          ))}
 					</ul>
+          
 					<ul className="flex flex-row gap-8 items-center">
 						<li>
 							<Link href={"/employee/burgers"}>
@@ -125,7 +173,7 @@ export default function CustomerNavbar({ links }) {
 
 					<div onClick={toggleCart} className={`fixed z-[40] left-0 top-0 bottom-0 right-0 w-screen h-screen bg-black/40 backdrop-blur-sm ${isCartOpen ? "" : "hidden"}`}></div>
 
-					<div ref={ref} className="min-w-[25%] h-full fixed top-0 right-0 bg-white transform transition-transform translate-x-full z-50 shadow-2xl">
+					<div ref={ref} className="min-w-[50%] md:min-w-[25%] h-full fixed top-0 right-0 bg-white transform transition-transform translate-x-full z-50 shadow-2xl">
 						<div className="flex flex-col h-full">
 							<div className="flex justify-end p-2">
 								<button onClick={toggleCart} className="text-gray-500 hover:text-gray-700">
