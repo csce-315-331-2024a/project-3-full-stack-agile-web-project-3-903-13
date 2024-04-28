@@ -1,12 +1,16 @@
 import React from "react"
 import { SignIn } from "@/components/SignIn"
+import { SignOut } from "@/components/SignOut"
 import { auth } from "@/auth"
 
 const Page = async () => {
 	const session = await auth()
 	console.log(session)
 	return (
-		<SignIn/>
+		session
+		? <SignOut email={session.user.email}/>
+		: <SignIn/>
+		
 	)
 }
 

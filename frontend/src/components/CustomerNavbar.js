@@ -104,6 +104,7 @@ export default function CustomerNavbar({ links }) {
           <li>
             <Link href={"/employee/burgers"}>
               <Image alt = "employee log in" className="nav-image" src={"./user.svg"} width={30} height={30}></Image>
+              Sign in!
             </Link>
           </li>
           <div onClick={toggleCart} className="cursor-pointer cart relative">

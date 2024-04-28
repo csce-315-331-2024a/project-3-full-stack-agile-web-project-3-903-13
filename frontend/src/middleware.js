@@ -1,6 +1,7 @@
 import {auth} from "@/auth"
 import { redirect } from "next/dist/server/api-utils"
 import { NextResponse } from 'next/server'
+import {getRole} from "./auth"
 
 const unauthorizedHTML = `
   <html>
@@ -16,10 +17,17 @@ const unauthorizedHTML = `
 export default auth(async (req) => {
   if (!req.auth) {
     console.log("USER NOT AUTHENTICATED")
-    return NextResponse.redirect(new URL('/api/auth/signin', req.url))
+    return NextResponse.redirect(new URL('/test', req.url))
   }
+  console.log(req.auth)
 
   let userEmail = req.auth.user.email
+  let role;
+  if (!req.auth.user.role) {
+    role = await getRole(userEmail)
+  } else {
+    role = req.auth.user.role
+  }
   // Query role of user with corresponding email in database
   // Cases: 
   //    - /employee/manager/users: Only admin can access this
@@ -28,14 +36,6 @@ export default auth(async (req) => {
   //    - /employee/*: Must be at least a cashier
   //    Go by longest prefix match
 
-  const emailRequest = {"email": userEmail}
-  const roleResponse = await fetch("http://localhost:5000/api/employees/role", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(emailRequest)
-  })
-  const roleData = await(roleResponse.json())
-  let role = roleData[0].role
 
   if (req.nextUrl.pathname.startsWith('/employee/manager/users')) {
     if (role != "admin") {
