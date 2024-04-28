@@ -29,7 +29,7 @@ export default function SalesReportPage() {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [hasFetched, setHasFetched] = useState(false);
-    const [choice, setChoice] = useState("")
+    const [choice, setChoice] = useState("Select Menu Item")
     const [menuItems, setMenuItems] = useState([])
 
     const fetchMenuItems = async () => {
@@ -137,14 +137,19 @@ export default function SalesReportPage() {
                             <tbody>
                                 {reportData.map((item, index) => (
                                     choice == "Select Menu Item" || item.m1name == choice 
-                                    || item.m2name == choice ?
+                                     ?
                                         <tr key={index}>
                                         <td className="border border-gray-400 px-4 py-2">{item.m1name}</td>
                                         <td className="border border-gray-400 px-4 py-2">{item.m2name}</td>
                                         <td className="border border-gray-400 px-4 py-2">{(item.paircount)}</td>
                                     </tr>
+                                    : choice == "Select Menu Item" || item.m2name == choice ?
+                                        <tr key={index}>
+                                        <td className="border border-gray-400 px-4 py-2">{item.m2name}</td>
+                                        <td className="border border-gray-400 px-4 py-2">{item.m1name}</td>
+                                        <td className="border border-gray-400 px-4 py-2">{(item.paircount)}</td>
+                                        </tr>
                                     : <h1></h1>
-                                    
                                 ))}
                             </tbody>
                         </table>
