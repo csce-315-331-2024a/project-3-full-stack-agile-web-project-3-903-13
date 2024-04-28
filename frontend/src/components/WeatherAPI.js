@@ -75,7 +75,7 @@ const WeatherWidget = ( {onWeatherLoaded} ) => {
     }, [onWeatherLoaded]);
 
     return (
-        <div className=" flex items-center w-full justify-center">
+        <div className="flex items-center w-full justify-center pb-8">
             {weatherIconUrl && <Image src={weatherIconUrl} alt="Weather Icon" width={150} height={150} className="mr-2"/>}
             <div>
                 {weatherInfo && (

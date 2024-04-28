@@ -45,7 +45,7 @@ const customStyles = {
     fontSize: '24px',
     padding: '10px',
     borderRadius: '50%',
-    zIndex: 100,
+    zIndex: 0,
     border: 'none',
     opacity: 0.8,
     transition: 'opacity 0.3s ease',
@@ -242,7 +242,7 @@ const Home = () => {
           className="w-full relative"
         >
           {displayCategories.map((category, index) => (
-            <div key={index} className="carousel-item" style={customStyles.carouselBackground}>
+            <div key={index} className="carousel-item px-4" style={customStyles.carouselBackground}>
               <div className="container flex flex-wrap justify-center items-center">
                 <div className="w-full sm:w-1/2 p-4">
                   <img src={category.image} alt={category.phrase} className="carousel-image max-h-64 w-auto mx-auto" />
