@@ -9,22 +9,55 @@ const MenuBoard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
+    // useEffect(() => {
+
+    //     const fetchCurrentOrders = async () => {
+    //         const response = await fetch('http://localhost:5000/api/transactions/inProgressOrders');
+    //         const data = await response.json();
+    //         setCurrentOrders(data);
+    //     };
+
+    //     fetchCurrentOrders()
+
+    // }, [currentOrders])
+
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/api/menuitems')
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             setMenuItems(data);
+    //             setIsLoading(false);
+    //         })
+    //         .catch(error => {
+    //             setError(error);
+    //             setIsLoading(false);
+    //         });
+    // }, []);
+
+
     useEffect(() => {
-        fetch('http://localhost:5000/api/menuitems')
-            .then(response => {
+        const fetchMenuItems = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/menuitems');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then(data => {
+                const data = await response.json();
                 setMenuItems(data);
                 setIsLoading(false);
-            })
-            .catch(error => {
+            } catch (error) {
                 setError(error);
                 setIsLoading(false);
-            });
+            }
+        };
+    
+        fetchMenuItems();
     }, []);
 
     if (isLoading) {
@@ -60,15 +93,22 @@ const MenuBoard = () => {
                 <div key={category} className="col-span-2">
                     <div className="text-2xl font-bold uppercase flex items-center pb-2 border-b border-gray-200">
                         <span className="uppercase">{category === '0' && 'Burgers'}</span>
+                        
                         <div className="ml-2">
                             <Image
                                 src="/menu_board_icons/burgersm_icon.jpeg"
                                 alt="Burgers Icon"
                                 className="object-cover rounded-lg"
-                                width={70}
-                                height={70}
+                                width={25}
+                                height={25}
                             />
                         </div>
+
+                        <div style={{ display: 'inline-block', marginLeft: '1400px' }}>
+                            Page 1/3
+                        </div>
+
+
                     </div>
 
 

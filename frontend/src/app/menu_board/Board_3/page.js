@@ -9,22 +9,41 @@ const MenuBoard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/api/menuitems')
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             setMenuItems(data);
+    //             setIsLoading(false);
+    //         })
+    //         .catch(error => {
+    //             setError(error);
+    //             setIsLoading(false);
+    //         });
+    // }, []);
+
     useEffect(() => {
-        fetch('http://localhost:5000/api/menuitems')
-            .then(response => {
+        const fetchMenuItems = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/menuitems');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then(data => {
+                const data = await response.json();
                 setMenuItems(data);
                 setIsLoading(false);
-            })
-            .catch(error => {
+            } catch (error) {
                 setError(error);
                 setIsLoading(false);
-            });
+            }
+        };
+    
+        fetchMenuItems();
     }, []);
 
     if (isLoading) {
@@ -69,8 +88,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/seasonalm_icon.jpeg"
                                         alt="Seasonal Icon"
                                         className="object-cover rounded-lg"
-                                        width={70}
-                                        height={70}
+                                        width={25}
+                                        height={25}
                                     />
                                 </div>
                             </>
@@ -84,10 +103,17 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/sidesm_icon.jpeg"
                                         alt="Sides Icon"
                                         className="object-cover rounded-lg"
-                                        width={70}
-                                        height={70}
+                                        width={25}
+                                        height={25}
                                     />
                                 </div>
+
+
+
+                                <div style={{ display: 'inline-block', marginLeft: '1450px' }}>
+                                    Page 3/3
+                                </div>
+
                             </>
                         )}
                         {category === '4' && (
@@ -99,8 +125,8 @@ const MenuBoard = () => {
                                         src="/menu_board_icons/shakesm_icon.jpeg"
                                         alt="Shakes Icon"
                                         className="object-cover rounded-lg"
-                                        width={70}
-                                        height={70}
+                                        width={25}
+                                        height={25}
                                     />
                                 </div>
                             </>
