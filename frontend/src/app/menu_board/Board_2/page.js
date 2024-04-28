@@ -2,6 +2,7 @@
 
 import "../../globals.css";
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const MenuBoard = () => {
     const [menuItems, setMenuItems] = useState([]);
@@ -27,11 +28,11 @@ const MenuBoard = () => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div className="text-center text-lg font-bold">Loading...</div>;
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return <div className="text-red-600 text-center text-lg font-bold">Error: {error.message}</div>;
     }
 
     // Group menu items by category
@@ -45,62 +46,53 @@ const MenuBoard = () => {
         return acc;
     }, {});
 
-
-    // A function to split menu items into two columns
+    // Function to split menu items into two columns
     const splitIntoColumns = (items) => {
         const middleIndex = Math.ceil(items.length / 2);
         const firstHalf = items.slice(0, middleIndex);
         const secondHalf = items.slice(middleIndex);
         return [firstHalf, secondHalf];
     };
-    
 
     return (
-        <div className="menu_board">
-        {/* Display menu items grouped by category */}
-        {Object.keys(groupedMenuItems).map(category => (
-            <div key={category} className="category_container">
-                <div className="menu-category-title">
-                    {category === '1' && 'HotDogs/Corndogs'}
-                    {category === '2' && 'Chicken Tenders'}
-                    {category === '5' && 'Beverages'}
-                </div>
-                <div className="menu_items_container">
-                    <div className="menu_column">
-                        {splitIntoColumns(groupedMenuItems[category])[0].map(item => (
-                            <div key={item.id} className="menu_item">
-                                <div className="item_details">
-                                    <div className="item_name">{item.itemname}</div>
-                                    <div className="item-description">{item.description}</div>
-                                </div>
-                                <div className="item_price">${item.price}</div>
-                            </div>
-                        ))}
+        <div className="min-h-screen max-h-screen bg-black text-white p-6">
+            {Object.keys(groupedMenuItems).map(category => (
+                <div key={category} className="menu-category">
+                    <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200">
+                        {category === '1' && 'HotDogs/Corndogs'}
+                        {category === '2' && 'Chicken Tenders'}
+                        {category === '5' && 'Beverages'}
                     </div>
-                    <div className="menu_column">
-                        {splitIntoColumns(groupedMenuItems[category])[1].map(item => (
-                            <div key={item.id} className="menu_item">
-                                <div className="item_details">
-                                    <div className="item_name">{item.itemname}</div>
-                                    <div className="item-description">{item.description}</div>
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        {/* Using grid layout for menu items */}
+                        {groupedMenuItems[category].map(item => (
+                            <div key={item.id} className="bg-gray-800 p-1.5 rounded-lg shadow-md flex border border-gray">
+                                <Image
+                                    src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
+                                    alt={item.itemname}
+                                    className="object-cover rounded-lg"
+                                    width={85}
+                                    height={85}
+                                />
+                                <div className="ml-4">
+                                    <div className="text-lg font-bold">{item.itemname}</div>
+                                    <div className="text-sm">{item.description}</div>
+                                    <div className="text-lg font-bold mt-2">${item.price}</div>
                                 </div>
-                                <div className="item_price">${item.price}</div>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
-        ))}
-    </div>
+            ))}
+        </div>
     );
-    
 };
 
 
 const HomePage = () => {
     return (
-        <div>
-            <div className="menu-main-title">Rev&apos;s Menu</div>
+        <div className="min-h-screen max-h-screen overflow-hidden text-white">
+            <div className="bg-[#800000] text-white text-center text-3xl font-bold p-1">Rev&apos;s Menu</div>
             <MenuBoard />
         </div>
     );
