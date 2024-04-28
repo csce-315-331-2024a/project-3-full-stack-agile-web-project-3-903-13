@@ -1,5 +1,16 @@
 const db = require('../config/db')
 
+const getRoleByEmail = (req,res) => {
+	db.query(`SELECT role FROM employees WHERE email = '${req.body.email}'`, (err,results) => {
+		if (err) {
+			console.log(err)
+			res.status(500).send(`Could not get role of employee with email ${req.body.email}`)
+			return
+		}
+		res.status(200).json(results.rows)
+	})
+}
+
 const addEmployee = (req,res) => {
 	db.query(`INSERT INTO employees VALUES(default, '${req.body.name}', ${req.body.age}, '${req.body.phone}', ${req.body.hours}, 'f', 1111, '${req.body.role}')`, (err,results) => {
 		if (err) {
@@ -51,4 +62,5 @@ module.exports = {
 	retrieveEmployees,
 	deleteEmployee,
 	updateEmployee,
+	getRoleByEmail
 };
