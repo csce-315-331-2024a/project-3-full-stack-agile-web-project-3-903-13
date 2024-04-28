@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Function to safely format total sales as a fixed decimal string
 const formatTotalSales = (totalSales) => {
@@ -13,6 +13,14 @@ const formatTotalSales = (totalSales) => {
     return 'N/A'; // Return 'N/A' or some other placeholder if the value is not a number
 };
 
+const getMenuItems = async () => {
+    const items = await fetch("http://localhost:5000/api/menuitems");
+    const data = await items.json();
+
+    return data;
+};
+
+
 export default function SalesReportPage() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -21,6 +29,21 @@ export default function SalesReportPage() {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [hasFetched, setHasFetched] = useState(false);
+    const [choice, setChoice] = useState("")
+    const [menuItems, setMenuItems] = useState([])
+
+    const fetchMenuItems = async () => {
+      try {
+        const data = await getMenuItems();
+        setMenuItems(data);
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+      }
+    };
+
+    useEffect(() => {
+        fetchMenuItems()
+    }, [])
 
     const fetchSalesReport = async () => {
         setLoading(true);
@@ -55,6 +78,7 @@ export default function SalesReportPage() {
         setLoading(false);
     };
 
+
     const handleGenerateReport = (e) => {
         e.preventDefault();
         fetchSalesReport();
@@ -84,6 +108,15 @@ export default function SalesReportPage() {
                         {loading ? 'Loading...' : 'Generate Report'}
                     </button>
                 </form>
+                <div className='flex flex-row gap-5'>
+                <h1>Filter by item:</h1>
+                <select name='menuItems' id='menuItemsSelect' className='mb-2' onChange={(e) => setChoice(e.target.value)}>
+                <option>Select Menu Item</option>
+                {menuItems.map((item,index) => ( 
+                    <option key={item.menuid} value={item.itemname}>{item.itemname}</option> 
+                    ))}
+                </select>
+                </div>
                 <div className="text-center">
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                     {successMessage && <p className="text-green-500">{successMessage}</p>}
@@ -103,11 +136,15 @@ export default function SalesReportPage() {
                             </thead>
                             <tbody>
                                 {reportData.map((item, index) => (
-                                    <tr key={index}>
+                                    choice == "Select Menu Item" || item.m1name == choice 
+                                    ?
+                                        <tr key={index}>
                                         <td className="border border-gray-400 px-4 py-2">{item.m1name}</td>
                                         <td className="border border-gray-400 px-4 py-2">{item.m2name}</td>
                                         <td className="border border-gray-400 px-4 py-2">{(item.paircount)}</td>
                                     </tr>
+                                    : <h1></h1>
+                                    
                                 ))}
                             </tbody>
                         </table>
