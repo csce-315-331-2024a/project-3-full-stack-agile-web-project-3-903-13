@@ -5,7 +5,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { FaWindowClose, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { useRef, useState, useEffect } from "react";
-import GoogleTranslateWidget from "@/components/GoogleTranslate";
 import WeatherWidget from "@/components/WeatherAPI";
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import PaymentModal from "@/components/transactions/PaymentModal"
@@ -182,7 +181,6 @@ export default function CustomerNavbar({ links }) {
           enableCreditCardInput={true}
         />
       )}
-                  <GoogleTranslateWidget />
                   <ToastContainer limit ={1}/>
     </nav>
     </>
