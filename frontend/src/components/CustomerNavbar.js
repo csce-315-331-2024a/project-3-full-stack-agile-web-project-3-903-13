@@ -53,13 +53,8 @@ export default function CustomerNavbar({ links }) {
 
   
   const handleMenuBoardClick = () => {
-    window.open("/menu_board/Board_1/", "_blank", "noopener,noreferrer");
-    setTimeout(() => {
-      window.open("/menu_board/Board_2", "_blank", "noopener,noreferrer");
-    }, 100);
-    setTimeout(() => {
-      window.open("/menu_board/Board_3", "_blank", "noopener,noreferrer");
-    }, 200);
+    window.open("/menu_board", "_blank", "noopener,noreferrer");
+   
   };
 
   const handleOrderDisplayClick = () => {
