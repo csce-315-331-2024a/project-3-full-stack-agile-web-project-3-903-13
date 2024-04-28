@@ -67,7 +67,7 @@ const retrieveSeasonalInfo = (req,res) => {
 }
 
 const addMenuItem = (req, res) => {
-    const { itemName, price, category, ingredients, isSeasonal, expirationDate } = req.body;
+    const { itemName, price, category, ingredients, isSeasonal, expirationDate, description, Calories, specialdiet, allergy } = req.body;
     db.query(
         "SELECT * FROM menuitems WHERE itemName = $1", 
         [itemName],
@@ -81,8 +81,8 @@ const addMenuItem = (req, res) => {
                 return;
             } else {
                 db.query(
-					'INSERT INTO menuitems (itemName, price, category) VALUES ($1, $2, $3) RETURNING menuID',
-					[itemName, price, category],
+					'INSERT INTO menuitems (itemName, price, category, description, "Calories", specialdiet, allergy) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING menuID',
+					[itemName, price, category, description, Calories, specialdiet, allergy],
 					(err, result) => {
 						if (err) {
 							console.error("Error adding new menu item:", err);
@@ -242,6 +242,132 @@ const updateMenuItemIngred = (req, res) => {
     
 };
 
+const updateMenuItemDescription = (req, res) => {
+    const { itemName, newDes } = req.body;
+	db.query(
+		"Select * from menuitems where itemName = $1", [itemName],
+		(err, result) => {
+			if (err){
+				console.log(err);
+				res.status(500);
+				return;
+			} else if (!(result.rows.length)){
+				res.status(401).send("Item Doesn't exist");
+				return;
+			} else {
+				db.query(
+					"UPDATE menuitems SET description = $1 WHERE itemName = $2",
+					[newDes, itemName],
+					(err, result) => {
+						if (err) {
+							console.log(err);
+							res.status(500);
+							return;
+						}
+						res.status(202).send(`Description of ${itemName} updated successfully`);
+					}
+				);
+			}
+		}
+	);
+    
+};
+
+const updateMenuItemDiet = (req, res) => {
+    const { itemName, newDiet } = req.body;
+	db.query(
+		"Select * from menuitems where itemName = $1", [itemName],
+		(err, result) => {
+			if (err){
+				console.log(err);
+				res.status(500);
+				return;
+			} else if (!(result.rows.length)){
+				res.status(401).send("Item Doesn't exist");
+				return;
+			} else {
+				db.query(
+					"UPDATE menuitems SET specialdiet = $1 WHERE itemName = $2",
+					[newDiet, itemName],
+					(err, result) => {
+						if (err) {
+							console.log(err);
+							res.status(500);
+							return;
+						}
+						res.status(202).send(`Special Diet of ${itemName} updated successfully`);
+					}
+				);
+			}
+		}
+	);
+    
+};
+
+const updateMenuItemCalories = (req, res) => {
+    const { itemName, newCalories } = req.body;
+	db.query(
+		"Select * from menuitems where itemName = $1", [itemName],
+		(err, result) => {
+			if (err){
+				console.log(err);
+				res.status(500);
+				return;
+			} else if (!(result.rows.length)){
+				res.status(401).send("Item Doesn't exist");
+				return;
+			} else {
+				db.query(
+					'UPDATE menuitems SET "Calories" = $1 WHERE itemName = $2',
+					[newCalories, itemName],
+					(err, result) => {
+						if (err) {
+							console.log(err);
+							res.status(500);
+							return;
+						}
+						res.status(202).send(`Calories of ${itemName} updated successfully`);
+					}
+				);
+			}
+		}
+	);
+    
+};
+
+const updateMenuItemAllergy = (req, res) => {
+    const { itemName, newAllergy } = req.body;
+	db.query(
+		"Select * from menuitems where itemName = $1", [itemName],
+		(err, result) => {
+			if (err){
+				console.log(err);
+				res.status(500);
+				return;
+			} else if (!(result.rows.length)){
+				res.status(401).send("Item Doesn't exist");
+				return;
+			} else {
+				db.query(
+					"UPDATE menuitems SET allergy = $1 WHERE itemName = $2",
+					[newAllergy, itemName],
+					(err, result) => {
+						if (err) {
+							console.log(err);
+							res.status(500);
+							return;
+						}
+						res.status(202).send(`Allergy of ${itemName} updated successfully`);
+					}
+				);
+			}
+		}
+	);
+    
+};
+
+
+
 const removeMenuItem = (req, res) => {
     const { itemName } = req.body; 
     
@@ -310,6 +436,10 @@ module.exports = {
 	removeMenuItem,
 	updateMenuItemIngred,
 	retrieveSeasonalInfo,
+	updateMenuItemDescription,
+	updateMenuItemDiet,
+	updateMenuItemAllergy,
+	updateMenuItemCalories,
 	
 }
 // vim: tabstop=3
