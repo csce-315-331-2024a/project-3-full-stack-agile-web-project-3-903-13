@@ -11,17 +11,17 @@ export default function LeftSidebar({ links }) {
       <Link href="/">
         <Image alt = "rev logo" src={"/revs.png"} width={60} height={60}></Image>
       </Link>
-      <Link href="/employee/burgers">
+      <Link title="Place an Order" href="/employee/burgers">
         <Image alt = "employee pos view" src={"/home.svg"} width={24} height={24}></Image>
       </Link>
-      <Link href="/employee/manager/inventory">
+      <Link title="Manager Features" href="/employee/manager/inventory">
         <Image alt = "manager home" src={"/user.svg"} width={24} height={24}></Image>
       </Link>
-      <Link href="/employee/manager/users">
-        Users
+      <Link title="User Management" href="/employee/manager/users">
+        <Image alt = "users" src={"/users.svg"} width={24} height={24}></Image>
       </Link>
-      <Link href="/user">
-        Sign Out
+      <Link title="Sign Out" href="/user">
+        <Image alt = "sign out" src={"/signout.svg"} width={24} height={24}></Image>
       </Link>
     </nav>
   );
