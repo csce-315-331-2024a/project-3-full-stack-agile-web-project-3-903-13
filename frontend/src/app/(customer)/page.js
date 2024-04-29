@@ -245,7 +245,6 @@ const Home = () => {
           customTransition="all .5s ease-in-out"
           transitionDuration={500}
           containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
           itemClass="carousel-item-padding-40-px w-full"
           customLeftArrow={<ArrowLeft />}
           customRightArrow={<ArrowRight />}
