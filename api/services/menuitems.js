@@ -448,14 +448,11 @@ module.exports = {
 	removeMenuItem,
 	updateMenuItemIngred,
 	retrieveSeasonalInfo,
-<<<<<<< HEAD
-	getDetails
-=======
+	getDetails,
 	updateMenuItemDescription,
 	updateMenuItemDiet,
 	updateMenuItemAllergy,
 	updateMenuItemCalories,
->>>>>>> fd71c0eb239e08614f767c21f010c3774a3341cc
 	
 }
 // vim: tabstop=3
