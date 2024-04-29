@@ -5,9 +5,60 @@ import { useTransaction } from "@/components/transactions/TransactionContext";
 import { toast } from 'react-toastify';
 
 
-export default function UpdateModal({ isCustomizable, isOpen, onClose, item }) {
-    const [deleteMessage, setDeleteMessage] = useState("");
-    const [updateMessage, setUpdateMessage] = useState("");
+
+
+const Message = ({ closeToast, toastProps, name, displayText, recList}) => {
+    const { updateTransaction, transactions } = useTransaction();
+
+    const sendToTransaction = (dish, inventToRemove) => {
+        var quantity = 0;
+        if (transactions) {
+            transactions.forEach(item => {
+                if (dish.menuid === item.id && dish.modif === item.modif) {
+                    quantity = item.quantity + 1;
+                }
+            });
+        }
+        if (quantity === 0) {
+            quantity = 1;
+        }
+        updateTransaction({
+            "id": dish.menuid, "itemname": dish.itemname, "price": dish.price,
+            "quantity": quantity, "modif": "", "inventToRemove": inventToRemove
+        });
+    };
+
+    
+    
+    const handleAddCartClick = () => {
+
+        for (let i = 0; i < recList.length; i++){
+            const el = recList[i]
+            // console.log(el)
+            // console.log(el.dish[0])
+            // console.log(el.inventToRemove)
+            // console.log("BLAH")
+            sendToTransaction(el.dish[0], el.inventToRemove)
+        }
+    }
+
+    const stuff = displayText.split("@");
+
+    return (
+        <div className="flex flex-col">
+            <div className="m-4">{name} added to cart!</div>
+            <div className="m-4">{stuff[0]}</div>
+            <div> </div>
+
+            <button 
+                onClick={() => {handleAddCartClick()}}
+                className="bg-red-800 font-semibold text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 hover:text-black 
+                transition duration-200 ease-in-out"> {stuff[1]} </button> 
+        </div>
+    );
+};
+
+export default function UpdateModal({ isCustomizable, isOpen, onClose, item, categoryIndex}) {
 
     // Other ingredients contains non-removable ingredients like bags, utensils, etc.
     // removable ingredients contains those that CAN be removed
@@ -15,6 +66,11 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item }) {
     const [otherIngredients, setOtherIngredients] = useState()
     const [removableIngredients, setRemovableIngredients] = useState()
     const [ingredientsRemoved, setIngredientsRemoved] = useState([]);
+
+    const [itemNamesRec, setItemNamesRec] = useState([])
+    const [recString, setRecString] = useState("")
+    const [recAdd, setRecAdd] = useState([]);
+
 
     const { updateTransaction, transactions } = useTransaction();
 
@@ -34,15 +90,8 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item }) {
             "id": dish.menuid, "itemname": dish.itemname, "price": dish.price,
             "quantity": quantity, "modif": modificationString, "inventToRemove": inventToRemove
         });
-        toast.success(`${dish.itemname} added to cart!`, {
-            position: "bottom-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-        });
+
+        toast(<Message name={dish.itemname} displayText={recString} recList = {recAdd} />)
     };
 
     useEffect(() => {
@@ -85,8 +134,6 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item }) {
     }, [item]);
 
 
-
-
     const handleIngredientClick = (index) => {
         setIngredientsRemoved(prevState => {
             const newState = [...prevState];
@@ -120,9 +167,89 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item }) {
     }
 
 
+    const determineRecStuff = async(category) => {
+        let string = "";
+        let itemsToRecommend = [];
+        switch (category) {
+            case 0:
+            case 1: 
+            case 2:
+                itemsToRecommend.push("20 oz fountain drink", "French Fries") 
+                string = "Why not make your meal a combo today by adding a drink and fries? @ Make a combo ";
+                break;
+            case 3: 
+            case 4: 
+            case 5: 
+                const burgers = ["Spicy Chicken Sandwich", "Double Stack Burger", "Black bean Burger", "Bacon Cheeseburger"]
+                const randomIndex = Math.floor(Math.random() * burgers.length);
+                const randomBurger = burgers[randomIndex];
+
+                itemsToRecommend.push(randomBurger)
+                string = `Would you care for one of our hand crafted sizzling burgers today good ol' customer? @ Add a ${randomBurger}`;
+                break;
+            case 6: 
+                const desert = ["Aggie Shakes", "Cookie ice cream sundae", "Double Scoop ice cream", "Root beer float"]
+                const rI = Math.floor(Math.random() * desert.length);
+                const randomDesert = desert[rI];
+
+                itemsToRecommend.push(randomDesert)
+                string = `How about a cool desert today to accompy the item? @ Add ${randomDesert}`;
+                break;   
+        }
+        
+        // console.log(string)
+        // console.log(itemsToRecommend)
+
+        setItemNamesRec(itemsToRecommend)
+        setRecString(string)
+
+        const tempRecAdd = await fetchDetailsForRecommendations(itemsToRecommend)
+        // console.log(tempRecAdd)
+
+        setRecAdd(tempRecAdd)
+    }
+
+    const fetchItemDetails = async (itemName) => {
+        const params = itemName.split(' ').join("+");
+        
+        const ingreds = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+        if (!ingreds.ok) {
+            const errorMessage = await ingreds.text();
+            throw new Error(errorMessage);
+        }
+        const ingredients = await ingreds.json();
+        const neededDetails = ingredients.map(item => ({"inventid": item.inventid, "ingredientname": item.ingredientname, "quantity": item.quantity}))
+    
+        const response = await fetch(`http://localhost:5000/api/menuitems/specific?name=${params}`);
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+        const details = await response.json();
+    
+        return { dish: details, inventToRemove: neededDetails };
+    };
+
+    const fetchDetailsForRecommendations = async (itemstoRecommend) => {
+        const detailsPromises = await itemstoRecommend.map(itemName => fetchItemDetails(itemName));
+        const itemDetails = await Promise.all(detailsPromises);
+        return itemDetails;
+    };
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await determineRecStuff(categoryIndex);
+        };
+        if (isOpen){
+            fetchData()
+        }
+    
+    }, [item, isOpen]); 
+
+
+
     if (!isOpen) return null;
-
-
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

@@ -17,25 +17,30 @@ export const TransactionProvider = ({ children }) => {
   });
 
   const updateTransaction = (item) => {
-    if (transactions == null) {
-      setTransaction([item])
-    } else {
-      var itemFound = false
-      transactions.forEach((menuItem,index,transactions) => {
-        if (item.id == menuItem.id && item.modif == menuItem.modif) {
-          transactions[index].quantity = menuItem.quantity + 1
-          itemFound = true 
-        }
-      });
-      if (!itemFound) {
-        setTransaction([...transactions, item]);
+    setTransaction(prevTransactions => {
+      if (!prevTransactions || prevTransactions.length === 0) {
+        return [item];
       } else {
-        localStorage.setItem("currentTransaction", JSON.stringify(transactions))
-        setTransaction([...transactions])
+        let itemFound = false;
+        const updatedTransactions = prevTransactions.map(transaction => {
+          if (transaction.id === item.id && transaction.modif === item.modif) {
+            itemFound = true;
+            return { ...transaction, quantity: transaction.quantity + 1 };
+          }
+          return transaction;
+        });
+  
+        if (!itemFound) {
+          updatedTransactions.push(item);
+        }
+  
+        localStorage.setItem("currentTransaction", JSON.stringify(updatedTransactions));
+        return updatedTransactions;
       }
-    }
+    });
   };
 
+  
   const clearTransaction = () => {
     setTransaction(null)
     if (typeof window !== 'undefined'){

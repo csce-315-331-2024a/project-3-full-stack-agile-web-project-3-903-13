@@ -9,6 +9,7 @@ router.post("/", menuItemsController.addMenuItem);
 router.get("/", menuItemsController.retrieveMenuItems);
 router.get("/getIngreds", menuItemsController.retrieveMenuItemIngredients);
 router.get("/seasonal", menuItemsController.retrieveSeasonalInfo);
+router.get("/specific", menuItemsController.getDetails)
 
 // UPDATE various attributes
 router.patch("/updatePrice", menuItemsController.updateMenuItemPrice);

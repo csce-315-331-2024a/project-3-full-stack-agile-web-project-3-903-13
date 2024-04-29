@@ -99,7 +99,6 @@ export default function Page({ params }) {
 
 
 
-
     const getItemScale = (menuId) => {
         return scaleStates[menuId] === 'clicked' ? 'pulse' : 'hover-effect';
     };
@@ -164,6 +163,7 @@ export default function Page({ params }) {
                     isOpen={isModalOpen}
                     onClose={closeUpdateModal}
                     item={selectedItem}
+                    categoryIndex={categories.indexOf(params.category)}
                 />
 
             </div>
