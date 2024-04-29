@@ -31,8 +31,8 @@ export default function ExcessReportPage() {
         setReportData([]);
 
         try {
-            const responseState = await fetch(`http://localhost:5000/api/inventory/state?startDate=${startDate}`);
-            const responseUsage = await fetch(`http://localhost:5000/api/inventory/usage?startDate=${startDate}&endDate=${endDate}`)
+            const responseState = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/state?startDate=${startDate}`);
+            const responseUsage = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/usage?startDate=${startDate}&endDate=${endDate}`)
 
             if (!responseState.ok || !responseUsage.ok) {
                 throw new Error('Network response was not ok');

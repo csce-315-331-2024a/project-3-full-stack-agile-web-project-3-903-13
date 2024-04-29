@@ -28,7 +28,7 @@ export default function EmployeeModal({isOpen, onClose, employee, isUpdateDelete
   }
 
   const deleteUser = async () => {
-    let deleteResult = await fetch(`http://localhost:5000/api/employees/${employee.employeeid}`, {
+    let deleteResult = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees/${employee.employeeid}`, {
       method: 'DELETE',
     })
     if (deleteResult.status == 200) {

@@ -73,7 +73,7 @@ export default function ItemPopularityPage() {
         setHasData(true);
         try {
             const response = await fetch(
-                `http://localhost:5000/api/reports/salesreport?startDate=${startDate}&endDate=${endDate}`
+                `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/reports/salesreport?startDate=${startDate}&endDate=${endDate}`
             );
             if (!response.ok) {
                 throw new Error("Network response was not ok");

@@ -155,7 +155,7 @@ function MenuItem(props) {
     const getMenuItemSeasonal = async (menuItem) => {
         try {
             const queryString = new URLSearchParams(menuItem).toString();
-            const url = `http://localhost:5000/api/menuitems/seasonal?${queryString}`;
+            const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/seasonal?${queryString}`;
             const response = await fetch(url);
 
             if (!response.ok) {
@@ -196,7 +196,7 @@ function MenuItem(props) {
             const name = props.item.itemname
             const params = name.split(' ').join("+")
 
-            const response = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+            const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
 
             if (!response.ok) {
                 const errorMessage = await response.text();
@@ -306,7 +306,7 @@ export function MenuItemList({ categoryNum, categoryName }) {
 
     useEffect(() => {
         const fetchMenuItems = async () => {
-            const response = await fetch('http://localhost:5000/api/menuitems');
+            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
             const data = await response.json();
             const items = data.filter(item => item.category === parseInt(categoryNum))
             setItemType(items);

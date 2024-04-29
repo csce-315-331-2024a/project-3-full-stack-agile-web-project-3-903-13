@@ -16,7 +16,6 @@ export default function ManagerLayout({ children }) {
           { name: "What Sells Duo", route: "/employee/manager/what-sells-together" },
           { name: "Order Management", route: "/employee/manager/order-management" },
           { name: "Kitchen", route: "/employee/manager/kitchen" }
-
         ]}
     
       ></EmployeeNavbar>

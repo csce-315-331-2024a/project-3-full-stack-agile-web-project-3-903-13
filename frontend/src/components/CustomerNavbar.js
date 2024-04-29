@@ -10,6 +10,8 @@ import PaymentModal from "@/components/transactions/PaymentModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
 
 export default function CustomerNavbar({ links }) {
@@ -151,7 +153,7 @@ export default function CustomerNavbar({ links }) {
         <ul
         className={`${
           isOpen ? "block bg-white border shadow mr-1" : "hidden"
-        } ml-[calc(110px+2rem)] absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 text-sm md:text-base`}
+        } ml-[calc(110px+2rem)] absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 z-[9999] text-sm md:text-base`}
         style={{ marginTop: isOpen ? `${links.length * 3 + 1}rem` : "0rem" }}
         >
           {links.map((link, index) => (
@@ -181,14 +183,14 @@ export default function CustomerNavbar({ links }) {
 								<Image alt="employee log in" className="nav-image" src={"./user.svg"} width={30} height={30}></Image>
 							</Link>
 						</li>
-						<div onClick={toggleCart} className="cursor-pointer cart relative">
+						<li onClick={toggleCart} className="cursor-pointer cart relative">
 							<Image alt="cart" className="nav-image" src={"./cart.svg"} width={30} height={30}></Image>
 							{cartCount > 0 && (
 								<span className="absolute top-[-15px] right-[-15px] inline-block px-1 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
 									{cartCount}
 								</span>
 							)}
-						</div>
+						</li>
 					</ul>
 
 					<div onClick={toggleCart} className={`fixed z-[40] left-0 top-0 bottom-0 right-0 w-screen h-screen bg-black/40 backdrop-blur-sm ${isCartOpen ? "" : "hidden"}`}></div>
@@ -196,7 +198,7 @@ export default function CustomerNavbar({ links }) {
 					<div ref={ref} className="min-w-[50%] md:min-w-[25%] h-full fixed top-0 right-0 bg-white transform transition-transform translate-x-full z-50 shadow-2xl">
 						<div className="flex flex-col h-full">
 							<div className="flex justify-end p-2">
-								<button onClick={toggleCart} className="text-gray-500 hover:text-gray-700">
+								<button aria-label="Cart" onClick={toggleCart} className="text-gray-500 hover:text-gray-700">
 									<svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
 									</svg>
@@ -261,14 +263,14 @@ export default function CustomerNavbar({ links }) {
 							</div>
 							<div className="flex mt-auto">
 								<button
-									className="text-white w-1/2 bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
+									className="text-white w-1/2 bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50 shadow-sm px-4 py-4"
 									onClick={clearTransaction}
 									aria-label ="Clear Cart"
 								>
 									Clear
 								</button>
 								<button
-									className="text-white w-1/2 bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
+									className="text-white w-1/2 bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 shadow-sm px-4 py-4"
 									onClick={() => {
 										if (cartCount > 0) {
 											setShowPaymentOptions(true);
@@ -304,7 +306,17 @@ export default function CustomerNavbar({ links }) {
 					/>
 				)}
 
-				<ToastContainer limit={1} />
+				<ToastContainer className={inter.className}
+					// autoClose = {false}
+					bodyClassName={() => "text-md text-black font-semibold"}
+					progressClassName="bg-black text-black"
+					position="bottom-right"
+					// theme="dark"
+					limit={1} 
+					closeOnClick
+					autoClose={5000}
+
+				/>
 			</nav>
 		</>
 	);

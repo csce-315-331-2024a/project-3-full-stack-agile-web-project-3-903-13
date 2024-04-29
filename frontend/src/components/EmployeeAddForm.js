@@ -12,7 +12,7 @@ export default function EmployeeAddForm() {
 
   const addUser = async (event) => {
     event.preventDefault()
-    const result = await fetch("http://localhost:5000/api/employees", {
+    const result = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -6,7 +6,7 @@ const NutritionPage = () => {
     const [menuItems, setMenuItems] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/menuitems')
+        fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems')
             .then(response => response.json())
             .then(data => {
                 setMenuItems(data);

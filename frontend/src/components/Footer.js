@@ -10,7 +10,7 @@ const CustomerFooter = () => {
           <div className="flex flex-col p-2 min-w-[150px]"aria-hidden="true">
           </div>
           <div className="flex flex-col p-2 min-w-[150px] items-center text-lg">
-            <h3 className="mb-4 font-bold">Located in: Memorial Student Center (MSC)</h3>
+            <h1 className="mb-4 font-bold">Located in: Memorial Student Center (MSC)</h1>
             <p>275 Joe Routt Blvd, College Station, TX 77840</p>
           </div>
           <GoogleTranslateWidget />

@@ -13,7 +13,7 @@ export const getMenuItemSeasonal = async (menuItem) => {
         // Construct the query string from the menuItem object
         const queryString = new URLSearchParams(menuItem).toString();
         // Append the query string to the URL
-        const url = `http://localhost:5000/api/menuitems/seasonal?${queryString}`;
+        const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/seasonal?${queryString}`;
         // Make the GET request
         const response = await fetch(url);
 
@@ -53,7 +53,7 @@ export default function Page({ params }) {
 
     useEffect(() => {
         const fetchMenuItems = async () => {
-            const response = await fetch('http://localhost:5000/api/menuitems');
+            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
             const data = await response.json();
             const items = data.filter(item => item.category === parseInt(categories.indexOf(params.category)));
             setItemType(items);
@@ -96,7 +96,6 @@ export default function Page({ params }) {
         }
         return true
     }
-
 
 
 
@@ -164,6 +163,7 @@ export default function Page({ params }) {
                     isCustomizable={isCustomizable(selectedItem)}
                     isOpen={isModalOpen}
                     onClose={closeUpdateModal}
+                    categoryIndex={categories.indexOf(params.category)}
                     item = {selectedItem}
                     ariaLabel="Update Item Modal"
                 />

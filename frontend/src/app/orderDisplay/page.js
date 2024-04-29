@@ -10,7 +10,7 @@ const OrderDisplayPage = () => {
     // Fetch in-progress orders from the backend
     const fetchInProgressOrders = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/transactions/inProgressOrders');
+            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/inProgressOrders');
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -23,7 +23,7 @@ const OrderDisplayPage = () => {
     
     const fetchRecentFulfilledOrders = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/transactions/recentFulfilledOrders');
+            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/recentFulfilledOrders');
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }

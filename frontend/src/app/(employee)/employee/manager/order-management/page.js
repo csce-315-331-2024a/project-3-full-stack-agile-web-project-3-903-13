@@ -42,7 +42,7 @@ export default function OrderManagementPage() {
             if (option === "transactionID") {
                 setStartDate("");
                 setEndDate("");
-                const response = await fetch("http://localhost:5000/api/transactions/getTransactionByID", {
+                const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/getTransactionByID", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export default function OrderManagementPage() {
                     throw new Error("Start date can not be after end date")
                 }
 
-                const response = await fetch("http://localhost:5000/api/transactions/getTransactionsByPeriod",{
+                const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/getTransactionsByPeriod",{
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

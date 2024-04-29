@@ -3,7 +3,7 @@ import Google from "next-auth/providers/google"
 
 export const getRole = async (email) => {
     const emailRequest = {"email": email}
-    const roleResponse = await fetch("http://localhost:5000/api/employees/role", {
+    const roleResponse = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees/role", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(emailRequest)
