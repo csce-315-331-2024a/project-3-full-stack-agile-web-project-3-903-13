@@ -213,6 +213,11 @@ const Home = () => {
     });
   };
 
+  const[currentSlide, setCurrentSlide] = useState(0);
+  const handleSlideChange = (newIndex) => {
+    setCurrentSlide(newIndex);
+  }
+
   if (temperature >= 70) {
       displayCategories = carouselColdCategories;
   } else {
@@ -246,6 +251,7 @@ const Home = () => {
           customRightArrow={<ArrowRight />}
           className="w-full relative"
           aria-label = "Featured Menu Items"
+          afterChange= {handleSlideChange}
         >
           {displayCategories.map((category, index) => (
             <div key={index} className="carousel-item px-4" style={customStyles.carouselBackground}>
