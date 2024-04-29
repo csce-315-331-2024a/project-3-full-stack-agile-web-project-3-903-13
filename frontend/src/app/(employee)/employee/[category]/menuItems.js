@@ -83,7 +83,7 @@ function TransactionPanel() {
                                     <span>Quantity: {item.quantity}</span>
                                 </button>
                                 <button onClick={() => removeItemCompletely(item.id, item.modif)} className="text-red-500 hover:text-red-700 text-xs md:text-sm">
-                                    <FaMinusCircle className="text-red-500 cursor-pointer w-6 h-6" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
+                                    <FaMinusCircle className="text-red-500 cursor-pointer w-6 h-6" onClick={() => removeItemCompletely(item.id, item.modif)} />
                                 </button>
                             </div>
                         </div>
