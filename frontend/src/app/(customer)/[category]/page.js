@@ -99,7 +99,6 @@ export default function Page({ params }) {
 
 
 
-
     const getItemScale = (menuId) => {
         return scaleStates[menuId] === 'clicked' ? 'pulse' : 'hover-effect';
     };
@@ -164,8 +163,13 @@ export default function Page({ params }) {
                     isCustomizable={isCustomizable(selectedItem)}
                     isOpen={isModalOpen}
                     onClose={closeUpdateModal}
+<<<<<<< HEAD
+                    item={selectedItem}
+                    categoryIndex={categories.indexOf(params.category)}
+=======
                     item = {selectedItem}
                     ariaLabel="Update Item Modal"
+>>>>>>> fd71c0eb239e08614f767c21f010c3774a3341cc
                 />
 
             </div>

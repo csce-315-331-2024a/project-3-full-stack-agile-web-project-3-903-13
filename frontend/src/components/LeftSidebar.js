@@ -22,6 +22,7 @@ export default function LeftSidebar({  }) {
 
   const links = [
     { href: "/employee/burgers", title: "Place an Order", imgSrc: "/shop.svg", imgAlt: "Point of Sale" },
+    { href: "/employee/manager/kitchen", title: "Kitchen", imgSrc: "/kitchen.svg", imgAlt: "Kitchen" },
     { href: "/employee/manager/inventory", title: "Manager Features", imgSrc: "/user.svg", imgAlt: "Manager" },
     { href: "/employee/manager/users", title: "User Management", imgSrc: "/users.svg", imgAlt: "Users" },
     { href: "/", title: "Return to Customer View", imgSrc: "/home.svg", imgAlt: "Home" },

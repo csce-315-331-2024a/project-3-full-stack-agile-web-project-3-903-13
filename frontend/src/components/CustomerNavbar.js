@@ -10,6 +10,8 @@ import PaymentModal from "@/components/transactions/PaymentModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
 
 export default function CustomerNavbar({ links }) {
@@ -151,7 +153,7 @@ export default function CustomerNavbar({ links }) {
         <ul
         className={`${
           isOpen ? "block bg-white border shadow mr-1" : "hidden"
-        } ml-[calc(110px+2rem)] absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 text-sm md:text-base`}
+        } ml-[calc(110px+2rem)] absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 z-[9999] text-sm md:text-base`}
         style={{ marginTop: isOpen ? `${links.length * 3 + 1}rem` : "0rem" }}
         >
           {links.map((link, index) => (
@@ -304,7 +306,17 @@ export default function CustomerNavbar({ links }) {
 					/>
 				)}
 
-				<ToastContainer limit={1} />
+				<ToastContainer className={inter.className}
+					// autoClose = {false}
+					bodyClassName={() => "text-md text-black font-semibold"}
+					progressClassName="bg-black text-black"
+					position="bottom-right"
+					// theme="dark"
+					limit={1} 
+					closeOnClick
+					autoClose={5000}
+
+				/>
 			</nav>
 		</>
 	);
