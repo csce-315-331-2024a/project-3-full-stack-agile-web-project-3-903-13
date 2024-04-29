@@ -114,7 +114,7 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 	};
 
 	return (
-		<div className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5">
+		<div className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5 "aria-label="Order details" >
 			<div className="px-6 py-4 border-b">
 				<div className="font-bold text-xl mb-2">Current Sale</div>
 			</div>
@@ -124,6 +124,7 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 						<div
 							key={index}
 							className="flex flex-col bg-white p-3 my-2 mx-4 rounded-lg shadow"
+							aria-label={`Item ${index + 1}: ${item.itemname}`}
 						>
 							<div className="flex justify-between items-center">
 								<span className="font-semibold truncate">{item.itemname}</span>
@@ -135,12 +136,14 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 								<button
 									onClick={() => openKeypad(item.id, item.quantity)}
 									className="py-2 text-blue-500 hover:text-blue-700"
+									aria-label={`Change quantity for ${item.itemname}`}
 								>
 									Quantity: {item.quantity}
 								</button>
 								<button
 									onClick={() => removeItemCompletely(item.id)}
 									className="text-red-500 hover:text-red-700"
+									aria-label={`Remove ${item.itemname} from order`}
 								>
 									Remove Item
 								</button>
@@ -289,6 +292,7 @@ function MenuItem(props) {
 			<div
 				className={`menu-item flex justify-center px-3 py-4 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
 				onClick={sendToTransaction}
+				aria-label={`Add ${props.item.itemname} to order`}
 			>
 				<div className="text-xl font-semibold text-gray-900 text-center">
 					{props.item.itemname}

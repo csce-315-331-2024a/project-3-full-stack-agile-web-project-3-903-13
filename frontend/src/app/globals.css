@@ -26,6 +26,10 @@
     .nav-image {
         @apply scale-100 transition duration-200 ease-in-out hover:scale-110;
     }
+
+    .no-scroll {
+        @apply h-full overflow-hidden;
+    }
 }
 
 body, html {
@@ -57,6 +61,8 @@ body, html {
     overflow: hidden;
 }
 
+/*
+
 .menu_item {
     flex: 1 1 50%;
     border: 2px solid black;
@@ -73,6 +79,7 @@ body, html {
     margin-top: 2px;
 
 }
+*/
 
 .item_name {
     font-weight: bold;

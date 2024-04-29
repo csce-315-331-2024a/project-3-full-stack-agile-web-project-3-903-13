@@ -4,7 +4,7 @@ const db = require('../config/db');
 	Retrieves all inventory items
 */
 const getInventoryItems = (req,res) => {
-	db.query("SELECT * FROM inventory", (err,results) => {
+	db.query("SELECT * FROM inventory ORDER BY ingredientname", (err,results) => {
 		if (err) {
 			res.status(400).send("Query Failed");
 			return;

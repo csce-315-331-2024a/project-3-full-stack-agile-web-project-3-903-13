@@ -1,4 +1,4 @@
-import { User, getServerSession } from 'next-auth'
+/*import { User, getServerSession } from 'next-auth'
 
 export const session = async ({ session, token }) => {
   session.user.id = token.id
@@ -13,4 +13,4 @@ export const getUserSession = async () => {
   })
   // if (!authUserSession) throw new Error('unauthorized')
   return authUserSession?.user
-}
+}*/

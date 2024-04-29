@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const TransactionContext = createContext();
 
@@ -21,7 +22,7 @@ export const TransactionProvider = ({ children }) => {
     } else {
       var itemFound = false
       transactions.forEach((menuItem,index,transactions) => {
-        if (item.id == menuItem.id) {
+        if (item.id == menuItem.id && item.modif == menuItem.modif) {
           transactions[index].quantity = menuItem.quantity + 1
           itemFound = true 
         }
@@ -43,27 +44,41 @@ export const TransactionProvider = ({ children }) => {
   }
 
   const submitTransaction = () => {
-    const price = transactions.reduce((total, currentItem) => {return total + currentItem.price * currentItem.quantity}, 0)
-    const taxAmount = price * 0.0825
+    const price = parseFloat(transactions.reduce((total, currentItem) => {return total + currentItem.price * currentItem.quantity}, 0).toFixed(2))
+    const taxAmount = parseFloat((price * 0.0825).toFixed(2))
+    const total = parseFloat((price + taxAmount).toFixed(2))
     const orderContents = transactions
     const requestData = {
-      "totalCost": price + taxAmount,
+      "totalCost": total,
       "taxAmount": taxAmount,
       "orderContents": orderContents
     }
-    fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/new", {
+    fetch("http://localhost:5000/api/transactions/new", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
       },
       body: JSON.stringify(requestData)
-    })
+    }).then(() => {
+      clearTransaction();
+      toast.success("The transaction was a success!", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }).catch(error => {
+      console.error('Error submitting transaction:', error);
+    });
     clearTransaction();
   }
 
-  const removeItemFromTransaction = (itemId) => {
+  const removeItemFromTransaction = (itemId, modifString) => {
     const updatedTransactions = transactions.reduce((acc, item) => {
-      if (item.id === itemId) {
+      if (item.id === itemId && item.modif == modifString) {
         if (item.quantity > 1) {
           acc.push({ ...item, quantity: item.quantity - 1 });
         }
@@ -76,8 +91,8 @@ export const TransactionProvider = ({ children }) => {
     setTransaction(updatedTransactions);
   };
 
-  const removeItemCompletely = (itemId) => {
-    const updatedTransactions = transactions.filter(item => item.id !== itemId);
+  const removeItemCompletely = (itemId, modifString) => {
+    const updatedTransactions = transactions.filter(item => item.id !== itemId || item.modif != modifString);
     setTransaction(updatedTransactions);
   }
 
@@ -90,7 +105,9 @@ export const TransactionProvider = ({ children }) => {
   }, [transactions])
 
   return (
-    <TransactionContext.Provider value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction, removeItemCompletely, setToNewOrder }}>
+    <TransactionContext.Provider 
+      value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction, 
+               removeItemCompletely, setToNewOrder}}>
       {children}
     </TransactionContext.Provider>
   );
