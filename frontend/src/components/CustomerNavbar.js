@@ -153,7 +153,7 @@ export default function CustomerNavbar({ links }) {
         <ul
         className={`${
           isOpen ? "block bg-white border shadow mr-1" : "hidden"
-        } ml-[calc(110px+2rem)] absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 text-sm md:text-base`}
+        } ml-[calc(110px+2rem)] absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 z-[9999] text-sm md:text-base`}
         style={{ marginTop: isOpen ? `${links.length * 3 + 1}rem` : "0rem" }}
         >
           {links.map((link, index) => (

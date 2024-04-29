@@ -256,7 +256,7 @@ export default function ManagerPage() {
               <p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Special Diet: {getDietCategoryLabel(item.specialdiet)}</p>
               <p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Gluten Free: {getAllergyLabel(item.allergy)}</p>
               <div className="p-2 pt-1 bg-gray-200 rounded-lg border border-gray-900">
-                <h6 className="mt-4 mb-2 text-lg font-semibold">Ingredients:</h6>
+                <h6 className=" mb-2 text-lg font-semibold">Ingredients:</h6>
                 <ul>
                   {item.ingredients.map((ingredient, index) => {
                     return (
