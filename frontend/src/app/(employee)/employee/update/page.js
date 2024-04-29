@@ -114,7 +114,7 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 	};
 
 	return (
-		<div className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5 "aria-label="Order details" >
+		<div className="flex flex-col grow border-2 border-gray-200 rounded-lg shadow-lg mr-5 " aria-label="Order details" >
 			<div className="px-6 py-4 border-b">
 				<div className="font-bold text-xl mb-2">Current Sale</div>
 			</div>

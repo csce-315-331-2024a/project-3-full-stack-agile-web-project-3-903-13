@@ -3,26 +3,60 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function LeftSidebar({ links }) {
+export default function LeftSidebar({  }) {
   const pathname = usePathname();
+  const isActive = (href) => {
+    if (href === "/employee/burgers") {
+      return pathname.startsWith("/employee/") && !pathname.startsWith("/employee/manager");
+    }
+    else if (href === "/employee/manager/users") {
+      return pathname === "/employee/manager/users";
+    }
+    else if (href === "/employee/manager/users") {
+      return pathname.startsWith("/employee/manager/users");
+    }
+    return pathname === href;
+  };
+
+  const links = [
+    { href: "/employee/burgers", title: "Place an Order", imgSrc: "/shop.svg", imgAlt: "Point of Sale" },
+    { href: "/employee/manager/inventory", title: "Manager Features", imgSrc: "/user.svg", imgAlt: "Manager" },
+    { href: "/employee/manager/users", title: "User Management", imgSrc: "/users.svg", imgAlt: "Users" },
+    { href: "/", title: "Return to Customer View", imgSrc: "/home.svg", imgAlt: "Home" },
+    { href: "/user", title: "Sign Out", imgSrc: "/signout.svg", imgAlt: "Sign Out" }
+  ];
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        setPageHeight(`${document.documentElement.scrollHeight}px`);
+      } else {
+        setPageHeight(`5rem`);
+      }
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); 
+
+  const [pageHeight, setPageHeight] = useState('100vh'); // Default height
+  useEffect(() => {
+    const height = `${document.documentElement.scrollHeight}px`;
+    setPageHeight(height);
+  }, []);
+
   return (
-    <nav className="w-[5rem] h-screen bg-white border-r-2 flex flex-col items-center gap-8 py-6">
-      <Link href="/" aria-label="Home">
-        <Image alt = "rev logo" src={"/revs.png"} width={60} height={60}></Image>
-      </Link>
-      <Link href="/employee/burgers" aria-label="Employee POS View">
-        <Image alt = "employee pos view" src={"/home.svg"} width={24} height={24}></Image>
-      </Link>
-      <Link href="/employee/manager/inventory" aria-label="Manager Home">
-        <Image alt = "manager home" src={"/user.svg"} width={24} height={24}></Image>
-      </Link>
-      <Link href="/employee/manager/users" aria-label="User Management">
-        Users
-      </Link>
-      <Link href="/user" aria-label="Sign Out">
-        Sign Out
-      </Link>
+    <nav className={`fixed md:relative left-[calc(20%/2)] md:left-0 bottom-2 md:bottom-0 z-[9999] md:z-auto w-4/5 md:w-[5rem] h-${pageHeight} flex flex-row md:flex-col items-center justify-center md:justify-normal bg-white border-2 md:border-y-0 md:border-l-0 md:border-r-2 border-gray-200 shadow-2xl md:shadow-none rounded-xl md:rounded-none px-2 md:px-0`}>
+      <Image src={"/revs.png"} alt="Rev's Grill Logo" width={0} height={0} sizes="100vw" className="hidden md:flex w-full"></Image>
+      <div className="flex flex-row md:flex-col items-center md:pt-5">
+      {links.map(link => (
+        <Link className={`${isActive(link.href) ? "left-sidebar-link-active" : "left-sidebar-link"}`} key={link.href} href={link.href} title={link.title}>
+            <Image src={link.imgSrc} alt={link.imgAlt} width={24} height={24} />
+        </Link>
+      ))}
+      </div>
     </nav>
   );
 }

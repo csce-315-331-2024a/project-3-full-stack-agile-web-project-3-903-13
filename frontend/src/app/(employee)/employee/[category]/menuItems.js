@@ -4,6 +4,7 @@ import { TransactionContext, TransactionProvider, useTransaction } from "@/compo
 import NumericKeypad from "@/components/transactions/NumericKeypad"
 import PaymentModal from "@/components/transactions/PaymentModal"
 import UpdateModal from "@/components/updateItems/employeeView";
+import { FaMinusCircle } from "react-icons/fa";
 
 
 
@@ -60,67 +61,63 @@ function TransactionPanel() {
     };
 
     return (
-        <div role = "region" aria-label = "Current Sale Transaction Panel" className="flex flex-col grow border-2 border-gray-400 rounded-lg shadow-lg mr-5">
-            <div className="px-6 py-4 border-b">
-                <div className="font-bold text-xl">Current Sale</div>
+        <div role="region" aria-label="Current Sale Transaction Panel" className="flex flex-col grow border-2 border-gray-200 rounded-lg shadow-lg mx-2 md:mx-5">
+            <div className="px-3 md:px-6 py-2 md:py-4 border-b">
+                <div className="font-bold text-lg md:text-xl">Current Sale</div>
             </div>
-            <div className="flex-1 overflow-auto">
+            <div className="flex-grow overflow-y-auto">
                 {transactionsList && transactionsList.length > 0 ? (
                     transactionsList.map((item, index) => (
-                        <div key={index} className="flex flex-col bg-white p-3 my-2 mx-4 rounded-lg shadow">
-                            <div className="flex justify-between items-center">
+                        <div key={index} className="flex flex-col min-w-16 max-w-[30vw] md:min-w-0 md:max-w-full bg-white p-2 md:p-3 my-1 md:my-2 mx-2 md:mx-4 rounded-lg shadow">
+                            <div className="flex flex-col md:flex-row md:justify-between md:items-center">
                                 <span className="font-semibold truncate">{item.itemname}</span>
                                 <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
                             </div>
-                            <div className="max-w-64 text-[13px]"> {item.modif && item.modif.slice(0, item.modif.length - 1)} </div>
+                            <div className="text-sm md:text-[13px]">{item.modif && item.modif.slice(0, item.modif.length - 1)}</div>
 
-                            <div className="flex items-center justify-between mt-4">
+                            <div className="flex items-center justify-between mt-2 md:mt-4">
                                 <button
                                     onClick={() => { openKeypad(item, item.quantity) }}
-                                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded inline-flex items-center"
+                                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-1 md:py-2 px-2 md:px-4 rounded inline-flex items-center text-sm md:text-base"
                                 >
                                     <span>Quantity: {item.quantity}</span>
                                 </button>
-                                <button onClick={() => removeItemCompletely(item.id, item.modif)} className="text-red-500 hover:text-red-700">
-                                    Remove Item
+                                <button onClick={() => removeItemCompletely(item.id, item.modif)} className="text-red-500 hover:text-red-700 text-xs md:text-sm">
+                                    <FaMinusCircle className="text-red-500 cursor-pointer w-6 h-6" onClick={() => removeItemFromTransaction(item.id, item.modif)} />
                                 </button>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div className="px-6 py-4 text-center">No items in current transaction!</div>
+                    <div className="px-3 md:px-6 py-2 md:py-4 text-center">No items in current transaction!</div>
                 )}
             </div>
-
-
-            {transactionsList && transactionsList.length > 0 && (
-                <div className="px-6 py-2 font-semibold text-lg">
-                    <div className="flex justify-between">
-                        <p>Subtotal</p>
-                        <p>{transactionsList ? "$" + getSubtotal() : "$0.00"}</p>
-                    </div>
-
-                    <div className="flex justify-between">
-                        <p>Tax</p>
-                        <p>{transactionsList ? "$" + getTax() : "$0.00"}</p>
-                    </div>
-
-                    <div className="flex justify-between">
-                        <p>Total</p>
-                        <p>
-                            {transactionsList
-                                ? "$" + (parseFloat(getSubtotal()) + parseFloat(getTax())).toFixed(2)
-                                : "$0.00"}
-                        </p>
-                    </div>
+            <div className="px-3 md:px-6 py-2 md:py-2 font-semibold text-md md:text-lg border-t">
+                <div className="flex justify-between">
+                    <p>Subtotal</p>
+                    <p>{transactionsList ? "$" + getSubtotal() : "$0.00"}</p>
                 </div>
-            )}
-            <div className="px-6 py-4 flex flex-col space-y-2">
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" onClick={clearTransaction}>
+
+                <div className="flex justify-between">
+                    <p>Tax</p>
+                    <p>{transactionsList ? "$" + getTax() : "$0.00"}</p>
+                </div>
+
+                <div className="flex justify-between">
+                    <p>Total</p>
+                    <p>
+                        {transactionsList
+                            ? "$" + (parseFloat(getSubtotal()) + parseFloat(getTax())).toFixed(2)
+                            : "$0.00"}
+                    </p>
+                </div>
+            </div>
+            <div className="px-3 md:px-6 py-2 md:py-4 flex flex-col space-y-1 md:space-y-2 border-t">
+                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 md:py-2 px-2 md:px-4 rounded shadow" onClick={clearTransaction}>
                     Clear Transaction
                 </button>
                 <button
-                    className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow ${!transactionsList || transactionsList.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`bg-green-500 hover:bg-green-600 text-white font-bold py-1 md:py-2 px-2 md:px-4 rounded shadow ${!transactionsList || transactionsList.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={() => setShowPaymentOptions(true)}
                     disabled={!transactionsList || transactionsList.length === 0}
                 >
@@ -128,7 +125,6 @@ function TransactionPanel() {
                 </button>
             </div>
 
-            {/* Payment options modal */}
             {showPaymentOptions && (
                 <PaymentModal
                     showPaymentOptions={showPaymentOptions}
@@ -148,6 +144,7 @@ function TransactionPanel() {
         </div>
     );
 }
+
 
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
@@ -320,8 +317,8 @@ export function MenuItemList({ categoryNum, categoryName }) {
 
     return (
 
-        <div role="region" aria-label={`${categoryName} Menu`} className="flex flex-row h-[90vh]">
-            <div className="container max-w-[66%] p-5">
+        <div role="region" aria-label={`${categoryName} Menu`} className="flex flex-row h-[75vh] md:h-[85vh]">
+            <div className="container max-w-[66%] p-2 md:p-5">
                 <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {itemType.map((item, index) => (
