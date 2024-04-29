@@ -5,8 +5,12 @@ import CustomerFooter from "@/components/Footer";
 import { TransactionProvider } from "@/components/transactions/TransactionContext";
 import { CartProvider } from '@/components/CartContext';
 
-
 const inter = Inter({ subsets: ["latin"] });
+ 
+export const metadata = {
+  title: 'Rev\'s Grill',
+  description: 'Burgers, fries, shakes and more!',
+};
 
 export default function RootLayout({ children }) {
   return (
