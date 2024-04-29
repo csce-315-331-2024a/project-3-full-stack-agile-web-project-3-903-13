@@ -20,6 +20,7 @@
 - [Sprint 3 Planning Meeting Minutes](#sprint-3-planning-meeting-minutes)
 - [Sprint 3 Plan](#sprint-3-plan)
 - [Sprint 3 Daily Meetings](#sprint-3-daily-meetings)
+- [Sprint 3 Retrospective Meeting Agenda](#sprint-3-retrospective-meeting-agenda)
 
 # Total Project Burndown Chart
 ![Chart](https://docs.google.com/spreadsheets/d/e/2PACX-1vTqHJm04YVKPgJocBCdEf-0g0QN6lkLjGagwsOiOg3T6D_tUCZwGo8W9NUZyCe2T2tntz9S-TdvXkmr/pubchart?oid=173891397&format=image)
@@ -1547,3 +1548,67 @@ Location: Discord
 - Team to continue working on assigned tasks from the Sprint Backlog. 
 - Tasks to Add: Order status page.
 - Blockers: No blockers raised during the discussion.
+
+## Meeting Summary - Sprint 3 Daily Scrum Meeting #3
+Date: 4/27/2024
+Time: 4:30 PM
+Location: Discord
+
+**Attendance:**
+- Kunal
+- Wyatt
+- Kelvin
+- Karan
+- Aditya
+- Isaac
+
+**Fist of Five Results:**
+- Average Result: 4.1
+
+**Discussion Points:**
+- Sprint Backlog:
+  - User Management,Text to speech, Menu Item Customization are done
+- Team to continue working on assigned tasks from the Sprint Backlog. 
+- Tasks to Add: None
+- Blockers: No blockers raised during the discussion.
+
+# Sprint 3 Retrospective Meeting Agenda
+
+**Objective:**  
+The objective of this meeting is to reflect on our Sprint 3 and decide on what else we need to do.
+
+## Meeting Details
+- **Date:** 4/29/2024
+- **Time:** 6:00 PM
+- **Location:** Discord
+
+## Agenda Items
+
+1. **Opening and Welcome** 
+   - Welcome all team members to the sprint retrospective meeting
+   - Briefly outline the purpose of the meeting
+
+2. **Review of Previous Sprint** 
+   - Discuss the goals set for the previous sprint
+   - Review what went right during the sprint
+   - Discuss what went wrong or could have been improved
+
+3. **Procedure Evaluation**
+   - Evaluate the procedures and methodologies used during the sprint
+   - Discuss any inefficientcies or challenges encountered
+   - Brainstorm potential changes or improvements to the process
+
+4. **Product Backlog Adjustments** 
+   - Review the current state of the product backlog
+   - Identify items that were completed, postponed, or encountered issues
+   - Discuss any new items that need to be added or prioritized based on the sprint outcome
+
+5. **Action Planning** 
+   - Collaboratively identify action items to address the issues and captialize on uscess identified during the retrospective
+
+6. **Meeting Planing** 
+   - Discuss meeting times going forward
+
+7. **Closing** 
+   - Summarize key points discussed during the meeting
+   - Express gratitude to the team for their particiaption and contributions
