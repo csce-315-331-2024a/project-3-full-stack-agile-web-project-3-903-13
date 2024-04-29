@@ -261,6 +261,7 @@ const Home = () => {
                     onClick={() => handleOrder(category)}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
+                    tabIndex={index === currentSlide ? "0" : "-1"}
                     aria-label={'Order ${category.name}'}
                   >
                     Order Now
