@@ -254,7 +254,9 @@ const Home = () => {
           afterChange= {handleSlideChange}
         >
           {displayCategories.map((category, index) => (
-            <div key={index} className="carousel-item px-4" style={customStyles.carouselBackground}>
+            <div key={index} className="carousel-item px-4" style={customStyles.carouselBackground}
+            aria-hidden={index !== currentSlide ? "true" : "false"}
+            >
               <div className="container flex flex-wrap justify-center items-center">
                 <div className="w-full sm:w-1/2 p-4">
                   <img src={category.image} alt={category.phrase} className="carousel-image max-h-64 w-auto mx-auto" />
