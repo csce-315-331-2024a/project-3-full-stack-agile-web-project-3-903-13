@@ -10,20 +10,6 @@ import { useRouter } from 'next/navigation';
 import WeatherWidget from "@/components/WeatherAPI";
 
 const customStyles = {
-  orderButton: {
-    backgroundColor: 'transparent',
-    border: '2px solid #ffffff',
-    padding: '10px 20px',
-    borderRadius: '20px', 
-    fontWeight: 'bold',
-    color: '#ffffff',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  },
-  orderButtonHover: {
-    backgroundColor: '#ffffff',
-    color: 'maroon', 
-  },
   carouselContent: {
     textAlign: 'left', 
     color: '#ffffff',
@@ -271,10 +257,8 @@ const Home = () => {
                   <h3 style={customStyles.heading}>{category.name}</h3>
                   <p style={customStyles.description}>{category.description}</p>
                   <button
-                    style={isHovered ? { ...customStyles.orderButton, ...customStyles.orderButtonHover } : customStyles.orderButton}
                     onClick={() => handleOrder(category)}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
+                    className='bg-transparent hover:bg-white border-2 border-white px-[10px] py-5 font-bold cursor-pointer transition-colors duration-300 ease rounded-2xl hover:text-red-800'
                     tabIndex={updateTabIndex(index === currentSlide)}
                     aria-label={'Order ${category.name}'}
                   >
