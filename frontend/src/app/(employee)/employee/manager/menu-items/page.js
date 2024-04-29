@@ -225,22 +225,22 @@ export default function ManagerPage() {
 
   return (
     <main className="min-h-screen flex flex-col">
-      <h1 className="text-4xl font-bold text-center mb-3 py-4">
+      <h1 className="text-4xl font-bold text-center mb-3 py-4" aria-label="Manager Page">
         Menu Hub
       </h1>
       <div className="w-full  max-w-screen-xl mx-auto">
         <div className="flex justify-evenly mb-8">
-        <button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
+        <button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700" aria-label="Add Menu Item">
           Add Menu Item
         </button>
-        <button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
+        <button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700" aria-label="Update Menu Item">
           Update Menu Item
         </button>
-        <button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
+        <button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700"aria-label="Remove Menu Item">
           Remove Menu Item
         </button>
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-4" aria-label="Menu Items">
           {menuItemsGrid.map((item) => (
             <div
               key={item.menuid}

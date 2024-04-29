@@ -10,6 +10,8 @@ import PaymentModal from "@/components/transactions/PaymentModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
 
 export default function CustomerNavbar({ links }) {
@@ -304,7 +306,17 @@ export default function CustomerNavbar({ links }) {
 					/>
 				)}
 
-				<ToastContainer limit={1} />
+				<ToastContainer className={inter.className}
+					// autoClose = {false}
+					bodyClassName={() => "text-md text-black font-semibold"}
+					progressClassName="bg-black text-black"
+					position="bottom-right"
+					// theme="dark"
+					limit={1} 
+					closeOnClick
+					autoClose={5000}
+
+				/>
 			</nav>
 		</>
 	);

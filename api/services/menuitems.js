@@ -10,6 +10,18 @@ const retrieveMenuItems = (req,res) => {
 	})
 }
 
+const getDetails = (req, res) => {
+	const {name} = req.query;
+
+	db.query("SELECT * FROM menuitems WHERE itemname = $1", [name], (err,results) => {
+		if (err) {
+			res.status(500).send("Internal Server Error");
+			return;
+		}
+		res.status(200).json(results.rows)
+	})
+}
+
 const retrieveMenuItemIngredients = (req,res) => {
 	const { itemName } = req.query; // Extract itemName from query parameters
 	db.query("SELECT * FROM menuitems where itemname = $1", 
@@ -436,10 +448,14 @@ module.exports = {
 	removeMenuItem,
 	updateMenuItemIngred,
 	retrieveSeasonalInfo,
+<<<<<<< HEAD
+	getDetails
+=======
 	updateMenuItemDescription,
 	updateMenuItemDiet,
 	updateMenuItemAllergy,
 	updateMenuItemCalories,
+>>>>>>> fd71c0eb239e08614f767c21f010c3774a3341cc
 	
 }
 // vim: tabstop=3

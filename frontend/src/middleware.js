@@ -9,6 +9,7 @@ const unauthorizedHTML = `
   <div style="display: flex; flex-direction: column; align-items: center">
   <h1>Error 401</h1>
   <h1>You are not allowed to access this resource</h1>
+  <a href="/employee">Back</a>
   </div>
   </body>
   </html>
