@@ -240,7 +240,7 @@ const Home = () => {
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
           </section>
         </div>
-        <Carousel
+        {/* <Carousel
           swipeable
           draggable
           responsive={responsive}
@@ -258,9 +258,9 @@ const Home = () => {
           className="w-full relative"
           aria-label = "Featured Menu Items"
           afterChange= {handleSlideChange}
-        >
+        > */}
           {displayCategories.map((category, index) => (
-            <div key={index} className="carousel-item px-4" style={customStyles.carouselBackground}
+            <div key={index} className="px-4 w-full" style={customStyles.carouselBackground}
             aria-hidden={index !== currentSlide ? "true" : "false"}
             >
               <div className="container flex flex-wrap justify-center items-center">
@@ -284,7 +284,7 @@ const Home = () => {
               </div>
             </div>
           ))}
-        </Carousel>
+        {/* </Carousel> */}
         <section aria-label="Menu Categories">
           <div className="container px-10 mx-auto mt-20">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
