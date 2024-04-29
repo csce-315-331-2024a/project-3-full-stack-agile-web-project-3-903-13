@@ -218,6 +218,10 @@ const Home = () => {
     setCurrentSlide(newIndex);
   }
 
+  const updateTabIndex = (isActive) => {
+    return isActive ? '0' : '-1';
+  };
+
   if (temperature >= 70) {
       displayCategories = carouselColdCategories;
   } else {
@@ -269,7 +273,7 @@ const Home = () => {
                     onClick={() => handleOrder(category)}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    tabIndex={index === currentSlide ? "0" : "-1"}
+                    tabIndex={updateTabIndex(index === currentSlide)}
                     aria-label={'Order ${category.name}'}
                   >
                     Order Now
