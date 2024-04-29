@@ -70,11 +70,11 @@ const MenuBoard = () => {
         <div className="min-h-screen max-h-screen bg-white text-black p-6">
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="category_container">
-                    <div className="text-2xl font-bold uppercase pb-2 border-b border-gray-200 flex items-center">
+                    <div className="text-2xl font-bold uppercase pb-2 flex items-center">
                         {category === '6' && (
                             <>
                                 <span>Seasonal</span>
-                                <div className="ml-2 mt-4">
+                                <div className="ml-2 ">
                                     
                                     <Image
                                         src="/menu_board_icons/seasonalm_icon.jpeg"
@@ -104,7 +104,7 @@ const MenuBoard = () => {
                         {category === '4' && (
                             <>
                                 <span>Shakes</span>
-                                <div className="ml-2 mt-4">
+                                <div className="ml-2 ">
                                     
                                     <Image
                                         src="/menu_board_icons/shakesm_icon.jpeg"
@@ -118,7 +118,7 @@ const MenuBoard = () => {
                         )}
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div className="grid grid-cols-2 gap-4 ">
                         {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
                             <div key={index} className="menu_column">
                                 {column.map(item => (

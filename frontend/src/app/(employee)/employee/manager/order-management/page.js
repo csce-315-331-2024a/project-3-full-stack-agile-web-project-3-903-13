@@ -120,7 +120,8 @@ export default function OrderManagementPage() {
                         <label className="block text-base font-medium text-gray-700">
                             Option:
                         </label>
-                        <select
+                        <select 
+                            data-testid = "option-select"
                             className="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             value={option}
                             onChange={(e) => setOption(e.target.value)}
@@ -138,6 +139,7 @@ export default function OrderManagementPage() {
                                 Enter Order ID:
                             </label>
                             <input
+                                data-testid ="order-id-input"
                                 type="text"
                                 className="mt-1 w-full p-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                 value={transactionID}
@@ -153,6 +155,7 @@ export default function OrderManagementPage() {
                                 Start Date:
                             </label>
                             <input
+                                data-testid = "start-date"
                                 type="date"
                                 id="start-date"
                                 value={startDate}
@@ -165,6 +168,7 @@ export default function OrderManagementPage() {
                                 End Date:
                             </label>
                             <input
+                                data-testid = "end-date"
                                 type="date"
                                 id="end-date"
                                 value={endDate}

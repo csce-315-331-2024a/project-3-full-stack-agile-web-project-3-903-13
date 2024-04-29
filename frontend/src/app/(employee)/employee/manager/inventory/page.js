@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+
 import InventAddModal from "@/components/InventAddModal";
 import InventRemoveModal from "@/components/InventRemoveModal";
 import InventUpdateModal from "@/components/InventUpdateModal";
@@ -79,13 +80,13 @@ export default function InventoryPage() {
 			</h1>
 			<div className="w-full  max-w-screen-xl mx-auto">
 				<div className="flex justify-evenly mb-8">
-					<button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2">
+					<button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
 						Add Inventory Item
 					</button>
-					<button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2">
+					<button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
 						Update Inventory Item
 					</button>
-					<button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2">
+					<button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
 						Remove Inventory Item
 					</button>
 
@@ -103,9 +104,9 @@ export default function InventoryPage() {
 							<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 								{item.ingredientname}
 							</h5>
-							<p className="mb-4 p-2 bg-gray-200 rounded-lg">Count: {item.count}</p>
-							<p className="mb-4 p-2 bg-gray-200 rounded-lg">Price: {item.price}</p>
-							<p className="mb-4 p-2 bg-gray-200 rounded-lg">Min Count: {item.mincount}</p>
+							<p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Count: {item.count}</p>
+							<p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Price: {item.price}</p>
+							<p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Min Count: {item.mincount}</p>
 						</a>
 					))}
 				</div>

@@ -70,7 +70,7 @@ const MenuBoard = () => {
         <div className="min-h-screen max-h-screen bg-white p-6 grid grid-cols-2 gap-3 overflow-hidden">
             {Object.keys(groupedMenuItems).map(category => (
                 <div key={category} className="col-span-2">
-                    <div className="text-2xl font-bold uppercase flex items-center pb-2 border-b border-gray-200">
+                    <div className="text-2xl font-bold uppercase flex items-center pb-2 ">
                         <span className="uppercase text-black">{category === '0' && 'Burgers'}</span>
                         
                         <div className="ml-2">
@@ -86,7 +86,7 @@ const MenuBoard = () => {
                     </div>
 
 
-                    <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div className="grid grid-cols-2 gap-4 ">
                         
                         {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
                             <div key={index} className="menu_column">
