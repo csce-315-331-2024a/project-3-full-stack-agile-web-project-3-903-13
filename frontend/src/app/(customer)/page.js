@@ -63,29 +63,32 @@ const customStyles = {
   },
 };
 
-const ArrowLeft = ({ onClick }) => (
+const ArrowLeft = ({ onClick, disabled }) => (
   <button
     onClick={onClick}
+    disabled={disabled}
     style={{ ...customStyles.arrowButton, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}
     onMouseEnter={(e) => e.target.style.opacity = '1'}
     onMouseLeave={(e) => e.target.style.opacity = '0.5'}
     aria-label="Scroll Left"
+    tabIndex={disabled ? "-1" : "0"}
   >
     &lt;
   </button>
 );
 
-const ArrowRight = ({ onClick }) => (
-  <div
+const ArrowRight = ({ onClick, disabled }) => (
+  <button
     onClick={onClick}
+    disabled={disabled}
     style={{ ...customStyles.arrowButton, position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)' }}
     onMouseEnter={(e) => e.target.style.opacity = '1'}
     onMouseLeave={(e) => e.target.style.opacity = '0.5'}
-    aria-label="Scroll right"
+    aria-label="Scroll Right"
+    tabIndex={disabled ? "-1" : "0"}
   >
     &gt;
-  </div>
-
+  </button>
 );
 
 const googleClientID = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
