@@ -74,8 +74,8 @@ export default function CustomerNavbar({ links }) {
   function getScrollbarWidth() {
     const outer = document.createElement('div');
     outer.style.visibility = 'hidden';
-    outer.style.overflow = 'scroll'; // forcing scrollbar to appear
-    outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+    outer.style.overflow = 'scroll';
+    outer.style.msOverflowStyle = 'scrollbar'; 
     document.body.appendChild(outer);
 
     const inner = document.createElement('div');
