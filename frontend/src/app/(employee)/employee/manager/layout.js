@@ -18,8 +18,10 @@ export default function ManagerLayout({ children }) {
           { name: "Kitchen", route: "/employee/manager/kitchen" }
 
         ]}
+    
       ></EmployeeNavbar>
-      <main className="flex-1">{children}</main>
+
+      <main role ="main" aria-label="Manager Content" className="flex-1">{children}</main>
     </>
   );
 }

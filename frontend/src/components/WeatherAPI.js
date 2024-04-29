@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Image from "next/image";
+import axios from 'axios';
 
 const WeatherWidget = ( {onWeatherLoaded} ) => {
     const [weatherInfo, setWeatherInfo] = useState(null);
@@ -31,9 +32,8 @@ const WeatherWidget = ( {onWeatherLoaded} ) => {
         const fetchWeatherData = async (latitude, longitude) => {
             try {
                 const apiKey = '4a4358610dfaa3b0db4e33b4313a33f2';
-                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`);
-                const data = await response.json();
-                console.log('Weather API response:', data);
+                const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`);
+                const data = response.data;
 
                 // Extract relevant weather information
                 const place = data.name;
@@ -75,7 +75,7 @@ const WeatherWidget = ( {onWeatherLoaded} ) => {
     }, [onWeatherLoaded]);
 
     return (
-        <div className="flex items-center w-full justify-center pb-8">
+        <div className="flex items-center w-full justify-center pb-8" role="region" aria-label="Weather Information">
             {weatherIconUrl && <Image src={weatherIconUrl} alt="Weather Icon" width={150} height={150} className="mr-2"/>}
             <div>
                 {weatherInfo && (

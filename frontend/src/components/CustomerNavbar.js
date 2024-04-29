@@ -57,18 +57,38 @@ export default function CustomerNavbar({ links }) {
 	}, [transactions]);
 
 	const toggleCart = () => {
+    const scrollbarWidth = getScrollbarWidth() + 'px';
 		if (ref.current && ref.current.classList.contains('translate-x-full')) {
 			setIsCartOpen(true)
 			ref.current.classList.remove('translate-x-full')
 			ref.current.classList.add('translate-x-0')
 			document.body.classList.add('no-scroll');
+      document.body.style.paddingRight = scrollbarWidth;
 		} else if (ref.current && !ref.current.classList.contains('translate-x-full')) {
 			setIsCartOpen(false);
 			ref.current.classList.add('translate-x-full')
 			ref.current.classList.remove('translate-x-0')
 			document.body.classList.remove('no-scroll');
+      document.body.style.paddingRight = '';
 		}
 	}
+
+  function getScrollbarWidth() {
+    const outer = document.createElement('div');
+    outer.style.visibility = 'hidden';
+    outer.style.overflow = 'scroll';
+    outer.style.msOverflowStyle = 'scrollbar'; 
+    document.body.appendChild(outer);
+
+    const inner = document.createElement('div');
+    outer.appendChild(inner);
+
+    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+
+    outer.parentNode.removeChild(outer);
+
+    return scrollbarWidth;
+  }
 
 	const getSubtotal = () => {
 		return transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2)
@@ -245,6 +265,7 @@ export default function CustomerNavbar({ links }) {
 								<button
 									className="text-white w-1/2 bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
 									onClick={clearTransaction}
+									aria-label ="Clear Cart"
 								>
 									Clear
 								</button>
@@ -265,6 +286,7 @@ export default function CustomerNavbar({ links }) {
 											});
 										}
 									}}
+									aria-label="Checkout"
 								>
 									Checkout
 								</button>

@@ -10,7 +10,7 @@ export const metadata = {
 export default function EmployeeLayout({ children }) {
  return (
     <html lang="en">
-      <body className="flex flex-row min-h-screen">
+      <body className="flex flex-row min-h-screen" aria-label= "Employee Dashboard">
       <LeftSidebar />
       <div className="flex flex-col w-full">
         {children}

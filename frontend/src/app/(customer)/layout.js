@@ -14,15 +14,18 @@ export default function RootLayout({ children }) {
       <CartProvider>
         <html lang="en">
           <body className={inter.className}>
+            <nav role="navigation">
               <CustomerNavbar
+
                 links={[
-                  { name: "Menu", route: "/" },
-                  { name: "About", route: "/about" },
-                  { name: "Menu Board", route: "" },
-                  { name: "Nutrition", route: "/nutrition" },
-                  { name: "Order Display", route: "" },
+                  { name: "Menu", route: "/" , label: "Navigate to Menu"},
+                  { name: "About", route: "/about", label: "Learn about us"},
+                  { name: "Menu Board", route: "" ,label :" View our menu board"},
+                  { name: "Nutrition", route: "/nutrition",label: "Explore our nurtrition Information" },
+                  { name: "Order Display", route: "",label: "View the Order Display" },
                 ]}
               />
+             </nav>
             {children}
             <CustomerFooter />
           </body>

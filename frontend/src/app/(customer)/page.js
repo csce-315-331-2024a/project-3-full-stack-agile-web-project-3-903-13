@@ -64,14 +64,15 @@ const customStyles = {
 };
 
 const ArrowLeft = ({ onClick }) => (
-  <div
+  <button
     onClick={onClick}
     style={{ ...customStyles.arrowButton, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}
     onMouseEnter={(e) => e.target.style.opacity = '1'}
     onMouseLeave={(e) => e.target.style.opacity = '0.5'}
+    aria-label="Scroll Left"
   >
     &lt;
-  </div>
+  </button>
 );
 
 const ArrowRight = ({ onClick }) => (
@@ -80,9 +81,11 @@ const ArrowRight = ({ onClick }) => (
     style={{ ...customStyles.arrowButton, position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)' }}
     onMouseEnter={(e) => e.target.style.opacity = '1'}
     onMouseLeave={(e) => e.target.style.opacity = '0.5'}
+    aria-label="Scroll right"
   >
     &gt;
   </div>
+
 );
 
 const googleClientID = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
@@ -221,7 +224,9 @@ const Home = () => {
   return (
       <main className="min-h-screen flex flex-col items-center">
         <div className="flex items-center justify-center space-x-4 mt-5">
+          <section aria-label= "Weather and Time">
           <WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
+          </section>
         </div>
         <Carousel
           swipeable
@@ -240,6 +245,7 @@ const Home = () => {
           customLeftArrow={<ArrowLeft />}
           customRightArrow={<ArrowRight />}
           className="w-full relative"
+          aria-label = "Featured Menu Items"
         >
           {displayCategories.map((category, index) => (
             <div key={index} className="carousel-item px-4" style={customStyles.carouselBackground}>
@@ -255,6 +261,7 @@ const Home = () => {
                     onClick={() => handleOrder(category)}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
+                    aria-label={'Order ${category.name}'}
                   >
                     Order Now
                   </button>
@@ -263,24 +270,26 @@ const Home = () => {
             </div>
           ))}
         </Carousel>
-        <div className="container px-10 mx-auto mt-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {buttonCategories.map((category) => (
-              <Link key={category.phrase} href={category.path}>
-                <div className="m-4 cursor-pointer aspect-square transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl border-[#877F7D] border-2 rounded-lg">
-                  <div className="overflow-hidden rounded-lg">
-                    <img className="w-full rounded-t-lg" src={`${category.image}`} alt={category.phrase} />
-                    <div className="py-4 rounded-b-lg bg-white shadow text-center">
-                      <span className="text-3xl font-bold bg-clip-text text-transparent bg-black">
-                        {category.phrase}
-                      </span>
+        <section aria-label="Menu Categories">
+          <div className="container px-10 mx-auto mt-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {buttonCategories.map((category) => (
+                <Link key={category.phrase} href={category.path}>
+                  <div className="m-4 cursor-pointer aspect-square transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl border-[#877F7D] border-2 rounded-lg">
+                    <div className="overflow-hidden rounded-lg">
+                      <img className="w-full rounded-t-lg" src={`${category.image}`} alt={category.phrase} />
+                      <div className="py-4 rounded-b-lg bg-white shadow text-center">
+                        <span className="text-3xl font-bold bg-clip-text text-transparent bg-black">
+                          {category.phrase}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
       </main>
   );
 };

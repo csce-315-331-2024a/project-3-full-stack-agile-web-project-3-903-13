@@ -432,6 +432,7 @@ export default function EmployeePage() {
             onChange={(e) => setAddItemName(e.target.value)}
             className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
             required
+            aria-label="Item Name"
           />
           <input
             type="number"
@@ -439,6 +440,7 @@ export default function EmployeePage() {
             value={addPrice}
             onChange={(e) => setAddPrice(e.target.value)}
             className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5"
+            aria-label="Price"
             required
           />
           <label className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5">
@@ -447,6 +449,7 @@ export default function EmployeePage() {
               checked={isSeasonal}
               onChange={(e) => setIsSeasonal(e.target.checked)}
               className="mb-2 px-4 justify-center align-center"
+              aria-label="Seasonal Item"
             />
             Seasonal Item
           </label>
@@ -460,6 +463,7 @@ export default function EmployeePage() {
                 onChange={(e) => setExpirationDate(e.target.value)}
                 className="mb-2"
                 required
+                aria-label="Expiration Date"
               />
             </>
           )}
@@ -468,6 +472,7 @@ export default function EmployeePage() {
             onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
             className="mb-2"
             disabled={isSeasonal}
+            aria-label=" IsSeasonal Category"
           >
             {categories.map((cat) => (
               <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -498,7 +503,7 @@ export default function EmployeePage() {
             </div>
           ))}
           <button type="button" onClick={addIngredient}>Add Ingredient</button>
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Add Menu Item</button>
+          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2" aria-label="Add Menu Item">Add Menu Item</button>
         </form>
         <h2>Update Menu Items</h2>
         {updateErrorMessage && (
@@ -513,6 +518,7 @@ export default function EmployeePage() {
               onChange={(e) => setUpdateCategory(parseInt(e.target.value))}
               className= "mb-2"
               required
+              aria-label="Update Category"
           >
             {updateCategories.map((cat) => (
               <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -609,7 +615,7 @@ export default function EmployeePage() {
             )}
 
           
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">UPDATE</button>
+          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2" aria-label="Update button">UPDATE</button>
         </form>
         <h1 className="p-3 md:p">REMOVING MENU ITEMS</h1>
         {removeErrorMessage && (
@@ -623,13 +629,14 @@ export default function EmployeePage() {
                 value={removeItemName}
                   onChange={(e) =>setRemoveMenuItem(e.target.value)}
                   className="mb-2"
+                  aria-label="Remove Item"
                 >
                   <option value="">Select Menu Item</option>
                   {menuItems.map(item => (
                     <option key={item.menuid} value={item.itemname}>{item.itemname}</option>
                   ))}
           </select>
-          <button type="submit" className = "bg-blue-500 text-white rounded px-4 py-2">REMOVE</button>
+          <button type="submit" className = "bg-blue-500 text-white rounded px-4 py-2" aria-label="Remove button">REMOVE</button>
         </form>
         {menuItems.map((item) => (
           <a

@@ -65,13 +65,14 @@ const RestockReportPage = () => {
     ];
 
     return (
-        <main className="min-h-screen bg-slate-100 flex flex-col">
+        <main className="min-h-screen bg-slate-100 flex flex-col"  aria-labelledby="restock-report-title">
             <h1 className="text-4xl font-bold text-center mb-3 py-4">Restock Report </h1>
 
             <div className="w-full max-w-4xl p-5 bg-white shadow-lg rounded mx-auto">
                 <button
                     onClick={fetchData}
                     className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    aria-label="Regenerate report button"
                 >
                     Regenerate Report
                 </button>
@@ -79,6 +80,7 @@ const RestockReportPage = () => {
                 <button
                     onClick={fulfillRestock}
                     className="mb-4 ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    aria-label="Fulfill restock button"
                 >
                     Fulfill Restock
                 </button>
@@ -113,7 +115,7 @@ const Table = ({ columns, data }) => {
     } = useTable({ columns, data });
 
     return (
-        <table {...getTableProps()} className="w-full">
+        <table {...getTableProps()} className="w-full" aria-label="Restock items table">
             <thead>
                 {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>

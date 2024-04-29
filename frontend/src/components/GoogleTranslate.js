@@ -2,7 +2,7 @@ import Script from 'next/script';
 
 const GoogleTranslateWidget = () => {
     return (
-        <div className='left-0 bottom-0 bg-white border-gray-400 border-2 rounded-xl px-2'>
+        <div className=' right-0 top-0 bg-white rounded-xl px-2'>
             <div id="google_translate_element"></div>
             <Script
                 id="translate1" 

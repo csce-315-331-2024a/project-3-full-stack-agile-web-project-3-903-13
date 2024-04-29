@@ -52,7 +52,7 @@ export default function UsersPage() {
     }, [])
 
     return (
-        <main className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <main className="min-h-screen bg-gray-100 flex items-center justify-center" aria-labelledby="users-page-title">
         <div className="flex flex-col w-4/5 border-solid border-grey border-2">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
@@ -63,7 +63,7 @@ export default function UsersPage() {
                   </div>
                 </div>
                 <div className="overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
+                  <table className="min-w-full divide-y divide-gray-200" aria-labelledby="users-table">
                     <thead className="bg-gray-50">
                       <tr>
                         <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>

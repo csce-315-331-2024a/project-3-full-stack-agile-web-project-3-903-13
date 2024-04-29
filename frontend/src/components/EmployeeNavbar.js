@@ -27,6 +27,9 @@ export default function EmployeeNavbar({ links }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []); 
 
+  const isManager = pathname.includes("manager");
+  console.log(isManager);
+
   return (
     <nav className="flex w-full h-[5rem] bg-white shadow-md">
       <div className="flex w-full h-full justify-between items-center px-6 font-bold [&>*>li]:relative">
@@ -63,8 +66,8 @@ export default function EmployeeNavbar({ links }) {
         <ul
           className={`${
             isOpen ? "block bg-white border shadow mr-1" : "hidden"
-          } absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-8 text-sm md:text-base`}
-          style={{ marginTop: isOpen ? `${links.length * 3 + 1}rem` : "0rem" }}
+          } absolute rounded-xl md:shadow-none md:bg-none md:border-0 md:relative right-0 md:mt-0 p-4 md:p-0 md:flex space-y-6 md:space-y-0 md:space-x-6`}
+          style={{ marginTop: isOpen ? `${links.length * 3 + 2}rem` : "0rem", fontSize: isManager ? "13px" : "16px" }}
         >
           {links.map((link) => (
             <li key={link.route}>

@@ -15,6 +15,10 @@ router.get("/specific", menuItemsController.getDetails)
 router.patch("/updatePrice", menuItemsController.updateMenuItemPrice);
 router.patch("/updateCat", menuItemsController.updateMenuItemCat);
 router.patch("/updateIngred", menuItemsController.updateMenuItemIngred);
+router.patch("/updateDesc", menuItemsController.updateMenuItemDescription);
+router.patch("/updateCal", menuItemsController.updateMenuItemCalories);
+router.patch("/updateDiet", menuItemsController.updateMenuItemDiet);
+router.patch("/updateAller", menuItemsController.updateMenuItemAllergy);
 
 // DELETE a menu item
 router.delete("/", menuItemsController.removeMenuItem);

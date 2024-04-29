@@ -23,6 +23,13 @@
         @apply content-[''] scale-x-0 absolute w-1/2 h-1 -bottom-1 bg-red-800 transition duration-200 ease-in-out hover:scale-x-100 origin-left;
     }
 
+    .left-sidebar-link {
+        @apply p-5 rounded-2xl scale-100 transition duration-200 ease-in-out hover:scale-110;
+    }
+    .left-sidebar-link-active {
+        @apply p-4 md:p-5 rounded-2xl bg-red-800 [&>*]:invert;
+    }
+
     .nav-image {
         @apply scale-100 transition duration-200 ease-in-out hover:scale-110;
     }
