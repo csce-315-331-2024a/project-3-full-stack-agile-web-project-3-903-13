@@ -119,16 +119,7 @@ const carouselHotCategories = [
       "Cheese, Lettuce, Tomatoes, Onions, and our signature patty all on artisan bread. Handcrafted with love by Rev's Grill!",
     image: "/menuItems/ClassicHamburger.jpeg",
     price: 6.89
-  },
-  {
-    id: 4,
-    name: "Gig Em Patty Melt",
-    phrase: "Try the all new Gig Em Patty Melt!",
-    description:
-      "This revolutionary sandwich will turn even the staunchest of 2%ers into redasses in no time!",
-    image: "/menuItems/GigEmPattyMelt.jpeg",
-    price: 7.59
-  },
+  }
 ];
 
 const carouselColdCategories = [
@@ -140,16 +131,7 @@ const carouselColdCategories = [
       "Layers of freshly baked cookies topped with rich vanilla ice cream. A sweet treat to satisfy your cravings!",
     image: "/menuItems/Cookieicecreamsundae.jpeg",
     price: 4.69
-  },
-  {
-    id: 22,
-    name: "Chicken Caesar Salad",
-    phrase: "Enjoy our Fresh Chicken Caesar Salad!",
-    description:
-      "Crisp romaine lettuce, juicy grilled chicken, shredded parmesan cheese, croutons, and a creamy Caesar dressing. Perfect for a refreshing and healthy meal!",
-    image: "/menuItems/ChickenCaesarSalad.jpeg",
-    price: 8.29
-  },
+  }
 ];
 
 const responsive = {
