@@ -91,6 +91,7 @@ export default function SalesReportPage() {
             <div className="w-full max-w-4xl mx-auto p-5 bg-white shadow-md rounded-lg">
                 <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center my-4">
                     <input
+                        data-testid = "start date"
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
@@ -99,6 +100,7 @@ export default function SalesReportPage() {
                         aria-label="Start Date"
                     />
                     <input
+                        data-testid = "end date"
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}

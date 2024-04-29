@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+
 import InventAddModal from "@/components/InventAddModal";
 import InventRemoveModal from "@/components/InventRemoveModal";
 import InventUpdateModal from "@/components/InventUpdateModal";

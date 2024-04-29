@@ -74,6 +74,7 @@ export default function ExcessReportPage() {
     };
 
     return (
+
         <main className="min-h-screen bg-slate-100 flex flex-col">
             <h1 className="text-4xl font-bold text-center mb-3 py-4"> Excess Report </h1>
 
@@ -81,6 +82,7 @@ export default function ExcessReportPage() {
                 <form onSubmit={handleGenerateReport} className="flex flex-col md:flex-row justify-between items-center my-4">
                     <input
                         id="startDate"
+                        data-testid="start-date-input"
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
@@ -88,6 +90,7 @@ export default function ExcessReportPage() {
                         required
                     />
                     <input
+                        data-testid="end-date-input"
                         id="endDate"
                         type="date"
                         value={endDate}

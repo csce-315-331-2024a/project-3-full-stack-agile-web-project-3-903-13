@@ -1,5 +1,6 @@
 "use client"
 
+
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import MenuAddModal  from "@/components/MenuAddModal";
@@ -105,6 +106,8 @@ export default function ManagerPage() {
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [showRemovePopup, setShowRemovePopup] = useState(false);
+
+
 
 
   useEffect(() => {
@@ -226,7 +229,6 @@ export default function ManagerPage() {
         Menu Hub
       </h1>
       <div className="w-full  max-w-screen-xl mx-auto">
-        
         <div className="flex justify-evenly mb-8">
         <button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
           Add Menu Item
