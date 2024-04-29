@@ -101,7 +101,6 @@ export default function ItemPopularityPage() {
     };
 
     return (
-
         <main className="min-h-screen bg-slate-100 flex flex-col">
             <h1 className="text-4xl font-bold text-center mb-3 py-4">
                 Menu Item Popularity
@@ -151,13 +150,8 @@ export default function ItemPopularityPage() {
                         </p>
                     )}
                 </div>
-
-                <div style={{ height: '650px' }}>
-                    {hasData && <canvas data-testid="chart-container" ref={chartRef}></canvas>}
-
                 <div style={{ height: "650px" }} aria-label="Sales Report Chart">
-                    {hasData && <canvas ref={chartRef} data-testid="chart-container aria-label="Sales Chart" ></canvas>}
-
+                    {hasData && <canvas ref={chartRef} aria-label="Sales Chart" ></canvas>}
                 </div>
             </div>
         </main>
