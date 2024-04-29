@@ -13,7 +13,7 @@ const MenuBoard = () => {
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/menuitems');
+                const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

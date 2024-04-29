@@ -8,7 +8,7 @@ import InventUpdateModal from "@/components/InventUpdateModal";
 
 
 export const getInventoryItems = async () => {
-	const items = await fetch("http://localhost:5000/api/inventory");
+	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
 	const data = await items.json();
 
 	return data;

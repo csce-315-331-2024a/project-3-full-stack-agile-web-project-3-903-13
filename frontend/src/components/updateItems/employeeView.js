@@ -54,7 +54,7 @@ export default function UpdateModal({ isOpen, onClose, item }) {
                 const name = item.itemname
                 const params = name.split(' ').join("+")
 
-                const response = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+                const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
 
                 if (!response.ok) {
                     const errorMessage = await response.text();

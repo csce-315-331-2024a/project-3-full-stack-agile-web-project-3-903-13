@@ -3,7 +3,7 @@ import { FaTrash } from "react-icons/fa";
 
 
 export const getMenuItems = async () => {
-    const items = await fetch("http://localhost:5000/api/menuitems");
+    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
     const data = await items.json();
   
     return data;
@@ -15,7 +15,7 @@ export const getMenuItems = async () => {
       const queryString = new URLSearchParams(menuItem).toString();
   
       // Append the query string to the URL
-      const url = `http://localhost:5000/api/menuitems/getIngreds?${queryString}`;
+      const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
   
       // Make the GET request
       const response = await fetch(url);
@@ -36,7 +36,7 @@ export const getMenuItems = async () => {
   export const getMenuItemsWithIngredients = async () => {
     try {
       // Fetch menu items
-      const items = await fetch("http://localhost:5000/api/menuitems");
+      const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
       const data = await items.json();
   
       // Fetch ingredients for each menu item
@@ -56,7 +56,7 @@ export const getMenuItems = async () => {
     }
   };
   export const getInventoryItems = async () => {
-    const items = await fetch("http://localhost:5000/api/inventory");
+    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
     const data = await items.json();
   
     return data;
@@ -66,7 +66,7 @@ export const getMenuItems = async () => {
 
 
 export const removeMenuItem = async (menuItem) => {
-    const response = await fetch("http://localhost:5000/api/menuitems", {
+    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

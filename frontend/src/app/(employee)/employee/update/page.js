@@ -48,7 +48,7 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 
 	const updatePlacedOrder = async () => {
 		const response = await fetch(
-			"http://localhost:5000/api/transactions/updateTransaction",
+			"https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/updateTransaction",
 			{
 				method: "PATCH",
 				headers: {
@@ -319,7 +319,7 @@ export default function EmployeePOSPage() {
 	useEffect(() => {
 		const fetchMenuItems = async () => {
 			const response = await fetch(
-				"http://localhost:5000/api/menuitems"
+				"https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems"
 			);
 			const data = await response.json();
 			setMenuItems(data);
@@ -332,7 +332,7 @@ export default function EmployeePOSPage() {
 		const fetchOrder = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:5000/api/transactions/getTransactionByID",
+					"https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/getTransactionByID",
 					{
 						method: "POST",
 						headers: {

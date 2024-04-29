@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 export const getInventoryItems = async () => {
-	const items = await fetch("http://localhost:5000/api/inventory");
+	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
 	const data = await items.json();
 
 	return data;
 };
 
 export const updateInventCount = async (inventItem) => {
-	const response = await fetch("http://localhost:5000/api/inventory/updateQuantity", {
+	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updateQuantity", {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const updateInventCount = async (inventItem) => {
 };
 
 export const updateInventPrice = async (inventItem) => {
-	const response = await fetch("http://localhost:5000/api/inventory/updatePrice", {
+	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updatePrice", {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/json",
@@ -43,7 +43,7 @@ export const updateInventPrice = async (inventItem) => {
 
 
 export const updateInventMin = async (inventItem) => {
-	const response = await fetch("http://localhost:5000/api/inventory/updateMinCount", {
+	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updateMinCount", {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/json",

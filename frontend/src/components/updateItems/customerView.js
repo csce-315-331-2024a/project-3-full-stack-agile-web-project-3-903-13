@@ -102,7 +102,7 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
                 const name = item.itemname
                 const params = name.split(' ').join("+")
 
-                const response = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+                const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
 
                 if (!response.ok) {
                     const errorMessage = await response.text();
@@ -212,7 +212,7 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
     const fetchItemDetails = async (itemName) => {
         const params = itemName.split(' ').join("+");
         
-        const ingreds = await fetch(`http://localhost:5000/api/menuitems/getIngreds?itemName=${params}`);
+        const ingreds = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
         if (!ingreds.ok) {
             const errorMessage = await ingreds.text();
             throw new Error(errorMessage);
@@ -220,7 +220,7 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
         const ingredients = await ingreds.json();
         const neededDetails = ingredients.map(item => ({"inventid": item.inventid, "ingredientname": item.ingredientname, "quantity": item.quantity}))
     
-        const response = await fetch(`http://localhost:5000/api/menuitems/specific?name=${params}`);
+        const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/specific?name=${params}`);
         if (!response.ok) {
             const errorMessage = await response.text();
             throw new Error(errorMessage);

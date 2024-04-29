@@ -14,7 +14,7 @@ export default function EmployeeUpdateForm(employee) {
   const [message, setMessage] = useState(null)
 
   const deleteUser = async () => {
-    let deleteResult = await fetch(`http://localhost:5000/api/employees/${employeeObject.employeeid}`, {
+    let deleteResult = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees/${employeeObject.employeeid}`, {
       method: 'DELETE',
     })
     if (deleteResult.status == 200) {
@@ -32,7 +32,7 @@ export default function EmployeeUpdateForm(employee) {
 
   const handleUpdate = async (event) => {
       event.preventDefault();
-      let updateResult = await fetch(`http://localhost:5000/api/employees/${employeeObject.employeeid}`, {
+      let updateResult = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees/${employeeObject.employeeid}`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
