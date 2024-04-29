@@ -183,14 +183,14 @@ export default function CustomerNavbar({ links }) {
 								<Image alt="employee log in" className="nav-image" src={"./user.svg"} width={30} height={30}></Image>
 							</Link>
 						</li>
-						<div onClick={toggleCart} className="cursor-pointer cart relative">
+						<li onClick={toggleCart} className="cursor-pointer cart relative">
 							<Image alt="cart" className="nav-image" src={"./cart.svg"} width={30} height={30}></Image>
 							{cartCount > 0 && (
 								<span className="absolute top-[-15px] right-[-15px] inline-block px-1 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
 									{cartCount}
 								</span>
 							)}
-						</div>
+						</li>
 					</ul>
 
 					<div onClick={toggleCart} className={`fixed z-[40] left-0 top-0 bottom-0 right-0 w-screen h-screen bg-black/40 backdrop-blur-sm ${isCartOpen ? "" : "hidden"}`}></div>
@@ -198,7 +198,7 @@ export default function CustomerNavbar({ links }) {
 					<div ref={ref} className="min-w-[50%] md:min-w-[25%] h-full fixed top-0 right-0 bg-white transform transition-transform translate-x-full z-50 shadow-2xl">
 						<div className="flex flex-col h-full">
 							<div className="flex justify-end p-2">
-								<button onClick={toggleCart} className="text-gray-500 hover:text-gray-700">
+								<button aria-label="Cart" onClick={toggleCart} className="text-gray-500 hover:text-gray-700">
 									<svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
 									</svg>
@@ -263,14 +263,14 @@ export default function CustomerNavbar({ links }) {
 							</div>
 							<div className="flex mt-auto">
 								<button
-									className="text-white w-1/2 bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
+									className="text-white w-1/2 bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50 shadow-sm px-4 py-4"
 									onClick={clearTransaction}
 									aria-label ="Clear Cart"
 								>
 									Clear
 								</button>
 								<button
-									className="text-white w-1/2 bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 shadow-sm px-4 py-4"
+									className="text-white w-1/2 bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 shadow-sm px-4 py-4"
 									onClick={() => {
 										if (cartCount > 0) {
 											setShowPaymentOptions(true);
