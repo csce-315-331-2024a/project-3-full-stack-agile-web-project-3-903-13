@@ -74,32 +74,40 @@ export default function InventoryPage() {
 	};
 
 	return (
-		<main className="min-h-screen flex flex-col">
+		<main className="min-h-screen flex flex-col" aria-label="Inventory Page">
 			<h1 className="text-4xl font-bold text-center mb-3 py-4">
 				Inventory Hub
 			</h1>
 			<div className="w-full  max-w-screen-xl mx-auto">
 				<div className="flex justify-evenly mb-8">
-					<button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
+					<button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700"
+					aria-label="Add Inventory Item"
+					>
 						Add Inventory Item
 					</button>
-					<button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
+					<button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700"
+					aria-label="Update Inventory Item"
+					>
 						Update Inventory Item
 					</button>
-					<button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700">
+					<button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700"
+					aria-label="Remove Inventory Item"
+					>
 						Remove Inventory Item
+						
 					</button>
 
 
 
 				</div>
 
-				<div className="grid grid-cols-4 gap-4" aria-label="Invetory Items">
+				<div className="grid grid-cols-4 gap-4" aria-label="Inventory Items">
 					{inventoryItems.map((item) => (
 						<a
 							href="#"
 							className="block max-w-sm p-6 pl-4 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
 							key={item.inventid}
+							aria-label={`Inventory Item: ${item.ingredientname}`}
 						>
 							<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 								{item.ingredientname}
