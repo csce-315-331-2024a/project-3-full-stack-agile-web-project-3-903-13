@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import axios from 'axios';
 
 export default function EmployeeAddForm() {
   const [formData, setFormData] = useState({
@@ -11,20 +12,27 @@ export default function EmployeeAddForm() {
   });
 
   const addUser = async (event) => {
-    event.preventDefault()
-    const result = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData)
-    })
-    if (result.status == 200) {
-      setMessage("Employee created successfully")
-    } else {
-      setMessage("Server Error: could not create employee")
-    }
-    window.location.reload()
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setMessage("Employee created successfully");
+      } else {
+        throw new Error("Server Error: could not create employee");
+      }
+    } catch (error) {
+      setMessage(error.message); // Set error message
+    } 
+    window.location.reload();
   }
 
   const handleChange = (event) => {
