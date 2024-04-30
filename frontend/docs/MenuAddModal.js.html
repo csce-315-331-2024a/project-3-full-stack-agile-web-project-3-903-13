@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MenuAddModal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: MenuAddModal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module MenuAddModal
  */
 import React, { useState, useEffect } from 'react';
@@ -258,7 +286,7 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
         const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
         if (selectedInventoryItem) {
             // Check if the selected inventory item is already used in another ingredient
-            const isAlreadyUsed = ingredients.some((ingredient, i) => i !== index && ingredient.name === selectedInventoryItem.ingredientname);
+            const isAlreadyUsed = ingredients.some((ingredient, i) => i !== index &amp;&amp; ingredient.name === selectedInventoryItem.ingredientname);
             if (isAlreadyUsed) {
                 alert("This inventory item is already selected in another ingredient. Please choose a different one.");
                 return;
@@ -327,7 +355,7 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
      * @returns {boolean} True if the price is a valid number greater than 0, false otherwise.
      */
     const validatePrice = (price) => {
-        return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
+        return !isNaN(parseFloat(price)) &amp;&amp; isFinite(price) &amp;&amp; parseFloat(price) > 0;
     };
 
     /**
@@ -337,41 +365,41 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
      * @returns {boolean} True if the calorie count is a valid non-negative integer, false otherwise.
      */
     const validateCalories = (calories) => {
-        return !isNaN(parseInt(calories)) && parseInt(calories) >= 0;
+        return !isNaN(parseInt(calories)) &amp;&amp; parseInt(calories) >= 0;
     }
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
-            <div className="relative max-h-screen overflow-y-auto py-5">
-                <div className="bg-white p-2 rounded-lg shadow-lg">
-                    <button
+        &lt;div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+            &lt;div className="relative max-h-screen overflow-y-auto py-5">
+                &lt;div className="bg-white p-2 rounded-lg shadow-lg">
+                    &lt;button
                         className="absolute top-5 right-4 text-gray-500 hover:text-gray-700"
                         onClick={onClose}
                     >
-                        <svg
+                        &lt;svg
                             className="h-6 w-6"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
                         >
-                            <path
+                            &lt;path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
                                 d="M6 18L18 6M6 6l12 12"
                             />
-                        </svg>
-                    </button>
+                        &lt;/svg>
+                    &lt;/button>
 
-                    <h1 className="p-3 mt-5 text-xl font-semibold text-center ">ADDING MENU ITEMS</h1>
-                    {addErrorMessage && (
-                        <p className="text-red-500">{addErrorMessage}</p>
+                    &lt;h1 className="p-3 mt-5 text-xl font-semibold text-center ">ADDING MENU ITEMS&lt;/h1>
+                    {addErrorMessage &amp;&amp; (
+                        &lt;p className="text-red-500">{addErrorMessage}&lt;/p>
                     )}
-                    {addSuccessMessage && (
-                        <p className="text-green-500">{addSuccessMessage}</p>
+                    {addSuccessMessage &amp;&amp; (
+                        &lt;p className="text-green-500">{addSuccessMessage}&lt;/p>
                     )}
-                    <form onSubmit={handleAddMenuItem} className="flex flex-col items-center justify-center">
-                        <input
+                    &lt;form onSubmit={handleAddMenuItem} className="flex flex-col items-center justify-center">
+                        &lt;input
                             type="text"
                             placeholder="Item Name"
                             value={addItemName}
@@ -379,7 +407,7 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
                             className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                             required
                         />
-                        <input
+                        &lt;input
                             type="number"
                             placeholder="Price"
                             value={addPrice}
@@ -387,44 +415,44 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
                             className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                             required
                         />
-                        <div className="flex justify-between items-center mb-2 bg-white shadow-input outline-none border focus:border-red-800 rounded-lg px-2 py-2.5 ">
-                            <div className="flex items-center">
-                                <input
+                        &lt;div className="flex justify-between items-center mb-2 bg-white shadow-input outline-none border focus:border-red-800 rounded-lg px-2 py-2.5 ">
+                            &lt;div className="flex items-center">
+                                &lt;input
                                     type="checkbox"
                                     checked={isSeasonal}
                                     onChange={(e) => setIsSeasonal(e.target.checked)}
                                     className={`mb-1.5 px-4 justify-center items-center accent-red-800 form-checkbox h-4 w-5`}
                                 />
-                                <label className="ml-1 mb-2 justify-centere items-center">
+                                &lt;label className="ml-1 mb-2 justify-centere items-center">
                                     Seasonal Item
-                                </label>
-                            </div>
-                        </div>
+                                &lt;/label>
+                            &lt;/div>
+                        &lt;/div>
 
                         {/* Show expiration date input field if the item is seasonal */}
-                        {isSeasonal && (
-                            <div className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5">
-                                <p>Expiration Date:</p>
-                                <input
+                        {isSeasonal &amp;&amp; (
+                            &lt;div className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5">
+                                &lt;p>Expiration Date:&lt;/p>
+                                &lt;input
                                     type="date"
                                     value={expirationDate}
                                     onChange={(e) => setExpirationDate(e.target.value)}
                                     className="mb-2  border focus:border-red-800 rounded-lg px-2 py-1"
                                     required
                                 />
-                            </div>
+                            &lt;/div>
                         )}
-                        <select
+                        &lt;select
                             value={isSeasonal ? 6 : addItemCategory}
                             onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
                             className="mb-1 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                             disabled={isSeasonal}
                         >
                             {categories.map((cat) => (
-                                <option key={cat.value} value={cat.value}>{cat.label}</option>
+                                &lt;option key={cat.value} value={cat.value}>{cat.label}&lt;/option>
                             ))}
-                        </select>
-                        <textarea
+                        &lt;/select>
+                        &lt;textarea
                             type="text"
                             placeholder="Description"
                             value={addDescription}
@@ -432,7 +460,7 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
                             className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5 resize:vertical"
                             required
                         />
-                        <input
+                        &lt;input
                             type="number"
                             placeholder="Calories"
                             value={addCalories}
@@ -440,59 +468,81 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
                             className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                             required
                         />
-                        <select
+                        &lt;select
                             value={addDiet}
                             onChange={(e) => setAddDiet(parseInt(e.target.value))}
                             className="mb-1 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
                         >
                             {dietCategories.map((cat) => (
-                                <option key={cat.value} value={cat.value}>{cat.label}</option>
+                                &lt;option key={cat.value} value={cat.value}>{cat.label}&lt;/option>
                             ))}
-                        </select>
-                        <div className="flex justify-between items-center mb-2 bg-white shadow-input outline-none border focus:border-red-800 rounded-lg px-2 py-2.5 ">
-                            <div className="flex items-center">
-                                <input
+                        &lt;/select>
+                        &lt;div className="flex justify-between items-center mb-2 bg-white shadow-input outline-none border focus:border-red-800 rounded-lg px-2 py-2.5 ">
+                            &lt;div className="flex items-center">
+                                &lt;input
                                     type="checkbox"
                                     checked={addAllergy}
                                     onChange={(e) => setAddAllergy(e.target.checked)}
                                     className={`mb-1.5 px-4 justify-center items-center accent-red-800 form-checkbox h-4 w-5`}
                                 />
-                                <label className="ml-1 mb-2 justify-centere items-center">
+                                &lt;label className="ml-1 mb-2 justify-centere items-center">
                                     Gluten Free
-                                </label>
-                            </div>
-                        </div>
-                        <h2 className="p-3 md:p text-xl font-semibold text-center">Ingredients</h2>
+                                &lt;/label>
+                            &lt;/div>
+                        &lt;/div>
+                        &lt;h2 className="p-3 md:p text-xl font-semibold text-center">Ingredients&lt;/h2>
                         {ingredients.map((ingredient, index) => (
-                            <div key={index} className="flex justify-between mb-2 ">
-                                <select
+                            &lt;div key={index} className="flex justify-between mb-2 ">
+                                &lt;select
                                     value={ingredients[index]?.name || ""}
                                     onChange={(e) => handleIngredientSelection(e, index)}
                                     className="w-full md:w-1/2 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-1"
                                     required
                                 >
-                                    <option value="">Select Inventory Item</option>
+                                    &lt;option value="">Select Inventory Item&lt;/option>
                                     {inventoryItems.map(item => (
-                                        <option key={item.inventid} value={item.ingredientname}>{item.ingredientname}</option>
+                                        &lt;option key={item.inventid} value={item.ingredientname}>{item.ingredientname}&lt;/option>
                                     ))}
-                                </select>
-                                <input
+                                &lt;/select>
+                                &lt;input
                                     type="number"
                                     value={ingredient.quantity}
                                     onChange={(e) => handleQuantityChange(e, index)}
                                     className="w-full md:w-1/4 flex flex-col items-center mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-1 py-1"
                                     required
                                 />
-                                <button type="button" className="mb-2 flex flex-col items-center bg-red-800 text-white rounded px-4 py-2" onClick={() => removeIngredient(index)}>
-                                    <FaTrash />
-                                </button>
-                            </div>
+                                &lt;button type="button" className="mb-2 flex flex-col items-center bg-red-800 text-white rounded px-4 py-2" onClick={() => removeIngredient(index)}>
+                                    &lt;FaTrash />
+                                &lt;/button>
+                            &lt;/div>
                         ))}
-                        <button type="button" onClick={addIngredient} className=" mb-4 bg-gray-500 text-white rounded px-2 py-1" >Add Ingredient</button>
-                        <button type="submit" className="bg-red-800 text-white rounded px-4 py-2">ADD</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+                        &lt;button type="button" onClick={addIngredient} className=" mb-4 bg-gray-500 text-white rounded px-2 py-1" >Add Ingredient&lt;/button>
+                        &lt;button type="submit" className="bg-red-800 text-white rounded px-4 py-2">ADD&lt;/button>
+                    &lt;/form>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
     );
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 17:26:08 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

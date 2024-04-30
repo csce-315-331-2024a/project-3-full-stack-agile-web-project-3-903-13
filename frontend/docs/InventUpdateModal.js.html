@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: InventUpdateModal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: InventUpdateModal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module InventUpdateModal
  */
 import React, { useState, useEffect } from 'react';
@@ -156,70 +184,70 @@ export default function InventUpdateModal({isOpen, onClose, inventoryItems, setI
 	};
 
 	const validatePrice = (price) => {
-		return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
+		return !isNaN(parseFloat(price)) &amp;&amp; isFinite(price) &amp;&amp; parseFloat(price) > 0;
 	};
 
 	const validateCount = (count) => {
-		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
+		return !isNaN(parseInt(count)) &amp;&amp; isFinite(count) &amp;&amp; parseFloat(count) > 0;
 	};
 
 	const validateMinCount = (count) => {
-		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
+		return !isNaN(parseInt(count)) &amp;&amp; isFinite(count) &amp;&amp; parseFloat(count) > 0;
 	};
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
-            <div className="relative max-h-screen overflow-y-auto py-5">
-                <div className="bg-white p-2 rounded-lg shadow-lg">
-                    <button
+        &lt;div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+            &lt;div className="relative max-h-screen overflow-y-auto py-5">
+                &lt;div className="bg-white p-2 rounded-lg shadow-lg">
+                    &lt;button
                         className="absolute top-5 right-4 text-gray-500 hover:text-gray-700"
                         onClick={onClose}
                     >
-                        <svg
+                        &lt;svg
                             className="h-6 w-6"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
                         >
-                            <path
+                            &lt;path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
                                 d="M6 18L18 6M6 6l12 12"
                             />
-                        </svg>
-                    </button>
-						<h1 className="p-3 md:p text-xl font-semibold text-center">UPDATE INVENTORY ITEM</h1>
-						{updateErrorMessage && (
-							<p className="text-red-500">{updateErrorMessage}</p>
+                        &lt;/svg>
+                    &lt;/button>
+						&lt;h1 className="p-3 md:p text-xl font-semibold text-center">UPDATE INVENTORY ITEM&lt;/h1>
+						{updateErrorMessage &amp;&amp; (
+							&lt;p className="text-red-500">{updateErrorMessage}&lt;/p>
 						)}
-						{updateSuccessMessage && (
-							<p className="text-green-500">{updateSuccessMessage}</p>
+						{updateSuccessMessage &amp;&amp; (
+							&lt;p className="text-green-500">{updateSuccessMessage}&lt;/p>
 						)}
-						<form onSubmit={handleUpdateInventoryItem} className="flex flex-col items-center justify-center">
-							<select
+						&lt;form onSubmit={handleUpdateInventoryItem} className="flex flex-col items-center justify-center">
+							&lt;select
 								value={updateCategory}
 								onChange={(e) => setUpdateCategory(parseInt(e.target.value))}
 								className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
 								required
 							>
 								{categories.map((cat) => (
-									<option key={cat.value} value={cat.value}>{cat.label}</option>
+									&lt;option key={cat.value} value={cat.value}>{cat.label}&lt;/option>
 								))}
-							</select>
-							<select
+							&lt;/select>
+							&lt;select
 								value={updateItemName}
 								onChange={(e) => setUpdateItemName(e.target.value)}
 								className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
 								required
 							>
-								<option value="">Select Item Name</option>
+								&lt;option value="">Select Item Name&lt;/option>
 								{inventoryItems.map(name => (
-									<option key={name.ingredientname} value={name.ingredientname}>{name.ingredientname}</option>
+									&lt;option key={name.ingredientname} value={name.ingredientname}>{name.ingredientname}&lt;/option>
 								))}
-							</select>
-							{updateCategory == 0 && (
-								<input
+							&lt;/select>
+							{updateCategory == 0 &amp;&amp; (
+								&lt;input
 									type="number"
 									placeholder="New Count"
 									value={updateCount}
@@ -228,8 +256,8 @@ export default function InventUpdateModal({isOpen, onClose, inventoryItems, setI
 									required
 								/>
 							)}
-							{updateCategory == 1 && (
-								<input
+							{updateCategory == 1 &amp;&amp; (
+								&lt;input
 									type="number"
 									placeholder="New Price"
 									value={updatePrice}
@@ -238,8 +266,8 @@ export default function InventUpdateModal({isOpen, onClose, inventoryItems, setI
 									required
 								/>
 							)}
-							{updateCategory == 2 && (
-								<input
+							{updateCategory == 2 &amp;&amp; (
+								&lt;input
 									type="number"
 									placeholder="New Minimum Count"
 									value={updateMinCount}
@@ -249,10 +277,32 @@ export default function InventUpdateModal({isOpen, onClose, inventoryItems, setI
 								/>
 							)}
 
-							<button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">UPDATE</button>
-						</form>
-					</div>
-                    </div>
-                    </div>
+							&lt;button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">UPDATE&lt;/button>
+						&lt;/form>
+					&lt;/div>
+                    &lt;/div>
+                    &lt;/div>
     );
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 17:26:08 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
