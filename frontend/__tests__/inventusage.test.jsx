@@ -39,7 +39,7 @@ describe('InventoryUsagePage component', () => {
   it('should render the component initially', () => {
     render(<InventoryUsagePage />);
 
-    expect(screen.getByText('INVENTORY USAGE REPORT')).toBeInTheDocument();
+    expect(screen.getByText('Inventory Usage Report')).toBeInTheDocument();
   });
 
   it('should enable the Generate Report button when both start and end dates are selected', () => {

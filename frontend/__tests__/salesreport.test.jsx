@@ -9,7 +9,7 @@ describe('SalesReportPage component', () => {
     render(<SalesReportPage />);
 
     // Check for specific elements or text content
-    expect(screen.getByText('SALES REPORT')).toBeInTheDocument();
+    expect(screen.getByText('Sales Report')).toBeInTheDocument();
     expect(screen.getByText('Generate Report')).toBeInTheDocument();
   });
 

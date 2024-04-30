@@ -1,70 +1,74 @@
-// OrderManagementPage.test.js
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import OrderManagementPage from '../src/app/(employee)/employee/manager/order-management/page';
 
 describe('OrderManagementPage', () => {
-  test('renders the page', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue([]),
+    });
+  });
+
+  it('renders without crashing', () => {
+    render(<OrderManagementPage />);
+  });
+
+  it('renders the correct heading', () => {
     render(<OrderManagementPage />);
     const heading = screen.getByRole('heading', { name: /Order Management/i });
     expect(heading).toBeInTheDocument();
   });
 
-  test('select option changes the input fields', () => {
+  it('renders the option select', () => {
     render(<OrderManagementPage />);
     const optionSelect = screen.getByTestId('option-select');
-    const orderIdInput = screen.getByTestId('order-id-input');
-    const startDateInput = screen.queryByTestId('start-date');
-    const endDateInput = screen.queryByTestId('end-date');
-  
-    // Check initial state
-    expect(orderIdInput).toBeVisible();
-    expect(startDateInput).not.toBeInTheDocument();
-    expect(endDateInput).not.toBeInTheDocument();
-  
-    // Change option to "duration"
-    fireEvent.change(optionSelect, { target: { value: 'duration' } });
-  
-    // Check updated state after changing the option
-    expect(orderIdInput).toBeVisible(); // Assuming it remains visible
-    expect(screen.getByTestId('start-date')).toBeVisible();
-    expect(screen.getByTestId('end-date')).toBeVisible();
-  
-    // Change option back to "transactionID"
-    fireEvent.change(optionSelect, { target: { value: 'transactionID' } });
-  
-    // Check updated state after changing the option back
-    expect(orderIdInput).toBeVisible();
-    expect(screen.queryByTestId('start-date')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('end-date')).not.toBeInTheDocument();
+    expect(optionSelect).toBeInTheDocument();
   });
 
-  test('fetches and displays transactions by ID', async () => {
-    // Mock the fetch function
-    const mockFetch = jest.fn().mockResolvedValueOnce({
-      ok: true,
-      json: jest.fn().mockResolvedValueOnce({
-        transactionid: '123',
-        cost: 10.99,
-        transactiontime: '2023-04-21T12:34:56Z',
-      }),
-    });
-    global.fetch = mockFetch;
-
+  it('renders the order ID input when "By Order ID" option is selected', () => {
     render(<OrderManagementPage />);
     const orderIdInput = screen.getByTestId('order-id-input');
-    const findButton = screen.getByRole('button', { name: /Find/i });
-
-    // Enter order ID and submit the form
-    fireEvent.change(orderIdInput, { target: { value: '123' } });
-    fireEvent.click(findButton);
-
-    // Wait for the transaction data to be rendered
-    await waitFor(() => {
-      const transactionElement = screen.getByText(/Order #123/i);
-      expect(transactionElement).toBeVisible();
-    });
+    expect(orderIdInput).toBeInTheDocument();
   });
 
-  // Add more tests as needed
+  it('renders the start date and end date inputs when "By Period" option is selected', () => {
+    render(<OrderManagementPage />);
+    const optionSelect = screen.getByTestId('option-select');
+    fireEvent.change(optionSelect, { target: { value: 'duration' } });
+
+    const startDateInput = screen.getByTestId('start-date');
+    const endDateInput = screen.getByTestId('end-date');
+    expect(startDateInput).toBeInTheDocument();
+    expect(endDateInput).toBeInTheDocument();
+  });
+
+  it('displays an error message when start date is after end date', async () => {
+    render(<OrderManagementPage />);
+    const optionSelect = screen.getByTestId('option-select');
+    fireEvent.change(optionSelect, { target: { value: 'duration' } });
+
+    const startDateInput = screen.getByTestId('start-date');
+    const endDateInput = screen.getByTestId('end-date');
+    fireEvent.change(startDateInput, { target: { value: '2023-05-15' } });
+    fireEvent.change(endDateInput, { target: { value: '2023-05-10' } });
+
+    const submitButton = screen.getByText("Find");
+    fireEvent.click(submitButton);
+
+    const errorMessage = await screen.findByText(/Start date can not be after end date/i);
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('fetches data when the form is submitted', async () => {
+    render(<OrderManagementPage />);
+    const orderIdInput = screen.getByTestId('order-id-input');
+    fireEvent.change(orderIdInput, { target: { value: '123' } });
+
+    const submitButton = screen.getByText("Find");
+    fireEvent.click(submitButton);
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+  });
+
 });

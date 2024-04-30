@@ -113,6 +113,7 @@ export default function ItemPopularityPage() {
                     aria-label="Date Range Selection Form"
                 >
                     <input
+                        data-testid = "start date"
                         type="date"
                         value={startDate}
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
@@ -122,6 +123,7 @@ export default function ItemPopularityPage() {
 
                     />
                     <input
+                        data-testid = "end date"
                         type="date"
                         value={endDate}
                         className="mb-2 p-2 w-1/5 md:mb-0 md:mr-2 border border-gray-500 bg-white rounded-md focus:outline-none"
@@ -151,7 +153,7 @@ export default function ItemPopularityPage() {
                     )}
                 </div>
                 <div style={{ height: "650px" }} aria-label="Sales Report Chart">
-                    {hasData && <canvas ref={chartRef} aria-label="Sales Chart" ></canvas>}
+                    {hasData && <canvas ref={chartRef} data-testid= "chart-container" aria-label="Sales Chart" ></canvas>}
                 </div>
             </div>
         </main>
