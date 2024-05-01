@@ -104,7 +104,7 @@
     
 
     
-    <h4 class="name" id="CustomerFooter"><span class="type-signature"></span>CustomerFooter<span class="signature">()</span><span class="type-signature"> &rarr; {React.Component}</span></h4>
+    <h4 class="name" id="AuthUtilities"><span class="type-signature"></span>AuthUtilities<span class="signature">(email)</span><span class="type-signature"> &rarr; {Promise.&lt;(string|null)>}</span></h4>
     
 
     
@@ -112,9 +112,8 @@
 
 
 <div class="description">
-    <p>Represents the footer component for the customer-facing side of the application.
-This component displays location details and includes the GoogleTranslateWidget for dynamic language translation.
-The footer is styled specifically for visibility and corporate branding.</p>
+    <p>Fetches the role of a user based on their email from a backend API.
+This function sends a POST request to the API with the user's email and receives the role information.</p>
 </div>
 
 
@@ -123,6 +122,55 @@ The footer is styled specifically for visibility and corporate branding.</p>
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User's email address to fetch the role from the backend.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -158,7 +206,7 @@ The footer is styled specifically for visibility and corporate branding.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Footer.js.html">Footer.js</a>, <a href="Footer.js.html#line6">line 6</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line4">line 4</a>
     </li></ul></dd>
     
 
@@ -187,7 +235,9 @@ The footer is styled specifically for visibility and corporate branding.</p>
 
         
 <div class="param-desc">
-    <p>A React component that renders the footer of the customer interface, including address details and a translation widget.</p>
+    <ul>
+<li>Returns the user's role as a string or null if the role is not found or an error occurs.</li>
+</ul>
 </div>
 
 
@@ -198,7 +248,7 @@ The footer is styled specifically for visibility and corporate branding.</p>
     </dt>
     <dd>
         
-<span class="param-type">React.Component</span>
+<span class="param-type">Promise.&lt;(string|null)></span>
 
 
     </dd>
@@ -505,7 +555,7 @@ Provides a form to input new menu item data.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MenuAddModal.js.html">MenuAddModal.js</a>, <a href="MenuAddModal.js.html#line144">line 144</a>
+        <a href="components_MenuAddModal.js.html">components/MenuAddModal.js</a>, <a href="components_MenuAddModal.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -784,7 +834,7 @@ Provides a form to select a menu item for deletion.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MenuRemoveModal.js.html">MenuRemoveModal.js</a>, <a href="MenuRemoveModal.js.html#line126">line 126</a>
+        <a href="components_MenuRemoveModal.js.html">components/MenuRemoveModal.js</a>, <a href="components_MenuRemoveModal.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -1063,7 +1113,7 @@ Provides forms to update various attributes of a menu item, such as price, categ
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="MenuUpdateModal.js.html">MenuUpdateModal.js</a>, <a href="MenuUpdateModal.js.html#line290">line 290</a>
+        <a href="components_MenuUpdateModal.js.html">components/MenuUpdateModal.js</a>, <a href="components_MenuUpdateModal.js.html#line290">line 290</a>
     </li></ul></dd>
     
 
@@ -1109,13 +1159,13 @@ Provides forms to update various attributes of a menu item, such as price, categ
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CustomerFooter">CustomerFooter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AuthUtilities">AuthUtilities</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 20:38:26 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 22:19:12 GMT-0500 (Central Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

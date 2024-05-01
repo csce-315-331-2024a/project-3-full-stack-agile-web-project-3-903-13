@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/GoogleSignIn.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/GoogleSignIn.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module GoogleAuthButtons
+ */
+"use client";
+import { GoogleLogin } from '@react-oauth/google';
+import {useCookies} from 'react-cookie'
+
+//const clientId = process.env.AUTH_GOOGLE_ID
+const clientId = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
+
+/**
+ * Component to render a Google sign-in button that uses OAuth for authentication.
+ * It uses the react-oauth/google package to handle the authentication flow.
+ * Upon successful authentication, it stores the access token in cookies.
+ *
+ * @function GoogleSignInButton
+ * @returns {React.Component} A GoogleLogin component that triggers the OAuth flow and handles the success or error cases.
+ */
+const GoogleSignInButton = () => {
+  const [cookies, setCookie] = useCookies('access_token')
+  return (
+    &lt;GoogleLogin 
+      clientId={clientId}
+      onSuccess={credentialResponse => {
+        console.log(credentialResponse);
+        setCookie('access_token', credentialResponse.credential)
+      }}
+      onError={() => {
+        console.log('Login Failed');
+      }}
+      aria-label="Google Sign In Button"
+    />
+  )
+}
+
+/**
+ * Component to render a button that allows users to sign out.
+ * It clears the user's access token from cookies, effectively logging them out of the application.
+ *
+ * @function SignOutButton
+ * @returns {React.Component} A button that when clicked clears the access token cookie and logs the user out.
+ */
+const SignOutButton = () => {
+  const [cookies, setCookie] = useCookies('access_token')
+  const clearCookie = () => {
+    setCookie('access_token', null)
+  }
+  return (
+    &lt;button onClick={clearCookie} className="px-4 py-2 w-full right-0 border flex flex-col justify-center align-center gap-2 border-slate-200 dark:border-slate-700 rounded-lg hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 text-center"
+      aria-label= "Sign out Button"
+    >
+        &lt;span className='flex flex-col justify-center align-center'>Sign Out&lt;/span>
+    &lt;/button>
+  );
+}
+
+export {GoogleSignInButton,SignOutButton}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 22:24:59 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
