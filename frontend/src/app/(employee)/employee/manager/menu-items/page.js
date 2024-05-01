@@ -1,37 +1,33 @@
 "use client"
 
-
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import MenuAddModal  from "@/components/MenuAddModal";
 import MenuUpdateModal from "@/components/MenuUpdateModal";
 import MenuRemoveModal from "@/components/MenuRemoveModal";
+import axios from "axios";
 
 export const getMenuItems = async () => {
-  const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-  const data = await items.json();
-
-  return data;
+  try {
+    const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching menu items:", error);
+    throw error;
+  }
 };
 
 export const getMenuItemIngredients = async (menuItem) => {
   try {
-    // Construct the query string from the menuItem object
     const queryString = new URLSearchParams(menuItem).toString();
-
-    // Append the query string to the URL
     const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
+    const response = await axios.get(url);
 
-    // Make the GET request
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    if (!response.status === 200) {
+      throw new Error(response.data);
     }
 
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     console.error("Error fetching ingredient for menu item:", error);
     throw error;
@@ -40,17 +36,14 @@ export const getMenuItemIngredients = async (menuItem) => {
 
 export const getMenuItemsWithIngredients = async () => {
   try {
-    // Fetch menu items
-    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-    const data = await items.json();
+    const itemsResponse = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+    const data = itemsResponse.data;
 
-    // Fetch ingredients for each menu item
     const menuItemsWithIngredients = await Promise.all(
-      data.map(async (menuItems) => {
-        console.log(menuItems.itemname);
-
-        const ingredients = await getMenuItemIngredients({ itemName: menuItems.itemname });
-        return { ...menuItems, ingredients };
+      data.map(async (menuItem) => {
+        console.log(menuItem.itemname);
+        const ingredients = await getMenuItemIngredients({ itemName: menuItem.itemname });
+        return { ...menuItem, ingredients };
       })
     );
 
@@ -60,16 +53,16 @@ export const getMenuItemsWithIngredients = async () => {
     throw error;
   }
 };
+
 export const getInventoryItems = async () => {
-  const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-  const data = await items.json();
-
-  return data;
+  try {
+    const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching inventory items:", error);
+    throw error;
+  }
 };
-
-
-
-
 
 const categories = [
   { label: "Burgers/Sandwiches", value: 0 },
@@ -97,18 +90,11 @@ export default function ManagerPage() {
   ); // Initialize inventoryItems with disabled property
   const [isSeasonal, setIsSeasonal] = useState(false); // State for seasonal checkbox
   const [expirationDate, setExpirationDate] = useState(""); // State for expiration date
-  
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
-  
   const [menuItemsGrid, setMenuItemsGrid] = useState([]);
-  
-  
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [showRemovePopup, setShowRemovePopup] = useState(false);
-
-
-
 
   useEffect(() => {
     fetchMenuItems();
@@ -213,15 +199,6 @@ export default function ManagerPage() {
     updatedIngredients.splice(index, 1);
     setIngredients(updatedIngredients);
   };
-
-  
-
-  
-
-
-  
-
-  
 
   return (
     <main className="min-h-screen flex flex-col">

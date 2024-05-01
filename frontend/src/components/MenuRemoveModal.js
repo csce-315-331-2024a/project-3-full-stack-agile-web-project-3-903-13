@@ -1,86 +1,75 @@
 import React, {useState, useEffect} from 'react';
 import { FaTrash } from "react-icons/fa";
+import axios from 'axios';
 
 
 export const getMenuItems = async () => {
-    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-    const data = await items.json();
-  
-    return data;
-  };
-  
-  export const getMenuItemIngredients = async (menuItem) => {
-    try {
-      // Construct the query string from the menuItem object
-      const queryString = new URLSearchParams(menuItem).toString();
-  
-      // Append the query string to the URL
-      const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
-  
-      // Make the GET request
-      const response = await fetch(url);
-  
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
-      }
-  
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching ingredient for menu item:", error);
-      throw error;
-    }
-  };
-  
-  export const getMenuItemsWithIngredients = async () => {
-    try {
-      // Fetch menu items
-      const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-      const data = await items.json();
-  
-      // Fetch ingredients for each menu item
-      const menuItemsWithIngredients = await Promise.all(
-        data.map(async (menuItems) => {
-          console.log(menuItems.itemname);
-  
-          const ingredients = await getMenuItemIngredients({ itemName: menuItems.itemname });
-          return { ...menuItems, ingredients };
-        })
-      );
-  
-      return menuItemsWithIngredients;
-    } catch (error) {
-      console.error("Error fetching menu items with ingredients:", error);
-      throw error;
-    }
-  };
-  export const getInventoryItems = async () => {
-    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-    const data = await items.json();
-  
-    return data;
-  };
+  try {
+    const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching menu items:", error);
+    throw error;
+  }
+};
 
-  
+export const getMenuItemIngredients = async (menuItem) => {
+  try {
+    const queryString = new URLSearchParams(menuItem).toString();
+    const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching ingredient for menu item:", error);
+    throw error;
+  }
+};
 
+export const getMenuItemsWithIngredients = async () => {
+  try {
+    const itemsResponse = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+    const data = itemsResponse.data;
+
+    const menuItemsWithIngredients = await Promise.all(
+      data.map(async (menuItem) => {
+        console.log(menuItem.itemname);
+        const ingredients = await getMenuItemIngredients({ itemName: menuItem.itemname });
+        return { ...menuItem, ingredients };
+      })
+    );
+
+    return menuItemsWithIngredients;
+  } catch (error) {
+    console.error("Error fetching menu items with ingredients:", error);
+    throw error;
+  }
+};
+
+export const getInventoryItems = async () => {
+  try {
+    const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching inventory items:", error);
+    throw error;
+  }
+};
 
 export const removeMenuItem = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
-      method: "DELETE",
+  try {
+    const response = await axios.delete("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
+      data: menuItem,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    } else {
-      return { success: true, message: "Menu item removed successfully" };
-    }
-  };
+    return { success: true, message: "Menu item removed successfully" };
+  } catch (error) {
+    console.error("Error removing menu item:", error);
+    throw error;
+  }
+};
+
 export default function MenuRemoveModal ({onClose, isOpen, menuItems, inventoryItems, setMenuItemsGrid, setMenuItems}){
     const [removeItemName, setRemoveMenuItem] = useState("");
   const [removeErrorMessage, setRemoveErrorMessage] = useState("");
