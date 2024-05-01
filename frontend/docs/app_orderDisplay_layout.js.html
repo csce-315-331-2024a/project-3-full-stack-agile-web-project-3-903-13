@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/SignOut.js</title>
+    <title>JSDoc: Source: app/orderDisplay/layout.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/SignOut.js</h1>
+    <h1 class="page-title">Source: app/orderDisplay/layout.js</h1>
 
     
 
@@ -26,45 +26,33 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { signOut } from "@/auth"
-import Image from "next/image"
-import React from "react"
-import Link from "next/link"
-import { redirect } from "next/navigation"
-
-/**
- * Displays the sign out interface for users who are currently logged in.
- * This component shows the user's email and provides options to sign out or return to the home page.
- * @module SignOut
- * @param {Object} props - Component props.
- * @param {string} props.email - Email address of the currently logged in user.
+            <pre class="prettyprint source linenums"><code>/**
+ * @module OrderDisplay/Layout
+ * @description Root layout component for the Order Display page.
  */
-export function SignOut({ email }) {
-  return (
-    &lt;main className="h-full min-h-screen min-w-screen flex flex-col items-center justify-center">
-      &lt;div className="flex flex-col items-center justify-center mb-12">
-        &lt;h1 className="text-4xl font-bold text-black shadow-lg p-5 rounded-lg">You are currently logged in as {email}. Click below to log out.&lt;/h1>
-        &lt;Image alt="Rev logo" className="mt-4" src={"/revs.png"} width={120} height={120}>&lt;/Image>
-      &lt;/div>
-      &lt;form
-        action={async () => {
-          "use server"
-          await signOut("google", { callbackUrl: "https://project-3-full-stack-agile-web-project-3-903-13-six.vercel.app/" })
-        }}
-        className="flex flex-col items-center gap-6"
-      >
-        &lt;button type="submit" className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-6 py-3 text-center inline-flex items-center shadow-lg transition-colors duration-200" aria-label="Sign out with Google">
-          &lt;svg className="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
-            &lt;path fillRule="evenodd" d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z" clipRule="evenodd" />
-          &lt;/svg>
-          Sign out with Google
-        &lt;/button>
-        &lt;Link href="/" className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-6 py-3 focus:outline-none shadow-lg transition-colors duration-200" aria-label="Return to Home">Home&lt;/Link>
-      &lt;/form>
-    &lt;/main>
-  )
-} 
-</code></pre>
+
+
+export const metadata = {
+  title: 'Order Display',
+  description: 'Order Display',
+};
+  
+/**
+ * Provides the root HTML structure for the Order Display page, encapsulating any child components passed to it.
+ * It sets up a basic HTML layout with the specified children.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {React.ReactNode} props.children - Child components to be rendered within the layout.
+ * @returns {React.Component} The root layout component with the specified children.
+ */
+  export default function RootLayout({ children }) {
+   return (
+      &lt;html lang="en">
+        &lt;body>{children}&lt;/body>
+      &lt;/html>
+    )
+  }
+  </code></pre>
         </article>
     </section>
 

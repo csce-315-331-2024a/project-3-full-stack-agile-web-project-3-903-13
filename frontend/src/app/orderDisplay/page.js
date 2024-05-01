@@ -1,13 +1,28 @@
+/**
+ * @module OrderDisplay/Page
+ * @description Page component responsible for displaying orders in various states.
+ */
 "use client";
 
 import "../globals.css";
 import React, { useEffect, useState } from 'react';
 
+/**
+ * Component for displaying orders that are either in preparation or ready to collect.
+ * Fetches and updates the display of orders at regular intervals.
+ *
+ * @function OrderDisplayPage
+ * @returns {React.Component} A component showing orders in preparation and orders ready for collection.
+ */
 const OrderDisplayPage = () => {
     const [ordersInPreparation, setOrdersInPreparation] = useState([]);
     const [ordersToCollect, setOrdersToCollect] = useState([]);
 
-    // Fetch in-progress orders from the backend
+    /**
+     * Fetches orders that are currently being prepared from the backend.
+     * @async
+     * @memberOf module:OrderDisplay/Page
+     */
     const fetchInProgressOrders = async () => {
         try {
             const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/inProgressOrders');
@@ -21,6 +36,11 @@ const OrderDisplayPage = () => {
         }
     };
     
+    /**
+     * Fetches recently fulfilled orders from the backend.
+     * @async
+     * @memberOf module:OrderDisplay/Page
+     */
     const fetchRecentFulfilledOrders = async () => {
         try {
             const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/recentFulfilledOrders');

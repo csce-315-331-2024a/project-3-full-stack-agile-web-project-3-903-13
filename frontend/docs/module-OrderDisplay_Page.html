@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: EmployeeUpdateForm</title>
+    <title>JSDoc: Module: OrderDisplay/Page</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: EmployeeUpdateForm</h1>
+    <h1 class="page-title">Module: OrderDisplay/Page</h1>
 
     
 
@@ -38,10 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>A component that provides forms to update or delete employee details.
-The component displays form fields pre-filled with the current employee data, allowing modifications
-to fields such as age, phone number, weekly hours, email, and role. It includes functionality to update these details
-on the server via POST request, or to delete the employee via DELETE request.</p></div>
+            <div class="description"><p>Page component responsible for displaying orders in various states.</p></div>
         
 
         
@@ -55,55 +52,6 @@ on the server via POST request, or to delete the employee via DELETE request.</p
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>employee</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The employee object containing the employee's details.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -139,7 +87,7 @@ on the server via POST request, or to delete the employee via DELETE request.</p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_EmployeeUpdateForm.js.html">components/EmployeeUpdateForm.js</a>, <a href="components_EmployeeUpdateForm.js.html#line4">line 4</a>
+        <a href="app_orderDisplay_page.js.html">app/orderDisplay/page.js</a>, <a href="app_orderDisplay_page.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -164,28 +112,6 @@ on the server via POST request, or to delete the employee via DELETE request.</p
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>A form that enables the user to update or delete the specified employee's data.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">React.Component</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -218,7 +144,7 @@ on the server via POST request, or to delete the employee via DELETE request.</p
     
 
     
-    <h4 class="name" id=".deleteUser"><span class="type-signature">(async, static) </span>deleteUser<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".fetchInProgressOrders"><span class="type-signature">(async, static) </span>fetchInProgressOrders<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -226,10 +152,7 @@ on the server via POST request, or to delete the employee via DELETE request.</p
 
 
 <div class="description">
-    <p>Deletes the employee from the server.
-This function sends a DELETE request to the server to remove the employee.
-Upon successful deletion, it sets a success message; if an error occurs, it sets an error message.
-The page is then reloaded to reflect changes.</p>
+    <p>Fetches orders that are currently being prepared from the backend.</p>
 </div>
 
 
@@ -273,7 +196,7 @@ The page is then reloaded to reflect changes.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_EmployeeUpdateForm.js.html">components/EmployeeUpdateForm.js</a>, <a href="components_EmployeeUpdateForm.js.html#line42">line 42</a>
+        <a href="app_orderDisplay_page.js.html">app/orderDisplay/page.js</a>, <a href="app_orderDisplay_page.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -309,7 +232,7 @@ The page is then reloaded to reflect changes.</p>
     
 
     
-    <h4 class="name" id=".handleChange"><span class="type-signature">(static) </span>handleChange<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".fetchRecentFulfilledOrders"><span class="type-signature">(async, static) </span>fetchRecentFulfilledOrders<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -317,8 +240,7 @@ The page is then reloaded to reflect changes.</p>
 
 
 <div class="description">
-    <p>Handles form data changes and updates the state accordingly.
-This function is triggered on input field changes, updating the local state with the new values.</p>
+    <p>Fetches recently fulfilled orders from the backend.</p>
 </div>
 
 
@@ -327,55 +249,6 @@ This function is triggered on input field changes, updating the local state with
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Event</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The input change event.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -411,7 +284,7 @@ This function is triggered on input field changes, updating the local state with
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_EmployeeUpdateForm.js.html">components/EmployeeUpdateForm.js</a>, <a href="components_EmployeeUpdateForm.js.html#line60">line 60</a>
+        <a href="app_orderDisplay_page.js.html">app/orderDisplay/page.js</a>, <a href="app_orderDisplay_page.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -447,7 +320,7 @@ This function is triggered on input field changes, updating the local state with
     
 
     
-    <h4 class="name" id=".handleUpdate"><span class="type-signature">(async, static) </span>handleUpdate<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~OrderDisplayPage"><span class="type-signature">(inner) </span>OrderDisplayPage<span class="signature">()</span><span class="type-signature"> &rarr; {React.Component}</span></h4>
     
 
     
@@ -455,9 +328,8 @@ This function is triggered on input field changes, updating the local state with
 
 
 <div class="description">
-    <p>Submits the updated employee data to the server.
-This function sends a POST request to the server with the updated employee data.
-Upon successful update, it sets a success message; if an error occurs, it sets an error message.</p>
+    <p>Component for displaying orders that are either in preparation or ready to collect.
+Fetches and updates the display of orders at regular intervals.</p>
 </div>
 
 
@@ -466,55 +338,6 @@ Upon successful update, it sets a success message; if an error occurs, it sets a
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Event</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The form submission event.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -550,7 +373,7 @@ Upon successful update, it sets a success message; if an error occurs, it sets a
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_EmployeeUpdateForm.js.html">components/EmployeeUpdateForm.js</a>, <a href="components_EmployeeUpdateForm.js.html#line72">line 72</a>
+        <a href="app_orderDisplay_page.js.html">app/orderDisplay/page.js</a>, <a href="app_orderDisplay_page.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -575,6 +398,28 @@ Upon successful update, it sets a success message; if an error occurs, it sets a
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A component showing orders in preparation and orders ready for collection.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">React.Component</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
