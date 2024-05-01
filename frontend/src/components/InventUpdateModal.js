@@ -2,6 +2,7 @@
  * @module InventUpdateModal
  */
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 /**
  * Fetches the inventory items.
@@ -10,11 +11,13 @@ import React, { useState, useEffect } from 'react';
  * @returns {JSON} An array of the inventory items.
  */
 export const getInventoryItems = async () => {
-	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-	const data = await items.json();
-
-	return data;
-};
+	try {
+	  const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory');
+	  return response.data;
+	} catch (error) {
+	  throw new Error(error);
+	}
+  };
 
 /**
  * Updates the count of a specified inventory item on the server.
@@ -24,21 +27,15 @@ export const getInventoryItems = async () => {
  * @returns {string} A string for a success message if the update is successful.
  */
 export const updateInventCount = async (inventItem) => {
-	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updateQuantity", {
-		method: "PATCH",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(inventItem),
-	});
-
-	if (!response.ok) {
-		const errorMessage = await response.text();
-		throw new Error(errorMessage);
-	} else {
-		return { success: true, message: "Inventory item count updated successfully" };
+	try {
+	  const response = await axios.patch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updateQuantity', inventItem, {
+		headers: { 'Content-Type': 'application/json' },
+	  });
+	  return { success: true, message: "Inventory item count updated successfully" };
+	} catch (error) {
+	  throw new Error(error.response.data.message || error.message);
 	}
-};
+  };
 
 /**
  * Updates the price of a specified inventory item on the server.
@@ -48,21 +45,15 @@ export const updateInventCount = async (inventItem) => {
  * @returns {string} A string for a success message if the update is successful.
  */
 export const updateInventPrice = async (inventItem) => {
-	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updatePrice", {
-		method: "PATCH",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(inventItem),
-	});
-
-	if (!response.ok) {
-		const errorMessage = await response.text();
-		throw new Error(errorMessage);
-	} else {
-		return { success: true, message: "Inventory item price updated successfully" };
+	try {
+	  const response = await axios.patch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updatePrice', inventItem, {
+		headers: { 'Content-Type': 'application/json' },
+	  });
+	  return { success: true, message: "Inventory item price updated successfully" };
+	} catch (error) {
+	  throw new Error(error.response.data.message || error.message);
 	}
-};
+  };
 
 /**
  * Updates the minimum count of a specified inventory item on the server.
@@ -72,21 +63,16 @@ export const updateInventPrice = async (inventItem) => {
  * @returns {string} A string for a success message if the update is successful.
  */
 export const updateInventMin = async (inventItem) => {
-	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updateMinCount", {
-		method: "PATCH",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(inventItem),
-	});
-
-	if (!response.ok) {
-		const errorMessage = await response.text();
-		throw new Error(errorMessage);
-	} else {
-		return { success: true, message: "Inventory item minimum count updated successfully" };
+	try {
+	  const response = await axios.patch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory/updateMinCount', inventItem, {
+		headers: { 'Content-Type': 'application/json' },
+	  });
+	  return { success: true, message: "Inventory item minimum count updated successfully" };
+	} catch (error) {
+	  throw new Error(error.response.data.message || error.message);
 	}
-};
+  };
+
 
 const categories = [
 	{ label: "Update Item Count", value: 0 },

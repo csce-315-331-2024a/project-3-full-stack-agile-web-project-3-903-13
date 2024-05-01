@@ -2,6 +2,7 @@
  * @module InventAddModal
  */
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 /**
  * Fetches the inventory items.
@@ -10,11 +11,14 @@ import React, { useState, useEffect } from 'react';
  * @returns {JSON} An array of the inventory items.
  */
 export const getInventoryItems = async () => {
-	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-	const data = await items.json();
-
-	return data;
-};
+	try {
+	  const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory');
+	  return response.data;
+	} catch (error) {
+	  console.error('Error fetching inventory items:', error);
+	  throw error; // Re-throw the error for handling in the calling component
+	}
+  };
 
 /**
  * Adds the specified inventory item on the server.
@@ -24,21 +28,21 @@ export const getInventoryItems = async () => {
  * @returns {string} A string for a success message if the adding is successful.
  */
 export const addInventoryItem = async (inventItem) => {
-	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory", {
-		method: "POST",
+	try {
+	  const response = await axios.post('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory', inventItem, {
 		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(inventItem),
-	});
-
-	if (!response.ok) {
-		const errorMessage = await response.text();
-		throw new Error(errorMessage);
-	} else {
-		return { success: true, message: "Inventory item added successfully" };
+		  'Content-Type': 'application/json'
+		}
+	  });
+	  if (!response.data.success) {
+		throw new Error(response.data.message || 'Failed to add inventory item'); // Use message from response or a default message
+	  }
+	  return response.data;
+	} catch (error) {
+	  console.error('Error adding inventory item:', error);
+	  throw error; // Re-throw the error for handling in the calling component
 	}
-};
+  };
 
 /**
  * Component that provides a modal for adding new inventory items.
