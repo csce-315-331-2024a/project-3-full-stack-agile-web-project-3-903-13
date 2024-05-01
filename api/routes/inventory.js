@@ -3,6 +3,42 @@ const router = express.Router()
 
 const inventoryController = require('../services/inventory.js')
 
+/**
+ * @swagger
+ * tags:
+ *   name: Inventory
+ *   description: API for managing Rev's inventory
+ * /inventory:
+ *   get:
+ *     summary: Get list of all inventory items
+ *     tags: [Inventory]
+ *   post:
+ *     summary: Create a new inventory item
+ *     tags: [Inventory]
+ *   delete:
+ *     summary: Delete an inventory item
+ *     tags: [Inventory]
+ * /inventory/usage:
+ *   get:
+ *     summary: Genarate report regarding inventory usage during a given time period
+ *     tags: [Inventory]
+ * /inventory/state:
+ *   get:
+ *     summary: Get list of all inventory items
+ *     tags: [Inventory]
+ * /inventory/updateQuantity:
+ *   patch:
+ *     summary: Update the quantity of a given inventory item
+ *     tags: [Inventory]
+ * /inventory/updatePrice:
+ *   patch:
+ *     summary: Update the price of a given inventory item
+ *     tags: [Inventory]
+ * /inventory/updateMinCount:
+ *   patch:
+ *     summary: Update the minimum count of a given inventory item
+ *     tags: [Inventory]
+ */
 
 // CREATE new Inventory Item
 router.post("/", inventoryController.addInventoryItem)

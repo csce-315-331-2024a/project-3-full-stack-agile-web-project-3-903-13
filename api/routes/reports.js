@@ -3,6 +3,29 @@ const router = express.Router()
 const {generateReport} = require('../services/reports/whatSellsTogether')
 const {generateSalesReport} = require('../services/reports/salesReport')
 const {generateRestockReport, fulfillRestock } = require('../services/reports/restockReport')
+
+/**
+ * @swagger
+ * tags:
+ *   name: Reports
+ *   description: API for generating analytics reports
+ *	/reports/whatSellsTogether:
+ *	  post:
+ *	    summary: Generate the "What Sells Together" report given a start date and an end date
+ *	    tags: [Reports]
+ *	/reports/salesReport:
+ *	  get:
+ *	    summary: Generate the "What Sells Together" report given a start date and an end date
+ *	    tags: [Reports]
+ *	/reports/restockReport:
+ *	  get:
+ *	    summary: Generate the "What Sells Together" report given a start date and an end date
+ *	    tags: [Reports]
+ *	/reports/restockInventory:
+ *	  patch:
+ *	    summary: Generate the "What Sells Together" report given a start date and an end date
+ *	    tags: [Reports]
+ */
  
 
 router.post("/whatSellsTogether", generateReport)

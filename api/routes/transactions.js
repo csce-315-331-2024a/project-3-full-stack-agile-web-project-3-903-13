@@ -2,6 +2,94 @@ const express = require('express')
 const router = express.Router()
 const transactionsController = require('../services/transactions')
 
+/**
+ * @swagger
+ * tags:
+ *   name: Transactions
+ *   description: API for managing transactions
+ *	/transactions/new:
+ *	  post:
+ *	    summary: Generate a new transaction
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/getTransactionByID:
+ *	  post:
+ *	    summary: Retrieve details of a transaction given its ID
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/getTransactionByPeriod:
+ *	  post:
+ *	    summary: Retrieve details of transactions in a given time period
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/deletetransaction:
+ *	  delete:
+ *	    summary: Delete a transaction
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/inProgressOrders:
+ *	  get:
+ *	    summary: Get list of orders in progress 
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/fulfillOrder:
+ *	  patch:
+ *	    summary: 
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/cancelOrder:
+ *	  patch:
+ *	    summary: 
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/recentFulfilledOrders:
+ *	  get:
+ *	    summary: 
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ *	/transactions/updateTransaction:
+ *	  patch:
+ *	    summary: 
+ *	    tags: [Transactions]
+ *	    responses:
+ *	      200:
+ *	        description: 
+ *	      500:
+ *	        description: Internal Server Error
+ */
+
 router.post("/new", transactionsController.createTransaction)
 
 router.post('/getTransactionByID', async (request, response) => {
