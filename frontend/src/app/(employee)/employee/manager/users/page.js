@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import EmployeeModal from "@/components/EmployeeModal"
+import axios from 'axios';
 
 export default function UsersPage() {
 
@@ -32,24 +33,18 @@ export default function UsersPage() {
     }
 
     useEffect(() => {
-        const fetchEmployees = async () => {
-            try {
-                const employees = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees`);
+      const fetchEmployees = async () => {
+          try {
+              const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees');
 
-                if (!employees.ok) {
-                    throw new Error('Network response was not ok');
-                }
+              setEmployees(response.data);
+          } catch (error) {
+              console.error('Error retrieving employees:', error);
+          }
+      };
 
-                const employeesData = await employees.json();
-                setEmployees(employeesData)
-            } catch (error) {
-                console.error('Error retrieving users:', error);
-            }
-        };
-
-        fetchEmployees()
-
-    }, [])
+      fetchEmployees();
+  }, []);
 
     return (
         <main className="min-h-screen bg-gray-100 flex items-center justify-center" aria-labelledby="users-page-title">

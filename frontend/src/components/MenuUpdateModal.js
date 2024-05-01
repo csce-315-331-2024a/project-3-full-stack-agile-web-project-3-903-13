@@ -1,184 +1,213 @@
 import React, {useState, useEffect} from 'react';
 import { FaTrash } from "react-icons/fa";
+import axios from 'axios';
 
 
 export const getMenuItems = async () => {
-    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-    const data = await items.json();
+  try {
+    const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+    return response.data;
+  } catch (error) {
+    // Handle error if needed
+    console.error("Error fetching menu items:", error);
+    throw error;
+  }
+};
   
-    return data;
-  };
+export const getMenuItemIngredients = async (menuItem) => {
+  try {
+    // Construct the query string from the menuItem object
+    const queryString = new URLSearchParams(menuItem).toString();
+
+    // Append the query string to the URL
+    const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
+
+    // Make the GET request using Axios
+    const response = await axios.get(url);
+
+    return response.data;
+  } catch (error) {
+    // Handle error if needed
+    console.error("Error fetching ingredient for menu item:", error);
+    throw error;
+  }
+};
   
-  export const getMenuItemIngredients = async (menuItem) => {
-    try {
-      // Construct the query string from the menuItem object
-      const queryString = new URLSearchParams(menuItem).toString();
-  
-      // Append the query string to the URL
-      const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
-  
-      // Make the GET request
-      const response = await fetch(url);
-  
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
-      }
-  
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching ingredient for menu item:", error);
-      throw error;
-    }
-  };
-  
-  export const getMenuItemsWithIngredients = async () => {
-    try {
-      // Fetch menu items
-      const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-      const data = await items.json();
-  
-      // Fetch ingredients for each menu item
-      const menuItemsWithIngredients = await Promise.all(
-        data.map(async (menuItems) => {
-          console.log(menuItems.itemname);
-  
-          const ingredients = await getMenuItemIngredients({ itemName: menuItems.itemname });
-          return { ...menuItems, ingredients };
-        })
-      );
-  
-      return menuItemsWithIngredients;
-    } catch (error) {
-      console.error("Error fetching menu items with ingredients:", error);
-      throw error;
-    }
-  };
-  export const getInventoryItems = async () => {
-    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-    const data = await items.json();
-  
-    return data;
-  };
-  export const updateMenuItemPrice = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updatePrice", {
-      method: "PATCH",
+export const getMenuItemsWithIngredients = async () => {
+  try {
+    // Fetch menu items
+    const itemsResponse = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+    const itemsData = itemsResponse.data;
+
+    // Fetch ingredients for each menu item
+    const menuItemsWithIngredients = await Promise.all(
+      itemsData.map(async (menuItem) => {
+        console.log(menuItem.itemname);
+
+        // Fetch ingredients for the current menu item
+        const ingredientsResponse = await axios.get(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${menuItem.itemname}`);
+        const ingredientsData = ingredientsResponse.data;
+
+        // Return the menu item with its ingredients
+        return { ...menuItem, ingredients: ingredientsData };
+      })
+    );
+
+    return menuItemsWithIngredients;
+  } catch (error) {
+    // Handle error if needed
+    console.error("Error fetching menu items with ingredients:", error);
+    throw error;
+  }
+};
+export const getInventoryItems = async () => {
+  try {
+    const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching inventory items:", error);
+    throw error;
+  }
+};
+export const updateMenuItemPrice = async (menuItem) => {
+  try {
+    const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updatePrice", menuItem, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    
+    return { success: true, message: "Menu item price updated successfully" };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data);
+    } else if (error.request) {
+      throw new Error("Network error occurred, please try again later.");
     } else {
-      return { success: true, message: "Menu item price updated successfully" };
+      throw new Error("An unexpected error occurred, please try again later.");
     }
-  };
+  }
+};
   
-  export const updateMenuItemCat = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCat", {
-      method: "PATCH",
+export const updateMenuItemCat = async (menuItem) => {
+  try {
+    const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCat", menuItem, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    
+    return { success: true, message: "Menu item category updated successfully" };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data);
+    } else if (error.request) {
+      throw new Error("Network error occurred, please try again later.");
     } else {
-      return { success: true, message: "Menu item category updated successfully" };
+      throw new Error("An unexpected error occurred, please try again later.");
     }
-  };
+  }
+};
   
-  export const updateMenuItemIngred = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateIngred", {
-      method: "PATCH",
+export const updateMenuItemIngred = async (menuItem) => {
+  try {
+    const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateIngred", menuItem, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    
+    return { success: true, message: "Menu item ingredients updated successfully" };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data);
+    } else if (error.request) {
+      throw new Error("Network error occurred, please try again later.");
     } else {
-      return { success: true, message: "Menu item ingredients updated successfully" };
+      throw new Error("An unexpected error occurred, please try again later.");
     }
-  };
+  }
+};
   
-  export const updateMenuItemDesc = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateDesc", {
-      method: "PATCH",
+export const updateMenuItemDesc = async (menuItem) => {
+  try {
+    const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateDesc", menuItem, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    
+    return { success: true, message: "Menu item description updated successfully" };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data);
+    } else if (error.request) {
+      throw new Error("Network error occurred, please try again later.");
     } else {
-      return { success: true, message: "Menu item description updated successfully" };
+      throw new Error("An unexpected error occurred, please try again later.");
     }
-  };
+  }
+};
   
-  export const updateMenuItemCalories = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCal", {
-      method: "PATCH",
+export const updateMenuItemCalories = async (menuItem) => {
+  try {
+    const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCal", menuItem, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    
+    return { success: true, message: "Menu item calories updated successfully" };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data);
+    } else if (error.request) {
+      throw new Error("Network error occurred, please try again later.");
     } else {
-      return { success: true, message: "Menu item calories updated successfully" };
+      throw new Error("An unexpected error occurred, please try again later.");
     }
-  };
+  }
+};
   
-  export const updateMenuItemDiet = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateDiet", {
-      method: "PATCH",
+export const updateMenuItemDiet = async (menuItem) => {
+  try {
+    const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateDiet", menuItem, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    
+    return { success: true, message: "Menu item diet updated successfully" };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data);
+    } else if (error.request) {
+      throw new Error("Network error occurred, please try again later.");
     } else {
-      return { success: true, message: "Menu item diet updated successfully" };
+      throw new Error("An unexpected error occurred, please try again later.");
     }
-  };
-  
-  export const updateMenuItemAllergy = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateAller", {
-      method: "PATCH",
+  }
+};
+export const updateMenuItemAllergy = async (menuItem) => {
+  try {
+    const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateAller", menuItem, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(menuItem),
     });
-  
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+    
+    return { success: true, message: "Menu item allergy updated successfully" };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data);
+    } else if (error.request) {
+      throw new Error("Network error occurred, please try again later.");
     } else {
-      return { success: true, message: "Menu item allergy updated successfully" };
+      throw new Error("An unexpected error occurred, please try again later.");
     }
-  };
+  }
+};
+
   const updateCategories = [
     { label: "Update Price", value: 0 },
     { label: "Update Category", value: 1 },
@@ -477,6 +506,7 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
       </select>
       {(updateCategory < 2 || updateCategory > 2) && (
         <select
+         data-testid = "menu select"
           value={updateItemName}
           onChange={(e) => setUpdateItemName(e.target.value)}
           className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
