@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: CartContext</title>
+    <title>JSDoc: Module: UpdateOrder/Layout</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: CartContext</h1>
+    <h1 class="page-title">Module: UpdateOrder/Layout</h1>
 
     
 
@@ -38,125 +38,16 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Provides a React context for managing the visibility of the shopping cart across the application.
-This context allows components nested within the <code>CartProvider</code> to access and modify the cart's visibility state.</p></div>
+            <div class="description"><p>Provides a layout for the employee section of the application, including a navigation bar and a main content area.
+This component wraps its children with a <code>TransactionProvider</code> to provide transaction context across all its children.
+It uses the <code>Suspense</code> component to handle the loading state of its children, providing a better user experience during data fetching.
+The navigation bar (<code>EmployeeNavbar</code>) includes links to various management sections such as inventory, menu items, and reports.</p></div>
         
 
         
             
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_CartContext.js.html">components/CartContext.js</a>, <a href="components_CartContext.js.html#line5">line 5</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~CartProvider"><span class="type-signature">(inner) </span>CartProvider<span class="signature">(props)</span><span class="type-signature"> &rarr; {React.Component}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Component that provides the cart context to its child components.
-It initializes the state for whether the cart is visible and provides a context provider to manage this state.
-The <code>CartProvider</code> should wrap parts of the application that need access to and control over the cart's visibility.</p>
-</div>
 
 
 
@@ -168,48 +59,6 @@ The <code>CartProvider</code> should wrap parts of the application that need acc
 
     <h5>Parameters:</h5>
     
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>props</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The props object.</p>
-                <h6>Properties</h6>
-                
 
 <table class="params">
     <thead>
@@ -249,14 +98,7 @@ The <code>CartProvider</code> should wrap parts of the application that need acc
 
             
 
-            <td class="description last"><p>The child components that will have access to the cart context.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last"><p>Child components to render within the layout.</p></td>
         </tr>
 
     
@@ -297,7 +139,7 @@ The <code>CartProvider</code> should wrap parts of the application that need acc
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_CartContext.js.html">components/CartContext.js</a>, <a href="components_CartContext.js.html#line22">line 22</a>
+        <a href="app_(employee)_employee_update_layout.js.html">app/(employee)/employee/update/layout.js</a>, <a href="app_(employee)_employee_update_layout.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -326,7 +168,7 @@ The <code>CartProvider</code> should wrap parts of the application that need acc
 
         
 <div class="param-desc">
-    <p>A context provider component that passes down cart state to its children.</p>
+    <p>A component that includes an employee navigation bar and the main content area for child components.</p>
 </div>
 
 
@@ -337,7 +179,7 @@ The <code>CartProvider</code> should wrap parts of the application that need acc
     </dt>
     <dd>
         
-<span class="param-type">React.Component</span>
+<span class="param-type">JSX.Element</span>
 
 
     </dd>
@@ -350,36 +192,8 @@ The <code>CartProvider</code> should wrap parts of the application that need acc
 
 
         
-            
-
     
-
-    
-    <h4 class="name" id="~useCart"><span class="type-signature">(inner) </span>useCart<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Custom hook for accessing the cart's context.
-This hook simplifies the process of using cart-related data and functions from the CartContext.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
+    </div>
 
     
 
@@ -395,72 +209,6 @@ This hook simplifies the process of using cart-related data and functions from t
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_CartContext.js.html">components/CartContext.js</a>, <a href="components_CartContext.js.html#line13">line 13</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>The context value that includes the state and updater function for the cart's visibility.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
     
 
     

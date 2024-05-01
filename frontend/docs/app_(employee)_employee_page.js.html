@@ -1,4 +1,32 @@
-"use client"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(employee)/employee/page.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(employee)/employee/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client"
 
 import { useEffect, useState } from "react";
 
@@ -312,7 +340,7 @@ export default function EmployeePage() {
     const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
     if (selectedInventoryItem) {
       // Check if the selected inventory item is already used in another ingredient
-      const isAlreadyUsed = ingredients.some((ingredient, i) => i !== index && ingredient.name === selectedInventoryItem.ingredientname);
+      const isAlreadyUsed = ingredients.some((ingredient, i) => i !== index &amp;&amp; ingredient.name === selectedInventoryItem.ingredientname);
       if (isAlreadyUsed) {
         alert("This inventory item is already selected in another ingredient. Please choose a different one.");
         return;
@@ -418,7 +446,7 @@ export default function EmployeePage() {
    * @returns {boolean} True if the price is valid, false otherwise
    */
   const validatePrice = (price) => {
-    return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
+    return !isNaN(parseFloat(price)) &amp;&amp; isFinite(price) &amp;&amp; parseFloat(price) > 0;
   };
 
   /**
@@ -432,7 +460,7 @@ export default function EmployeePage() {
     const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
   
     // Check if the selected inventory item is already used in another ingredient
-    const isAlreadyUsed = updatedIngredients.some((ingredient, i) => i !== index && ingredient.name === selectedInventoryItem.ingredientname);
+    const isAlreadyUsed = updatedIngredients.some((ingredient, i) => i !== index &amp;&amp; ingredient.name === selectedInventoryItem.ingredientname);
     if (isAlreadyUsed) {
       alert("This inventory item is already selected in another ingredient. Please choose a different one.");
       return;
@@ -541,17 +569,17 @@ export default function EmployeePage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-column items-center justify-center">
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="p-3 md:p">ADDING MENU ITEMS</h1>
-        {addErrorMessage && (
-          <p className="text-red-500">{addErrorMessage}</p>
+    &lt;main className="min-h-screen flex flex-column items-center justify-center">
+      &lt;div className="flex flex-col items-center justify-center">
+        &lt;h1 className="p-3 md:p">ADDING MENU ITEMS&lt;/h1>
+        {addErrorMessage &amp;&amp; (
+          &lt;p className="text-red-500">{addErrorMessage}&lt;/p>
         )}
-        {addSuccessMessage && (
-          <p className="text-green-500">{addSuccessMessage}</p>
+        {addSuccessMessage &amp;&amp; (
+          &lt;p className="text-green-500">{addSuccessMessage}&lt;/p>
         )}
-        <form onSubmit={handleAddMenuItem} className="flex flex-col items-center justify-center">
-          <input 
+        &lt;form onSubmit={handleAddMenuItem} className="flex flex-col items-center justify-center">
+          &lt;input 
             type="text"
             placeholder="Item Name"
             value={addItemName}
@@ -560,7 +588,7 @@ export default function EmployeePage() {
             required
             aria-label="Item Name"
           />
-          <input
+          &lt;input
             type="number"
             placeholder="Price"
             value={addPrice}
@@ -569,8 +597,8 @@ export default function EmployeePage() {
             aria-label="Price"
             required
           />
-          <label className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5">
-            <input
+          &lt;label className="mb-2 shadow-input outline-none border focus:border-blue-500 rounded-lg px-4 py-2.5">
+            &lt;input
               type="checkbox"
               checked={isSeasonal}
               onChange={(e) => setIsSeasonal(e.target.checked)}
@@ -578,12 +606,12 @@ export default function EmployeePage() {
               aria-label="Seasonal Item"
             />
             Seasonal Item
-          </label>
+          &lt;/label>
           {/* Show expiration date input field if the item is seasonal */}
-          {isSeasonal && (
-            <>
-              <p>Expiration Date:</p>
-              <input
+          {isSeasonal &amp;&amp; (
+            &lt;>
+              &lt;p>Expiration Date:&lt;/p>
+              &lt;input
                 type="date"
                 value={expirationDate}
                 onChange={(e) => setExpirationDate(e.target.value)}
@@ -591,9 +619,9 @@ export default function EmployeePage() {
                 required
                 aria-label="Expiration Date"
               />
-            </>
+            &lt;/>
           )}
-          <select
+          &lt;select
             value={isSeasonal ? 6 : addItemCategory}
             onChange={(e) => setAddItemCategory(parseInt(e.target.value))}
             className="mb-2"
@@ -601,45 +629,45 @@ export default function EmployeePage() {
             aria-label=" IsSeasonal Category"
           >
             {categories.map((cat) => (
-              <option key={cat.value} value={cat.value}>{cat.label}</option>
+              &lt;option key={cat.value} value={cat.value}>{cat.label}&lt;/option>
             ))}
-          </select>
-          <h2>Ingredients</h2>
+          &lt;/select>
+          &lt;h2>Ingredients&lt;/h2>
           {ingredients.map((ingredient, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <select
+            &lt;div key={index} className="flex items-center mb-2">
+              &lt;select
                 value={ingredients[index]?.name || ""}
                 onChange={(e) => handleIngredientSelection(e, index)}
                 className="mr-2"
                 required
               >
-                <option value="">Select Inventory Item</option>
+                &lt;option value="">Select Inventory Item&lt;/option>
                 {inventoryItems.map(item => (
-                  <option key={item.inventid} value={item.ingredientname}>{item.ingredientname}</option>
+                  &lt;option key={item.inventid} value={item.ingredientname}>{item.ingredientname}&lt;/option>
                 ))}
-              </select>
-              <input
+              &lt;/select>
+              &lt;input
                 type="number"
                 value={ingredient.quantity}
                 onChange={(e) => handleQuantityChange(e, index)}
                 className="mr-2"
                 required
               />
-              <button type="button" onClick={() => removeIngredient(index)}>Remove</button>
-            </div>
+              &lt;button type="button" onClick={() => removeIngredient(index)}>Remove&lt;/button>
+            &lt;/div>
           ))}
-          <button type="button" onClick={addIngredient}>Add Ingredient</button>
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2" aria-label="Add Menu Item">Add Menu Item</button>
-        </form>
-        <h2>Update Menu Items</h2>
-        {updateErrorMessage && (
-          <p className="text-red-500">{updateErrorMessage}</p>
+          &lt;button type="button" onClick={addIngredient}>Add Ingredient&lt;/button>
+          &lt;button type="submit" className="bg-blue-500 text-white rounded px-4 py-2" aria-label="Add Menu Item">Add Menu Item&lt;/button>
+        &lt;/form>
+        &lt;h2>Update Menu Items&lt;/h2>
+        {updateErrorMessage &amp;&amp; (
+          &lt;p className="text-red-500">{updateErrorMessage}&lt;/p>
         )}
-        {updateSuccessMessage && (
-          <p className="text-green-500">{updateSuccessMessage}</p>
+        {updateSuccessMessage &amp;&amp; (
+          &lt;p className="text-green-500">{updateSuccessMessage}&lt;/p>
         )}
-        <form onSubmit={handleUpdateMenuItem} className="flex flex-col items-center justify-center">
-          <select
+        &lt;form onSubmit={handleUpdateMenuItem} className="flex flex-col items-center justify-center">
+          &lt;select
               value = {updateCategory}
               onChange={(e) => setUpdateCategory(parseInt(e.target.value))}
               className= "mb-2"
@@ -647,26 +675,26 @@ export default function EmployeePage() {
               aria-label="Update Category"
           >
             {updateCategories.map((cat) => (
-              <option key={cat.value} value={cat.value}>{cat.label}</option>
+              &lt;option key={cat.value} value={cat.value}>{cat.label}&lt;/option>
             ))}
-          </select>
-          {updateCategory < 2 &&  (
-            <select
+          &lt;/select>
+          {updateCategory &lt; 2 &amp;&amp;  (
+            &lt;select
             value={updateItemName}
             onChange={(e) => setUpdateItemName(e.target.value)}
             className="mb-2"
           >
-            <option value="">Select Menu Item</option>
+            &lt;option value="">Select Menu Item&lt;/option>
             {menuItems.map(item => (
-              <option key={item.menuid} value={item.itemname}>{item.itemname}</option>
+              &lt;option key={item.menuid} value={item.itemname}>{item.itemname}&lt;/option>
             ))}
-          </select>
+          &lt;/select>
           
           )
           }
           
-          {updateCategory == 0 && (
-            <input 
+          {updateCategory == 0 &amp;&amp; (
+            &lt;input 
             type="number"
             placeholder="New Price"
             value={updatePrice}
@@ -675,8 +703,8 @@ export default function EmployeePage() {
             required
           />
           )}
-          {updateCategory == 1 && (
-           <select
+          {updateCategory == 1 &amp;&amp; (
+           &lt;select
            value={updateCat}
            onChange={(e) => {
              const value = parseInt(e.target.value);
@@ -687,97 +715,119 @@ export default function EmployeePage() {
            required
          >
            {categories.map((cat) => (
-             <option key={cat.value} value={cat.value}>{cat.label}</option>
+             &lt;option key={cat.value} value={cat.value}>{cat.label}&lt;/option>
            ))}
-         </select>
+         &lt;/select>
          
           )}
-          {updateCategory === 2 && (
-              <div>
-                <h2>Update Menu Item Ingredients</h2>
+          {updateCategory === 2 &amp;&amp; (
+              &lt;div>
+                &lt;h2>Update Menu Item Ingredients&lt;/h2>
                 {/* Display menu items associated with the selected menu item */}
-                <select
+                &lt;select
                   value={selectedMenuItem}
                   onChange={handleMenuItemSelection}
                   className="mb-2"
                 >
-                  <option value="">Select Menu Item</option>
+                  &lt;option value="">Select Menu Item&lt;/option>
                   {menuItems.map(item => (
-                    <option key={item.menuid} value={item.itemname}>{item.itemname}</option>
+                    &lt;option key={item.menuid} value={item.itemname}>{item.itemname}&lt;/option>
                   ))}
-                </select>
+                &lt;/select>
                 {/* Display ingredients for the selected menu item */}
-                {selectedMenuItem && (
-                  <div>
-                    <h3>Ingredients for {selectedMenuItem}</h3>
+                {selectedMenuItem &amp;&amp; (
+                  &lt;div>
+                    &lt;h3>Ingredients for {selectedMenuItem}&lt;/h3>
                     {/* Display ingredients using dropdown for ingredient selection */}
                     {updateIngred.map((ingredient, index) => (
-                      <div key={index} className="flex items-center mb-2">
-                        <select
+                      &lt;div key={index} className="flex items-center mb-2">
+                        &lt;select
                           value={ingredient.ingredientname} // Use inventoryItem property
                           onChange={(e) => handleUpdateIngredientName(e, index)}
                           className="mr-2"
                           required
                         >
                           {inventoryItems.map((inventoryItem, idx) => (
-                            <option key={inventoryItem.inventid} value={inventoryItem.ingredientname}>{inventoryItem.ingredientname}</option>
+                            &lt;option key={inventoryItem.inventid} value={inventoryItem.ingredientname}>{inventoryItem.ingredientname}&lt;/option>
                           ))}
-                        </select>
-                        <input
+                        &lt;/select>
+                        &lt;input
                           type="number"
                           value={ingredient.quantity}
                           onChange={(e) => handleUpdateIngredientQuantity(e, index)}
                           className="mr-2"
                           required
                         />
-                        <button type="button" onClick={() => handleRemoveUpdateIngredient(index)}>Remove</button>
-                      </div>
+                        &lt;button type="button" onClick={() => handleRemoveUpdateIngredient(index)}>Remove&lt;/button>
+                      &lt;/div>
                     ))}
                     {/* Add ingredient button */}
-                    <button type="button" onClick={handleAddUpdateIngredientField}>Add Ingredient</button>
-                  </div>
+                    &lt;button type="button" onClick={handleAddUpdateIngredientField}>Add Ingredient&lt;/button>
+                  &lt;/div>
                 )}
-              </div>
+              &lt;/div>
             )}
 
           
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2" aria-label="Update button">UPDATE</button>
-        </form>
-        <h1 className="p-3 md:p">REMOVING MENU ITEMS</h1>
-        {removeErrorMessage && (
-          <p className="text-red-500">{removeErrorMessage}</p>
+          &lt;button type="submit" className="bg-blue-500 text-white rounded px-4 py-2" aria-label="Update button">UPDATE&lt;/button>
+        &lt;/form>
+        &lt;h1 className="p-3 md:p">REMOVING MENU ITEMS&lt;/h1>
+        {removeErrorMessage &amp;&amp; (
+          &lt;p className="text-red-500">{removeErrorMessage}&lt;/p>
         )}
-        {removeSuccessMessage && (
-          <p className="text-green-500">{removeSuccessMessage}</p>
+        {removeSuccessMessage &amp;&amp; (
+          &lt;p className="text-green-500">{removeSuccessMessage}&lt;/p>
         )}
-        <form onSubmit={handleRemoveMenuItem} className = "flex flex-col items-center justify-center">
-          <select
+        &lt;form onSubmit={handleRemoveMenuItem} className = "flex flex-col items-center justify-center">
+          &lt;select
                 value={removeItemName}
                   onChange={(e) =>setRemoveMenuItem(e.target.value)}
                   className="mb-2"
                   aria-label="Remove Item"
                 >
-                  <option value="">Select Menu Item</option>
+                  &lt;option value="">Select Menu Item&lt;/option>
                   {menuItems.map(item => (
-                    <option key={item.menuid} value={item.itemname}>{item.itemname}</option>
+                    &lt;option key={item.menuid} value={item.itemname}>{item.itemname}&lt;/option>
                   ))}
-          </select>
-          <button type="submit" className = "bg-blue-500 text-white rounded px-4 py-2" aria-label="Remove button">REMOVE</button>
-        </form>
+          &lt;/select>
+          &lt;button type="submit" className = "bg-blue-500 text-white rounded px-4 py-2" aria-label="Remove button">REMOVE&lt;/button>
+        &lt;/form>
         {menuItems.map((item) => (
-          <a
+          &lt;a
             href="#"
             className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
             key={item.menuid}
           >
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            &lt;h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {item.itemname}
-            </h5>
-            <p>Price: {item.price}</p>
-          </a>
+            &lt;/h5>
+            &lt;p>Price: {item.price}&lt;/p>
+          &lt;/a>
         ))}
-      </div>
+      &lt;/div>
       
-    </main>
+    &lt;/main>
   );
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 23:10:41 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

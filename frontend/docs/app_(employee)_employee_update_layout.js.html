@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/CartContext.js</title>
+    <title>JSDoc: Source: app/(employee)/employee/update/layout.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/CartContext.js</h1>
+    <h1 class="page-title">Source: app/(employee)/employee/update/layout.js</h1>
 
     
 
@@ -26,46 +26,49 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>"use client";
-
-import React, { createContext, useContext, useState } from 'react';
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import EmployeeNavbar from "@/components/EmployeeNavbar";
+import { TransactionProvider } from "@/components/transactions/TransactionContext";
+import { Suspense } from "react";
 
 /**
- * Provides a React context for managing the visibility of the shopping cart across the application.
- * This context allows components nested within the `CartProvider` to access and modify the cart's visibility state.
+ * Provides a layout for the employee section of the application, including a navigation bar and a main content area.
+ * This component wraps its children with a `TransactionProvider` to provide transaction context across all its children.
+ * It uses the `Suspense` component to handle the loading state of its children, providing a better user experience during data fetching.
+ * The navigation bar (`EmployeeNavbar`) includes links to various management sections such as inventory, menu items, and reports.
  *
- * @module CartContext
+ * @module UpdateOrder/Layout
+ * @param {React.ReactNode} children - Child components to render within the layout.
+ * @returns {JSX.Element} A component that includes an employee navigation bar and the main content area for child components.
  */
-const CartContext = createContext();
-
-/**
- * Custom hook for accessing the cart's context.
- * This hook simplifies the process of using cart-related data and functions from the CartContext.
- * 
- * @function useCart
- * @returns {Object} The context value that includes the state and updater function for the cart's visibility.
- */
-export const useCart = () => useContext(CartContext);
-
-/**
- * Component that provides the cart context to its child components.
- * It initializes the state for whether the cart is visible and provides a context provider to manage this state.
- * The `CartProvider` should wrap parts of the application that need access to and control over the cart's visibility.
- *
- * @function CartProvider
- * @param {Object} props - The props object.
- * @param {React.ReactNode} props.children - The child components that will have access to the cart context.
- * @returns {React.Component} A context provider component that passes down cart state to its children.
- */
-export const CartProvider = ({ children }) => {
-  const [isCartVisible, setIsCartVisible] = useState(false);
-
+export default function CategoryLayout({ children }) {
   return (
-    &lt;CartContext.Provider value={{ isCartVisible, setIsCartVisible }} aria-hidden={!isCartVisible}>
-      {children}
-    &lt;/CartContext.Provider>
+    &lt;TransactionProvider>
+      &lt;>
+        &lt;EmployeeNavbar
+          links={[
+            { name: "Inventory", route: "/employee/manager/inventory" },
+            { name: "Menu Items", route: "/employee/manager/menu-items" },
+            { name: "Inventory Usage", route: "/employee/manager/inventory-usage" },
+            { name: "Excess Report", route: "/employee/manager/excess-report" },
+            { name: "Sales Report", route: "/employee/manager/sales-report" },
+            { name: "Restock Report", route: "/employee/manager/restock-report" },
+            { name: "What Sells Duo", route: "/employee/manager/what-sells-together" },
+            { name: "Order Management", route: "/employee/manager/order-management" },
+            { name: "Kitchen", route: "/employee/manager/kitchen" }
+          ]}
+          aria-label="Employee Navigation"
+        />
+      
+        &lt;Suspense fallback={&lt;div>Loading...&lt;/div>}>
+          &lt;main className="flex-1" aria-labelledby="category-layout-main">
+            {children}
+          &lt;/main>
+        &lt;/Suspense>
+      &lt;/>
+    &lt;/TransactionProvider>
   );
-};
+}
 </code></pre>
         </article>
     </section>

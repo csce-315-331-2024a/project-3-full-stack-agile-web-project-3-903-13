@@ -1,4 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(employee)/employee/update/page.js</title>
 
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(employee)/employee/update/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
 "use client";
 
 import { useEffect, useState } from "react";
@@ -163,107 +191,107 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 	};
 
 	return (
-		<div className="flex flex-col grow border-2 border-gray-200 rounded-lg shadow-lg mr-5 " aria-label="Order details" >
-			<div className="px-6 py-4 border-b">
-				<div className="font-bold text-xl mb-2">Current Sale</div>
-			</div>
-			<div className="flex-1 overflow-auto">
-				{components && components.length > 0 ? (
+		&lt;div className="flex flex-col grow border-2 border-gray-200 rounded-lg shadow-lg mr-5 " aria-label="Order details" >
+			&lt;div className="px-6 py-4 border-b">
+				&lt;div className="font-bold text-xl mb-2">Current Sale&lt;/div>
+			&lt;/div>
+			&lt;div className="flex-1 overflow-auto">
+				{components &amp;&amp; components.length > 0 ? (
 					components.map((item, index) => (
-						<div
+						&lt;div
 							key={index}
 							className="flex flex-col bg-white p-3 my-2 mx-4 rounded-lg shadow"
 							aria-label={`Item ${index + 1}: ${item.itemname}`}
 						>
-							<div className="flex justify-between items-center">
-								<span className="font-semibold truncate">{item.itemname}</span>
-								<span className="font-semibold">
+							&lt;div className="flex justify-between items-center">
+								&lt;span className="font-semibold truncate">{item.itemname}&lt;/span>
+								&lt;span className="font-semibold">
 									${(item.price * item.quantity).toFixed(2)}
-								</span>
-							</div>
-							<div className="flex items-center justify-between">
-								<button
+								&lt;/span>
+							&lt;/div>
+							&lt;div className="flex items-center justify-between">
+								&lt;button
 									onClick={() => openKeypad(item.id, item.quantity)}
 									className="py-2 text-blue-500 hover:text-blue-700"
 									aria-label={`Change quantity for ${item.itemname}`}
 								>
 									Quantity: {item.quantity}
-								</button>
-								<button
+								&lt;/button>
+								&lt;button
 									onClick={() => removeItemCompletely(item.id)}
 									className="text-red-500 hover:text-red-700"
 									aria-label={`Remove ${item.itemname} from order`}
 								>
 									Remove Item
-								</button>
-							</div>
-						</div>
+								&lt;/button>
+							&lt;/div>
+						&lt;/div>
 					))
 				) : (
-					<div className="px-6 py-4 text-center">
+					&lt;div className="px-6 py-4 text-center">
 						No items in current transaction!
-					</div>
+					&lt;/div>
 				)}
-			</div>
+			&lt;/div>
 
-			<div className="px-6 py-4">
+			&lt;div className="px-6 py-4">
 				{components === null ? (
-					<div className="font-semibold text-lg"> Total Price: $0.00</div>
+					&lt;div className="font-semibold text-lg"> Total Price: $0.00&lt;/div>
 				) : getCharge() >= 0 ? (
-					<div className="font-semibold text-lg">
+					&lt;div className="font-semibold text-lg">
 						Price to pay: ${getCharge().toFixed(2)}
-					</div>
+					&lt;/div>
 				) : (
-					<div className="font-semibold text-lg">
+					&lt;div className="font-semibold text-lg">
 						Refund: ${(-1 * getCharge()).toFixed(2)}
-					</div>
+					&lt;/div>
 				)}
-			</div>
+			&lt;/div>
 
-			<div className="px-6 py-4 flex flex-col space-y-2">
-				{getCharge() > 0 && (
-					<button
+			&lt;div className="px-6 py-4 flex flex-col space-y-2">
+				{getCharge() > 0 &amp;&amp; (
+					&lt;button
 						className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow"
 						onClick={() => setShowPaymentOptions(true)}
 					>
 						Pay
-					</button>
+					&lt;/button>
 				)}
-				{getCharge() < 0 && (
-					<button
+				{getCharge() &lt; 0 &amp;&amp; (
+					&lt;button
 						className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow"
 						onClick={handleRefund}
 					>
 						Update and refund
-					</button>
+					&lt;/button>
 				)}
 
-				{message.length > 0 && (
-					<div className="text-lg font-semibold text-green-500">
+				{message.length > 0 &amp;&amp; (
+					&lt;div className="text-lg font-semibold text-green-500">
 						{" "}
 						{message}{" "}
-					</div>
+					&lt;/div>
 				)}
-			</div>
+			&lt;/div>
 
 			{/* Payment options modal */}
-			{showPaymentOptions && (
-				<PaymentModal
+			{showPaymentOptions &amp;&amp; (
+				&lt;PaymentModal
 					showPaymentOptions={showPaymentOptions}
 					setShowPaymentOptions={setShowPaymentOptions}
 					handlePayment={handlePayment}
 				/>
 			)}
 
-			{keypadVisible && (
-				<NumericKeypad
+			{keypadVisible &amp;&amp; (
+				&lt;NumericKeypad
 					inputValue={inputValue}
 					setInputValue={setInputValue}
 					onValueChange={onQuantityUpdate}
 					onClose={onKeypadClose}
 				/>
 			)}
-		</div>
+		&lt;/div>
 	);
 }
 
@@ -313,8 +341,8 @@ function MenuItem(props) {
 	const clickEffect = isClicked ? "border-animate" : "";
 
 	return (
-		<>
-			<style>
+		&lt;>
+			&lt;style>
 				{`
                     @keyframes border-animation {
                         0% {
@@ -337,17 +365,17 @@ function MenuItem(props) {
                         transform: scale(0.95);
                     }
                 `}
-			</style>
-			<div
+			&lt;/style>
+			&lt;div
 				className={`menu-item flex justify-center px-3 py-4 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
 				onClick={sendToTransaction}
 				aria-label={`Add ${props.item.itemname} to order`}
 			>
-				<div className="text-xl font-semibold text-gray-900 text-center">
+				&lt;div className="text-xl font-semibold text-gray-900 text-center">
 					{props.item.itemname}
-				</div>
-			</div>
-		</>
+				&lt;/div>
+			&lt;/div>
+		&lt;/>
 	);
 }
 
@@ -408,48 +436,71 @@ export default function EmployeePOSPage() {
 		fetchOrder();
 	}, [id]);
 
-	if (errorMessage && errorMessage.length > 0) {
+	if (errorMessage &amp;&amp; errorMessage.length > 0) {
 		return (
-			<div className="text-2xl text-red-500 font-bold my-6 text-center">
+			&lt;div className="text-2xl text-red-500 font-bold my-6 text-center">
 				{" "}
 				{errorMessage}{" "}
-			</div>
+			&lt;/div>
 		);
 	}
 
-	if (orderDetails && orderDetails.status != "in progress") {
+	if (orderDetails &amp;&amp; orderDetails.status != "in progress") {
 		return (
-			<div className="text-2xl text-red-500 font-bold my-6 text-center">
+			&lt;div className="text-2xl text-red-500 font-bold my-6 text-center">
 				{" "}
-				Can&apos;t update already placed orders
-			</div>
+				Can&amp;apos;t update already placed orders
+			&lt;/div>
 		);
 	}
 
 	return (
-		<main className="min-h-screen bg-cream py-1">
-			<div className="flex flex-row h-[90vh]">
-				<div className="container max-w-[66%] p-5">
-					<h1 className="text-3xl font-bold text-center mb-8"> Menu Items </h1>
-					<div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+		&lt;main className="min-h-screen bg-cream py-1">
+			&lt;div className="flex flex-row h-[90vh]">
+				&lt;div className="container max-w-[66%] p-5">
+					&lt;h1 className="text-3xl font-bold text-center mb-8"> Menu Items &lt;/h1>
+					&lt;div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{menuItems.map((item, index) => (
-							<MenuItem
+							&lt;MenuItem
 								key={index}
 								item={item}
 								components={components}
 								setComponents={setComponents}
 							/>
 						))}
-					</div>
-				</div>
+					&lt;/div>
+				&lt;/div>
 				
-				<UpdateOrder
+				&lt;UpdateOrder
 					components={components}
 					setComponents={setComponents}
 					shallowCopy={shallowCopy}
 					setShallowCopy={setShallowCopy}
 				/>
-			</div>
-		</main>
+			&lt;/div>
+		&lt;/main>
 	);
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 23:10:41 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
