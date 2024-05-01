@@ -2,7 +2,7 @@
  * @module InventRemoveModal
  */
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 /**
  * Fetches the inventory items.
  * @function
@@ -10,11 +10,13 @@ import React, { useState, useEffect } from 'react';
  * @returns {JSON} An array of the inventory items.
  */
 export const getInventoryItems = async () => {
-	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-	const data = await items.json();
-
-	return data;
-};
+	try {
+	  const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory');
+	  return response.data;
+	} catch (error) {
+	  throw new Error(error);
+	}
+  };
 
 /**
  * Removes the specified inventory item on the server.
@@ -24,21 +26,15 @@ export const getInventoryItems = async () => {
  * @returns {string} A string for a success message if the removal is successful.
  */
 export const removeInventoryItem = async (inventItem) => {
-	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory", {
-		method: "DELETE",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(inventItem),
-	});
-
-	if (!response.ok) {
-		const errorMessage = await response.text();
-		throw new Error(errorMessage);
-	} else {
-		return { success: true, message: "Inventory item removed successfully" };
+	try {
+	  const response = await axios.delete('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory', {
+		data: inventItem,
+	  });
+	  return { success: true, message: "Inventory item removed successfully" };
+	} catch (error) {
+	  throw new Error(error.response.data.message || error.message);
 	}
-};
+  };
 
 /**
  * Component that provides a modal for removing inventory items.
@@ -82,39 +78,6 @@ export default function InventRemoveModal({isOpen, onClose, inventoryItems, setI
 	 */
     const validateItemName = (itemName) => {
 		return itemName.trim() !== "";
-	};
-
-	/**
-	 * Validates that the provided item price is not empty.
-	 * This validation ensures that an item price has been selected before attempting removal.
-	 * @memberOf module:InventRemoveModal
-	 * @param {string} price - The price to validate.
-	 * @returns {boolean} True if the item price is valid, false otherwise.
-	 */
-	const validatePrice = (price) => {
-		return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
-	};
-
-	/**
-	 * Validates that the provided item count is not empty.
-	 * This validation ensures that an item count has been selected before attempting removal.
-	 * @memberOf module:InventRemoveModal
-	 * @param {string} count - The count to validate.
-	 * @returns {boolean} True if the item count is valid, false otherwise.
-	 */
-	const validateCount = (count) => {
-		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
-	};
-
-	/**
-	 * Validates that the provided minimum item count is not empty.
-	 * This validation ensures that the minimum item count has been selected before attempting removal.
-	 * @memberOf module:InventRemoveModal
-	 * @param {string} count - The minimum item count to validate.
-	 * @returns {boolean} True if the minimum item count is valid, false otherwise.
-	 */
-	const validateMinCount = (count) => {
-		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
 	};
 
 	/**

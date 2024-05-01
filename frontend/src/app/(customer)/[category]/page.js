@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { toast } from 'react-toastify';
 import UpdateModal from "@/components/updateItems/customerView";
 import moment from 'moment';
-import axios from 'axios';
 
 /**
  * Asynchronously fetches the seasonal availability of a given menu item from the backend.
@@ -21,19 +20,26 @@ import axios from 'axios';
  */
 export const getMenuItemSeasonal = async (menuItem) => {
     try {
-      const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/seasonal?${new URLSearchParams(menuItem).toString()}`;
-      const response = await axios.get(url);
-  
-      if (!response.data.success) { // Assuming the API returns success status
-        throw new Error(response.data.message || 'Error fetching seasonal info');
-      }
-  
-      return response.data.data; // Assuming the data is in response.data.data
+
+        // Construct the query string from the menuItem object
+        const queryString = new URLSearchParams(menuItem).toString();
+        // Append the query string to the URL
+        const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/seasonal?${queryString}`;
+        // Make the GET request
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        return data;
     } catch (error) {
-      console.error("Error fetching seasonal info for menu item:", error);
-      throw error;
+        console.error("Error fetching seasonal info for menu item:", error);
+        throw error;
     }
-  };
+};
 
 
 const categories = [
@@ -68,23 +74,23 @@ export default function Page({ params }) {
 
     useEffect(() => {
         const fetchMenuItems = async () => {
-          const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
-          const data = response.data.data; // Assuming the data is in response.data.data
-          const items = data.filter(item => item.category === parseInt(categories.indexOf(params.category)));
-          setItemType(items);
-    
-          let initialScales = {};
-          const seasonalInfoMap = new Map();
-    
-          for (const item of items) {
-            const seasonalData = await getMenuItemSeasonal({ itemName: item.itemname });
-            const isSeasonal = seasonalData.length === 0 || (seasonalData.length > 0 && new Date(seasonalData[0].expirationdate) >= new Date());
-            seasonalInfoMap.set(item.menuid, isSeasonal);
-            initialScales[item.menuid] = 'normal';
-          }
-    
-          setScaleStates(initialScales);
-          setSeasonalItems(seasonalInfoMap);
+            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+            const data = await response.json();
+            const items = data.filter(item => item.category === parseInt(categories.indexOf(params.category)));
+            setItemType(items);
+
+            let initialScales = {};
+            const seasonalInfoMap = new Map();
+
+            for (const item of items) {
+                const seasonalData = await getMenuItemSeasonal({ itemName: item.itemname });
+                const isSeasonal = seasonalData.length === 0 || (seasonalData.length > 0 && new Date(seasonalData[0].expirationdate) >= new Date());
+                seasonalInfoMap.set(item.menuid, isSeasonal);
+                initialScales[item.menuid] = 'normal';
+            }
+
+            setScaleStates(initialScales);
+            setSeasonalItems(seasonalInfoMap);
         };
     
         fetchMenuItems();
