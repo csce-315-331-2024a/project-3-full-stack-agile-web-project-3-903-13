@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: EmployeeModal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: EmployeeModal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module EmployeeModal
+ */
+import React, { useState } from "react";
+import EmployeeUpdateForm from "./EmployeeUpdateForm";
+import EmployeeAddForm from "./EmployeeAddForm";
+import Link from 'next/link'
+
+/**
+ * Represents a modal component that handles updating, deleting, or adding employees.
+ * It conditionally renders either the EmployeeUpdateForm or EmployeeAddForm based on the provided props.
+ * This component also manages API requests to update or delete an employee and displays status messages based on the results of these operations.
+ *
+ * @function EmployeeModal
+ * @memberOf module:EmployeeModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls if the modal is open or not.
+ * @param {function} props.onClose - Function to call to close the modal.
+ * @param {Object} props.employee - The employee object containing details of the employee when updating or deleting.
+ * @param {boolean} props.isUpdateDelete - Flag to determine if the modal should handle update/delete (true) or add (false) operations.
+ * @returns {React.Component|null} Returns a React component that renders the appropriate form within a modal or null if the modal is not open.
+ */
+export default function EmployeeModal({isOpen, onClose, employee, isUpdateDelete}) {
+
+  const [message, setMessage] = useState(null)
+
+  if (!isOpen) return null;
+
+  /**
+   * Handles the update operation for an employee.
+   * This function sends a POST request to the server with the updated employee data. If successful, it sets a success message;
+   * otherwise, it sets an error message.
+   * @memberOf module:EmployeeModal
+   */
+  const updateUser = async () => {
+    let updateResult = await fetch(``, {
+      method: 'POST',
+      body: {
+        'age': age,
+        'number': number,
+        'email': email, 
+        'hours': hours,
+        'role': role
+      }
+    })
+    if (updateResult.status == 200) {
+      setMessage("User update successfully.")
+    } else {
+      setMessage("Server encountered error when updating user.")
+    }
+  }
+
+
+  /**
+   * Handles the delete operation for an employee.
+   * This function sends a DELETE request to the server to remove the specified employee. If successful, it sets a success message;
+   * otherwise, it sets an error message.
+   * @memberOf module:EmployeeModal
+   */
+  const deleteUser = async () => {
+    let deleteResult = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees/${employee.employeeid}`, {
+      method: 'DELETE',
+    })
+    if (deleteResult.status == 200) {
+      setMessage("User deleted successfully.")
+    } else {
+      setMessage("Server encountered error when deleting user.")
+    }
+  }
+
+  return (
+      &lt;div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          &lt;div className="relative">
+              &lt;div className="bg-white p-2 rounded-lg shadow-lg">
+                  &lt;button
+                      className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
+                      onClick={onClose}
+                  >
+                      &lt;svg
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                      >
+                          &lt;path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"
+                          />
+                      &lt;/svg>
+                  &lt;/button>
+                  &lt;div className="w-96 flex flex-col items-center">
+                    {employee &amp;&amp; &lt;h1>{employee.employeename}&lt;/h1>}
+                    {isUpdateDelete
+                    ? &lt;EmployeeUpdateForm employee={employee}/>
+                    : &lt;EmployeeAddForm/> 
+                    }
+                  &lt;/div>
+              &lt;/div>
+          &lt;/div>
+      &lt;/div>
+  )
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 22:13:16 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

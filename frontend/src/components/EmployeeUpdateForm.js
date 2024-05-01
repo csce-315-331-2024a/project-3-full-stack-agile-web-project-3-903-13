@@ -1,7 +1,26 @@
+
 import React, {useState} from 'react'
+
+/**
+ * A component that provides forms to update or delete employee details.
+ * The component displays form fields pre-filled with the current employee data, allowing modifications
+ * to fields such as age, phone number, weekly hours, email, and role. It includes functionality to update these details
+ * on the server via POST request, or to delete the employee via DELETE request.
+ *
+ * @module EmployeeUpdateForm
+ * @param {Object} employee - The employee object containing the employee's details.
+ * @returns {React.Component} A form that enables the user to update or delete the specified employee's data.
+ */
 
 export default function EmployeeUpdateForm(employee) {
   let employeeObject = employee.employee
+
+  /**
+   * Initializes state for form data and message for the operation's result.
+   * Form data is derived from the employee object passed to the component.
+   * State hooks are used to manage form inputs and messages dynamically.
+   * @memberOf module:EmployeeUpdateForm
+   */
   const [formData, setFormData] = useState({
     id: employeeObject.employeeid,
     age: employeeObject.employeeage,
@@ -13,6 +32,13 @@ export default function EmployeeUpdateForm(employee) {
 
   const [message, setMessage] = useState(null)
 
+/**
+ * Deletes the employee from the server.
+ * This function sends a DELETE request to the server to remove the employee.
+ * Upon successful deletion, it sets a success message; if an error occurs, it sets an error message.
+ * The page is then reloaded to reflect changes.
+ * @memberOf module:EmployeeUpdateForm
+ */
   const deleteUser = async () => {
     let deleteResult = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees/${employeeObject.employeeid}`, {
       method: 'DELETE',
@@ -25,11 +51,24 @@ export default function EmployeeUpdateForm(employee) {
     window.location.reload()
   }
 
+  /**
+   * Handles form data changes and updates the state accordingly.
+   * This function is triggered on input field changes, updating the local state with the new values.
+   * @memberOf module:EmployeeUpdateForm
+   * @param {Event} event - The input change event.
+   */
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  /**
+   * Submits the updated employee data to the server.
+   * This function sends a POST request to the server with the updated employee data.
+   * Upon successful update, it sets a success message; if an error occurs, it sets an error message.
+   * @memberOf module:EmployeeUpdateForm
+   * @param {Event} event - The form submission event.
+   */
   const handleUpdate = async (event) => {
       event.preventDefault();
       let updateResult = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees/${employeeObject.employeeid}`, {

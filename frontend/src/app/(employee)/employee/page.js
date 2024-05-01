@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+
 export const getMenuItems = async () => {
   const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
   const data = await items.json();
@@ -9,6 +10,13 @@ export const getMenuItems = async () => {
   return data;
 };
 
+  /**
+   * Fetches the ingredients for a specified menu item.
+   * @function
+   * @memberOf module:EmployeePage
+   * @param {Object} menuItem - The menu item object containing parameters to form the query string.
+   * @returns {JSON} An array of ingredients that correspond to a menu item.
+   */
 export const getMenuItemIngredients = async (menuItem) => {
   try {
     // Construct the query string from the menuItem object
@@ -35,7 +43,12 @@ export const getMenuItemIngredients = async (menuItem) => {
 
 
 
-
+  /**
+   * Fetches the inventory items.
+   * @function
+   * @memberOf module:EmployeePage
+   * @returns {JSON} An array of the inventory items.
+   */
 export const getInventoryItems = async () => {
   const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
   const data = await items.json();
@@ -43,6 +56,13 @@ export const getInventoryItems = async () => {
   return data;
 };
 
+/**
+ * Adds a specified menu item to the server.
+ * @function
+ * @memberOf module:EmployeePage
+ * @param {Object} menuItem - Object containing the details of the menu item to add.
+ * @returns {string} A string of the status of the add operation.
+ */
 export const addMenuItem = async (menuItem) => {
   const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
     method: "POST",
@@ -60,6 +80,13 @@ export const addMenuItem = async (menuItem) => {
   }
 };
 
+  /**
+   * Updates the price of a specified menu item on the server.
+   * @function
+   * @memberOf module:EmployeePage
+   * @param {Object} menuItem - The menu item object containing the new price and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemPrice = async (menuItem) => {
   const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updatePrice", {
     method: "PATCH",
@@ -77,6 +104,13 @@ export const updateMenuItemPrice = async (menuItem) => {
   }
 };
 
+  /**
+   * Updates the category of a specified menu item on the server.
+   * @function
+   * @memberOf module:EmployeePage
+   * @param {Object} menuItem - The menu item object containing the new category and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemCat = async (menuItem) => {
   const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCat", {
     method: "PATCH",
@@ -94,6 +128,13 @@ export const updateMenuItemCat = async (menuItem) => {
   }
 };
 
+  /**
+   * Updates the ingredients of a specified menu item on the server.
+   * @function
+   * @memberOf module:EmployeePage
+   * @param {Object} menuItem - The menu item object containing the new ingredients and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemIngred = async (menuItem) => {
   const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateIngred", {
     method: "PATCH",
@@ -111,6 +152,13 @@ export const updateMenuItemIngred = async (menuItem) => {
   }
 };
 
+/**
+ * Removes a specified menu item from the server.
+ * @function
+ * @memberOf module:EmployeePage
+ * @param {Object} menuItem - Object containing the details of the menu item to remove.
+ * @returns {string} A string of the status of the remove operation.
+ */
 export const removeMenuItem = async (menuItem) => {
   const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
     method: "DELETE",
@@ -144,6 +192,12 @@ const categories = [
   { label: "Seasonal", value: 6 },
 ];
 
+/**
+ * A component that provides the user interface for managing menu items in a restaurant system.
+ * It includes functionality for adding, updating, and removing menu items, as well as handling ingredients associated with those items.
+ * @module EmployeePage
+ * @returns {React.Component} The EmployeePage component, which includes forms and interaction elements for menu item management.
+ */
 export default function EmployeePage() {
   const [menuItems, setMenuItems] = useState([]);
   const [addItemName, setAddItemName] = useState(""); // Separate state variable for Add Menu Item form
@@ -175,6 +229,11 @@ export default function EmployeePage() {
     fetchInventoryItems();
   }, []);
 
+    /**
+   * Fetches menu items from the server and sets them to state.
+   * @memberOf module:EmployeePage
+   * @async
+   */
   const fetchMenuItems = async () => {
     try {
       const data = await getMenuItems();
@@ -184,6 +243,11 @@ export default function EmployeePage() {
     }
   };
 
+  /**
+   * Fetches inventory items from the server and sets them to state.
+   * @memberOf module:EmployeePage
+   * @async
+   */
   const fetchInventoryItems = async () => {
     try {
       const data = await getInventoryItems();
@@ -193,6 +257,12 @@ export default function EmployeePage() {
     }
   };
 
+  /**
+   * Handles the submission of the form to add a new menu item.
+   * Validates input, communicates with the backend, and updates the UI accordingly.
+   * @memberOf module:EmployeePage
+   * @param {Event} e - The event object from the form submission
+   */
   const handleAddMenuItem = async (e) => {
     e.preventDefault();
 
@@ -217,6 +287,11 @@ export default function EmployeePage() {
     }
   };
 
+    /**
+   * Handles the form submission for removing a menu item based on the selected category (price, category, or ingredients).
+   * @memberOf module:EmployeePage
+   * @param {Event} e - The event object from the form submission
+   */
   const handleRemoveMenuItem = async (e) => {
     e.preventDefault();
 
@@ -259,16 +334,31 @@ export default function EmployeePage() {
   };
   
 
+  /**
+   * Handles the quantity change of the form to add a new menu item.
+   * Validates input, communicates with the backend, and updates the UI accordingly.
+   * @memberOf module:EmployeePage
+   * @param {Event} e - The event object from the form submission
+   */
   const handleQuantityChange = (e, index) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients[index].quantity = parseInt(e.target.value);
     setIngredients(updatedIngredients);
   };
 
+  /**
+   * Adds a new blank ingredient to the current list of ingredients being edited.
+   * @memberOf module:EmployeePage
+   */
   const addIngredient = () => {
     setIngredients([...ingredients, { inventID: null, name: "", quantity: 1 }]);
   };
 
+  /**
+   * Removes an ingredient from the list at the specified index.
+   * @memberOf module:EmployeePage
+   * @param {number} index - The index of the ingredient to remove.
+   */
   const removeIngredient = (index) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients.splice(index, 1);
@@ -276,7 +366,12 @@ export default function EmployeePage() {
   };
 
   
-
+  /**
+   * Handles the update of a menu item based on the selected category. It performs validation
+   * and triggers the appropriate update function.
+   * @memberOf module:EmployeePage
+   * @param {Event} e - The event object from the form submission.
+   */
   const handleUpdateMenuItem = async (e) => {
     e.preventDefault();
 
@@ -306,15 +401,32 @@ export default function EmployeePage() {
     }
   };
 
+    /**
+   * Validates the provided item name to ensure it is not empty.
+   * @memberOf module:EmployeePage
+   * @param {string} itemName - The name of the menu item
+   * @returns {boolean} True if the item name is valid, false otherwise
+   */
   const validateItemName = (itemName) => {
     return itemName.trim() !== "";
   };
 
+    /**
+   * Validates the provided price to ensure it is a positive number.
+   * @memberOf module:EmployeePage
+   * @param {string} price - The price to validate
+   * @returns {boolean} True if the price is valid, false otherwise
+   */
   const validatePrice = (price) => {
     return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
   };
 
-  
+  /**
+   * Handles changes to the ingredient name in the update form, ensuring no duplicate selections are made.
+   * @memberOf module:EmployeePage
+   * @param {Event} e - The event object containing the new ingredient name.
+   * @param {number} index - The index of the ingredient being updated.
+   */
   const handleUpdateIngredientName = (e, index) => {
     const updatedIngredients = [...updateIngred];
     const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
@@ -338,7 +450,12 @@ export default function EmployeePage() {
   };
   
   
-
+  /**
+   * Handles the update of ingredient quantities in the update form.
+   * @memberOf module:EmployeePage
+   * @param {Event} e - The event object containing the new quantity.
+   * @param {number} index - The index of the ingredient being updated.
+   */
   const handleUpdateIngredientQuantity = (e, index) => {
     const updatedIngredients = [...updateIngred];
     const originalIngredient = updatedIngredients[index]; // Store the original ingredient object
@@ -349,7 +466,11 @@ export default function EmployeePage() {
   };
   
   
-  
+  /**
+   * Removes an ingredient from the update form.
+   * @memberOf module:EmployeePage
+   * @param {number} index - The index of the ingredient to remove.
+   */
   const handleRemoveUpdateIngredient = (index) => {
     const updatedIngredients = [...updateIngred];
     updatedIngredients.splice(index, 1);
@@ -367,7 +488,10 @@ export default function EmployeePage() {
   };
   
   
-
+  /**
+   * Adds a new ingredient field in the update form.
+   * @memberOf module:EmployeePage
+   */
   const handleAddUpdateIngredientField = () => {
     const selectedInventoryItem = inventoryItems.find(item => !item.disabled); // Find the first enabled inventory item
     if (selectedInventoryItem) {
@@ -392,7 +516,11 @@ export default function EmployeePage() {
   
   
   
-  
+  /**
+   * Fetches and sets the ingredients for the selected menu item.
+   * @memberOf module:EmployeePage
+   * @param {Event} e - The event object containing the selected menu item.
+   */
   const handleMenuItemSelection = async (e) => {
     const selectedMenuItemName = e.target.value;
     console.log(selectedMenuItemName);
@@ -411,8 +539,6 @@ export default function EmployeePage() {
       console.error("Error fetching ingredients for menu item:", error);
     }
   };
-  
-  
 
   return (
     <main className="min-h-screen flex flex-column items-center justify-center">

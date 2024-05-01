@@ -1,6 +1,16 @@
 import "../../../globals.css";
 import EmployeeNavbar from "@/components/EmployeeNavbar";
 
+/**
+ * A layout component for the manager section that includes an `EmployeeNavbar` and a main content area.
+ * This layout integrates navigational links specific to managerial functions and displays the passed children components
+ * within the main content area.
+ *
+ * @module ManagerLayout
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - Child components to be rendered inside the layout's main section.
+ * @returns {JSX.Element} The JSX code for manager layout component.
+ */
 export default function ManagerLayout({ children }) {
   return (
     <>

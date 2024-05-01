@@ -3,6 +3,13 @@
 import React from 'react';
 import GoogleTranslateWidget from "@/components/GoogleTranslate";
 
+/**
+ * Represents the footer component for the customer-facing side of the application.
+ * This component displays location details and includes the GoogleTranslateWidget for dynamic language translation.
+ * The footer is styled specifically for visibility and corporate branding.
+ * @module CustomerFooter
+ * @returns {React.Component} A React component that renders the footer of the customer interface, including address details and a translation widget.
+ */
 const CustomerFooter = () => {
     return (
       <footer className="bg-[#800000] text-white p-8 flex flex-col justify-between">

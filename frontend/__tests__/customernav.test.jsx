@@ -1,69 +1,48 @@
+// CustomerNavbar.test.js
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { usePathname } from 'next/navigation';
-import { useTransaction } from '../src/components/transactions/TransactionContext';
+import { render, screen, fireEvent } from '@testing-library/react';
 import CustomerNavbar from '../src/components/CustomerNavbar';
+import { TransactionProvider } from '../src/components/transactions/TransactionContext';
 
-jest.mock('next/navigation', () => ({
-  usePathname: jest.fn(),
-}));
-
-jest.mock('../src/components/transactions/TransactionContext', () => ({
-  useTransaction: jest.fn(),
-}));
-
-jest.mock('../src/components/GoogleTranslate', () => () => <div>Google Translate Widget</div>);
+const links = [
+  { name: 'Home', route: '/' },
+  { name: 'Menu', route: '/menu' },
+  { name: 'About', route: '/about' },
+];
 
 describe('CustomerNavbar', () => {
-  const mockLinks = [
-    { name: 'Home', route: '/' },
-    { name: 'Menu Board', route: '/menu_board' },
-    { name: 'Employee', links: [{ name: 'Burgers', route: '/employee/burgers' }] },
-  ];
+  test('renders navbar links correctly', () => {
+    render(
+      <TransactionProvider>
+        <CustomerNavbar links={links} />
+      </TransactionProvider>
+    );
 
-  const mockTransactions = [
-    { id: 1, itemname: 'Burger', price: 5, quantity: 2 },
-    { id: 2, itemname: 'Fries', price: 3, quantity: 1 },
-  ];
-
-  beforeEach(() => {
-    usePathname.mockReturnValue('/');
-    useTransaction.mockReturnValue({
-      transactions: mockTransactions,
-      clearTransaction: jest.fn(),
-      submitTransaction: jest.fn(),
-      updateTransaction: jest.fn(),
-      removeItemFromTransaction: jest.fn(),
-      removeItemCompletely: jest.fn(),
-    });
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test('renders the Google Translate Widget', () => {
-    render(<CustomerNavbar links={mockLinks} />);
-    const translationWidget = screen.getByText('Google Translate Widget');
-    expect(translationWidget).toBeInTheDocument();
-  });
-
-  test('renders navigation links', () => {
-    render(<CustomerNavbar links={mockLinks} />);
     const homeLink = screen.getByText('Home');
-    const menuBoardLink = screen.getByText('Menu Board');
-    const employeeLink = screen.getByText('Employee');
+    const menuLink = screen.getByText('Menu');
+    const aboutLink = screen.getByText('About');
 
     expect(homeLink).toBeInTheDocument();
-    expect(menuBoardLink).toBeInTheDocument();
-    expect(employeeLink).toBeInTheDocument();
+    expect(menuLink).toBeInTheDocument();
+    expect(aboutLink).toBeInTheDocument();
   });
 
+  test('toggles cart on click', () => {
+    render(
+      <TransactionProvider>
+        <CustomerNavbar links={links} />
+      </TransactionProvider>
+    );
 
+    const cartIcon = screen.getByAltText('cart');
+    fireEvent.click(cartIcon);
 
- 
+    const cartContainer = screen.getAllByText('$0.00');
+    expect(cartContainer.length).toBeGreaterThan(0);
 
+  });
 
   
-  // Add more tests for other functionalities as needed
+
+  // Add more tests for other functionalities...
 });

@@ -3,12 +3,12 @@
  */
 import React, { useState, useEffect } from 'react';
 
-  /**
-   * Fetches the inventory items.
-   * @function
-   * @memberOf module:InventUpdateModal
-   * @returns {JSON} An array of the inventory items.
-   */
+/**
+ * Fetches the inventory items.
+ * @function
+ * @memberOf module:InventUpdateModal
+ * @returns {JSON} An array of the inventory items.
+ */
 export const getInventoryItems = async () => {
 	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
 	const data = await items.json();
@@ -94,6 +94,18 @@ const categories = [
 	{ label: "Update Item Min Count", value: 2 },
 ];
 
+/**
+ * Component that provides a modal for updating inventory items.
+ * It allows updating item count, price, and minimum count based on selected category.
+ * @function
+ * @memberOf module:InventUpdateModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls if the modal is open or not.
+ * @param {function} props.onClose - Function to call to close the modal.
+ * @param {Array} props.inventoryItems - List of inventory items.
+ * @param {function} props.setInventoryItems - Function to update the inventory items state.
+ * @returns {React.Component} A React component that provides a user interface for updating inventory items.
+ */
 export default function InventUpdateModal({isOpen, onClose, inventoryItems, setInventoryItems}){
     const [updateItemName, setUpdateItemName] = useState("");
 	const [updateCount, setUpdateCount] = useState("");
@@ -105,6 +117,11 @@ export default function InventUpdateModal({isOpen, onClose, inventoryItems, setI
 
     if (!isOpen) return null;
 
+	/**
+	 * Fetches inventory items from the server and updates the local state.
+	 * @function
+	 * @memberOf module:InventUpdateModal
+	 */
     const fetchInventoryItems = async () => {
 		try {
 			const data = await getInventoryItems();
@@ -114,6 +131,13 @@ export default function InventUpdateModal({isOpen, onClose, inventoryItems, setI
 		}
 	};
 
+	/**
+	 * Handles the submission of the inventory item update form.
+	 * Processes the form data and sends update requests based on the selected category (count, price, or min count).
+	 * @function
+	 * @memberOf module:InventUpdateModal
+	 * @param {Event} e - The event object from the form submission.
+	 */
     const handleUpdateInventoryItem = async (e) => {
 		e.preventDefault();
 
@@ -151,18 +175,42 @@ export default function InventUpdateModal({isOpen, onClose, inventoryItems, setI
 		}
 	};
 
+	/**
+	 * Validates that the provided item name is not empty.
+	 * @memberOf module:InventUpdateModal
+	 * @param {string} itemName - The name to validate.
+	 * @returns {boolean} True if the item name is valid, false otherwise.
+	 */
     const validateItemName = (itemName) => {
 		return itemName.trim() !== "";
 	};
 
+	/**
+	 * Validates that the provided price is a positive number.
+	 * @memberOf module:InventUpdateModal
+	 * @param {string} price - The price to validate.
+	 * @returns {boolean} True if the price is valid, false otherwise.
+	 */
 	const validatePrice = (price) => {
 		return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
 	};
 
+	/**
+	 * Validates that the provided count is a positive integer.
+	 * @memberOf module:InventUpdateModal
+	 * @param {string} count - The count to validate.
+	 * @returns {boolean} True if the count is valid, false otherwise.
+	 */
 	const validateCount = (count) => {
 		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
 	};
 
+	/**
+	 * Validates that the provided minimum count is a positive integer.
+	 * @memberOf module:InventUpdateModal
+	 * @param {string} count - The minimum count to validate.
+	 * @returns {boolean} True if the minimum count is valid, false otherwise.
+	 */
 	const validateMinCount = (count) => {
 		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
 	};

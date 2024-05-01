@@ -1,34 +1,62 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { usePathname } from 'next/navigation';
 import LeftSidebar from '../src/components/LeftSidebar';
-jest.mock('next/link', () => ({
-    __esModule: true,
-    default: ({ children, href }) => (
-      <a role="link" href={href}>
-        {children}
-      </a>
-    ),
-  }));
-  
-  
-  jest.mock('next/navigation', () => ({
-    usePathname: jest.fn(() => '/employee/burgers'), // Simulate specific pathname
-  }));
-  
-  jest.mock('next/image', () => ({
-    __esModule: true,
-    default: jest.fn(() => <img src="" alt="" />), // Mock Image component for basic rendering
-  }));
-  
-  describe('LeftSidebar component', () => {
-    it('renders the sidebar with correct navigation links', () => {
-      render(<LeftSidebar links={[]} />); // Provide empty links array
-  
-      // Assert presence of all navigation links
-      expect(screen.getAllByRole('link')).toHaveLength(3); // Three links expected
-  
-      
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
+
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn(),
+}));
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
+describe('LeftSidebar', () => {
+  beforeEach(() => {
+    usePathname.mockReturnValue('/employee/burgers');
+    useRouter.mockReturnValue({ asPath: '/employee/burgers' });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders without crashing', () => {
+    render(<LeftSidebar />);
+  });
+
+  it('renders the Rev\'s Grill logo', () => {
+    render(<LeftSidebar />);
+    const logoImage = screen.getByAltText("Rev's Grill Logo");
+    expect(logoImage).toBeInTheDocument();
+  });
+
+  it('renders the correct number of links', () => {
+    render(<LeftSidebar />);
+    const links = screen.getAllByRole('link');
+    expect(links).toHaveLength(6);
+  });
+
+  it('applies the active class to the correct link', () => {
+    render(<LeftSidebar />);
+    const activeLink = screen.getByTitle('Place an Order');
+    expect(activeLink).toHaveClass('left-sidebar-link-active');
+  });
+
+  it('updates the page height on window resize', () => {
+    const mockResizeHandler = jest.fn();
+    window.addEventListener = jest.fn((event, handler) => {
+      if (event === 'resize') {
+        mockResizeHandler(handler);
+      }
     });
 
+    render(<LeftSidebar />);
+
+    const resizeEvent = new Event('resize');
+    window.dispatchEvent(resizeEvent);
+
+    expect(mockResizeHandler).toHaveBeenCalled();
   });
+});

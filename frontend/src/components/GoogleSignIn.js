@@ -1,9 +1,21 @@
+/**
+ * @module GoogleAuthButtons
+ */
 "use client";
 import { GoogleLogin } from '@react-oauth/google';
 import {useCookies} from 'react-cookie'
 
 //const clientId = process.env.AUTH_GOOGLE_ID
 const clientId = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
+
+/**
+ * Component to render a Google sign-in button that uses OAuth for authentication.
+ * It uses the react-oauth/google package to handle the authentication flow.
+ * Upon successful authentication, it stores the access token in cookies.
+ *
+ * @function GoogleSignInButton
+ * @returns {React.Component} A GoogleLogin component that triggers the OAuth flow and handles the success or error cases.
+ */
 const GoogleSignInButton = () => {
   const [cookies, setCookie] = useCookies('access_token')
   return (
@@ -21,6 +33,13 @@ const GoogleSignInButton = () => {
   )
 }
 
+/**
+ * Component to render a button that allows users to sign out.
+ * It clears the user's access token from cookies, effectively logging them out of the application.
+ *
+ * @function SignOutButton
+ * @returns {React.Component} A button that when clicked clears the access token cookie and logs the user out.
+ */
 const SignOutButton = () => {
   const [cookies, setCookie] = useCookies('access_token')
   const clearCookie = () => {

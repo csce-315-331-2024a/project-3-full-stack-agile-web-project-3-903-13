@@ -1,13 +1,20 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Board1 from './Board_1/page'; // Import your board components
-import Board2 from './Board_2/page'; // Import your board components
+import Board1 from './Board_1/page';
+import Board2 from './Board_2/page'; 
 import Board3 from './Board_3/page';
-// Import other board components as needed
 
+/**
+ * Component that rotates between multiple boards (Board1, Board2, Board3) automatically.
+ * Each board is displayed one at a time with a periodic change every 10 seconds.
+ * @function
+ * @module MenuBoard/Page
+ * @returns {React.Component} The Page component containing the rotating boards and navigation indicators.
+ */
 const Page = () => {
-    const boards = [<Board1 />, <Board2 />, <Board3/>]; // Add your board components to this array
+    const boards = [<Board1 />, <Board2 />, <Board3/>]; 
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -19,6 +26,12 @@ const Page = () => {
         return () => clearInterval(interval);
     }, [boards.length]);
 
+    /**
+     * Renders a clickable indicator for each board.
+     * @function renderIndicator
+     * @param {number} page - The index of the page for which the indicator is rendered.
+     * @returns {React.Element} A circle element that serves as a clickable navigation indicator.
+     */
     const renderIndicator = (page) => {
         return (
             <div

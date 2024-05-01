@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: transactions/NumericKeypad.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: transactions/NumericKeypad.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * A numeric keypad component for inputting numbers. It provides buttons for digits 0-9, a backspace button for corrections, and buttons to submit or cancel the input.
+ * @function NumericKeypad
+ * @module NumericKeypad
+ * @param {Object} props - The properties passed to the component.
+ * @param {function} props.onValueChange - Callback function that gets called when the entered value is submitted.
+ * @param {string} props.inputValue - The current value of the input.
+ * @param {function} props.setInputValue - Function to update the state of the inputValue.
+ * @param {function} props.onClose - Function to close the keypad modal.
+ * @returns {React.Component} A React component that displays a numeric keypad for inputting numbers.
+ */
+export default function NumericKeypad({ onValueChange, inputValue, setInputValue, onClose }) {
+    /**
+     * Handles the event when numeric buttons are clicked. Appends the clicked value to the existing inputValue.
+     * @function handleButtonClick
+     * @param {string} value - The numeric value of the button clicked.
+     */
+    const handleButtonClick = (value) => {
+        setInputValue(prev => prev + value);
+    };
+
+    /**
+     * Handles the backspace operation by removing the last character from the current input value.
+     * @function handleBackspace
+     */
+    const handleBackspace = () => {
+        setInputValue(inputValue.slice(0, -1));
+    };
+
+    /**
+     * Handles the submission of the input value. Parses the input string to an integer, adjusts it by subtracting 1, 
+     * and calls the onValueChange callback with the new value. Closes the keypad modal after submission.
+     * @function handleSubmit
+     */
+    const handleSubmit = () => {
+        let quantity = parseInt(inputValue);
+        if (isNaN(quantity)) {
+            quantity = -1; 
+        } else {
+            quantity = quantity - 1; 
+        }
+        onValueChange(quantity);
+        onClose();
+    };
+
+    return (
+        &lt;div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+            &lt;div className="bg-white p-6 rounded-lg shadow-lg">
+                &lt;div className="text-center mb-4 font-bold text-xl">Enter Quantity&lt;/div>
+                &lt;div className="text-center mb-4 text-lg">{inputValue || "0"}&lt;/div>
+                &lt;div className="grid grid-cols-3 gap-2">
+                    {Array.from({ length: 9 }, (_, i) => (
+                        &lt;button key={i + 1} onClick={() => handleButtonClick(String(i + 1))} className="bg-gray-200 p-3 rounded">
+                            {i + 1}
+                        &lt;/button>
+                    ))}
+                    &lt;button onClick={() => handleButtonClick('0')} className="col-span-2 bg-gray-200 p-3 rounded">0&lt;/button>
+                    &lt;button onClick={handleBackspace} className="bg-red-300 p-3 rounded">←&lt;/button>
+                &lt;/div>
+                &lt;div className="mt-4 flex justify-between">
+                    &lt;button onClick={handleSubmit} className="bg-green-500 text-white px-6 py-2 rounded">Enter&lt;/button>
+                    &lt;button onClick={onClose} className="bg-red-500 text-white px-6 py-2 rounded">Cancel&lt;/button>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 22:13:16 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

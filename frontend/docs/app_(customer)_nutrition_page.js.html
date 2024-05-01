@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(customer)/nutrition/page.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(customer)/nutrition/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import React, { useState, useEffect } from 'react';
+
+/**
+ * NutritionPage is a React component that displays nutritional information about menu items.
+ * It provides details such as calories and special dietary symbols (e.g., vegetarian, pescatarian, gluten-free)
+ * for each item. It fetches menu item data from a backend API and renders a list with nutritional and dietary information.
+ *
+ * @component
+ * @module NutritionPage
+ * @returns {React.Component} The NutritionPage component, which includes dietary legends and a list of menu items with nutritional details.
+ */
+const NutritionPage = () => {
+    const [menuItems, setMenuItems] = useState([]);
+
+    useEffect(() => {
+        fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems')
+            .then(response => response.json())
+            .then(data => {
+                setMenuItems(data);
+            })
+            .catch(error => {
+                console.error("Error fetching menu items:", error);
+            });
+    }, []);
+
+    /**
+     * Maps a diet code to its corresponding symbol element(s) for display.
+     *
+     * @function
+     * @memberOf module:NutritionPage
+     * @param {number} dietCode - The code representing a specific diet (e.g., vegetarian, pescatarian).
+     * @returns {React.Element} A React component or element representing the diet symbol(s).
+     */
+    const mapSpecialDiet = (dietCode) => {
+        switch (dietCode) {
+            case 1:
+                return &lt;img src="/vegetarian.svg" alt="Vegetarian" className="diet-symbol" width={40} height={40}>&lt;/img>;
+            case 2:
+                return &lt;img src="/pescatarian.png" alt="Pescatarian" className="diet-symbol" width={40} height={40}>&lt;/img>;
+            case 3:
+                return (
+                    &lt;div className="flex">
+                        &lt;img src="/vegetarian.svg" alt="Vegetarian" className="diet-symbol" width={40} height={40}>&lt;/img>
+                        &lt;img src="/pescatarian.png" alt="Pescatarian" className="diet-symbol" width={40} height={40}>&lt;/img>
+                    &lt;/div>
+                );
+            default:
+                return '';
+        }
+    };
+
+    /**
+     * Maps an allergy code to its corresponding symbol element for display.
+     *
+     * @function
+     * @memberOf module:NutritionPage
+     * @param {number} allergyCode - The code representing a specific allergy (e.g., gluten-free).
+     * @returns {React.Element} A React component or element representing the allergy symbol.
+     */
+    const mapAllergies = (allergyCode) => {
+        if (allergyCode === 0) {
+            return &lt;img src="/gluten-free.png" alt="Gluten Free" className="allergy-symbol" width={40} height={40}>&lt;/img>;
+        }
+        return '';
+    };
+    
+    /**
+     * Legend is a React component that displays a legend of dietary symbols used on the page.
+     * It helps users identify what each symbol means with respect to dietary restrictions such as vegetarian,
+     * pescatarian, and gluten-free diets. Each symbol is accompanied by a text label for clarity.
+     *
+     * @function Legend
+     * @memberOf module:NutritionPage
+     * @returns {React.Component} A component that visually represents the legend for dietary symbols,
+     * including vegetarian, pescatarian, and gluten-free options.
+     */
+    const Legend = () => {
+        return (
+            &lt;div className="my-10 p-4 bg-white rounded shadow-lg flex justify-around items-center" aria-label="Legend of Symbols">
+                &lt;div className="grid grid-cols-3 gap-4 items-center" aria-label = "Vegetarian Option">
+                    &lt;div className="flex items-center">
+                        &lt;img src="/vegetarian.svg" alt="Vegetarian" width={24} height={24} />
+                        &lt;span className="ml-2 text-gray-600">Vegetarian&lt;/span>
+                    &lt;/div>
+                    &lt;div className="flex items-center" aria-label = "Pescatarian Option">
+                        &lt;img src="/pescatarian.png" alt="Pescatarian" width={24} height={24} />
+                        &lt;span className="ml-2 text-gray-600">Pescatarian&lt;/span>
+                    &lt;/div>
+                    &lt;div className="flex items-center" aria-label ="Gluten Free Option" >
+                        &lt;img src="/gluten-free.png" alt="Gluten Free" width={24} height={24} />
+                        &lt;span className="ml-2 text-gray-600">Gluten Free&lt;/span>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        );
+    };
+
+
+    return (
+        &lt;div className="max-w-4xl mx-auto p-5 bg-gray-100 rounded-lg shadow-sm" role="main" >
+            &lt;div className="text-center mb-5">
+                &lt;h1 className="text-2xl text-gray-800 mb-2">Allergens &amp; Special Diets&lt;/h1>
+                &lt;p className="text-gray-600 text-base max-w-xl mx-auto leading-relaxed">
+                    Explore our menu options tailored for all dietary restrictions. We offer a variety of choices to ensure everyone can enjoy their meal.
+                &lt;/p>
+            &lt;/div>
+            &lt;Legend />
+            &lt;div className="mt-5">
+                {menuItems.map((item, index) => (
+                    &lt;div key={item.menuid} className={`grid grid-cols-4 gap-2 items-center mb-2 p-2 rounded-lg shadow ${index % 2 === 0 ? "bg-white" : "bg-gray-200"}`}
+                    style={index % 2 === 0 ? { border: '2px solid #800000' } : {} }
+                    role="listitem" 
+                    aria-label={`${item.itemname}, ${item.Calories} calories, ${mapSpecialDiet(item.specialdiet)}${mapAllergies(item.allergy) ? ', Gluten Free' : ''}`}
+                    >
+                        &lt;div className="font-bold col-span-1">{item.itemname}&lt;/div>
+                        &lt;div className="text-center col-span-1">{item.Calories} cal&lt;/div>
+                        &lt;div className="text-center col-span-1">{mapSpecialDiet(item.specialdiet)}&lt;/div>
+                        &lt;div className="text-center col-span-1">{mapAllergies(item.allergy)}&lt;/div>
+                    &lt;/div>
+                ))}
+            &lt;/div>
+        &lt;/div>
+    );
+}
+
+
+export default NutritionPage;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

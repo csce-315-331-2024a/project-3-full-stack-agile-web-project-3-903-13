@@ -9,6 +9,20 @@ import "react-multi-carousel/lib/styles.css";
 import { useRouter } from 'next/navigation';
 import WeatherWidget from "@/components/WeatherAPI";
 
+/**
+ * Custom styles for various components within the Home component.
+ * These styles are applied to the carousel content, headings, navigation arrows, and background.
+ *
+ * @constant
+ * @memberOf module:CustomerHome/Page
+ * @type {Object}
+ * @property {Object} carouselContent - Styles for the main content area of the carousel.
+ * @property {Object} heading - Styles for headings within the carousel.
+ * @property {Object} arrowButton - Base styles for navigation arrows.
+ * @property {Object} arrowButtonHover - Styles for navigation arrows on hover.
+ * @property {Object} carouselBackground - Background style for the carousel.
+ * @property {Object} description - Styles for descriptions within the carousel items.
+ */
 const customStyles = {
   carouselContent: {
     textAlign: 'left', 
@@ -49,6 +63,16 @@ const customStyles = {
   },
 };
 
+/**
+ * ArrowLeft provides a custom left navigation arrow for the carousel.
+ *
+ * @component
+ * @memberOf module:CustomerHome/Page
+ * @param {Object} props - Component props.
+ * @param {function} props.onClick - Function to be called when the arrow is clicked.
+ * @param {boolean} props.disabled - Determines if the arrow should be disabled.
+ * @returns {React.Component} A button that acts as a left navigation arrow.
+ */
 const ArrowLeft = ({ onClick, disabled }) => (
   <button
     onClick={onClick}
@@ -63,6 +87,16 @@ const ArrowLeft = ({ onClick, disabled }) => (
   </button>
 );
 
+/**
+ * ArrowRight provides a custom right navigation arrow for the carousel.
+ *
+ * @component
+ * @memberOf module:CustomerHome/Page
+ * @param {Object} props - Component props.
+ * @param {function} props.onClick - Function to be called when the arrow is clicked.
+ * @param {boolean} props.disabled - Determines if the arrow should be disabled.
+ * @returns {React.Component} A button that acts as a right navigation arrow.
+ */
 const ArrowRight = ({ onClick, disabled }) => (
   <button
     onClick={onClick}
@@ -77,7 +111,21 @@ const ArrowRight = ({ onClick, disabled }) => (
   </button>
 );
 
+/**
+ * Google client ID for OAuth or API usage.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {string}
+ */
 const googleClientID = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
+
+/**
+ * Button categories represent different food categories available in the UI,
+ * each with a specific route and image for display.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Array<{phrase: string, path: string, image: string}>}
+ */
 const buttonCategories = [
   { phrase: "Burgers", path: "/Burgers", image: "/menuItems/ClassicHamburger.jpeg" },
   {
@@ -96,6 +144,13 @@ const buttonCategories = [
   { phrase: "Seasonal", path: "/Seasonal", image: "/menuItems/ChickenCaesarSalad.jpeg" },
 ];
 
+/**
+ * Hot categories displayed in the carousel based on the current weather temperature.
+ * These are typically warmer food items.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Array<{id: number, name: string, phrase: string, description: string, image: string, price: number}>}
+ */
 const carouselHotCategories = [
   {
     id: 2,
@@ -117,6 +172,13 @@ const carouselHotCategories = [
   },
 ];
 
+/**
+ * Cold categories displayed in the carousel based on the current weather temperature.
+ * These are typically cooler food items like ice cream and salads.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Array<{id: number, name: string, phrase: string, description: string, image: string, price: number}>}
+ */
 const carouselColdCategories = [
   {
     id: 16,
@@ -138,6 +200,13 @@ const carouselColdCategories = [
   },
 ];
 
+/**
+ * Responsive settings for the carousel to adapt to different screen sizes.
+ * Defines breakpoints and item configurations for desktop, tablet, and mobile views.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Object}
+ */
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 0 },
@@ -156,6 +225,14 @@ const responsive = {
   }
 };
 
+/**
+ * Home component serves as the primary UI for the application, managing state related to temperature,
+ * carousel categories, and user interactions such as hovering.
+ * 
+ * @function Home
+ * @module CustomerHome/Page
+ * @returns {React.Component} The Home component, comprising the main user interface.
+ */
 const Home = () => {
   const [temperature, setTemperature] = useState(null);
   const { updateTransaction } = useTransaction();
@@ -167,6 +244,16 @@ const Home = () => {
     setTemperature(temp);
   };
 
+  /**
+   * Fetches the ingredients of a specific menu item from the API.
+   *
+   * @async
+   * @function
+   * @memberOf module:CustomerHome/Page
+   * @param {Object} item - The menu item for which ingredients are being fetched.
+   * @returns {Promise<Array>} An array of ingredients for the specified item.
+   * @throws {Error} If the fetch operation fails.
+   */
   const getMenuItemIngredients = async (item) => {
     try {
 
@@ -189,6 +276,15 @@ const Home = () => {
     }
 };
 
+/**
+ * Handles adding a menu item to the transaction.
+ * Fetches item ingredients and updates the transaction using the useTransaction hook.
+ *
+ * @async
+ * @function
+ * @memberOf module:CustomerHome/Page
+ * @param {Object} item - The menu item to be added to the transaction.
+ */
   const handleOrder = async(item) => {
     const ingreds = await getMenuItemIngredients(item);
 
@@ -203,10 +299,26 @@ const Home = () => {
   };
 
   const[currentSlide, setCurrentSlide] = useState(0);
+
+  /**
+   * Updates the current slide index in state when the carousel slide changes.
+   *
+   * @function
+   * @memberOf module:CustomerHome/Page
+   * @param {number} newIndex - The new index of the current slide.
+   */
   const handleSlideChange = (newIndex) => {
     setCurrentSlide(newIndex);
   }
 
+  /**
+   * Determines the tabIndex attribute value based on whether the carousel item is active.
+   *
+   * @function
+   * @memberOf module:CustomerHome/Page
+   * @param {boolean} isActive - Whether the current carousel item is active.
+   * @returns {string} The tabIndex value for the item.
+   */
   const updateTabIndex = (isActive) => {
     return isActive ? '0' : '-1';
   };

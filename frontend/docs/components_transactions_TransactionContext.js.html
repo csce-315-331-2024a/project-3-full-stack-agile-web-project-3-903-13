@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/transactions/TransactionContext.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/transactions/TransactionContext.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+"use client"
+
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { toast } from 'react-toastify';
+
+/**
+ * Provides a context for managing transaction data throughout the application.
+ * This includes operations such as adding or updating transactions, clearing transactions,
+ * submitting transactions to a server, and removing items from transactions.
+ *
+ * @module TransactionContext
+ */
+const TransactionContext = createContext();
+
+/**
+ * Custom hook to access and manipulate transaction data.
+ * @function useTransaction
+ * @returns {Object} The transaction context with all its values and functions.
+ */
+export const useTransaction = () => useContext(TransactionContext);
+
+/**
+ * Context Provider component that manages transaction data and provides utility functions
+ * to manipulate this data. It handles storing transactions in local storage to persist state
+ * across sessions.
+ *
+ * @function TransactionProvider
+ * @param {Object} props - The props passed to the TransactionProvider component.
+ * @param {ReactNode} props.children - The children components that will have access to the transaction context.
+ * @returns {ReactNode} - A Context Provider wrapping the children with access to transaction state and functions.
+ */
+export const TransactionProvider = ({ children }) => {
+  const [transactions, setTransaction] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const currentTransaction = localStorage.getItem("currentTransaction");
+      return currentTransaction ? JSON.parse(currentTransaction) : [];
+    }
+    return [];
+  });
+
+  /**
+ * Updates or adds a transaction item. If the item already exists (matched by id and modification string),
+ * its quantity is incremented. Otherwise, a new item is added.
+ *
+ * @function updateTransaction
+ * @param {Object} item - The transaction item to add or update.
+ */
+  const updateTransaction = (item) => {
+    setTransaction(prevTransactions => {
+      if (!prevTransactions || prevTransactions.length === 0) {
+        return [item];
+      } else {
+        let itemFound = false;
+        const updatedTransactions = prevTransactions.map(transaction => {
+          if (transaction.id === item.id &amp;&amp; transaction.modif === item.modif) {
+            itemFound = true;
+            return { ...transaction, quantity: transaction.quantity + 1 };
+          }
+          return transaction;
+        });
+  
+        if (!itemFound) {
+          updatedTransactions.push(item);
+        }
+  
+        localStorage.setItem("currentTransaction", JSON.stringify(updatedTransactions));
+        return updatedTransactions;
+      }
+    });
+  };
+
+  
+  /**
+   * Clears all transactions from the state and local storage, effectively resetting the transaction data.
+   * @function clearTransaction
+   */
+  const clearTransaction = () => {
+    setTransaction(null)
+    if (typeof window !== 'undefined'){
+      localStorage.setItem("currentTransaction", [])
+    }
+  }
+
+  /**
+   * Submits the current transactions as a new order to a server endpoint. This function also calculates
+   * the total cost, tax, and submits these along with the order contents. Upon successful submission,
+   * the current transactions are cleared.
+   * @function submitTransaction
+   */
+  const submitTransaction = () => {
+    const price = parseFloat(transactions.reduce((total, currentItem) => {return total + currentItem.price * currentItem.quantity}, 0).toFixed(2))
+    const taxAmount = parseFloat((price * 0.0825).toFixed(2))
+    const total = parseFloat((price + taxAmount).toFixed(2))
+    const orderContents = transactions
+    const requestData = {
+      "totalCost": total,
+      "taxAmount": taxAmount,
+      "orderContents": orderContents
+    }
+    fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+      },
+      body: JSON.stringify(requestData)
+    }).then(() => {
+      clearTransaction();
+      toast.success("The transaction was a success!", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }).catch(error => {
+      console.error('Error submitting transaction:', error);
+    });
+    clearTransaction();
+  }
+
+  /**
+   * Removes a specific item from the transaction or decrements its quantity if more than one exists.
+   * If the last item of a specific type is removed, it's completely removed from the transaction.
+   *
+   * @function removeItemFromTransaction
+   * @param {string} itemId - The id of the item to remove.
+   * @param {string} modifString - The modification string associated with the item to identify the correct variant.
+   */
+  const removeItemFromTransaction = (itemId, modifString) => {
+    const updatedTransactions = transactions.reduce((acc, item) => {
+      if (item.id === itemId &amp;&amp; item.modif == modifString) {
+        if (item.quantity > 1) {
+          acc.push({ ...item, quantity: item.quantity - 1 });
+        }
+      } else {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+
+    setTransaction(updatedTransactions);
+  };
+
+  /**
+   * Completely removes an item from the transaction regardless of its quantity.
+   *
+   * @function removeItemCompletely
+   * @param {string} itemId - The id of the item to remove.
+   * @param {string} modifString - The modification string associated with the item to identify the correct variant.
+   */
+  const removeItemCompletely = (itemId, modifString) => {
+    const updatedTransactions = transactions.filter(item => item.id !== itemId || item.modif != modifString);
+    setTransaction(updatedTransactions);
+  }
+
+  /**
+   * Sets the transaction to a new set of transactions. Useful for replacing the current transaction
+   * with a new set of items, such as when loading a saved order.
+   *
+   * @function setToNewOrder
+   * @param {Array} transaction - Array of new transaction items to set.
+   */
+  const setToNewOrder = (transaction) => {
+    setTransaction([...transaction]);
+  }
+
+  useEffect(() => {
+    localStorage.setItem("currentTransaction", JSON.stringify(transactions))
+  }, [transactions])
+
+  return (
+    &lt;TransactionContext.Provider 
+      value={{ transactions, updateTransaction, clearTransaction, submitTransaction, removeItemFromTransaction, 
+               removeItemCompletely, setToNewOrder}}>
+      {children}
+    &lt;/TransactionContext.Provider>
+  );
+
+  
+};
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

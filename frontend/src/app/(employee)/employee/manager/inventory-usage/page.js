@@ -3,6 +3,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
+/**
+ * A React component for displaying inventory usage reports using a bar chart.
+ * The user can specify a date range to generate reports for inventory usage within that period.
+ * @module InventoryUsagePage
+ * @returns {JSX.Element} The rendered page component.
+ */
 export default function InventoryUsagePage() {
     const chartRef = useRef(null);
     const chartInstanceRef = useRef(null);
@@ -12,6 +18,11 @@ export default function InventoryUsagePage() {
     const [errorMessage, setErrorMessage] = useState('');
     const [hasData, setHasData] = useState(true);  // Added state variable for tracking if data exists
 
+    /**
+     * Fetches inventory usage data from the API based on the provided start and end dates.
+     * Updates the chart with new data or handles errors if the fetch fails.
+     * @memberOf module:InventoryUsagePage
+     */
     const fetchInventoryUsage = async () => {
         setLoading(true);
         setErrorMessage('');
@@ -77,6 +88,11 @@ export default function InventoryUsagePage() {
         setLoading(false);
     };
 
+    /**
+     * Submits the form to generate the inventory usage report. Prevents the default form submit behavior.
+     * @memberOf module:InventoryUsagePage
+     * @param {React.FormEvent} e - The event object associated with the form submission.
+     */
     const handleGenerateReport = (e) => {
         e.preventDefault();
         setHasData(true);

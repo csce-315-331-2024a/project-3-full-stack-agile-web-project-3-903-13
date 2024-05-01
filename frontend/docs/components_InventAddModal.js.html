@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/InventAddModal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/InventAddModal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module InventAddModal
+ */
+import React, { useState, useEffect } from 'react';
+
+/**
+ * Fetches the inventory items.
+ * @function
+ * @memberOf module:InventAddModal
+ * @returns {JSON} An array of the inventory items.
+ */
+export const getInventoryItems = async () => {
+	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
+	const data = await items.json();
+
+	return data;
+};
+
+/**
+ * Adds the specified inventory item on the server.
+ * @function
+ * @memberOf module:InventAddModal
+ * @param {Object} inventItem - The inventory item object to be added and item identifier.
+ * @returns {string} A string for a success message if the adding is successful.
+ */
+export const addInventoryItem = async (inventItem) => {
+	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(inventItem),
+	});
+
+	if (!response.ok) {
+		const errorMessage = await response.text();
+		throw new Error(errorMessage);
+	} else {
+		return { success: true, message: "Inventory item added successfully" };
+	}
+};
+
+/**
+ * Component that provides a modal for adding new inventory items.
+ * It allows the user to input details for a new inventory item such as name, count, price, and minimum count.
+ * @function
+ * @memberOf module:InventAddModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls if the modal is open or not.
+ * @param {function} props.onClose - Function to call to close the modal.
+ * @param {Array} props.inventoryItems - List of current inventory items.
+ * @param {function} props.setInventoryItems - Function to update the inventory items state after adding a new item.
+ * @returns {React.Component} A React component that provides a user interface for adding inventory items.
+ */
+export default function InventAddModal({isOpen, onClose, inventoryItems, setInventoryItems}){
+    const [addItemName, setAddItemName] = useState("");
+	const [addCount, setAddCount] = useState("");
+	const [addPrice, setAddPrice] = useState("");
+	const [addMinCount, setAddMinCount] = useState("");
+    const [addErrorMessage, setAddErrorMessage] = useState("");
+    const [addSuccessMessage, setAddSuccessMessage] = useState("");
+
+    if (!isOpen) return null;
+
+	/**
+	 * Fetches the current list of inventory items from the server and updates the component state.
+	 * @memberOf module:InventAddModal
+	 */
+    const fetchInventoryItems = async () => {
+		try {
+			const data = await getInventoryItems();
+			setInventoryItems(data);
+		} catch (error) {
+			console.error("Error fetching inventory items:", error);
+		}
+	};
+
+	/**
+	 * Handles the submission of the new inventory item form.
+	 * Validates the form data and sends it to the server to add a new inventory item.
+	 * @memberOf module:InventAddModal
+	 * @param {Event} e - The event object from the form submission.
+	 */
+    const handleAddInventoryItem = async (e) => {
+		e.preventDefault();
+
+		if (!validateItemName(addItemName) || !validatePrice(addPrice) || !validateCount(addCount) || !validateMinCount(addMinCount)) {
+			setAddErrorMessage("Please fill out all fields correctly.");
+			return;
+		}
+
+		try {
+			const response = await addInventoryItem({ itemName: addItemName, count: addCount, price: addPrice, mincount: addMinCount });
+			setAddSuccessMessage(response.message);
+			setAddErrorMessage("");
+			setAddItemName("");
+			setAddCount("");
+			setAddMinCount("");
+			setAddPrice("");
+			fetchInventoryItems();
+		} catch (error) {
+			setAddErrorMessage(error.message);
+			setAddSuccessMessage("");
+		}
+	};
+
+	/**
+	 * Validates that the provided item name is not empty.
+	 * @memberOf module:InventAddModal
+	 * @param {string} itemName - The name to validate.
+	 * @returns {boolean} True if the item name is valid, false otherwise.
+	 */
+    const validateItemName = (itemName) => {
+		return itemName.trim() !== "";
+	};
+
+	/**
+	 * Validates that the provided item price is not empty.
+	 * @memberOf module:InventAddModal
+	 * @param {string} itemName - The price to validate.
+	 * @returns {boolean} True if the item price is valid, false otherwise.
+	 */
+	const validatePrice = (price) => {
+		return !isNaN(parseFloat(price)) &amp;&amp; isFinite(price) &amp;&amp; parseFloat(price) > 0;
+	};
+
+	/**
+	 * Validates that the provided count is a positive integer.
+	 * @memberOf module:InventAddModal
+	 * @param {string} count - The count to validate.
+	 * @returns {boolean} True if the count is valid, false otherwise.
+	 */
+	const validateCount = (count) => {
+		return !isNaN(parseInt(count)) &amp;&amp; isFinite(count) &amp;&amp; parseFloat(count) > 0;
+	};
+
+	/**
+	 * Validates that the provided minimum count is a positive integer.
+	 * @memberOf module:InventAddModal
+	 * @param {string} count - The minimum count to validate.
+	 * @returns {boolean} True if the minimum count is valid, false otherwise.
+	 */
+	const validateMinCount = (count) => {
+		return !isNaN(parseInt(count)) &amp;&amp; isFinite(count) &amp;&amp; parseFloat(count) > 0;
+	};
+
+    return (
+        &lt;div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+            &lt;div className="relative max-h-screen overflow-y-auto py-5">
+                &lt;div className="bg-white p-2 rounded-lg shadow-lg">
+                    &lt;button
+                        className="absolute top-5 right-4 text-gray-500 hover:text-gray-700"
+                        onClick={onClose}
+                    >
+                        &lt;svg
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            &lt;path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        &lt;/svg>
+                    &lt;/button>
+						&lt;h1 className="p-3 md:p text-xl font-semibold text-center">ADDING INVENTORY ITEMS&lt;/h1>
+						{addErrorMessage &amp;&amp; (
+							&lt;p className="text-red-500">{addErrorMessage}&lt;/p>
+						)}
+						{addSuccessMessage &amp;&amp; (
+							&lt;p className="text-green-500">{addSuccessMessage}&lt;/p>
+						)}
+						&lt;form onSubmit={handleAddInventoryItem} className="flex flex-col items-center justify-center">
+							&lt;input
+								type="text"
+								placeholder="Item Name"
+								value={addItemName}
+								onChange={(e) => setAddItemName(e.target.value)}
+								className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+								required
+							/>
+							&lt;input
+								type="number"
+								placeholder="Count"
+								value={addCount}
+								onChange={(e) => setAddCount(e.target.value)}
+								className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+								required
+							/>
+							&lt;input
+								type="number"
+								placeholder="Price"
+								value={addPrice}
+								onChange={(e) => setAddPrice(e.target.value)}
+								className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+								required
+							/>
+							&lt;input
+								type="number"
+								placeholder="Minimum Count"
+								value={addMinCount}
+								onChange={(e) => setAddMinCount(e.target.value)}
+								className="mb-2 shadow-input outline-none border focus:border-red-800 rounded-lg px-4 py-2.5"
+								required
+							/>
+							&lt;button type="submit" className="bg-red-800 text-white rounded px-4 py-2 w-full">ADD&lt;/button>
+						&lt;/form>
+					&lt;/div>
+                    &lt;/div>
+                    &lt;/div>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

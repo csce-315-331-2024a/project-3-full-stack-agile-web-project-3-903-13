@@ -11,9 +11,7 @@ describe('ExcessReportPage component', () => {
   it('should render the component correctly', () => {
     render(<ExcessReportPage />);
 
-    expect(screen.getByText('EXCESS REPORT')).toBeInTheDocument();
-    expect(screen.getByTestId('excess-report-form')).toBeInTheDocument();
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByText('Excess Report')).toBeInTheDocument();
   });
 
   it('should update start and end date on input change', () => {

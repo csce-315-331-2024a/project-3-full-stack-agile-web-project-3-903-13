@@ -3,7 +3,15 @@
 import "../../globals.css";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-
+import axios from 'axios';
+/**
+ * Displays a menu board, updating live every 15 seconds.
+ *
+ * @function MenuBoard
+ * @module MenuBoard/Board2
+ * @returns {React.Component} The menu board displaying burgers.
+ * @description Digital display of menu items for a specific category.
+ */
 const MenuBoard = () => {
     const [menuItems, setMenuItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -31,26 +39,20 @@ const MenuBoard = () => {
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setMenuItems(data);
-                setError(null); // Clear any previous errors
+                const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+                setMenuItems(response.data);
+                setError(null);
             } catch (error) {
                 setError(error);
             } finally {
                 setIsLoading(false);
             }
         };
-    
-        
+
         fetchMenuItems();
-    
-      
+
         const interval = setInterval(fetchMenuItems, 25000);
-    
+
         return () => clearInterval(interval);
     }, []);
 
@@ -65,7 +67,12 @@ const MenuBoard = () => {
         return <div className="text-red-600 text-center text-lg font-bold">Error: {error.message}</div>;
     }
 
-    // Group menu items by category
+    /**
+     * Groups menu items by their category. In this specific implementation, it only groups items in category 1, 2, and 5.
+     * @function groupedMenuItems
+     * @param {Array} menuItems - Array of menu items to group.
+     * @returns {Object} An object where each key is a category and the value is an array of items in that category.
+     */ 
     const groupedMenuItems = menuItems.reduce((acc, item) => {
         if (item.category === 1 || item.category === 2 || item.category === 5) {
             if (!acc[item.category]) {
@@ -76,7 +83,12 @@ const MenuBoard = () => {
         return acc;
     }, {});
 
-    // Function to split menu items into two columns
+    /**
+     * Splits a list of items into two columns, typically used for displaying items in a two-column layout on a menu board.
+     * @function splitIntoColumns
+     * @param {Array} items - The array of items to split.
+     * @returns {Array[]} An array containing two subarrays: the first half and the second half of the original array.
+     */
     const splitIntoColumns = (items) => {
         const middleIndex = Math.ceil(items.length / 2);
         const firstHalf = items.slice(0, middleIndex);

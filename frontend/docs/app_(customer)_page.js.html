@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(customer)/page.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(customer)/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import React, { useState } from 'react';
+import { useTransaction } from "@/components/transactions/TransactionContext";
+import Carousel from "react-multi-carousel";
+import Link from "next/link";
+import Image from "next/image";
+import "react-multi-carousel/lib/styles.css";
+import { useRouter } from 'next/navigation';
+import WeatherWidget from "@/components/WeatherAPI";
+
+/**
+ * Custom styles for various components within the Home component.
+ * These styles are applied to the carousel content, headings, navigation arrows, and background.
+ *
+ * @constant
+ * @memberOf module:CustomerHome/Page
+ * @type {Object}
+ * @property {Object} carouselContent - Styles for the main content area of the carousel.
+ * @property {Object} heading - Styles for headings within the carousel.
+ * @property {Object} arrowButton - Base styles for navigation arrows.
+ * @property {Object} arrowButtonHover - Styles for navigation arrows on hover.
+ * @property {Object} carouselBackground - Background style for the carousel.
+ * @property {Object} description - Styles for descriptions within the carousel items.
+ */
+const customStyles = {
+  carouselContent: {
+    textAlign: 'left', 
+    color: '#ffffff',
+    textShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)', 
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center', 
+    height: '100%', 
+    paddingLeft: '1px', 
+  },
+  heading: {
+    fontSize: '2.5rem',
+    fontWeight: '700',
+    marginBottom: '1rem',
+  },
+  arrowButton: {
+    color: '#ffffff',
+    cursor: 'pointer',
+    fontSize: '24px',
+    padding: '10px',
+    borderRadius: '50%',
+    zIndex: 0,
+    border: 'none',
+    opacity: 0.8,
+    transition: 'opacity 0.3s ease',
+  },
+  arrowButtonHover: {
+    opacity: 1,
+  },
+  carouselBackground: {
+    backgroundColor: 'maroon',
+  },
+  description: {
+    fontSize: '1rem',
+    fontWeight: '400', 
+    marginBottom: '1rem', 
+  },
+};
+
+/**
+ * ArrowLeft provides a custom left navigation arrow for the carousel.
+ *
+ * @component
+ * @memberOf module:CustomerHome/Page
+ * @param {Object} props - Component props.
+ * @param {function} props.onClick - Function to be called when the arrow is clicked.
+ * @param {boolean} props.disabled - Determines if the arrow should be disabled.
+ * @returns {React.Component} A button that acts as a left navigation arrow.
+ */
+const ArrowLeft = ({ onClick, disabled }) => (
+  &lt;button
+    onClick={onClick}
+    disabled={disabled}
+    style={{ ...customStyles.arrowButton, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}
+    onMouseEnter={(e) => e.target.style.opacity = '1'}
+    onMouseLeave={(e) => e.target.style.opacity = '0.5'}
+    aria-label="Scroll Left"
+    tabIndex={disabled ? "-1" : "0"}
+  >
+    &amp;lt;
+  &lt;/button>
+);
+
+/**
+ * ArrowRight provides a custom right navigation arrow for the carousel.
+ *
+ * @component
+ * @memberOf module:CustomerHome/Page
+ * @param {Object} props - Component props.
+ * @param {function} props.onClick - Function to be called when the arrow is clicked.
+ * @param {boolean} props.disabled - Determines if the arrow should be disabled.
+ * @returns {React.Component} A button that acts as a right navigation arrow.
+ */
+const ArrowRight = ({ onClick, disabled }) => (
+  &lt;button
+    onClick={onClick}
+    disabled={disabled}
+    style={{ ...customStyles.arrowButton, position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)' }}
+    onMouseEnter={(e) => e.target.style.opacity = '1'}
+    onMouseLeave={(e) => e.target.style.opacity = '0.5'}
+    aria-label="Scroll Right"
+    tabIndex={disabled ? "-1" : "0"}
+  >
+    &amp;gt;
+  &lt;/button>
+);
+
+/**
+ * Google client ID for OAuth or API usage.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {string}
+ */
+const googleClientID = '821375678963-ors2l4rh0gpqqlmq3p8ddg9pptv5fsqi.apps.googleusercontent.com'
+
+/**
+ * Button categories represent different food categories available in the UI,
+ * each with a specific route and image for display.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Array&lt;{phrase: string, path: string, image: string}>}
+ */
+const buttonCategories = [
+  { phrase: "Burgers", path: "/Burgers", image: "/menuItems/ClassicHamburger.jpeg" },
+  {
+    phrase: "Hotdogs/Corndogs",
+    path: "/Dogs",
+    image: "/menuItems/2corndogvaluemeal.jpeg",
+  },
+  {
+    phrase: "Chicken Tenders",
+    path: "/Tenders",
+    image: "/menuItems/3tenderentree.jpeg",
+  },
+  { phrase: "Sides", path: "/Sides", image: "/menuItems/FrenchFries.jpeg" },
+  { phrase: "Shakes", path: "/Desserts", image: "/menuItems/AggieShakes.jpeg" },
+  { phrase: "Beverages", path: "/Beverages", image: "/menuItems/20ozfountaindrink.jpeg" },
+  { phrase: "Seasonal", path: "/Seasonal", image: "/menuItems/ChickenCaesarSalad.jpeg" },
+];
+
+/**
+ * Hot categories displayed in the carousel based on the current weather temperature.
+ * These are typically warmer food items.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Array&lt;{id: number, name: string, phrase: string, description: string, image: string, price: number}>}
+ */
+const carouselHotCategories = [
+  {
+    id: 2,
+    name: "Classic Hamburger",
+    phrase: "Order the classic hamburger today!",
+    description:
+      "Cheese, Lettuce, Tomatoes, Onions, and our signature patty all on artisan bread. Handcrafted with love by Rev's Grill!",
+    image: "/menuItems/ClassicHamburger.jpeg",
+    price: 6.89
+  },
+  {
+    id: 4,
+    name: "Gig Em Patty Melt",
+    phrase: "Try the all new Gig Em Patty Melt!",
+    description:
+      "This revolutionary sandwich will turn even the staunchest of 2%ers into redasses in no time!",
+    image: "/menuItems/GigEmPattyMelt.jpeg",
+    price: 7.59
+  },
+];
+
+/**
+ * Cold categories displayed in the carousel based on the current weather temperature.
+ * These are typically cooler food items like ice cream and salads.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Array&lt;{id: number, name: string, phrase: string, description: string, image: string, price: number}>}
+ */
+const carouselColdCategories = [
+  {
+    id: 16,
+    name: "Cookie ice cream sundae",
+    phrase: "Indulge in our Cookie Ice Cream Sundae!",
+    description:
+      "Layers of freshly baked cookies topped with rich vanilla ice cream. A sweet treat to satisfy your cravings!",
+    image: "/menuItems/Cookieicecreamsundae.jpeg",
+    price: 4.69
+  },
+  {
+    id: 22,
+    name: "Chicken Caesar Salad",
+    phrase: "Enjoy our Fresh Chicken Caesar Salad!",
+    description:
+      "Crisp romaine lettuce, juicy grilled chicken, shredded parmesan cheese, croutons, and a creamy Caesar dressing. Perfect for a refreshing and healthy meal!",
+    image: "/menuItems/ChickenCaesarSalad.jpeg",
+    price: 8.29
+  },
+];
+
+/**
+ * Responsive settings for the carousel to adapt to different screen sizes.
+ * Defines breakpoints and item configurations for desktop, tablet, and mobile views.
+ * @memberOf module:CustomerHome/Page
+ * @constant
+ * @type {Object}
+ */
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 0 },
+    items: 1,
+    slidesToSlide: 1,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 1,
+    slidesToSlide: 1,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1,
+  }
+};
+
+/**
+ * Home component serves as the primary UI for the application, managing state related to temperature,
+ * carousel categories, and user interactions such as hovering.
+ * 
+ * @function Home
+ * @module CustomerHome/Page
+ * @returns {React.Component} The Home component, comprising the main user interface.
+ */
+const Home = () => {
+  const [temperature, setTemperature] = useState(null);
+  const { updateTransaction } = useTransaction();
+  const [isHovered, setIsHovered] = useState(false);
+
+  let displayCategories;
+
+  const handleWeatherLoaded = (temp) => {
+    setTemperature(temp);
+  };
+
+  /**
+   * Fetches the ingredients of a specific menu item from the API.
+   *
+   * @async
+   * @function
+   * @memberOf module:CustomerHome/Page
+   * @param {Object} item - The menu item for which ingredients are being fetched.
+   * @returns {Promise&lt;Array>} An array of ingredients for the specified item.
+   * @throws {Error} If the fetch operation fails.
+   */
+  const getMenuItemIngredients = async (item) => {
+    try {
+
+        const name = item.name
+        const params = name.split(' ').join("+")
+
+        const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        const paramsNeeded = data.map(obj => ({"inventid": obj.inventid, "ingredientname": obj.ingredientname, "quantity": obj.quantity}))
+        return paramsNeeded
+
+    } catch (error) {
+        console.error("Error fetching ingredient for menu item:", error);
+    }
+};
+
+/**
+ * Handles adding a menu item to the transaction.
+ * Fetches item ingredients and updates the transaction using the useTransaction hook.
+ *
+ * @async
+ * @function
+ * @memberOf module:CustomerHome/Page
+ * @param {Object} item - The menu item to be added to the transaction.
+ */
+  const handleOrder = async(item) => {
+    const ingreds = await getMenuItemIngredients(item);
+
+    updateTransaction({
+      id: item.id,
+      itemname: item.name,
+      price: item.price,
+      quantity: 1,
+      modif: "",
+      itemToRemove: ingreds
+    });
+  };
+
+  const[currentSlide, setCurrentSlide] = useState(0);
+
+  /**
+   * Updates the current slide index in state when the carousel slide changes.
+   *
+   * @function
+   * @memberOf module:CustomerHome/Page
+   * @param {number} newIndex - The new index of the current slide.
+   */
+  const handleSlideChange = (newIndex) => {
+    setCurrentSlide(newIndex);
+  }
+
+  /**
+   * Determines the tabIndex attribute value based on whether the carousel item is active.
+   *
+   * @function
+   * @memberOf module:CustomerHome/Page
+   * @param {boolean} isActive - Whether the current carousel item is active.
+   * @returns {string} The tabIndex value for the item.
+   */
+  const updateTabIndex = (isActive) => {
+    return isActive ? '0' : '-1';
+  };
+
+  if (temperature >= 70) {
+      displayCategories = carouselColdCategories;
+  } else {
+      displayCategories = carouselHotCategories;
+  }  
+  const router = useRouter()
+
+
+  return (
+      &lt;main className="min-h-screen flex flex-col items-center">
+        &lt;div className="flex items-center justify-center space-x-4 mt-5">
+          &lt;section aria-label= "Weather and Time">
+          &lt;WeatherWidget onWeatherLoaded={handleWeatherLoaded} />
+          &lt;/section>
+        &lt;/div>
+        {/* &lt;Carousel
+          swipeable
+          draggable
+          responsive={responsive}
+          ssr
+          infinite
+          autoPlay
+          autoPlaySpeed={6000}
+          keyBoardControl
+          customTransition="all .5s ease-in-out"
+          transitionDuration={500}
+          containerClass="carousel-container"
+          itemClass="carousel-item-padding-40-px w-full"
+          customLeftArrow={&lt;ArrowLeft />}
+          customRightArrow={&lt;ArrowRight />}
+          className="w-full relative"
+          aria-label = "Featured Menu Items"
+          afterChange= {handleSlideChange}
+        > */}
+          {displayCategories.map((category, index) => (
+            &lt;div key={index} className="px-4 w-full" style={customStyles.carouselBackground}
+            aria-hidden={index !== currentSlide ? "true" : "false"}
+            >
+              &lt;div className="container flex flex-wrap justify-center items-center">
+                &lt;div className="w-full sm:w-1/2 p-4">
+                  &lt;img src={category.image} alt={category.phrase} className="carousel-image max-h-64 w-auto mx-auto" />
+                &lt;/div>
+                &lt;div className="w-full sm:w-1/2 p-4" style={customStyles.carouselContent}>
+                  &lt;h3 style={customStyles.heading}>{category.name}&lt;/h3>
+                  &lt;p style={customStyles.description}>{category.description}&lt;/p>
+                  &lt;button
+                    onClick={() => handleOrder(category)}
+                    className='bg-transparent hover:bg-white border-2 border-white px-[10px] py-5 font-bold cursor-pointer transition-colors duration-300 ease rounded-2xl hover:text-red-800'
+                    tabIndex={updateTabIndex(index === currentSlide)}
+                    aria-label={'Order ${category.name}'}
+                  >
+                    Order Now
+                  &lt;/button>
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+          ))}
+        {/* &lt;/Carousel> */}
+        &lt;section aria-label="Menu Categories">
+          &lt;div className="container px-10 mx-auto mt-20">
+            &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {buttonCategories.map((category) => (
+                &lt;Link key={category.phrase} href={category.path}>
+                  &lt;div className="m-4 cursor-pointer aspect-square transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl border-[#877F7D] border-2 rounded-lg">
+                    &lt;div className="overflow-hidden rounded-lg">
+                      &lt;img className="w-full rounded-t-lg" src={`${category.image}`} alt={category.phrase} />
+                      &lt;div className="py-4 rounded-b-lg bg-white shadow text-center">
+                        &lt;span className="text-3xl font-bold bg-clip-text text-transparent bg-black">
+                          {category.phrase}
+                        &lt;/span>
+                      &lt;/div>
+                    &lt;/div>
+                  &lt;/div>
+                &lt;/Link>
+              ))}
+            &lt;/div>
+          &lt;/div>
+        &lt;/section>
+      &lt;/main>
+  );
+};
+
+export default Home;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/EmployeeAddForm.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/EmployeeAddForm.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module EmployeeAddForm
+ */
+import React, {useState} from 'react'
+
+/**
+ * Represents a form component for adding a new employee to the system.
+ * This form collects details like name, age, phone number, weekly hours, email, and role.
+ * Upon form submission, it sends these details to a server endpoint via a POST request.
+ * Depending on the response status, it displays a success or error message and reloads the page.
+ *
+ * @function EmployeeAddForm
+ * @memberOf module:EmployeeAddForm
+ * @returns {React.Component} A React component that provides a user interface for adding a new employee, with input validation and submission handling.
+ */
+export default function EmployeeAddForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    phone: '', 
+    hours: '',
+    email: '',
+    role: 'manager'
+  });
+
+  /**
+   * Submits the employee data to the server.
+   * This function sends a POST request to the server with the new employee's data.
+   * It sets a message depending on the success or failure of the operation and reloads the page to reflect changes.
+   * 
+   * @memberOf module:EmployeeAddForm
+   * @param {Event} event - The form submission event, which is prevented from its default action.
+   */
+  const addUser = async (event) => {
+    event.preventDefault()
+    const result = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData)
+    })
+    if (result.status == 200) {
+      setMessage("Employee created successfully")
+    } else {
+      setMessage("Server Error: could not create employee")
+    }
+    window.location.reload()
+  }
+
+  /**
+   * Handles changes in form inputs and updates the form data state accordingly.
+   * This function dynamically updates the state for each form field based on input changes.
+   * 
+   * @memberOf module:EmployeeAddForm
+   * @param {Event} event - The event object containing the name of the form field and the new value.
+   */
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const rolesList = ["manager", "cashier", "kitchen", "admin"]
+
+  const [message, setMessage] = useState(null)
+
+  return (
+    &lt;div className='flex flex-col items-center'>
+    &lt;form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={addUser}>
+        &lt;div className="mb-4">
+          &lt;label className="block text-gray-700 text-sm font-bold mb-2" for="name">
+            Name
+          &lt;/label>
+          &lt;input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text"onChange={handleChange}/>
+        &lt;/div>
+        &lt;div className="mb-4">
+          &lt;label className="block text-gray-700 text-sm font-bold mb-2" for="age">
+            Age
+          &lt;/label>
+          &lt;input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" name="age" type="text" onChange={handleChange}/>
+        &lt;/div>
+        &lt;div className="mb-6">
+          &lt;label className="block text-gray-700 text-sm font-bold mb-2" for="phone">
+            Phone Number
+          &lt;/label>
+          &lt;input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" name="phone" type="tel" onChange={handleChange}/>
+        &lt;/div>
+        &lt;div className="mb-6">
+          &lt;label className="block text-gray-700 text-sm font-bold mb-2" for="hours">
+                Weekly Hours
+          &lt;/label>
+          &lt;input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="hours" name="hours" type="text" onChange={handleChange}/>
+        &lt;/div>
+        &lt;div className="mb-6">
+          &lt;label className="block text-gray-700 text-sm font-bold mb-2" for="email">
+              Email
+          &lt;/label>
+          &lt;input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="text" onChange={handleChange}/>
+        &lt;/div>
+        &lt;div className="mb-6">
+          &lt;label className="block text-gray-700 text-sm font-bold mb-2" for="role">
+                Role
+          &lt;/label>
+          &lt;select className="border rounded w-full py-2 px-3 text-gray-700 " id="role" name="role" type="text" onChange={handleChange}>
+          {rolesList.map(role => {
+            return (
+              &lt;option value={role}>{role}&lt;/option>
+            )
+          })}
+          &lt;/select>
+        &lt;/div>
+        &lt;div className="flex flex-col items-center justify-between">
+          &lt;button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            Add User
+          &lt;/button>
+        &lt;/div>
+      &lt;/form>
+      &lt;p>{message}&lt;/p>
+      &lt;/div>
+  )
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

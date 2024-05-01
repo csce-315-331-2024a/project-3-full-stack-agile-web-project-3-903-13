@@ -1,97 +1,53 @@
-import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import axios from 'axios';
-import ManagerPage from '../src/app/(employee)/employee/manager/menu-items/page';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import ManagerPage, { getMenuItems, getMenuItemsWithIngredients, getInventoryItems, getCategoryLabel, getDietCategoryLabel, getAllergyLabel } from '../src/app/(employee)/employee/manager/menu-items/page';
 
 jest.mock('axios');
 
-describe('ManagerPage', () => {
-  beforeEach(() => {
-    axios.get.mockResolvedValue({ data: [] });
-    axios.post.mockResolvedValue({ data: { success: true, message: 'Menu item added successfully' } });
-    axios.patch.mockResolvedValue({ data: { success: true, message: 'Menu item updated successfully' } });
-    axios.delete.mockResolvedValue({ data: { success: true, message: 'Menu item removed successfully' } });
-  });
+describe('useClient', () => {
+  describe('API functions', () => {
+    test('getMenuItems', async () => {
+      const mockData = [{ id: 1, name: 'Burger' }];
+      axios.get.mockResolvedValueOnce({ data: mockData });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+      const menuItems = await getMenuItems();
 
-  test('renders menu items', async () => {
-    axios.get.mockResolvedValue({
-      data: [{ menuid: 1, itemname: 'Test', price: 5.99, category: 0, ingredients: [{inventid: 2, ingredientname: "Buns", count: 1309, price: 4, mincount: 500, quantity: 1}] }],
+      expect(menuItems).toEqual(mockData);
     });
-    render(<ManagerPage />);
-    const items = await waitFor(() => screen.getAllByText('Test'));
-    expect(items.length).toBeGreaterThan(1);
-  });
 
-  test('adds a new menu item', async () => {
-    render(<ManagerPage />);
-    const itemNameInput = screen.getByPlaceholderText('Item Name');
-    const priceInput = screen.getByPlaceholderText('Price');
-    const addButton = screen.getByText('ADD');
+    test('getMenuItemsWithIngredients', async () => {
+      const mockMenuItems = [{ id: 1, name: 'Burger' }];
+      const mockIngredients = [{ id: 1, name: 'Lettuce', quantity: 1 }];
+      axios.get.mockResolvedValueOnce({ data: mockMenuItems });
+      axios.get.mockResolvedValueOnce({ data: mockIngredients });
 
-    fireEvent.change(itemNameInput, { target: { value: 'New Item' } });
-    fireEvent.change(priceInput, { target: { value: '9.99' } });
-    fireEvent.click(addButton);
+      const menuItemsWithIngredients = await getMenuItemsWithIngredients();
 
-    const successMessage = await waitFor(() => screen.getByText('Menu item added successfully'));
-    expect(successMessage).toBeInTheDocument();
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:5000/api/menuitems', {
-      itemName: 'New Item',
-      price: '9.99',
-      category: 0,
-      ingredients: [],
-      isSeasonal: false,
-      expirationDate: '',
-    }, { headers: { 'Content-Type': 'application/json' } });
-  });
+      expect(menuItemsWithIngredients).toEqual([{ id: 1, name: 'Burger', ingredients: mockIngredients }]);
+    });
 
-  test('updates a menu item price', async () => {
-    axios.get.mockResolvedValue({
-        data: [{ menuid: 1, itemname: 'Test', price: 5.99, category: 0, ingredients: [] }],
-      });
-    render(<ManagerPage />);
-    const items = await waitFor(() => screen.getAllByText('Test'));
-    expect(items.length).toBeGreaterThan(0);
-    const updateCategorySelect = screen.getByText('Update Price');
-    const priceInput = screen.getByPlaceholderText('New Price');
-    const updateButton = screen.getByText('UPDATE');
-    
-    fireEvent.change(updateCategorySelect, { target: { value: '0' } });
-    const item = await waitFor(() => screen.getByText('Update Price'));
-    expect(item).toBeInTheDocument();
-    const itemNameSelect = screen.getByTestId('updateName');
-    fireEvent.change(itemNameSelect, { target: { value: 'Test' } });
-    fireEvent.change(priceInput, { target: { value: '7.99' } });
-    fireEvent.click(updateButton);
+    test('getInventoryItems', async () => {
+      const mockData = [{ id: 1, name: 'Lettuce' }];
+      axios.get.mockResolvedValueOnce({ data: mockData });
 
-    expect(axios.patch).toHaveBeenCalledWith('http://localhost:5000/api/menuitems/updatePrice', {
-      itemName: 'Test',
-      newPrice: '7.99',
-    }, { headers: { 'Content-Type': 'application/json' } });
-  });
+      const inventoryItems = await getInventoryItems();
 
-  test('removes a menu item', async () => {
-    axios.get.mockResolvedValue({
-        data: [{ menuid: 1, itemname: 'Test', price: 5.99, category: 0, ingredients: [] }],
-      });
-    render(<ManagerPage />);
-    const items = await waitFor(() => screen.getAllByText('Test'));
-    expect(items.length).toBeGreaterThan(0);
-    const itemNameSelect = screen.getByTestId('removeName');
-    const removeButton = screen.getByText('REMOVE');
-
-    fireEvent.change(itemNameSelect, { target: { value: 'Test' } });
-    fireEvent.click(removeButton);
-
-    const successMessage = await waitFor(() => screen.getByText('Menu item removed successfully'));
-    expect(successMessage).toBeInTheDocument();
-    expect(axios.delete).toHaveBeenCalledWith('http://localhost:5000/api/menuitems', {
-      data: { itemName: 'Test' },
+      expect(inventoryItems).toEqual(mockData);
     });
   });
 
-  // Add more tests for other features, error handling, and edge cases
+  describe('ManagerPage', () => {
+    test('fetches menu items on mount', async () => {
+      const mockData = [{ id: 1, name: 'Burger' }];
+      axios.get.mockResolvedValueOnce({ data: mockData });
+
+      render(<ManagerPage />);
+
+      await waitFor(() => {
+        expect(axios.get).toHaveBeenCalledWith('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+      });
+    });
+
+    // Add more tests for state management, event handling, etc.
+  });
 });

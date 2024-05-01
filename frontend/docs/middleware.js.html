@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: middleware.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: middleware.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {auth} from "@/auth"
+import { redirect } from "next/dist/server/api-utils"
+import { NextResponse } from 'next/server'
+import {getRole} from "./auth"
+
+const unauthorizedHTML = `
+  &lt;html>
+  &lt;body style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+  &lt;div style="display: flex; flex-direction: column; align-items: center">
+  &lt;h1>Error 401&lt;/h1>
+  &lt;h1>You are not allowed to access this resource&lt;/h1>
+  &lt;a href="/employee">Back&lt;/a>
+  &lt;/div>
+  &lt;/body>
+  &lt;/html>
+`
+/**
+ * Middleware for role-based authorization in a Next.js application.
+ * It checks the user's role and determines if they have the appropriate permissions
+ * to access specific paths within the application.
+ *
+ * @module AuthMiddleware
+ * @param {Object} req - The incoming request object provided by Next.js. Contains user authentication and URL information.
+ * @returns {NextResponse} - Returns a Next.js response object to either continue with the request or to redirect/block with a custom response.
+ * 
+ * Paths and corresponding required roles:
+ * - `/employee/manager/users`: Only 'admin' can access.
+ * - `/employee/manager/kitchen`: Accessible by 'admin', 'kitchen', and 'manager' roles.
+ * - `/employee/manager/*`: Accessible by 'admin' and 'manager' roles.
+ * - `/employee/*`: Accessible by 'admin', 'kitchen', 'cashier', and 'manager' roles.
+ * 
+ * Redirects unauthenticated users to the login page and unauthorized users to an error page.
+ */
+export default auth(async (req) => {
+  if (!req.auth) {
+    return NextResponse.redirect(new URL('/user', req.url))
+  }
+
+  let userEmail = req.auth.user.email
+  let role;
+  if (!req.auth.user.role) {
+    role = await getRole(userEmail)
+  } else {
+    role = req.auth.user.role
+  }
+  // Query role of user with corresponding email in database
+  // Cases: 
+  //    - /employee/manager/users: Only admin can access this
+  //    - /employee/manager/kitchen: Manager/Admin/Kitchen
+  //    - /employee/manager/*: Must be manager or admin
+  //    - /employee/*: Must be at least a cashier
+  //    Go by longest prefix match
+
+
+  if (req.nextUrl.pathname.startsWith('/employee/manager/users')) {
+    if (role != "admin") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  } else if (req.nextUrl.pathname.startsWith('/employee/manager/kitchen')) {
+    if (role != "admin" &amp;&amp; role != "kitchen" &amp;&amp; role != "manager") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  } else if (req.nextUrl.pathname.startsWith('/employee/manager/')) {
+    if (role != "admin" &amp;&amp; role != "manager") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  } else if (req.nextUrl.pathname.startsWith('/employee')) {
+    if (role != "admin" &amp;&amp; role != "kitchen" &amp;&amp; role != "cashier" &amp;&amp; role != "manager") {
+      return new NextResponse(
+        unauthorizedHTML,
+        {status: 401, headers: {'content-type': 'text/html'}}
+      )
+    }
+    return 
+  }
+})
+
+/**
+ * Configuration for the middleware to apply it only to paths under '/employee/'.
+ * @memberOf module:AuthMiddleware
+ * @type {Object}
+ */
+export const config = {
+  matcher: ["/employee/:path*"],
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
