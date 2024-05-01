@@ -33,6 +33,7 @@ const unauthorizedHTML = `
  */
 export default auth(async (req) => {
   if (!req.auth) {
+    console.log(req.url)
     return NextResponse.redirect(new URL('/user', req.url))
   }
 

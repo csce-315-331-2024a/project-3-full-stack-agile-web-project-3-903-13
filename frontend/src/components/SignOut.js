@@ -21,7 +21,7 @@ export function SignOut({ email }) {
       <form
         action={async () => {
           "use server"
-          await signOut("google", { callbackUrl: "https://project-3-full-stack-agile-web-project-3-903-13-six.vercel.app/" })
+          await signOut("google", { callbackUrl: "https://localhost:3000/" })
         }}
         className="flex flex-col items-center gap-6"
       >
