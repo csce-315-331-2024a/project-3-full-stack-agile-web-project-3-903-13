@@ -55,7 +55,7 @@ export default function KitchenStatePage() {
             </h1>
 
             {currentOrders.length === 0 ? (
-                <div className="text-xl my-1 font-semibold text-center py-4 text-yellow-400"> No orders in kitchen right now. Get some!! </div>
+                <div className="text-xl my-1 font-semibold text-center py-4 text-red-600"> No orders in kitchen right now. Get some!! </div>
             ) : (
                 <div className="text-xl my-1 font-semibold text-center py-4 text-green-400"> Orders in the kitchen. Get working!! </div>
             )}
