@@ -316,7 +316,7 @@ export const updateMenuItemAllergy = async (menuItem) => {
  * @param {Array} props.inventoryItems - Array of all inventory items.
  * @param {function} props.setMenuItemsGrid - Function to update the grid of menu items.
  */
-export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryItems, setMenuItemsGrid}){
+export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryItems, setInventoryItems,  setMenuItemsGrid}){
     const [updateItemName, setUpdateItemName] = useState(""); // Separate state variable for Update Menu Item form
   const [updatePrice, setUpdatePrice] = useState(""); // Separate state variable for Update Menu Item form
   const [updateCat, setUpdateCat] = useState(0); // Separate state variable for Update Menu Item form
@@ -330,7 +330,7 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
   const [updateDescription, setUpdateDescription] = useState(""); // Separate state variable for Add Menu Item form
   const [updateCalories, setUpdateCalories] = useState(""); // Separate state variable for Add Menu Item form
   const [updateDiet, setUpdateDiet] = useState(0); // Separate state variable for Add Menu Item form
-  const [updateAllergy, setUpdateAllergy] = useState(0); // Separate state variable for Add Menu Item form
+  const [updateAllergy, setUpdateAllergy] = useState(false); // Separate state variable for Add Menu Item form
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
 
   if (!isOpen) return null;
@@ -469,7 +469,8 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
       } else if (updateCategory == 5) {
         response = await updateMenuItemDiet({ itemName: updateItemName, newDiet: updateDiet });
       } else if (updateCategory == 6) {
-        response = await updateMenuItemAllergy({ itemName: updateItemName, newAllergy: updateAllergy });
+        response = await updateMenuItemAllergy({ itemName: updateItemName, 
+          newAllergy: updateAllergy ? 0 : 1 });
       }
       setUpdateSuccessMessage(response.message);
       setUpdateErrorMessage("");
@@ -479,7 +480,7 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
       setUpdateDescription("");
       setUpdateCalories("");
       setUpdateDiet(0);
-      setUpdateAllergy(0);
+      setUpdateAllergy(false);
       fetchMenuItems();
       fetchMenuItemsWithIngredients();
     } catch (error) {
@@ -803,7 +804,7 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
             <input
               type="checkbox"
               checked={updateAllergy}
-              onChange={(e) => setUpdateAllergy(e.target.checked ? 0 : 1)}
+              onChange={(e) => setUpdateAllergy(e.target.checked)}
               className={`mb-1.5 px-4 justify-center items-center accent-red-800 form-checkbox h-4 w-5`}
             />
             <label className="ml-1 mb-2 justify-centere items-center">

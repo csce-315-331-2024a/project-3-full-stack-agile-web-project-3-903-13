@@ -28,21 +28,21 @@ export const getInventoryItems = async () => {
  * @returns {string} A string for a success message if the adding is successful.
  */
 export const addInventoryItem = async (inventItem) => {
-	try {
-	  const response = await axios.post('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory', inventItem, {
+	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory", {
+		method: "POST",
 		headers: {
-		  'Content-Type': 'application/json'
-		}
-	  });
-	  if (!response.data.success) {
-		throw new Error(response.data.message || 'Failed to add inventory item'); // Use message from response or a default message
-	  }
-	  return response.data;
-	} catch (error) {
-	  console.error('Error adding inventory item:', error);
-	  throw error; // Re-throw the error for handling in the calling component
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(inventItem),
+	});
+
+	if (!response.ok) {
+		const errorMessage = await response.text();
+		throw new Error(errorMessage);
+	} else {
+		return { success: true, message: "Inventory item added successfully" };
 	}
-  };
+};
 
 /**
  * Component that provides a modal for adding new inventory items.

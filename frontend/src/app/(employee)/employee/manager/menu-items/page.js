@@ -365,6 +365,7 @@ export default function ManagerPage() {
         menuItems = {menuItems}
         setMenuItems = {setMenuItems}
         inventoryItems = {inventoryItems}
+        setInventoryItems = {setInventoryItems}
         menuItemsGrid = {menuItemsGrid}
         setMenuItemsGrid = {setMenuItemsGrid}
       />

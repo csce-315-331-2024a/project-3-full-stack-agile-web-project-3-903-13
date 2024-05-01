@@ -3,6 +3,7 @@
  */
 import React, { useState, useEffect } from 'react';
 import { FaTrash } from "react-icons/fa";
+import axios from 'axios';
 
 /**
  * Fetches all menu items from the API.
@@ -202,7 +203,7 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
                 price: addPrice,
                 category: isSeasonal ? 6 : addItemCategory,
                 description: addDescription,
-                Calories: addCalories,
+                "Calories": addCalories,
                 specialdiet: addDiet,
                 allergy: addAllergy ? 0 : 1,
                 ingredients,
