@@ -23,7 +23,7 @@ describe('PaymentModal', () => {
     const modalTitle = screen.getByText('Select Payment Method');
     expect(modalTitle).toBeInTheDocument();
   });
-  /*
+  
   test('renders all payment options', () => {
     render(
       <PaymentModal
@@ -33,9 +33,9 @@ describe('PaymentModal', () => {
       />
     );
 
-    const cardOption = screen.getByRole('button', { name: 'Card' });
-    const diningDollarsOption = screen.getByRole('button', { name: 'Dining Dollars' });
-    const retailSwipeOption = screen.getByRole('button', { name: 'Retail Swipe' });
+    const cardOption = screen.getByText('Card');
+    const diningDollarsOption = screen.getByText('Dining Dollars');
+    const retailSwipeOption = screen.getByText('Retail Swipe');
 
     expect(cardOption).toBeInTheDocument();
     expect(diningDollarsOption).toBeInTheDocument();
@@ -51,9 +51,10 @@ describe('PaymentModal', () => {
       />
     );
 
-    const cardOption = screen.getByRole('button', { name: 'Card' });
+    const cardOption = screen.getByText('Dining Dollars');
     fireEvent.click(cardOption);
-
+    const continueBut = screen.getByText('Continue');
+    fireEvent.click(continueBut);
     expect(handlePaymentMock).toHaveBeenCalled();
   });
 
@@ -66,10 +67,10 @@ describe('PaymentModal', () => {
       />
     );
 
-    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+    const cancelButton = screen.getByText('Cancel');
     fireEvent.click(cancelButton);
 
     expect(setShowPaymentOptionsMock).toHaveBeenCalledWith(false);
   });
-  */
+  
 });
