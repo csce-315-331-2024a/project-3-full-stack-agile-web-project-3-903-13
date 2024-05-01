@@ -7,6 +7,12 @@ import MenuAddModal  from "@/components/MenuAddModal";
 import MenuUpdateModal from "@/components/MenuUpdateModal";
 import MenuRemoveModal from "@/components/MenuRemoveModal";
 
+/**
+ * Fetches all menu items from the server.
+ * @function
+ * @memberOf module:MenuItemPage
+ * @returns {JSON} -  An array of menu items.
+ */
 export const getMenuItems = async () => {
   const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
   const data = await items.json();
@@ -14,6 +20,13 @@ export const getMenuItems = async () => {
   return data;
 };
 
+  /**
+   * Fetches the ingredients for a specified menu item.
+   * @function
+   * @memberOf module:MenuItemPage
+   * @param {Object} menuItem - The menu item object containing parameters to form the query string.
+   * @returns {JSON} An array of ingredients that correspond to a menu item.
+   */
 export const getMenuItemIngredients = async (menuItem) => {
   try {
     // Construct the query string from the menuItem object
@@ -38,6 +51,12 @@ export const getMenuItemIngredients = async (menuItem) => {
   }
 };
 
+  /**
+   * Fetches the menu item and the corresponding ingredients.
+   * @function
+   * @memberOf module:MenuItemPage
+   * @returns {JSON} An array of the menu item and its ingredients.
+   */
 export const getMenuItemsWithIngredients = async () => {
   try {
     // Fetch menu items
@@ -60,16 +79,19 @@ export const getMenuItemsWithIngredients = async () => {
     throw error;
   }
 };
+
+  /**
+   * Fetches the inventory items.
+   * @function
+   * @memberOf module:MenuItemPage
+   * @returns {JSON} An array of the inventory items.
+   */
 export const getInventoryItems = async () => {
   const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
   const data = await items.json();
 
   return data;
 };
-
-
-
-
 
 const categories = [
   { label: "Burgers/Sandwiches", value: 0 },
@@ -87,6 +109,14 @@ const dietCategories = [
   { label: "Pescatarian", value: 2 },
   { label: "Both", value: 3 },
 ];
+
+/**
+ * Represents the main manager interface for managing menu items in the application.
+ * This page allows for adding, updating, and removing menu items and their ingredients.
+ * It fetches and displays menu items along with their details such as price, category, and ingredients.
+ * Managers can interact with different aspects of the menu through modals for adding, updating, and removing items.
+ * @module MenuItemPage
+ */
 export default function ManagerPage() {
   const [menuItems, setMenuItems] = useState([]);  
   const [ingredients, setIngredients] = useState([]); // State variable for ingredients
@@ -116,6 +146,11 @@ export default function ManagerPage() {
     fetchMenuItemsWithIngredients();
   }, []);
 
+  /**
+   * Fetches the menu items from the API and updates the menuItems state.
+   * It is an async function called within a useEffect to update component state with fetched data.
+   * @memberOf module:MenuItemPage
+   */
   const fetchMenuItems = async () => {
     try {
       const data = await getMenuItems();
@@ -125,6 +160,11 @@ export default function ManagerPage() {
     }
   };
 
+  /**
+   * Fetches the menu items with their ingredients from the API and updates the menuItemsGrid state.
+   * It is an async function that uses `getMenuItemsWithIngredients` to fetch detailed data.
+   * @memberOf module:MenuItemPage
+   */
   const fetchMenuItemsWithIngredients = async () => {
     try {
       const data = await getMenuItemsWithIngredients();
@@ -135,6 +175,11 @@ export default function ManagerPage() {
     }
   };
 
+  /**
+   * Fetches the inventory items from the API and updates the inventoryItems state.
+   * It is an async function called within a useEffect to update component state with fetched data.
+   * @memberOf module:MenuItemPage
+   */
   const fetchInventoryItems = async () => {
     try {
       const data = await getInventoryItems();
@@ -144,23 +189,55 @@ export default function ManagerPage() {
     }
   };
 
+  /**
+   * Gets the Category Label from the database
+   * @returns {number} - A number that corresponds to the category label
+   * @memberOf module:MenuItemPage
+   */
   const getCategoryLabel = (categoryValue) => {
     const category = categories.find(cat => cat.value === categoryValue);
     return category ? category.label : "Unknown";
   };
 
+  /**
+   * Gets the Diet Category Label from the database
+   * @returns {number} - A number that corresponds to the diet category label
+   * @memberOf module:MenuItemPage
+   */
   const getDietCategoryLabel = (categoryValue) => {
     const category = dietCategories.find(cat => cat.value === categoryValue);
     return category ? category.label : "Unknown";
   };
 
+  /**
+   * Opens the modal for adding a new menu item by setting the showAddPopup state to true.
+   * @memberOf module:MenuItemPage
+   */
   const handleShowAddPopup = () => setShowAddPopup(true);
+  /**
+   * Closes the modal for adding a new menu item by setting the showAddPopup state to false.
+   * @memberOf module:MenuItemPage
+   */
   const handleHideAddPopup = () => setShowAddPopup(false);
-
+  /**
+   * Opens the modal for updating a menu item by setting the showUpdatePopup state to true.
+   * @memberOf module:MenuItemPage
+   */
   const handleShowUpdatePopup = () => setShowUpdatePopup(true);
+  /**
+   * Closes the modal for updating a menu item by setting the showUpdatePopup state to false.
+   * @memberOf module:MenuItemPage
+   */
   const handleHideUpdatePopup = () => setShowUpdatePopup(false);
-
+  /**
+   * Opens the modal for removing a menu item by setting the showRemovePopup state to true.
+   * @memberOf module:MenuItemPage
+   */
   const handleShowRemovePopup = () => setShowRemovePopup(true);
+  /**
+   * Closes the modal for removing a menu item by setting the showRemovePopup state to false.
+   * @memberOf module:MenuItemPage
+   */
   const handleHideRemovePopup = () => setShowRemovePopup(false);
 
 
@@ -172,7 +249,13 @@ export default function ManagerPage() {
     }
   };
   
-
+  /**
+   * Handles the selection of an ingredient from the inventory items dropdown.
+   * Updates the ingredients array in the state based on the selection.
+   * @memberOf module:MenuItemPage
+   * @param {Event} e - The event object from the select input.
+   * @param {number} index - The index of the ingredient being updated in the ingredients array.
+   */
   const handleIngredientSelection = (e, index) => {
     const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
     if (selectedInventoryItem) {
@@ -198,28 +281,36 @@ export default function ManagerPage() {
     }
   };
 
+  /**
+   * Updates the quantity of an ingredient in the ingredients array.
+   * @memberOf module:MenuItemPage
+   * @param {Event} e - The event object from the quantity input field.
+   * @param {number} index - The index of the ingredient being updated in the ingredients array.
+   */
   const handleQuantityChange = (e, index) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients[index].quantity = parseInt(e.target.value);
     setIngredients(updatedIngredients);
   };
 
+  /**
+   * Adds a new ingredient to the ingredients array with default values.
+   * @memberOf module:MenuItemPage
+   */
   const addIngredient = () => {
     setIngredients([...ingredients, { inventID: null, name: "", quantity: 1 }]);
   };
 
+  /**
+   * Removes an ingredient from the ingredients array at the specified index.
+   * @memberOf module:MenuItemPage
+   * @param {number} index - The index of the ingredient to remove.
+   */
   const removeIngredient = (index) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients.splice(index, 1);
     setIngredients(updatedIngredients);
   };
-
-  
-
-  
-
-
-  
 
   
 

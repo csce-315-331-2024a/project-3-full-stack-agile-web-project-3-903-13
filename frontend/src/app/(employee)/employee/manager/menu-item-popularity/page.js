@@ -3,6 +3,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
+/**
+ * A React component that renders a page to display the popularity of menu items based on the quantity sold.
+ * It uses a bar chart to visually represent the data fetched based on a user-selected date range.
+ * @module ItemPopularitypage
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function ItemPopularityPage() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -13,6 +19,11 @@ export default function ItemPopularityPage() {
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
 
+    /**
+     * Effect hook to clean up the chart instance on unmount to prevent memory leaks.
+     * Also responsible for creating and updating the chart whenever reportData changes.
+     * @memberOf module:ItemPopularitypage
+     */
     useEffect(() => {
         if (chartInstance.current) {
             chartInstance.current.destroy();
@@ -67,6 +78,11 @@ export default function ItemPopularityPage() {
         };
     }, [reportData]);
 
+    /**
+     * Fetches the sales report data from the backend based on the selected date range.
+     * Sets the report data, handles loading states, and manages error messages.
+     * @memberOf module:ItemPopularitypage
+     */
     const fetchSalesReport = async () => {
         setLoading(true);
         setErrorMessage("");
@@ -95,6 +111,12 @@ export default function ItemPopularityPage() {
         setLoading(false);
     };
 
+    /**
+     * Handles the form submission to generate the sales report.
+     * Prevents the default form submission behavior and triggers the data fetching process.
+     * @memberOf module:ItemPopularitypage
+     * @param {Event} e - The event object from the form submission.
+     */
     const handleGenerateReport = (e) => {
         e.preventDefault();
         fetchSalesReport();

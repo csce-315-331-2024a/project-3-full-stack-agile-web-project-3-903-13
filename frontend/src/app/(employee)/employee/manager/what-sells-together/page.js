@@ -2,8 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 
-// Function to safely format total sales as a fixed decimal string
-const formatTotalSales = (totalSales) => {
+/**
+ * Formats a given total sales amount to a fixed decimal string, handling both number and string inputs.
+ * @memberOf module:WhatSellsTogether
+ * @param {number|string} totalSales - The total sales amount to format.
+ * @returns {string} The formatted total sales amount, or 'N/A' if the input is invalid.
+ */const formatTotalSales = (totalSales) => {
     if (typeof totalSales === 'number') {
         return totalSales.toFixed(2);
     } else if (typeof totalSales === 'string') {
@@ -13,6 +17,11 @@ const formatTotalSales = (totalSales) => {
     return 'N/A'; // Return 'N/A' or some other placeholder if the value is not a number
 };
 
+/**
+ * Fetches menu items from the backend and updates the state.
+ * @memberOf module:WhatSellsTogether
+ * @returns {JSON} An array of the menu items
+ */
 const getMenuItems = async () => {
     const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
     const data = await items.json();
@@ -21,6 +30,11 @@ const getMenuItems = async () => {
 };
 
 
+/**
+ * Component for displaying and managing sales reports. It includes functionalities to fetch sales data,
+ * generate sales reports, and filter reports based on specific menu items.
+ * @module WhatSellsTogether
+ */
 export default function SalesReportPage() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -32,6 +46,11 @@ export default function SalesReportPage() {
     const [choice, setChoice] = useState("Select Menu Item")
     const [menuItems, setMenuItems] = useState([])
 
+    /**
+     * Fetches menu item data from the backend It sets various state
+     * variables based on the response, such as report data, error messages, and loading state.
+     * @memberOf module:WhatSellsTogether
+     */
     const fetchMenuItems = async () => {
       try {
         const data = await getMenuItems();
@@ -45,6 +64,11 @@ export default function SalesReportPage() {
         fetchMenuItems()
     }, [])
 
+    /**
+     * Fetches sales report data from the backend based on specified date ranges. It sets various state
+     * variables based on the response, such as report data, error messages, and loading state.
+     * @memberOf module:WhatSellsTogether
+     */
     const fetchSalesReport = async () => {
         setLoading(true);
         setHasFetched(true); // Set to true when fetching
@@ -79,6 +103,12 @@ export default function SalesReportPage() {
     };
 
 
+    /**
+     * Handles the submission of the form to generate the sales report. Prevents the default form submission
+     * behavior and triggers the report fetching.
+     * @memberOf module:WhatSellsTogether
+     * @param {Event} e - The event object associated with the form submission.
+     */
     const handleGenerateReport = (e) => {
         e.preventDefault();
         fetchSalesReport();

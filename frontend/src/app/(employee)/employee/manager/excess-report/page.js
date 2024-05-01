@@ -2,7 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 
-// Function to safely format total sales as a fixed decimal string
+/**
+ * Formats the total sales value as a string with two decimal places.
+ * It safely handles the conversion of both number and string types to a formatted string.
+ * If the input is neither a number nor a convertible string, it returns 'N/A'.
+ *
+ * @memberOf module:ExcessReportPage
+ * @param {number|string} totalSales - The total sales amount to format.
+ * @returns {string} The formatted total sales as a string or 'N/A' if the input is invalid.
+ */
 const formatTotalSales = (totalSales) => {
     if (typeof totalSales === 'number') {
         return totalSales.toFixed(2);
@@ -13,6 +21,14 @@ const formatTotalSales = (totalSales) => {
     return 'N/A'; // Return 'N/A' or some other placeholder if the value is not a number
 };
 
+/**
+ * A React component that fetches and displays an excess inventory report.
+ * The report shows items that were used less than a certain threshold percentage.
+ * It allows users to select a date range to generate the report for a specific period.
+ *
+ * @module ExcessReportPage
+ * @returns {JSX.Element} The excess report page component.
+ */
 export default function ExcessReportPage() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -24,6 +40,12 @@ export default function ExcessReportPage() {
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState('');
 
+    /**
+     * Initiates the fetching of the excess report based on the selected date range.
+     * It handles all aspects of the data fetching process including setting loading states,
+     * handling errors, and formatting the received data to be displayed in the UI.
+     * @memberOf module:ExcessReportPage
+     */
     const fetchExcessReport = async () => {
         setLoading(true);
         setSuccess(false);
@@ -68,6 +90,12 @@ export default function ExcessReportPage() {
         setLoading(false);
     };
 
+    /**
+     * Handles the submission of the form to generate the report.
+     * It prevents the default form submission event and triggers the fetchExcessReport function.
+     * @memberOf module:ExcessReportPage
+     * @param {React.FormEvent} e - The event object.
+     */
     const handleGenerateReport = (e) => {
         e.preventDefault();
         fetchExcessReport();

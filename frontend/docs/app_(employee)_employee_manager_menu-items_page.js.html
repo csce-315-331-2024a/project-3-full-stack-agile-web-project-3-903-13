@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(employee)/employee/manager/menu-items/page.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(employee)/employee/manager/menu-items/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client"
+
+
+import { useEffect, useState } from "react";
+import { FaTrash } from "react-icons/fa";
+import MenuAddModal  from "@/components/MenuAddModal";
+import MenuUpdateModal from "@/components/MenuUpdateModal";
+import MenuRemoveModal from "@/components/MenuRemoveModal";
+
+/**
+ * Fetches all menu items from the server.
+ * @function
+ * @memberOf module:MenuItemPage
+ * @returns {JSON} -  An array of menu items.
+ */
+export const getMenuItems = async () => {
+  const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+  const data = await items.json();
+
+  return data;
+};
+
+  /**
+   * Fetches the ingredients for a specified menu item.
+   * @function
+   * @memberOf module:MenuItemPage
+   * @param {Object} menuItem - The menu item object containing parameters to form the query string.
+   * @returns {JSON} An array of ingredients that correspond to a menu item.
+   */
+export const getMenuItemIngredients = async (menuItem) => {
+  try {
+    // Construct the query string from the menuItem object
+    const queryString = new URLSearchParams(menuItem).toString();
+
+    // Append the query string to the URL
+    const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
+
+    // Make the GET request
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching ingredient for menu item:", error);
+    throw error;
+  }
+};
+
+  /**
+   * Fetches the menu item and the corresponding ingredients.
+   * @function
+   * @memberOf module:MenuItemPage
+   * @returns {JSON} An array of the menu item and its ingredients.
+   */
+export const getMenuItemsWithIngredients = async () => {
+  try {
+    // Fetch menu items
+    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+    const data = await items.json();
+
+    // Fetch ingredients for each menu item
+    const menuItemsWithIngredients = await Promise.all(
+      data.map(async (menuItems) => {
+        console.log(menuItems.itemname);
+
+        const ingredients = await getMenuItemIngredients({ itemName: menuItems.itemname });
+        return { ...menuItems, ingredients };
+      })
+    );
+
+    return menuItemsWithIngredients;
+  } catch (error) {
+    console.error("Error fetching menu items with ingredients:", error);
+    throw error;
+  }
+};
+
+  /**
+   * Fetches the inventory items.
+   * @function
+   * @memberOf module:MenuItemPage
+   * @returns {JSON} An array of the inventory items.
+   */
+export const getInventoryItems = async () => {
+  const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
+  const data = await items.json();
+
+  return data;
+};
+
+const categories = [
+  { label: "Burgers/Sandwiches", value: 0 },
+  { label: "Corn Dogs/Hot Dogs", value: 1 },
+  { label: "Chicken Tenders", value: 2 },
+  { label: "French Fries", value: 3 },
+  { label: "Shakes/Ice Cream", value: 4 },
+  { label: "Beverages", value: 5 },
+  { label: "Seasonal", value: 6 },
+];
+
+const dietCategories = [
+  { label: "None", value: 0 },
+  { label: "Vegetarian", value: 1 },
+  { label: "Pescatarian", value: 2 },
+  { label: "Both", value: 3 },
+];
+
+/**
+ * Represents the main manager interface for managing menu items in the application.
+ * This page allows for adding, updating, and removing menu items and their ingredients.
+ * It fetches and displays menu items along with their details such as price, category, and ingredients.
+ * Managers can interact with different aspects of the menu through modals for adding, updating, and removing items.
+ * @module MenuItemPage
+ */
+export default function ManagerPage() {
+  const [menuItems, setMenuItems] = useState([]);  
+  const [ingredients, setIngredients] = useState([]); // State variable for ingredients
+  const [initialInventoryItems, setInitialInventoryItems] = useState([]); // Add this line
+  const [updateIngred, setUpdateIngred] = useState([]); // State variable for ingredients
+  const [inventoryItems, setInventoryItems] = useState(
+    initialInventoryItems.map(item => ({ ...item, disabled: false }))
+  ); // Initialize inventoryItems with disabled property
+  const [isSeasonal, setIsSeasonal] = useState(false); // State for seasonal checkbox
+  const [expirationDate, setExpirationDate] = useState(""); // State for expiration date
+  
+  const [selectedMenuItem, setSelectedMenuItem] = useState("");
+  
+  const [menuItemsGrid, setMenuItemsGrid] = useState([]);
+  
+  
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showUpdatePopup, setShowUpdatePopup] = useState(false);
+  const [showRemovePopup, setShowRemovePopup] = useState(false);
+
+
+
+
+  useEffect(() => {
+    fetchMenuItems();
+    fetchInventoryItems();
+    fetchMenuItemsWithIngredients();
+  }, []);
+
+  /**
+   * Fetches the menu items from the API and updates the menuItems state.
+   * It is an async function called within a useEffect to update component state with fetched data.
+   * @memberOf module:MenuItemPage
+   */
+  const fetchMenuItems = async () => {
+    try {
+      const data = await getMenuItems();
+      setMenuItems(data);
+    } catch (error) {
+      console.error("Error fetching menu items:", error);
+    }
+  };
+
+  /**
+   * Fetches the menu items with their ingredients from the API and updates the menuItemsGrid state.
+   * It is an async function that uses `getMenuItemsWithIngredients` to fetch detailed data.
+   * @memberOf module:MenuItemPage
+   */
+  const fetchMenuItemsWithIngredients = async () => {
+    try {
+      const data = await getMenuItemsWithIngredients();
+      setMenuItemsGrid(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching menu items with ingredients:", error);
+    }
+  };
+
+  /**
+   * Fetches the inventory items from the API and updates the inventoryItems state.
+   * It is an async function called within a useEffect to update component state with fetched data.
+   * @memberOf module:MenuItemPage
+   */
+  const fetchInventoryItems = async () => {
+    try {
+      const data = await getInventoryItems();
+      setInventoryItems(data);
+    } catch (error) {
+      console.error("Error fetching inventory items:", error);
+    }
+  };
+
+  /**
+   * Gets the Category Label from the database
+   * @returns {number} - A number that corresponds to the category label
+   * @memberOf module:MenuItemPage
+   */
+  const getCategoryLabel = (categoryValue) => {
+    const category = categories.find(cat => cat.value === categoryValue);
+    return category ? category.label : "Unknown";
+  };
+
+  /**
+   * Gets the Diet Category Label from the database
+   * @returns {number} - A number that corresponds to the diet category label
+   * @memberOf module:MenuItemPage
+   */
+  const getDietCategoryLabel = (categoryValue) => {
+    const category = dietCategories.find(cat => cat.value === categoryValue);
+    return category ? category.label : "Unknown";
+  };
+
+  /**
+   * Opens the modal for adding a new menu item by setting the showAddPopup state to true.
+   * @memberOf module:MenuItemPage
+   */
+  const handleShowAddPopup = () => setShowAddPopup(true);
+  /**
+   * Closes the modal for adding a new menu item by setting the showAddPopup state to false.
+   * @memberOf module:MenuItemPage
+   */
+  const handleHideAddPopup = () => setShowAddPopup(false);
+  /**
+   * Opens the modal for updating a menu item by setting the showUpdatePopup state to true.
+   * @memberOf module:MenuItemPage
+   */
+  const handleShowUpdatePopup = () => setShowUpdatePopup(true);
+  /**
+   * Closes the modal for updating a menu item by setting the showUpdatePopup state to false.
+   * @memberOf module:MenuItemPage
+   */
+  const handleHideUpdatePopup = () => setShowUpdatePopup(false);
+  /**
+   * Opens the modal for removing a menu item by setting the showRemovePopup state to true.
+   * @memberOf module:MenuItemPage
+   */
+  const handleShowRemovePopup = () => setShowRemovePopup(true);
+  /**
+   * Closes the modal for removing a menu item by setting the showRemovePopup state to false.
+   * @memberOf module:MenuItemPage
+   */
+  const handleHideRemovePopup = () => setShowRemovePopup(false);
+
+
+  const getAllergyLabel = (categoryValue) => {
+    if (categoryValue == 0) {
+      return "Yes";
+    } else {
+      return "No";
+    }
+  };
+  
+  /**
+   * Handles the selection of an ingredient from the inventory items dropdown.
+   * Updates the ingredients array in the state based on the selection.
+   * @memberOf module:MenuItemPage
+   * @param {Event} e - The event object from the select input.
+   * @param {number} index - The index of the ingredient being updated in the ingredients array.
+   */
+  const handleIngredientSelection = (e, index) => {
+    const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
+    if (selectedInventoryItem) {
+      // Check if the selected inventory item is already used in another ingredient
+      const isAlreadyUsed = ingredients.some((ingredient, i) => i !== index &amp;&amp; ingredient.name === selectedInventoryItem.ingredientname);
+      if (isAlreadyUsed) {
+        alert("This inventory item is already selected in another ingredient. Please choose a different one.");
+        return;
+      }
+
+      const updatedIngredients = [...ingredients];
+      updatedIngredients[index] = { inventID: selectedInventoryItem.inventid, name: selectedInventoryItem.ingredientname, quantity: 1 };
+      setIngredients(updatedIngredients);
+
+      // Disable the selected option in the dropdown
+      const updatedInventoryItems = inventoryItems.map(item => {
+        if (item.ingredientname === e.target.value) {
+          return { ...item, disabled: true };
+        }
+        return item;
+      });
+      setInventoryItems(updatedInventoryItems);
+    }
+  };
+
+  /**
+   * Updates the quantity of an ingredient in the ingredients array.
+   * @memberOf module:MenuItemPage
+   * @param {Event} e - The event object from the quantity input field.
+   * @param {number} index - The index of the ingredient being updated in the ingredients array.
+   */
+  const handleQuantityChange = (e, index) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients[index].quantity = parseInt(e.target.value);
+    setIngredients(updatedIngredients);
+  };
+
+  /**
+   * Adds a new ingredient to the ingredients array with default values.
+   * @memberOf module:MenuItemPage
+   */
+  const addIngredient = () => {
+    setIngredients([...ingredients, { inventID: null, name: "", quantity: 1 }]);
+  };
+
+  /**
+   * Removes an ingredient from the ingredients array at the specified index.
+   * @memberOf module:MenuItemPage
+   * @param {number} index - The index of the ingredient to remove.
+   */
+  const removeIngredient = (index) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients.splice(index, 1);
+    setIngredients(updatedIngredients);
+  };
+
+  
+
+  return (
+    &lt;main className="min-h-screen flex flex-col">
+      &lt;h1 className="text-4xl font-bold text-center mb-3 py-4" aria-label="Manager Page">
+        Menu Hub
+      &lt;/h1>
+      &lt;div className="w-full  max-w-screen-xl mx-auto">
+        &lt;div className="flex justify-evenly mb-8">
+        &lt;button onClick={handleShowAddPopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700" aria-label="Add Menu Item">
+          Add Menu Item
+        &lt;/button>
+        &lt;button onClick={handleShowUpdatePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700" aria-label="Update Menu Item">
+          Update Menu Item
+        &lt;/button>
+        &lt;button onClick={handleShowRemovePopup} className="bg-red-800 text-white rounded px-4 py-2 hover:bg-red-700"aria-label="Remove Menu Item">
+          Remove Menu Item
+        &lt;/button>
+        &lt;/div>
+        &lt;div className="grid grid-cols-4 gap-4" aria-label="Menu Items">
+          {menuItemsGrid.map((item) => (
+            &lt;div
+              key={item.menuid}
+              className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            >
+              &lt;h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {item.itemname}
+              &lt;/h5>
+              &lt;p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Price: {item.price}&lt;/p>
+              &lt;p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Category: {getCategoryLabel(item.category)}&lt;/p>
+              &lt;p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Description: {item.description}&lt;/p>
+              &lt;p className="mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Calories: {item.Calories}&lt;/p>
+              &lt;p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Special Diet: {getDietCategoryLabel(item.specialdiet)}&lt;/p>
+              &lt;p className=" mb-4 p-2 bg-gray-200 rounded-lg border border-gray-900">Gluten Free: {getAllergyLabel(item.allergy)}&lt;/p>
+              &lt;div className="p-2 pt-1 bg-gray-200 rounded-lg border border-gray-900">
+                &lt;h6 className=" mb-2 text-lg font-semibold">Ingredients:&lt;/h6>
+                &lt;ul>
+                  {item.ingredients.map((ingredient, index) => {
+                    return (
+                      &lt;li key={index}>
+                        {ingredient.ingredientname}: {ingredient.quantity}
+                      &lt;/li>
+                    );
+                  })}
+                &lt;/ul>
+              &lt;/div>
+            &lt;/div>
+          ))}
+        &lt;/div>
+      &lt;/div>
+      &lt;MenuAddModal 
+        onClose = {handleHideAddPopup}   
+        isOpen = {showAddPopup}   
+        menuItems = {menuItems}
+        setMenuItems = {setMenuItems}
+        inventoryItems = {inventoryItems}
+        setInventoryItems={setInventoryItems}
+        menuItemsGrid = {menuItemsGrid}
+        setMenuItemsGrid = {setMenuItemsGrid}
+      />
+      &lt;MenuUpdateModal 
+        onClose = {handleHideUpdatePopup}
+        isOpen = {showUpdatePopup}
+        menuItems = {menuItems}
+        setMenuItems = {setMenuItems}
+        inventoryItems = {inventoryItems}
+        menuItemsGrid = {menuItemsGrid}
+        setMenuItemsGrid = {setMenuItemsGrid}
+      />
+      &lt;MenuRemoveModal 
+        onClose = {handleHideRemovePopup}
+        isOpen = {showRemovePopup}
+        menuItems = {menuItems}
+        setMenuItems = {setMenuItems}
+        inventoryItems = {inventoryItems}
+        menuItemsGrid = {menuItemsGrid}
+        setMenuItemsGrid = {setMenuItemsGrid}
+      />
+    &lt;/main>
+  );
+}
+``
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:01:14 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

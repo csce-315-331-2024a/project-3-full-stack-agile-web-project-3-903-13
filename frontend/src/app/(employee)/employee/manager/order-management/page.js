@@ -3,6 +3,12 @@
 import React, { useEffect, useState } from "react";
 import TransactionModal from "@/components/transactions/TransactionModal";
 
+/**
+ * Formats an ISO date string into a more readable format using specific locale options.
+ * @memberOf module:OrderManagementPage
+ * @param {string} isoDateString - The ISO string representation of the date to format.
+ * @returns {string} A formatted string representing the date.
+ */
 const formatTime = (isoDateString) => {
     const date = new Date(isoDateString);
 
@@ -21,6 +27,13 @@ const formatTime = (isoDateString) => {
     return formattedDate;
 };
 
+/**
+ * Represents the main page for managing orders, allowing users to search for transactions
+ * either by a specific transaction ID or within a given date range.
+ * This page provides interactive components to submit search criteria, view transaction results,
+ * and manage individual transactions through a modal.
+ * @module OrderManagementPage
+ */
 export default function OrderManagementPage() {
     const [transactionID, setTransactionID] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -33,6 +46,10 @@ export default function OrderManagementPage() {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
 
+    /**
+     * Fetches transactions based on transaction ID or a date range and updates the transactionsData state.
+     * @memberOf module:OrderManagementPage
+     */
     const FindTransaction = async () => {
         setLoading(true);
         setErrorMessage("");
@@ -94,16 +111,30 @@ export default function OrderManagementPage() {
         setLoading(false);
     };
 
+    /**
+     * Handles form submission for finding transactions. Prevents default form action and calls FindTransaction.
+     * @memberOf module:OrderManagementPage
+     * @param {Event} e - The event triggered on form submission.
+     */
     const formSubmit = (e) => {
         e.preventDefault();
         FindTransaction();
     };
 
+    /**
+     * Handles opening the transaction modal with the selected transaction's data.
+     * @memberOf module:OrderManagementPage
+     * @param {Object} transaction - The transaction data to display in the modal.
+     */
     const handleTransactionClick = (transaction) => {
         setSelectedTransaction(transaction);
         setIsModalOpen(true);
     };
 
+    /**
+     * Closes the transaction modal and resets any related state.
+     * @memberOf module:OrderManagementPage
+     */
     const closeModal = () => {
         setIsModalOpen(false);
     };

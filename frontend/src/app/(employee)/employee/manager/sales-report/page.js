@@ -2,7 +2,12 @@
 
 import React, { useState } from 'react';
 
-// Function to safely format total sales as a fixed decimal string
+/**
+ * Formats total sales as a fixed decimal string safely, returning a formatted string or a placeholder if the input is invalid.
+ * @memberOf module:SalesReportPage
+ * @param {number|string} totalSales - The total sales amount to be formatted.
+ * @returns {string} Formatted total sales as a string with two decimal places or 'N/A' if invalid.
+ */
 const formatTotalSales = (totalSales) => {
     if (typeof totalSales === 'number') {
         return totalSales.toFixed(2);
@@ -13,6 +18,11 @@ const formatTotalSales = (totalSales) => {
     return 'N/A'; // Return 'N/A' or some other placeholder if the value is not a number
 };
 
+/**
+ * SalesReportPage is a React component for generating and displaying a sales report for a specified date range.
+ * It allows users to select a start and end date and fetches the sales report data accordingly.
+ * @module SalesReportPage
+ */
 export default function SalesReportPage() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -22,6 +32,11 @@ export default function SalesReportPage() {
     const [successMessage, setSuccessMessage] = useState('');
     const [hasFetched, setHasFetched] = useState(false);
 
+    /**
+     * Fetches the sales report data from the server using the specified start and end date.
+     * Updates the UI based on the data received or any errors encountered during fetching.
+     * @memberOf module:SalesReportPage
+     */
     const fetchSalesReport = async () => {
         setLoading(true);
         setHasFetched(true); // Set to true when fetching
@@ -47,6 +62,11 @@ export default function SalesReportPage() {
         setLoading(false);
     };
 
+    /**
+     * Handles the form submission to generate a sales report by preventing the default form submission behavior and calling fetchSalesReport.
+     * @memberOf module:SalesReportPage
+     * @param {Event} e - The event object associated with the form submission.
+     */
     const handleGenerateReport = (e) => {
         e.preventDefault();
         fetchSalesReport();

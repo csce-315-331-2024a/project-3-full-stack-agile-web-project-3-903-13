@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(employee)/employee/manager/users/page.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(employee)/employee/manager/users/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import React, { useEffect, useState } from 'react';
+import EmployeeModal from "@/components/EmployeeModal"
+
+/**
+ * Represents the Users page component for managing employee details. This component fetches and displays employee data,
+ * allows for adding new employees, and updating or deleting existing ones.
+ * @module UsersPage
+ */
+export default function UsersPage() {
+
+    const [employees, setEmployees] = useState([])
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isUpdateDelete, setIsUpdateDelete] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+    /**
+     * Closes any open modals on the page and resets relevant state variables.
+     * @memberOf module:UsersPage
+     */
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setIsUpdateDelete(false)
+        setSelectedEmployee(null)
+    };
+
+    /**
+     * Opens the employee modal to either update or delete the selected employee's details.
+     * @memberOf module:UsersPage
+     * @param {object} employee - The employee object whose details are to be updated or deleted.
+     */
+    const employeeClick = (employee) => {
+      setSelectedEmployee(employee)
+      setIsUpdateDelete(true)
+      setIsModalOpen(true)
+    }
+
+    /**
+     * Opens the modal to add a new user.
+     * @memberOf module:UsersPage
+     */
+    const addUserClick = () => {
+      setIsModalOpen(true)
+      //setIsNewUserOpen(true)
+    }
+
+    /**
+     * Closes the modal used for adding a new user.
+     * @memberOf module:UsersPage
+     */
+    const closeAddUser = () => {
+      setIsNewUserOpen(false)
+    }
+
+    useEffect(() => {
+        /**
+         * Fetches the list of all employees from the backend API and updates the state.
+         * @memberOf module:UsersPage
+         */
+        const fetchEmployees = async () => {
+            try {
+                const employees = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees`);
+
+                if (!employees.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const employeesData = await employees.json();
+                setEmployees(employeesData)
+            } catch (error) {
+                console.error('Error retrieving users:', error);
+            }
+        };
+
+        fetchEmployees()
+
+    }, [])
+
+    return (
+        &lt;main className="min-h-screen bg-gray-100 flex items-center justify-center" aria-labelledby="users-page-title">
+        &lt;div className="flex flex-col w-4/5 border-solid border-grey border-2">
+          &lt;div className="-m-1.5 overflow-x-auto">
+            &lt;div className="p-1.5 min-w-full inline-block align-middle">
+              
+              &lt;div className="border rounded-lg divide-y divide-gray-200">
+                &lt;div className="py-3 px-4">
+                  &lt;div className="relative max-w-xs flex flex-row gap-5">
+                  &lt;button type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm w-50 px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={addUserClick}>New Employee&lt;/button>
+                  &lt;/div>
+                &lt;/div>
+                &lt;div className="overflow-hidden">
+                  &lt;table className="min-w-full divide-y divide-gray-200" aria-labelledby="users-table">
+                    &lt;thead className="bg-gray-50">
+                      &lt;tr>
+                        &lt;th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name&lt;/th>
+                        &lt;th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Email&lt;/th>
+                        &lt;th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Phone Number&lt;/th>
+                        &lt;th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Age&lt;/th>
+                        &lt;th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Weekly Hours&lt;/th>
+                        &lt;th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Role&lt;/th>
+                      &lt;/tr>
+                    &lt;/thead>
+                    &lt;tbody className="divide-y divide-gray-200">
+                    {employees.map((employee, index) => (
+                        &lt;tr key={index} onClick={() => {employeeClick(employee)}} className="hover:bg-gray-400 hover:cursor-pointer">
+                            &lt;td className=" px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{employee.employeename}&lt;/td>
+                            &lt;td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.email}&lt;/td>
+                            &lt;td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeephonenumber}&lt;/td>
+                            &lt;td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeeage}&lt;/td>
+                            &lt;td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.employeehours}&lt;/td>
+                            &lt;td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{employee.role}&lt;/td>
+                        &lt;/tr>
+                    ))}
+                    &lt;/tbody>
+                    &lt;/table>
+                  &lt;/div>
+                  &lt;/div>
+              &lt;/div>
+              &lt;/div>
+          &lt;/div>
+
+          &lt;EmployeeModal
+            isOpen={isModalOpen}
+            isUpdateDelete={isUpdateDelete}
+            onClose={closeModal}
+            employee={selectedEmployee}
+          />
+        &lt;/main>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:01:14 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

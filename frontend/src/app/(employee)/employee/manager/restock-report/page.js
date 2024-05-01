@@ -5,11 +5,20 @@ import React, { useState, useEffect } from 'react';
 import { useTable } from "react-table";
 import axios from 'axios';
 
+/**
+ * RestockReportPage is a React component that fetches and displays a list of inventory items
+ * that need to be restocked. It provides buttons to regenerate the report and to fulfill restock orders.
+ * @module RestockReportPage
+ */
 const RestockReportPage = () => {
     const [restockItems, setRestockItems] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Extracted function to fetch data
+    /**
+     * fetchData is used within the RestockReportPage component to fetch restock data from the server.
+     * It sets the loading state, fetches data using axios, and updates the state with the fetched data or an error.
+     * @memberOf module:RestockReportPage
+     */
     const fetchData = () => {
         setLoading(true);
         axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/reports/restockReport')
@@ -27,6 +36,11 @@ const RestockReportPage = () => {
         fetchData();
     }, []);
 
+    /**
+     * fulfillRestock makes a PATCH request to update the restock status of inventory items.
+     * It handles the response or error by logging them to the console.
+     * @memberOf module:RestockReportPage
+     */
     const fulfillRestock = () => {
         // Call the backend to fulfill restock orders
         axios.patch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/reports/restockInventory')
@@ -104,7 +118,11 @@ const RestockReportPage = () => {
     );
 };
 
-
+/**
+ * Table is a React component that uses react-table hooks to display data in a table format.
+ * It takes columns and data as props and constructs a table with sortable headers and rows.
+ * @memberOf module:RestockReportPage
+ */
 const Table = ({ columns, data }) => {
     const {
         getTableProps,

@@ -3,6 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import EmployeeModal from "@/components/EmployeeModal"
 
+/**
+ * Represents the Users page component for managing employee details. This component fetches and displays employee data,
+ * allows for adding new employees, and updating or deleting existing ones.
+ * @module UsersPage
+ */
 export default function UsersPage() {
 
     const [employees, setEmployees] = useState([])
@@ -10,28 +15,49 @@ export default function UsersPage() {
     const [isUpdateDelete, setIsUpdateDelete] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
 
+    /**
+     * Closes any open modals on the page and resets relevant state variables.
+     * @memberOf module:UsersPage
+     */
     const closeModal = () => {
         setIsModalOpen(false);
         setIsUpdateDelete(false)
         setSelectedEmployee(null)
     };
 
+    /**
+     * Opens the employee modal to either update or delete the selected employee's details.
+     * @memberOf module:UsersPage
+     * @param {object} employee - The employee object whose details are to be updated or deleted.
+     */
     const employeeClick = (employee) => {
       setSelectedEmployee(employee)
       setIsUpdateDelete(true)
       setIsModalOpen(true)
     }
 
+    /**
+     * Opens the modal to add a new user.
+     * @memberOf module:UsersPage
+     */
     const addUserClick = () => {
       setIsModalOpen(true)
       //setIsNewUserOpen(true)
     }
 
+    /**
+     * Closes the modal used for adding a new user.
+     * @memberOf module:UsersPage
+     */
     const closeAddUser = () => {
       setIsNewUserOpen(false)
     }
 
     useEffect(() => {
+        /**
+         * Fetches the list of all employees from the backend API and updates the state.
+         * @memberOf module:UsersPage
+         */
         const fetchEmployees = async () => {
             try {
                 const employees = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees`);
@@ -56,6 +82,7 @@ export default function UsersPage() {
         <div className="flex flex-col w-4/5 border-solid border-grey border-2">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
+              
               <div className="border rounded-lg divide-y divide-gray-200">
                 <div className="py-3 px-4">
                   <div className="relative max-w-xs flex flex-row gap-5">
