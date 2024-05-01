@@ -37,7 +37,7 @@ const menuItemsController = require('../services/menuitems')
  *	    tags: [Menu Items]
  *	/menuitems/specific:
  *	  get:
- *	    summary: Get list of ingredients of a given menu item
+ *	    summary: Gets the details of a menu item given its name
  *	    tags: [Menu Items]
  *	/menuitems/updatePrice:
  *	  patch:

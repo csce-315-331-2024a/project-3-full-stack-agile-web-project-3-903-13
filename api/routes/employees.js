@@ -73,9 +73,21 @@ const employeesController = require('../services/employees')
  *	  post:
  *	    summary: Update attributes of an employee given their employee ID 
  *	    tags: [Employees]
- *	  delete:
- *	    summary: Delete an employee from the database given their employee ID
- *	    tags: [Employees]
+ *   delete:
+ *     summary: Delete an employee from the database given their employee ID
+ *     tags: [Employees]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the employee to be deleted
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Employee deleted successfully
+ *       500:
+ *         description: Internal Server Error
  */
 
 router.get("/", employeesController.retrieveEmployees)

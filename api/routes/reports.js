@@ -15,15 +15,15 @@ const {generateRestockReport, fulfillRestock } = require('../services/reports/re
  *	    tags: [Reports]
  *	/reports/salesReport:
  *	  get:
- *	    summary: Generate the "What Sells Together" report given a start date and an end date
+ *	    summary: Generate the "Sales" report given a start date and an end date
  *	    tags: [Reports]
  *	/reports/restockReport:
  *	  get:
- *	    summary: Generate the "What Sells Together" report given a start date and an end date
+ *	    summary: Generate the "Restock" report given a start date and an end date
  *	    tags: [Reports]
  *	/reports/restockInventory:
  *	  patch:
- *	    summary: Generate the "What Sells Together" report given a start date and an end date
+ *	    summary: Updates the quantity of all the ingredients in the inventory that were below the minimum count
  *	    tags: [Reports]
  */
  

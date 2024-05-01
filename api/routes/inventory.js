@@ -20,11 +20,11 @@ const inventoryController = require('../services/inventory.js')
  *     tags: [Inventory]
  * /inventory/usage:
  *   get:
- *     summary: Genarate report regarding inventory usage during a given time period
+ *     summary: Gets the inventory usage of all ingredients between a provided start and end date
  *     tags: [Inventory]
  * /inventory/state:
  *   get:
- *     summary: Get list of all inventory items
+ *     summary: Gets the state of the inventory at a given time, i.e., the quanitity of all ingredients on that day
  *     tags: [Inventory]
  * /inventory/updateQuantity:
  *   patch:
