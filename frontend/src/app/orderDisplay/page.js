@@ -2,6 +2,7 @@
 
 import "../globals.css";
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
 
 const OrderDisplayPage = () => {
     const [ordersInPreparation, setOrdersInPreparation] = useState([]);
@@ -10,30 +11,25 @@ const OrderDisplayPage = () => {
     // Fetch in-progress orders from the backend
     const fetchInProgressOrders = async () => {
         try {
-            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/inProgressOrders');
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            setOrdersInPreparation(data);
+          const response = await axios.get(
+            "https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/inProgressOrders"
+          );
+          setOrdersInPreparation(response.data);
         } catch (error) {
-            console.error("Error fetching in-progress orders:", error);
+          console.error("Error fetching in-progress orders:", error);
         }
-    };
+      };
     
-    const fetchRecentFulfilledOrders = async () => {
+      const fetchRecentFulfilledOrders = async () => {
         try {
-            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/recentFulfilledOrders');
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log(data); 
-            setOrdersToCollect(data);
+          const response = await axios.get(
+            "https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/recentFulfilledOrders"
+          );
+          setOrdersToCollect(response.data);
         } catch (error) {
-            console.error("Error fetching recent fulfilled orders:", error);
+          console.error("Error fetching recent fulfilled orders:", error);
         }
-    };
+      };
 
     useEffect(() => {
         fetchInProgressOrders();
