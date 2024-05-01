@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: transactions/PaymentModal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: transactions/PaymentModal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import CreditCardModal from "@/components/transactions/CreditCardModal";
+import { useState } from "react";
+import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
+
+/**
+ * Displays a modal for selecting a payment method. It optionally triggers a credit card input modal if the card method is selected.
+ * @function PaymentModal
+ * @module PaymentModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.showPaymentOptions - Flag to show or hide the payment options modal.
+ * @param {function} props.setShowPaymentOptions - Function to set the visibility of the payment options modal.
+ * @param {function} props.handlePayment - Function to handle the payment process after a payment method is selected.
+ * @param {boolean} [props.enableCreditCardInput=false] - Optional flag to enable credit card input if the card payment method is selected.
+ * @returns {React.Component} A React component that renders a modal for payment method selection.
+ */
+export default function PaymentModal({ showPaymentOptions, setShowPaymentOptions, handlePayment, enableCreditCardInput = false }) {
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [showCreditCardModal, setShowCreditCardModal] = useState(false);
+
+  const paymentMethods = [
+    { id: 'card', label: 'Card' },
+    { id: 'dining', label: 'Dining Dollars' },
+    { id: 'retail', label: 'Retail Swipe' },
+  ];
+
+  /**
+   * Handles the selection of a payment method from the list by updating the state with the selected method ID.
+   * @function handlePaymentMethodSelect
+   * @param {string} methodId - The ID of the selected payment method.
+   */
+  const handlePaymentMethodSelect = (methodId) => {
+    setSelectedPaymentMethod(methodId);
+  };
+
+  /**
+   * Handles the click on the 'Continue' button. If the 'card' payment method is selected and credit card input is enabled,
+   * it shows the credit card modal. Otherwise, it proceeds to handle the payment.
+   * @function handleContinueClick
+   */
+  const handleContinueClick = () => {
+    if (selectedPaymentMethod === 'card' &amp;&amp; enableCreditCardInput) {
+      setShowCreditCardModal(true);
+    } else {
+      handlePayment();
+    }
+  };
+
+  return (
+    &lt;div className="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50">
+      &lt;div className="relative top-1/4 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 xl:w-1/3 shadow-lg rounded-md bg-white">
+        &lt;h3 className="text-3xl font-bold text-center mb-6 pb-2 relative text-red-800">
+          Select Payment Method
+          &lt;div className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-300">&lt;/div>
+        &lt;/h3>
+        &lt;div className="space-y-4">
+          {paymentMethods.map((method) => (
+            &lt;div
+              key={method.id}
+              className="flex items-center justify-between p-4 border-2 border-red-800 rounded-md bg-white cursor-pointer transition-all duration-200 ease-in-out"
+              onClick={() => handlePaymentMethodSelect(method.id)}
+            >
+              &lt;span className="text-lg font-semibold text-gray-800">{method.label}&lt;/span>
+              {selectedPaymentMethod === method.id ? (
+                &lt;FaCheckCircle className="text-red-800" size="1.5em" />
+              ) : (
+                &lt;FaRegCircle className="text-red-800" size="1.5em" />
+              )}
+            &lt;/div>
+          ))}
+        &lt;/div>
+        &lt;div className="flex justify-between items-center mt-8">
+          &lt;button
+            className="py-2 px-4 rounded-md transition-colors duration-200 ease-in-out hover:bg-gray-200 font-semibold"
+            onClick={() => setShowPaymentOptions(false)}
+          >
+            Cancel
+          &lt;/button>
+            &lt;button
+              disabled={!selectedPaymentMethod}
+              style={{
+                boxShadow: '0 2px 4px 0 rgba(0,0,0,0.10)',
+                opacity: selectedPaymentMethod ? 1 : 0.5,
+              }}
+              className={`bg-red-800 text-white px-4 py-2 rounded-md transition-all duration-200 ease-in-out hover:bg-${selectedPaymentMethod ? 'red-800' : 'none'} font-semibold`}
+              onClick={handleContinueClick}
+            >
+            Continue
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+      {showCreditCardModal &amp;&amp; enableCreditCardInput &amp;&amp; (
+        &lt;CreditCardModal
+          showCreditCardModal={showCreditCardModal}
+          setShowCreditCardModal={setShowCreditCardModal}
+          handlePayment={handlePayment}
+        />
+      )}
+    &lt;/div>
+  );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 22:13:16 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

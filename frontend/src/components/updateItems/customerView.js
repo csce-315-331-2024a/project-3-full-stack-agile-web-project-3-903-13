@@ -1,3 +1,6 @@
+/**
+ * @module CustomerView
+ */
 import React, { useEffect, useState } from "react";
 // import Link from 'next/link'
 import Image from 'next/image'
@@ -6,10 +9,34 @@ import { toast } from 'react-toastify';
 
 
 
-
+/**
+ * Displays a toast message component that allows adding recommended items to the transaction.
+ * This component presents a dynamic message based on the transaction process and offers an option to add additional recommended items to the cart.
+ *
+ * @function Message
+ * @memberOf module:CustomerView
+ * @param {Object} props - The properties passed to the component.
+ * @param {function} props.closeToast - Function to close the toast message.
+ * @param {Object} props.toastProps - Additional properties passed to the toast message.
+ * @param {string} props.name - Name of the main item that was added to the cart.
+ * @param {string} props.displayText - Text to display in the toast, typically contains the main message and a call to action separated by "@".
+ * @param {Array} props.recList - List of recommended items to be potentially added to the transaction.
+ * @returns {React.Component} A React component displayed as a toast message for adding items to the transaction.
+ */
 const Message = ({ closeToast, toastProps, name, displayText, recList}) => {
     const { updateTransaction, transactions } = useTransaction();
 
+    /**
+     * Submits a modified dish to the transaction context to update the cart.
+     * This function constructs the modification details based on user selections of ingredients to remove or keep.
+     * It compiles a list of inventory items that are not removed for stock management and appends the dish with
+     * the modification string to the transaction list. Also, it displays a toast notification indicating the successful addition.
+     *
+     * @memberOf module:CustomerView
+     * @param {Object} dish - The dish object containing the necessary identifiers like menuid and itemname.
+     * @param {Array} inventToRemove - An array of objects detailing the ingredients that were not removed by the user, 
+     *                                 each containing an inventid, ingredientname, and quantity.
+     */ 
     const sendToTransaction = (dish, inventToRemove) => {
         var quantity = 0;
         if (transactions) {
@@ -29,7 +56,11 @@ const Message = ({ closeToast, toastProps, name, displayText, recList}) => {
     };
 
     
-    
+    /**
+     * Handles the addition of all recommended items to the transaction.
+     * Iterates through the list of recommended items and uses `sendToTransaction` to add each item to the transaction context.
+     * @memberOf module:CustomerView
+     */
     const handleAddCartClick = () => {
 
         for (let i = 0; i < recList.length; i++){
@@ -58,6 +89,20 @@ const Message = ({ closeToast, toastProps, name, displayText, recList}) => {
     );
 };
 
+/**
+ * Displays a modal for viewing and customizing a menu item with options to add to a cart.
+ * This modal provides detailed item information, customization options for removable ingredients,
+ * and facilitates the addition of these customized items to the cart. Recommendations based on item category are also managed.
+ *
+ * @function UpdateModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isCustomizable - Indicates if the item can be customized.
+ * @param {boolean} props.isOpen - Controls if the modal is open.
+ * @param {function} props.onClose - Callback to close the modal.
+ * @param {Object} props.item - The item details to be displayed and potentially customized.
+ * @param {number} props.categoryIndex - The category index used to fetch recommendations.
+ * @returns {React.Component|null} The modal component for customizing and adding items to the cart or null if not open.
+ */
 export default function UpdateModal({ isCustomizable, isOpen, onClose, item, categoryIndex}) {
 
     // Other ingredients contains non-removable ingredients like bags, utensils, etc.
@@ -74,6 +119,18 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
 
     const { updateTransaction, transactions } = useTransaction();
 
+    /**
+     * Submits a modified dish to the transaction context to update the cart.
+     * This function constructs the modification details based on user selections of ingredients to remove or keep.
+     * It compiles a list of inventory items that are not removed for stock management and appends the dish with
+     * the modification string to the transaction list. Also, it displays a toast notification indicating the successful addition.
+     *
+     * @memberOf module:CustomerView
+     * @param {Object} dish - The dish object containing the necessary identifiers like menuid and itemname.
+     * @param {string} modificationString - A string detailing the modifications made by the user, such as removed ingredients.
+     * @param {Array} inventToRemove - An array of objects detailing the ingredients that were not removed by the user, 
+     *                                 each containing an inventid, ingredientname, and quantity.
+     */ 
     const sendToTransaction = (dish, modificationString, inventToRemove) => {
         var quantity = 0;
         if (transactions) {
@@ -134,6 +191,12 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
     }, [item]);
 
 
+    /**
+     * Toggles the removal state of an ingredient based on user interaction.
+     * This allows users to select or deselect ingredients they wish to exclude from their customization.
+     * @memberOf module:CustomerView
+     * @param {number} index - The index of the ingredient in the list of removable ingredients.
+     */
     const handleIngredientClick = (index) => {
         setIngredientsRemoved(prevState => {
             const newState = [...prevState];
@@ -143,6 +206,11 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
 
     };
 
+    /**
+     * Finalizes the customizations and sends the updated item to the transaction.
+     * Constructs a modification string, collates non-removed ingredients for transaction update, and triggers a toast notification.
+     * @memberOf module:CustomerView
+     */
     const handleAddCart = () => {
         let temp = "";
         const inventToRemove = []
@@ -167,6 +235,12 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
     }
 
 
+    /**
+     * Determines recommendations based on the category of the item.
+     * Sets strings for UI display and fetches details for recommended items based on the item's category.
+     * @memberOf module:CustomerView
+     * @param {number} category - The category index used to determine appropriate recommendations.
+     */
     const determineRecStuff = async(category) => {
         let string = "";
         let itemsToRecommend = [];
@@ -209,6 +283,13 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
         setRecAdd(tempRecAdd)
     }
 
+    /**
+     * Fetches details for a single menu item.
+     * Gathers ingredient and other relevant details necessary for transaction processing.
+     * @memberOf module:CustomerView
+     * @param {string} itemName - The name of the item for which details are being fetched.
+     * @returns {Promise<Object>} A promise that resolves to an object containing dish details and a list of ingredients.
+     */
     const fetchItemDetails = async (itemName) => {
         const params = itemName.split(' ').join("+");
         
@@ -230,6 +311,13 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
         return { dish: details, inventToRemove: neededDetails };
     };
 
+    /**
+     * Fetches detailed information for a list of recommended items.
+     * Executes a series of asynchronous calls to gather necessary data for each recommended item.
+     * @memberOf module:CustomerView
+     * @param {string[]} itemsToRecommend - List of item names for which details need to be fetched.
+     * @returns {Promise<Object[]>} A promise that resolves to an array of item details needed for adding to the transaction.
+     */
     const fetchDetailsForRecommendations = async (itemstoRecommend) => {
         const detailsPromises = await itemstoRecommend.map(itemName => fetchItemDetails(itemName));
         const itemDetails = await Promise.all(detailsPromises);

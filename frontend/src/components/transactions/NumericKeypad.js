@@ -1,13 +1,38 @@
 
+/**
+ * A numeric keypad component for inputting numbers. It provides buttons for digits 0-9, a backspace button for corrections, and buttons to submit or cancel the input.
+ * @function NumericKeypad
+ * @module NumericKeypad
+ * @param {Object} props - The properties passed to the component.
+ * @param {function} props.onValueChange - Callback function that gets called when the entered value is submitted.
+ * @param {string} props.inputValue - The current value of the input.
+ * @param {function} props.setInputValue - Function to update the state of the inputValue.
+ * @param {function} props.onClose - Function to close the keypad modal.
+ * @returns {React.Component} A React component that displays a numeric keypad for inputting numbers.
+ */
 export default function NumericKeypad({ onValueChange, inputValue, setInputValue, onClose }) {
+    /**
+     * Handles the event when numeric buttons are clicked. Appends the clicked value to the existing inputValue.
+     * @function handleButtonClick
+     * @param {string} value - The numeric value of the button clicked.
+     */
     const handleButtonClick = (value) => {
         setInputValue(prev => prev + value);
     };
 
+    /**
+     * Handles the backspace operation by removing the last character from the current input value.
+     * @function handleBackspace
+     */
     const handleBackspace = () => {
         setInputValue(inputValue.slice(0, -1));
     };
 
+    /**
+     * Handles the submission of the input value. Parses the input string to an integer, adjusts it by subtracting 1, 
+     * and calls the onValueChange callback with the new value. Closes the keypad modal after submission.
+     * @function handleSubmit
+     */
     const handleSubmit = () => {
         let quantity = parseInt(inputValue);
         if (isNaN(quantity)) {

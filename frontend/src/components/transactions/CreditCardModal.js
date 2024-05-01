@@ -1,10 +1,27 @@
 import { useState } from "react";
 
+/**
+ * A modal component for entering credit card details, including card number, CVC, and expiry date.
+ * Provides form validation and submission functionality to handle payment.
+ * @function CreditCardModal
+ * @module CreditCardModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.showCreditCardModal - Flag to show or hide the modal.
+ * @param {function} props.setShowCreditCardModal - Function to update the visibility of the modal.
+ * @param {function} props.handlePayment - Function to execute the payment process after validation.
+ * @returns {React.Component} A React component that displays a modal for credit card information input.
+ */
 export default function CreditCardModal({ showCreditCardModal, setShowCreditCardModal, handlePayment }) {
     const [cardNumber, setCardNumber] = useState("");
     const [cvc, setCVC] = useState("");
     const [expiryDate, setExpiryDate] = useState("");
 
+    /**
+     * Formats the card number input to include spaces every four digits for better readability.
+     * Updates the state with the formatted card number if it's 16 digits or fewer.
+     * @function formatCardNumber
+     * @param {string} value - The raw card number input from the user.
+     */
     const formatCardNumber = (value) => {
         const onlyNums = value.replace(/\D/g, '');
         if (onlyNums.length <= 16) {
@@ -12,6 +29,11 @@ export default function CreditCardModal({ showCreditCardModal, setShowCreditCard
         }
     };
 
+    /**
+     * Handles changes to the CVC input field, ensuring only numeric values up to three digits are accepted.
+     * @function handleCVCChange
+     * @param {Object} event - The event object from the input field, providing the current value.
+     */
     const handleCVCChange = (event) => {
         const onlyNums = event.target.value.replace(/\D/g, '');
         if (onlyNums.length <= 3) {
@@ -19,6 +41,13 @@ export default function CreditCardModal({ showCreditCardModal, setShowCreditCard
         }
     };
 
+    /**
+     * Handles the submission of the credit card form.np
+     * Validates the card number and CVC before proceeding with the payment and closing the modal.
+     * Alerts the user if the input is invalid.
+     * @function handleSubmit
+     * @param {Object} e - The event object from the form submission.
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
         const plainCardNumber = cardNumber.replace(/\s/g, '');
