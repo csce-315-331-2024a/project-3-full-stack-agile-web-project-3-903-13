@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/LeftSidebar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/LeftSidebar.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module LeftSidebar
+ */
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+/**
+ * Component for displaying a navigation sidebar.
+ * @function
+ * @memberOf module:LeftSidebar
+ * @param {Object} props - Component props.
+ * @returns {React.Component} A React component that renders a sidebar with navigation links.
+ */
+export default function LeftSidebar({  }) {
+    /**
+   * Hook to get the current pathname from the URL using Next.js navigation API.
+   * @memberOf module:LeftSidebar
+   */
+  const pathname = usePathname();
+
+  /**
+   * Determines if a navigation link is active based on the current pathname.
+   * @function
+   * @memberOf module:LeftSidebar
+   * @param {string} href - The href of the navigation link to compare against the current pathname.
+   * @returns {boolean} - True if the link is active, false otherwise.
+   */
+  const isActive = (href) => {
+    if (href === "/employee/burgers") {
+      return pathname.startsWith("/employee/") &amp;&amp; !pathname.startsWith("/employee/manager");
+    }
+    else if (href === "/employee/manager/users") {
+      return pathname === "/employee/manager/users";
+    }
+    else if (href === "/employee/manager/users") {
+      return pathname.startsWith("/employee/manager/users");
+    }
+    return pathname === href;
+  };
+
+  // Array of link objects used for rendering navigation links
+  const links = [
+    { href: "/employee/burgers", title: "Place an Order", imgSrc: "/shop.svg", imgAlt: "Point of Sale" },
+    { href: "/employee/manager/kitchen", title: "Kitchen", imgSrc: "/kitchen.svg", imgAlt: "Kitchen" },
+    { href: "/employee/manager/inventory", title: "Manager Features", imgSrc: "/user.svg", imgAlt: "Manager" },
+    { href: "/employee/manager/users", title: "User Management", imgSrc: "/users.svg", imgAlt: "Users" },
+    { href: "/", title: "Return to Customer View", imgSrc: "/home.svg", imgAlt: "Home" },
+    { href: "/user", title: "Sign Out", imgSrc: "/signout.svg", imgAlt: "Sign Out" }
+  ];
+
+  /**
+   * Hook to set the sidebar height based on the window size.
+   * @memberOf module:LeftSidebar
+   */
+  useEffect(() => {
+    /**
+     * Handles resizing the sidebar when the window size changes.
+     * @memberOf module:LeftSidebar
+     */
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        setPageHeight(`${document.documentElement.scrollHeight}px`);
+      } else {
+        setPageHeight(`5rem`);
+      }
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); 
+
+  const [pageHeight, setPageHeight] = useState('100vh'); // Default height
+
+  /**
+   * Hook to set the initial height of the sidebar based on the document height.
+   * @memberOf module:LeftSidebar
+   */
+  useEffect(() => {
+    const height = `${document.documentElement.scrollHeight}px`;
+    setPageHeight(height);
+  }, []);
+
+  return (
+    &lt;nav className={`fixed md:relative left-[calc(20%/2)] md:left-0 bottom-2 md:bottom-0 z-[9999] md:z-auto w-4/5 md:w-[5rem] h-${pageHeight} flex flex-row md:flex-col items-center justify-center md:justify-normal bg-white border-2 md:border-y-0 md:border-l-0 md:border-r-2 border-gray-200 shadow-2xl md:shadow-none rounded-xl md:rounded-none px-2 md:px-0`}>
+      &lt;Image src={"/revs.png"} alt="Rev's Grill Logo" width={0} height={0} sizes="100vw" className="hidden md:flex w-full">&lt;/Image>
+      &lt;div className="flex flex-row md:flex-col items-center md:pt-5">
+      {links.map(link => (
+        &lt;Link className={`${isActive(link.href) ? "left-sidebar-link-active" : "left-sidebar-link"}`} key={link.href} href={link.href} title={link.title}>
+            &lt;Image src={link.imgSrc} alt={link.imgAlt} width={24} height={24} />
+        &lt;/Link>
+      ))}
+      &lt;/div>
+    &lt;/nav>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

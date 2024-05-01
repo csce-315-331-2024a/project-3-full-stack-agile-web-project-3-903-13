@@ -3,6 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+/**
+ * NutritionPage is a React component that displays nutritional information about menu items.
+ * It provides details such as calories and special dietary symbols (e.g., vegetarian, pescatarian, gluten-free)
+ * for each item. It fetches menu item data from a backend API and renders a list with nutritional and dietary information.
+ *
+ * @component
+ * @module NutritionPage
+ * @returns {React.Component} The NutritionPage component, which includes dietary legends and a list of menu items with nutritional details.
+ */
 const NutritionPage = () => {
     const [menuItems, setMenuItems] = useState([]);
 
@@ -19,7 +28,14 @@ const NutritionPage = () => {
         fetchData();
       }, []);
 
-    // A function to map special diet numbers to text
+    /**
+     * Maps a diet code to its corresponding symbol element(s) for display.
+     *
+     * @function
+     * @memberOf module:NutritionPage
+     * @param {number} dietCode - The code representing a specific diet (e.g., vegetarian, pescatarian).
+     * @returns {React.Element} A React component or element representing the diet symbol(s).
+     */
     const mapSpecialDiet = (dietCode) => {
         switch (dietCode) {
             case 1:
@@ -38,7 +54,14 @@ const NutritionPage = () => {
         }
     };
 
-    // A function to map allergy numbers to text
+    /**
+     * Maps an allergy code to its corresponding symbol element for display.
+     *
+     * @function
+     * @memberOf module:NutritionPage
+     * @param {number} allergyCode - The code representing a specific allergy (e.g., gluten-free).
+     * @returns {React.Element} A React component or element representing the allergy symbol.
+     */
     const mapAllergies = (allergyCode) => {
         if (allergyCode === 0) {
             return <img src="/gluten-free.png" alt="Gluten Free" className="allergy-symbol" width={40} height={40}></img>;
@@ -46,6 +69,16 @@ const NutritionPage = () => {
         return '';
     };
     
+    /**
+     * Legend is a React component that displays a legend of dietary symbols used on the page.
+     * It helps users identify what each symbol means with respect to dietary restrictions such as vegetarian,
+     * pescatarian, and gluten-free diets. Each symbol is accompanied by a text label for clarity.
+     *
+     * @function Legend
+     * @memberOf module:NutritionPage
+     * @returns {React.Component} A component that visually represents the legend for dietary symbols,
+     * including vegetarian, pescatarian, and gluten-free options.
+     */
     const Legend = () => {
         return (
             <div className="my-10 p-4 bg-white rounded shadow-lg flex justify-around items-center" aria-label="Legend of Symbols">

@@ -4,6 +4,11 @@ import Link from "next/link"
 import React from "react"
 import { redirect } from "next/navigation"
 
+/**
+ * Displays the sign in interface for employees who aren't logged in.
+ * This component shows the user's email and provides options to sign in or return to the home page.
+ * @module SignIn
+ */
 export function SignIn() {
   return (
     <main className="h-full min-h-screen min-w-screen flex flex-col items-center justify-center">

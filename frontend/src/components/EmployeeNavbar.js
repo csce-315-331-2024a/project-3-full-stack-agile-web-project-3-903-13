@@ -1,3 +1,6 @@
+/**
+ * @module EmployeeNavbar
+ */
 "use client"
 
 import Link from "next/link";
@@ -5,14 +8,35 @@ import { usePathname } from "next/navigation";
 import GoogleTranslateWidget from "@/components/GoogleTranslate";
 import { useState, useEffect } from "react";
 
+/**
+ * Component that provides a responsive navigation bar for employee-related interfaces.
+ * This navigation bar includes dynamic links, a menu toggle for mobile views, and integrates the GoogleTranslateWidget for language translation.
+ * The navigation state changes based on the screen size and user interactions, such as clicking the menu toggle in mobile view.
+ *
+ * @function EmployeeNavbar
+ * @memberOf module:EmployeeNavbar
+ * @param {Object[]} links - An array of objects representing the navigation links, where each object contains the `route` and `name` of the link.
+ * @returns {React.Component} A React component that renders the employee navigation bar with support for dynamic resizing and toggle functionality.
+ */
 export default function EmployeeNavbar({ links }) {
   const [isOpen, setOpen] = useState(false);
   const pathname = usePathname();
 
+  /**
+   * Manages the toggle state of the mobile menu.
+   * This function is invoked upon clicking the menu icon in mobile view, toggling the state between open and closed.
+   * @memberOf module:EmployeeNavbar
+   */
   const menuToggle = () => {
     setOpen(!isOpen);
   };
 
+  /**
+   * Sets up a responsive behavior for the navigation menu based on window size.
+   * This effect ensures that the navigation menu is automatically closed when the window is resized to a width of 768px or wider.
+   * It properly cleans up by removing the event listener when the component unmounts.
+   * @memberOf module:EmployeeNavbar
+   */
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 768) {
@@ -27,6 +51,11 @@ export default function EmployeeNavbar({ links }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []); 
 
+  /**
+   * Determines if the current path includes 'manager' to adjust the style dynamically based on the user's role.
+   * It logs whether the current user is a manager to the console for debugging purposes.
+   * @memberOf module:EmployeeNavbar
+   */
   const isManager = pathname.includes("manager");
   console.log(isManager);
 

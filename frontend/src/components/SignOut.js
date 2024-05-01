@@ -4,6 +4,13 @@ import React from "react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
+/**
+ * Displays the sign out interface for users who are currently logged in.
+ * This component shows the user's email and provides options to sign out or return to the home page.
+ * @module SignOut
+ * @param {Object} props - Component props.
+ * @param {string} props.email - Email address of the currently logged in user.
+ */
 export function SignOut({ email }) {
   return (
     <main className="h-full min-h-screen min-w-screen flex flex-col items-center justify-center">

@@ -1,7 +1,15 @@
+/**
+ * @module MenuAddModal
+ */
 import React, { useState, useEffect } from 'react';
 import { FaTrash } from "react-icons/fa";
 
-
+/**
+ * Fetches all menu items from the API.
+ * @function
+ * @memberOf module:MenuAddModal
+ * @returns {JSON} A promise that resolves to an array of menu items.
+ */
 export const getMenuItems = async () => {
     try {
         const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
@@ -12,6 +20,13 @@ export const getMenuItems = async () => {
     }
 };
 
+/**
+ * Fetches the ingredients for a specified menu item.
+ * @function
+ * @memberOf module:MenuAddModal
+ * @param {Object} menuItem - The menu item object containing parameters to form the query string.
+ * @returns {JSON} An array of ingredients that correspond to a menu item.
+ */
 export const getMenuItemIngredients = async (menuItem) => {
     try {
         const queryString = new URLSearchParams(menuItem).toString();
@@ -30,6 +45,12 @@ export const getMenuItemIngredients = async (menuItem) => {
     }
 };
 
+/**
+ * Fetches the menu item and the corresponding ingredients.
+ * @function
+ * @memberOf module:MenuAddModal
+ * @returns {JSON} An array of the menu item and its ingredients.
+ */
 export const getMenuItemsWithIngredients = async () => {
     try {
         const itemsResponse = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
@@ -50,6 +71,12 @@ export const getMenuItemsWithIngredients = async () => {
     }
 };
 
+/**
+ * Fetches the inventory items.
+ * @function
+ * @memberOf module:MenuAddModal
+ * @returns {JSON} An array of the inventory items.
+ */
 export const getInventoryItems = async () => {
     try {
         const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
@@ -60,6 +87,12 @@ export const getInventoryItems = async () => {
     }
 };
 
+/**
+ * Adds a specified menu item to the server.
+ * @function
+ * @param {Object} menuItem - Object containing the details of the menu item to add.
+ * @returns {string} A string of the status of the add operation.
+ */
 export const addMenuItem = async (menuItem) => {
     try {
         const response = await axios.post("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", menuItem, {
@@ -94,6 +127,19 @@ const dietCategories = [
     { label: "Pescatarian", value: 2 },
     { label: "Both", value: 3 },
 ];
+
+/**
+ * Component for displaying a modal dialog to add menu items.
+ * Provides a form to input new menu item data.
+ * @param {Object} props - Component props.
+ * @param {function} props.onClose - Function to call when the modal should be closed.
+ * @param {boolean} props.isOpen - Indicates whether the modal is open.
+ * @param {Array} props.menuItems - Array of all menu items.
+ * @param {Array} props.inventoryItems - Array of all inventory items.
+ * @param {function} props.setMenuItems - Function to update the list of menu items.
+ * @param {function} props.setMenuItemsGrid - Function to update the grid of menu items.
+ * @param {function} props.setInventoryItems - Function to update the list of inventory items.
+ */
 export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,  inventoryItems, setInventoryItems, menuItemsGrid, setMenuItemsGrid }) {
     const [addItemName, setAddItemName] = useState(""); // Separate state variable for Add Menu Item form
     const [addPrice, setAddPrice] = useState(""); // Separate state variable for Add Menu Item form
@@ -110,6 +156,10 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
 
     if (!isOpen) return null;
 
+    /**
+     * Fetches the list of menu items from the server.
+     * @memberOf module:MenuAddModal
+     */
     const fetchMenuItems = async () => {
         try {
             const data = await getMenuItems();
@@ -119,6 +169,10 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
         }
     };
 
+    /**
+     * Fetches the list of menu items with ingredients from the server.
+     * @memberOf module:MenuAddModal
+     */
     const fetchMenuItemsWithIngredients = async () => {
         try {
             const data = await getMenuItemsWithIngredients();
@@ -129,6 +183,11 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
         }
     };
 
+    /**
+     * Handles the add item process.
+     * @memberOf module:MenuAddModal
+     * @param {Event} e - The event object from the form submission.
+     */
     const handleAddMenuItem = async (e) => {
         e.preventDefault();
 
@@ -169,6 +228,12 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
         }
     };
 
+    /**
+     * Handles selection changes in the ingredients dropdown.
+     * @memberOf module:MenuAddModal
+     * @param {Event} e - The event object.
+     * @param {number} index - The index of the ingredient being updated.
+     */
     const handleIngredientSelection = (e, index) => {
         const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
         if (selectedInventoryItem) {
@@ -194,29 +259,63 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
         }
     };
 
+    /**
+     * Handles changes to the quantity of ingredients.
+     * @memberOf module:MenuAddModal
+     * @param {Event} e - The event object.
+     * @param {number} index - The index of the ingredient being updated.
+     */
     const handleQuantityChange = (e, index) => {
         const updatedIngredients = [...ingredients];
         updatedIngredients[index].quantity = parseInt(e.target.value);
         setIngredients(updatedIngredients);
     };
 
+    /**
+     * Adds a new ingredient field to the list.
+     * @memberOf module:MenuAddModal
+     */
     const addIngredient = () => {
         setIngredients([...ingredients, { inventID: null, name: "", quantity: 1 }]);
     };
 
+    /**
+     * Removes an ingredient from the list.
+     * @memberOf module:MenuAddModal
+     * @param {number} index - The index of the ingredient to remove.
+     */
     const removeIngredient = (index) => {
         const updatedIngredients = [...ingredients];
         updatedIngredients.splice(index, 1);
         setIngredients(updatedIngredients);
     };
+
+    /**
+     * Validates the item name input.
+     * @memberOf module:MenuAddModal
+     * @param {string} itemName - The name of the menu item to validate.
+     * @returns {boolean} True if the item name is valid, false otherwise.
+     */
     const validateItemName = (itemName) => {
         return itemName.trim() !== "";
     };
 
+    /**
+     * Validates the price input.
+     * @memberOf module:MenuAddModal
+     * @param {string} price - The price to validate.
+     * @returns {boolean} True if the price is a valid number greater than 0, false otherwise.
+     */
     const validatePrice = (price) => {
         return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
     };
 
+    /**
+     * Validates the calories input.
+     * @memberOf module:MenuAddModal
+     * @param {string} calories - The calorie count to validate.
+     * @returns {boolean} True if the calorie count is a valid non-negative integer, false otherwise.
+     */
     const validateCalories = (calories) => {
         return !isNaN(parseInt(calories)) && parseInt(calories) >= 0;
     }

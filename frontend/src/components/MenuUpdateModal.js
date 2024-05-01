@@ -1,8 +1,16 @@
+/**
+ * @module MenuUpdateModal
+ */
 import React, {useState, useEffect} from 'react';
 import { FaTrash } from "react-icons/fa";
 import axios from 'axios';
 
-
+/**
+ * Fetches all menu items from the server.
+ * @function
+ * @memberOf module:MenuUpdateModal
+ * @returns {JSON} -  An array of menu items.
+ */
 export const getMenuItems = async () => {
   try {
     const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
@@ -14,7 +22,14 @@ export const getMenuItems = async () => {
   }
 };
   
-export const getMenuItemIngredients = async (menuItem) => {
+  /**
+   * Fetches the ingredients for a specified menu item.
+   * @function
+   * @memberOf module:MenuUpdateModal
+   * @param {Object} menuItem - The menu item object containing parameters to form the query string.
+   * @returns {JSON} An array of ingredients that correspond to a menu item.
+   */
+ export const getMenuItemIngredients = async (menuItem) => {
   try {
     // Construct the query string from the menuItem object
     const queryString = new URLSearchParams(menuItem).toString();
@@ -33,6 +48,12 @@ export const getMenuItemIngredients = async (menuItem) => {
   }
 };
   
+  /**
+   * Fetches the menu item and the corresponding ingredients.
+   * @function
+   * @memberOf module:MenuUpdateModal
+   * @returns {JSON} An array of the menu item and its ingredients.
+   */
 export const getMenuItemsWithIngredients = async () => {
   try {
     // Fetch menu items
@@ -60,6 +81,13 @@ export const getMenuItemsWithIngredients = async () => {
     throw error;
   }
 };
+
+  /**
+   * Fetches the inventory items.
+   * @function
+   * @memberOf module:MenuUpdateModal
+   * @returns {JSON} An array of the inventory items.
+   */
 export const getInventoryItems = async () => {
   try {
     const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
@@ -69,6 +97,13 @@ export const getInventoryItems = async () => {
     throw error;
   }
 };
+
+  /**
+   * Updates the price of a specified menu item on the server.
+   * @function
+   * @param {Object} menuItem - The menu item object containing the new price and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemPrice = async (menuItem) => {
   try {
     const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updatePrice", menuItem, {
@@ -89,6 +124,12 @@ export const updateMenuItemPrice = async (menuItem) => {
   }
 };
   
+  /**
+   * Updates the category of a specified menu item on the server.
+   * @function
+   * @param {Object} menuItem - The menu item object containing the new category and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemCat = async (menuItem) => {
   try {
     const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCat", menuItem, {
@@ -109,6 +150,12 @@ export const updateMenuItemCat = async (menuItem) => {
   }
 };
   
+  /**
+   * Updates the ingredients of a specified menu item on the server.
+   * @function
+   * @param {Object} menuItem - The menu item object containing the new ingredients and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemIngred = async (menuItem) => {
   try {
     const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateIngred", menuItem, {
@@ -129,6 +176,12 @@ export const updateMenuItemIngred = async (menuItem) => {
   }
 };
   
+  /**
+   * Updates the description of a specified menu item on the server.
+   * @function
+   * @param {Object} menuItem - The menu item object containing the new description and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemDesc = async (menuItem) => {
   try {
     const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateDesc", menuItem, {
@@ -149,6 +202,12 @@ export const updateMenuItemDesc = async (menuItem) => {
   }
 };
   
+  /**
+   * Updates the calories of a specified menu item on the server.
+   * @function
+   * @param {Object} menuItem - The menu item object containing the new calories and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemCalories = async (menuItem) => {
   try {
     const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateCal", menuItem, {
@@ -169,6 +228,12 @@ export const updateMenuItemCalories = async (menuItem) => {
   }
 };
   
+  /**
+   * Updates the special diet of a specified menu item on the server.
+   * @function
+   * @param {Object} menuItem - The menu item object containing the new special diet and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemDiet = async (menuItem) => {
   try {
     const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateDiet", menuItem, {
@@ -188,6 +253,13 @@ export const updateMenuItemDiet = async (menuItem) => {
     }
   }
 };
+
+  /**
+   * Updates the allergy risks of a specified menu item on the server.
+   * @function
+   * @param {Object} menuItem - The menu item object containing the new allergy risks and item identifier.
+   * @returns {string} A success message if the update is successful.
+   */
 export const updateMenuItemAllergy = async (menuItem) => {
   try {
     const response = await axios.patch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/updateAller", menuItem, {
@@ -233,6 +305,17 @@ export const updateMenuItemAllergy = async (menuItem) => {
     { label: "Pescatarian", value: 2 },
     { label: "Both", value: 3 },
   ];
+
+/**
+ * Component for updating menu items in a modal dialog.
+ * Provides forms to update various attributes of a menu item, such as price, category, ingredients, description, etc.
+ * @param {Object} props - Component props.
+ * @param {function} props.onClose - Function to call when the modal should be closed.
+ * @param {boolean} props.isOpen - Indicates whether the modal is open.
+ * @param {Array} props.menuItems - Array of all menu items.
+ * @param {Array} props.inventoryItems - Array of all inventory items.
+ * @param {function} props.setMenuItemsGrid - Function to update the grid of menu items.
+ */
 export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryItems, setMenuItemsGrid}){
     const [updateItemName, setUpdateItemName] = useState(""); // Separate state variable for Update Menu Item form
   const [updatePrice, setUpdatePrice] = useState(""); // Separate state variable for Update Menu Item form
@@ -252,7 +335,11 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
 
   if (!isOpen) return null;
 
-  
+
+  /**
+   * Fetches the list of menu items from the server.
+   * @memberOf module:MenuUpdateModal
+   */
   const fetchMenuItems = async () => {
     try {
       const data = await getMenuItems();
@@ -262,6 +349,10 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
     }
   };
 
+  /**
+   * Fetches menu items along with their ingredients.
+   * @memberOf module:MenuUpdateModal
+   */
   const fetchMenuItemsWithIngredients = async () => {
     try {
       const data = await getMenuItemsWithIngredients();
@@ -272,6 +363,10 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
     }
   };
 
+  /**
+   * Fetches the inventory items from the server.
+   * @memberOf module:MenuUpdateModal
+   */
   const fetchInventoryItems = async () => {
     try {
       const data = await getInventoryItems();
@@ -282,6 +377,12 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
   };
 
  
+  /**
+   * Handles selection changes in the ingredients dropdown.
+   * @memberOf module:MenuUpdateModal
+   * @param {Event} e - The event object.
+   * @param {number} index - The index of the ingredient being updated.
+   */
   const handleIngredientSelection = (e, index) => {
     const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
     if (selectedInventoryItem) {
@@ -307,22 +408,42 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
     }
   };
 
+  /**
+   * Handles changes to the quantity of ingredients.
+   * @memberOf module:MenuUpdateModal
+   * @param {Event} e - The event object.
+   * @param {number} index - The index of the ingredient being updated.
+   */
   const handleQuantityChange = (e, index) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients[index].quantity = parseInt(e.target.value);
     setIngredients(updatedIngredients);
   };
 
+  /**
+   * Adds a new ingredient field to the list.
+   * @memberOf module:MenuUpdateModal
+   */
   const addIngredient = () => {
     setIngredients([...ingredients, { inventID: null, name: "", quantity: 1 }]);
   };
 
+  /**
+   * Removes an ingredient from the list.
+   * @memberOf module:MenuUpdateModal
+   * @param {number} index - The index of the ingredient to remove.
+   */
   const removeIngredient = (index) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients.splice(index, 1);
     setIngredients(updatedIngredients);
   };
 
+  /**
+   * Handles updating various attributes of a menu item based on the selected category.
+   * @memberOf module:MenuUpdateModal
+   * @param {Event} e - The event object.
+   */
   const handleUpdateMenuItem = async (e) => {
     e.preventDefault();
     try {
@@ -365,17 +486,44 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
       setUpdateErrorMessage(error.message);
     }
   };
+
+  /**
+   * Validates the input for item name.
+   * @memberOf module:MenuUpdateModal
+   * @param {string} itemName - The item name to validate.
+   * @returns {boolean} - True if valid, false otherwise.
+   */
   const validateItemName = (itemName) => {
     return itemName.trim() !== "";
   };
 
+  /**
+   * Validates the input for price.
+   * @memberOf module:MenuUpdateModal
+   * @param {string} price - The price to validate.
+   * @returns {boolean} - True if valid, false otherwise.
+   */
   const validatePrice = (price) => {
     return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
   };
 
+  /**
+   * Validates the input for calories.
+   * @memberOf module:MenuUpdateModal
+   * @param {string} calories - The calories to validate.
+   * @returns {boolean} - True if valid, false otherwise.
+   */
   const validateCalories = (calories) => {
     return !isNaN(parseInt(calories)) && parseInt(calories) >= 0;
   }
+
+  /**
+   * Handles changes to the selected ingredient in the update ingredients form.
+   * Prevents duplicate selection of the same inventory item and manages state updates for ingredient name changes.
+   * @memberOf module:MenuUpdateModal
+   * @param {Event} e - The event object from the dropdown selection.
+   * @param {number} index - Index of the ingredient being updated in the list.
+   */
   const handleUpdateIngredientName = (e, index) => {
     const updatedIngredients = [...updateIngred];
     const selectedInventoryItem = inventoryItems.find(item => item.ingredientname === e.target.value);
@@ -398,6 +546,13 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
     }
   };
 
+  /**
+   * Updates the quantity of an ingredient in the update ingredients form.
+   * Ensures that ingredient quantities are correctly managed and state is updated.
+   * @memberOf module:MenuUpdateModal
+   * @param {Event} e - The event object from the input field for quantity.
+   * @param {number} index - Index of the ingredient whose quantity is being updated.
+   */
   const handleUpdateIngredientQuantity = (e, index) => {
     const updatedIngredients = [...updateIngred];
     const originalIngredient = updatedIngredients[index]; // Store the original ingredient object
@@ -407,6 +562,12 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
     setUpdateIngred(updatedIngredients);
   };
 
+  /**
+   * Removes an ingredient from the update ingredients list and updates state.
+   * Re-enables the removed ingredient in the dropdown for potential re-selection.
+   * @memberOf module:MenuUpdateModal
+   * @param {number} index - Index of the ingredient to be removed from the list.
+   */
   const handleRemoveUpdateIngredient = (index) => {
     const updatedIngredients = [...updateIngred];
     updatedIngredients.splice(index, 1);
@@ -423,6 +584,11 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
     setInventoryItems(updatedInventoryItems);
   };
 
+  /**
+   * Adds a new ingredient field to the update ingredients list.
+   * Ensures no duplicate ingredients are added and manages state for new ingredient fields.
+   * @memberOf module:MenuUpdateModal
+   */
   const handleAddUpdateIngredientField = () => {
     const selectedInventoryItem = inventoryItems.find(item => !item.disabled); // Find the first enabled inventory item
     if (selectedInventoryItem) {
@@ -445,6 +611,12 @@ export default function MenuUpdateModal ({onClose, isOpen, menuItems, inventoryI
     }
   };
 
+  /**
+   * Handles selection of a menu item for updating its ingredients.
+   * Fetches existing ingredients for the selected menu item and updates state accordingly.
+   * @memberOf module:MenuUpdateModal
+   * @param {Event} e - The event object from the dropdown selection.
+   */
   const handleMenuItemSelection = async (e) => {
     const selectedMenuItemName = e.target.value;
     console.log(selectedMenuItemName);

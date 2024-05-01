@@ -1,13 +1,36 @@
+/**
+ * @module TransactionModal
+ */
 import React, { useState } from "react";
 import Link from 'next/link'
 
-
+/**
+ * Component that provides a modal to display and manage details of a specific transaction.
+ * It allows users to view transaction details such as items, quantity, cost, and status.
+ * Users can also cancel in-progress transactions or navigate to update the transaction's details.
+ *
+ * @function TransactionModal
+ * @memberOf module:TransactionModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls the visibility of the modal.
+ * @param {function} props.onClose - Function to call to close the modal.
+ * @param {Object} props.transaction - The transaction data for the modal to display.
+ * @param {Array} props.alltransactionData - Array of all transactions data.
+ * @param {function} props.setAllData - Function to update the state of all transactions data after modifications.
+ * @returns {React.Component} A React component representing a modal window that displays and manages transaction details.
+ */
 export default function TransactionModal({ isOpen, onClose, transaction, alltransactionData, setAllData }) {
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
 
     if (!isOpen) return null;
 
+    /**
+     * Handles the cancellation of the transaction.
+     * Attempts to cancel the transaction by sending a PATCH request to the server.
+     * If successful, the transaction is removed from the display list or all data is cleared if it's the last transaction.
+     * @memberOf module:TransactionModal
+     */
     const handleCancel = async () => {
         try {
             const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/cancelOrder", {

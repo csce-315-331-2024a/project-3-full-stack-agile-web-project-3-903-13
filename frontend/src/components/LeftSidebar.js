@@ -1,3 +1,6 @@
+/**
+ * @module LeftSidebar
+ */
 "use client";
 
 import Link from "next/link";
@@ -5,8 +8,27 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+/**
+ * Component for displaying a navigation sidebar.
+ * @function
+ * @memberOf module:LeftSidebar
+ * @param {Object} props - Component props.
+ * @returns {React.Component} A React component that renders a sidebar with navigation links.
+ */
 export default function LeftSidebar({  }) {
+    /**
+   * Hook to get the current pathname from the URL using Next.js navigation API.
+   * @memberOf module:LeftSidebar
+   */
   const pathname = usePathname();
+
+  /**
+   * Determines if a navigation link is active based on the current pathname.
+   * @function
+   * @memberOf module:LeftSidebar
+   * @param {string} href - The href of the navigation link to compare against the current pathname.
+   * @returns {boolean} - True if the link is active, false otherwise.
+   */
   const isActive = (href) => {
     if (href === "/employee/burgers") {
       return pathname.startsWith("/employee/") && !pathname.startsWith("/employee/manager");
@@ -20,6 +42,7 @@ export default function LeftSidebar({  }) {
     return pathname === href;
   };
 
+  // Array of link objects used for rendering navigation links
   const links = [
     { href: "/employee/burgers", title: "Place an Order", imgSrc: "/shop.svg", imgAlt: "Point of Sale" },
     { href: "/employee/manager/kitchen", title: "Kitchen", imgSrc: "/kitchen.svg", imgAlt: "Kitchen" },
@@ -29,7 +52,15 @@ export default function LeftSidebar({  }) {
     { href: "/user", title: "Sign Out", imgSrc: "/signout.svg", imgAlt: "Sign Out" }
   ];
 
+  /**
+   * Hook to set the sidebar height based on the window size.
+   * @memberOf module:LeftSidebar
+   */
   useEffect(() => {
+    /**
+     * Handles resizing the sidebar when the window size changes.
+     * @memberOf module:LeftSidebar
+     */
     function handleResize() {
       if (window.innerWidth >= 768) {
         setPageHeight(`${document.documentElement.scrollHeight}px`);
@@ -43,6 +74,11 @@ export default function LeftSidebar({  }) {
   }, []); 
 
   const [pageHeight, setPageHeight] = useState('100vh'); // Default height
+
+  /**
+   * Hook to set the initial height of the sidebar based on the document height.
+   * @memberOf module:LeftSidebar
+   */
   useEffect(() => {
     const height = `${document.documentElement.scrollHeight}px`;
     setPageHeight(height);

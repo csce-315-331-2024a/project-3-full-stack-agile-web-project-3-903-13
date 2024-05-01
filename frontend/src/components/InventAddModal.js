@@ -1,5 +1,14 @@
+/**
+ * @module InventAddModal
+ */
 import React, { useState, useEffect } from 'react';
 
+/**
+ * Fetches the inventory items.
+ * @function
+ * @memberOf module:InventAddModal
+ * @returns {JSON} An array of the inventory items.
+ */
 export const getInventoryItems = async () => {
 	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
 	const data = await items.json();
@@ -7,6 +16,13 @@ export const getInventoryItems = async () => {
 	return data;
 };
 
+/**
+ * Adds the specified inventory item on the server.
+ * @function
+ * @memberOf module:InventAddModal
+ * @param {Object} inventItem - The inventory item object to be added and item identifier.
+ * @returns {string} A string for a success message if the adding is successful.
+ */
 export const addInventoryItem = async (inventItem) => {
 	const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory", {
 		method: "POST",
@@ -23,6 +39,19 @@ export const addInventoryItem = async (inventItem) => {
 		return { success: true, message: "Inventory item added successfully" };
 	}
 };
+
+/**
+ * Component that provides a modal for adding new inventory items.
+ * It allows the user to input details for a new inventory item such as name, count, price, and minimum count.
+ * @function
+ * @memberOf module:InventAddModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls if the modal is open or not.
+ * @param {function} props.onClose - Function to call to close the modal.
+ * @param {Array} props.inventoryItems - List of current inventory items.
+ * @param {function} props.setInventoryItems - Function to update the inventory items state after adding a new item.
+ * @returns {React.Component} A React component that provides a user interface for adding inventory items.
+ */
 export default function InventAddModal({isOpen, onClose, inventoryItems, setInventoryItems}){
     const [addItemName, setAddItemName] = useState("");
 	const [addCount, setAddCount] = useState("");
@@ -33,6 +62,10 @@ export default function InventAddModal({isOpen, onClose, inventoryItems, setInve
 
     if (!isOpen) return null;
 
+	/**
+	 * Fetches the current list of inventory items from the server and updates the component state.
+	 * @memberOf module:InventAddModal
+	 */
     const fetchInventoryItems = async () => {
 		try {
 			const data = await getInventoryItems();
@@ -42,6 +75,12 @@ export default function InventAddModal({isOpen, onClose, inventoryItems, setInve
 		}
 	};
 
+	/**
+	 * Handles the submission of the new inventory item form.
+	 * Validates the form data and sends it to the server to add a new inventory item.
+	 * @memberOf module:InventAddModal
+	 * @param {Event} e - The event object from the form submission.
+	 */
     const handleAddInventoryItem = async (e) => {
 		e.preventDefault();
 
@@ -65,18 +104,42 @@ export default function InventAddModal({isOpen, onClose, inventoryItems, setInve
 		}
 	};
 
+	/**
+	 * Validates that the provided item name is not empty.
+	 * @memberOf module:InventAddModal
+	 * @param {string} itemName - The name to validate.
+	 * @returns {boolean} True if the item name is valid, false otherwise.
+	 */
     const validateItemName = (itemName) => {
 		return itemName.trim() !== "";
 	};
 
+	/**
+	 * Validates that the provided item price is not empty.
+	 * @memberOf module:InventAddModal
+	 * @param {string} itemName - The price to validate.
+	 * @returns {boolean} True if the item price is valid, false otherwise.
+	 */
 	const validatePrice = (price) => {
 		return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
 	};
 
+	/**
+	 * Validates that the provided count is a positive integer.
+	 * @memberOf module:InventAddModal
+	 * @param {string} count - The count to validate.
+	 * @returns {boolean} True if the count is valid, false otherwise.
+	 */
 	const validateCount = (count) => {
 		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
 	};
 
+	/**
+	 * Validates that the provided minimum count is a positive integer.
+	 * @memberOf module:InventAddModal
+	 * @param {string} count - The minimum count to validate.
+	 * @returns {boolean} True if the minimum count is valid, false otherwise.
+	 */
 	const validateMinCount = (count) => {
 		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
 	};

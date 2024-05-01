@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/menu_board/Board_3/page.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/menu_board/Board_3/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import "../../globals.css";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+
+/**
+ * Displays a menu board, updating live every 15 seconds.
+ *
+ * @function MenuBoard
+ * @module MenuBoard/Board3
+ * @returns {React.Component} The menu board displaying burgers.
+ * @description Digital display of menu items for a specific category.
+ */
+const MenuBoard = () => {
+    const [menuItems, setMenuItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+   
+
+
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            try {
+                const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setMenuItems(data);
+                setError(null); // Clear any previous errors
+            } catch (error) {
+                setError(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+       
+        fetchMenuItems();
+    
+      
+        const interval = setInterval(fetchMenuItems, 35000);
+    
+        return () => clearInterval(interval);
+    }, []);
+
+
+    if (isLoading) {
+        return &lt;div className="text-center text-lg font-bold">Loading...&lt;/div>;
+    }
+
+    if (error) {
+        return &lt;div className="text-red-600 text-center text-lg font-bold">Error: {error.message}&lt;/div>;
+    }
+
+    /**
+     * Groups menu items by their category. In this specific implementation, it only groups items in category 1, 2, and 5.
+     * @function groupedMenuItems
+     * @param {Array} menuItems - Array of menu items to group.
+     * @returns {Object} An object where each key is a category and the value is an array of items in that category.
+     */ 
+    const groupedMenuItems = menuItems.reduce((acc, item) => {
+        if (item.category === 6 || item.category === 3 || item.category === 4) {
+            if (!acc[item.category]) {
+                acc[item.category] = [];
+            }
+            acc[item.category].push(item);
+        }
+        return acc;
+    }, {});
+
+    /**
+     * Splits a list of items into two columns, typically used for displaying items in a two-column layout on a menu board.
+     * @function splitIntoColumns
+     * @param {Array} items - The array of items to split.
+     * @returns {Array[]} An array containing two subarrays: the first half and the second half of the original array.
+     */
+    const splitIntoColumns = (items) => {
+        const middleIndex = Math.ceil(items.length / 2);
+        const firstHalf = items.slice(0, middleIndex);
+        const secondHalf = items.slice(middleIndex);
+        return [firstHalf, secondHalf];
+    };
+
+    return (
+        &lt;div className="min-h-screen max-h-screen bg-white text-black p-6">
+            {Object.keys(groupedMenuItems).map(category => (
+                &lt;div key={category} className="category_container">
+                    &lt;div className="text-2xl font-bold uppercase pb-2 flex items-center">
+                        {category === '6' &amp;&amp; (
+                            &lt;>
+                                &lt;span>Seasonal&lt;/span>
+                                &lt;div className="ml-2 ">
+                                    
+                                    &lt;Image
+                                        src="/menu_board_icons/seasonalm_icon.jpeg"
+                                        alt="Seasonal Icon"
+                                        className="object-cover rounded-lg"
+                                        width={25}
+                                        height={25}
+                                    />
+                                &lt;/div>
+                            &lt;/>
+                        )}
+                        {category === '3' &amp;&amp; (
+                            &lt;>
+                                &lt;span>Sides&lt;/span>
+                                &lt;div className="ml-2 ">
+                                    
+                                    &lt;Image
+                                        src="/menu_board_icons/sidesm_icon.jpeg"
+                                        alt="Sides Icon"
+                                        className="object-cover rounded-lg"
+                                        width={25}
+                                        height={25}
+                                    />
+                                &lt;/div>
+                            &lt;/>
+                        )}
+                        {category === '4' &amp;&amp; (
+                            &lt;>
+                                &lt;span>Shakes&lt;/span>
+                                &lt;div className="ml-2 ">
+                                    
+                                    &lt;Image
+                                        src="/menu_board_icons/shakesm_icon.jpeg"
+                                        alt="Shakes Icon"
+                                        className="object-cover rounded-lg"
+                                        width={25}
+                                        height={25}
+                                    />
+                                &lt;/div>
+                            &lt;/>
+                        )}
+                    &lt;/div>
+
+                    &lt;div className="grid grid-cols-2 gap-4 ">
+                        {splitIntoColumns(groupedMenuItems[category]).map((column, index) => (
+                            &lt;div key={index} className="menu_column">
+                                {column.map(item => (
+                                    &lt;div key={item.id} className="menu_item bg-[#800000] rounded-lg shadow-md flex border border-4 border-gray-800">
+                                        &lt;div className="object-cover w-20 h-20 rounded-lg overflow-hidden">
+                                            &lt;img src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`} alt={item.itemname} className="w-full h-full object-cover" />
+                                        &lt;/div>
+                                        &lt;div className="ml-4">
+                                            &lt;div className="text-lg text-white font-bold">{item.itemname}&lt;/div>
+                                            &lt;div className="text-sm text-white">{item.description}&lt;/div>
+                                            &lt;div className="text-lg text-white font-bold mt-2">${item.price}&lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                ))}
+                            &lt;/div>
+                        ))}
+                    &lt;/div>
+                &lt;/div>
+            ))}
+        &lt;/div>
+    );
+
+};
+
+
+const HomePage = () => {
+    return (
+        &lt;div className="min-h-screen max-h-screen overflow-hidden text-white">
+            &lt;div className="bg-[#800000] text-white text-center text-3xl font-bold">Rev&amp;apos;s Menu&lt;/div>
+            &lt;MenuBoard />
+        &lt;/div>
+    );
+};
+
+export default HomePage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

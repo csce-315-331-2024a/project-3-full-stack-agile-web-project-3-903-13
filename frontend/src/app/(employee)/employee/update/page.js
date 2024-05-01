@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -7,18 +8,36 @@ import PaymentModal from "@/components/transactions/PaymentModal";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
+/**
+ * Manages and displays the current order details, allowing for item quantity updates, removals, and payment processing.
+ * This component shows the items currently added to the order, provides options to modify item quantities or remove items, 
+ * and handles finalizing changes through payment or refund.
+ * 
+ * @module UpdateOrder/Page
+ * @param {Object[]} components - The current list of items in the order.
+ * @param {Function} setComponents - Function to set the current list of items.
+ * @param {Object[]} shallowCopy - A shallow copy of the original order details for comparison.
+ * @param {Function} setShallowCopy - Function to set the shallow copy of the order details.
+ */
 function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) {
 	const searchParams = useSearchParams();
 	const id = searchParams.get("id");
 
-	/*
-		  Defining functions for components that contains the list of all the items;
-	  */
+	/**
+	 * Removes an item completely from the components list based on the provided itemId.
+	 * @memberOf module:UpdateOrder/Page
+	 * @param {string} itemId - The ID of the item to be removed.
+	 */
 	const removeItemCompletely = (itemId) => {
 		const updatedTransactions = components.filter((item) => item.id !== itemId);
 		setComponents([...updatedTransactions]);
 	};
 
+	/**
+	 * Updates the transaction by either incrementing an existing item's quantity or adding a new item.
+	 * @memberOf module:UpdateOrder/Page
+	 * @param {Object} item - The item to add or update in the transaction.
+	 */
 	const updateTransaction = (item) => {
 		if (components == null) {
 			setComponents([item]);
@@ -46,6 +65,10 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 
 	const [message, setMessage] = useState("");
 
+	/**
+	 * Updates the order of an already placed order
+	 * @memberOf module:UpdateOrder/Page
+	 */
 	const updatePlacedOrder = async () => {
 		const response = await fetch(
 			"https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/updateTransaction",
@@ -76,16 +99,32 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 		setShowPaymentOptions(false);
 	};
 
+	/**
+	 * Opens the numeric keypad modal to update the quantity of an item.
+	 * @memberOf module:UpdateOrder/Page
+	 * @param {string} itemId - The ID of the item whose quantity is being updated.
+	 * @param {number} currentQuantity - The current quantity of the item.
+	 */
 	const openKeypad = (itemId, currentQuantity) => {
 		setCurrentItemId(itemId);
 		setInputValue(String(currentQuantity));
 		setKeypadVisible(true);
 	};
 
+	/**
+	 * Closes the numeric keypad modal.
+	 * @memberOf module:UpdateOrder/Page
+	 */
 	const onKeypadClose = () => {
 		setKeypadVisible(false);
 	};
 
+	/**
+	 * Handles the quantity change operation from the numeric keypad.
+	 * @memberOf module:UpdateOrder/Page
+	 * @param {string} itemId - The ID of the item whose quantity is being updated.
+	 * @param {number} newQuantity - The new quantity to be updated.
+	 */
 	const handleQuantityChange = (itemId, newQuantity) => {
 		const updatedItem = components.find((item) => item.id === itemId);
 		if (updatedItem) {
@@ -94,6 +133,11 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 		}
 	};
 
+	/**
+	 * Handles the quantity update operation from the numeric keypad.
+	 * @memberOf module:UpdateOrder/Page
+	 * @param {number} newQuantity - The new quantity to be updated.
+	 */
 	const onQuantityUpdate = (newQuantity) => {
 		if (newQuantity === -1) {
 			removeItemCompletely(currentItemId);
@@ -103,6 +147,11 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 		onKeypadClose();
 	};
 
+	/**
+	 * Calculates the additional charge required or the refund due based on the changes made to the order.
+	 * @memberOf module:UpdateOrder/Page
+	 * @returns {number} - The calculated charge or refund amount.
+	 */
 	const getCharge = () => {
 		return (
 			components.reduce(

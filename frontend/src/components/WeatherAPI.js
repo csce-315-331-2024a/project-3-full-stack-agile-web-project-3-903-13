@@ -2,12 +2,23 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import axios from 'axios';
 
+/**
+ * Displays current weather information using the user's location.
+ * @module WeatherWidget
+ * @param {Object} props - Component props.
+ * @param {function} props.onWeatherLoaded - Callback function to handle when the weather data is loaded.
+ */
 const WeatherWidget = ( {onWeatherLoaded} ) => {
     const [weatherInfo, setWeatherInfo] = useState(null);
     const [weatherIconUrl, setWeatherIconUrl] = useState('');
     const [currentTime, setCurrentTime] = useState(new Date());
     const [location, setLocation] = useState(null);
 
+    /**
+     * Updates the current time every second.
+     * @private
+     * @memberOf module:WeatherWidget
+     */
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(new Date());
@@ -15,12 +26,22 @@ const WeatherWidget = ( {onWeatherLoaded} ) => {
         return () => clearInterval(interval);
     }, []);
 
+    /**
+     * Fetches weather data whenever the location changes.
+     * @private
+     * @memberOf module:WeatherWidget
+     */
     useEffect(() => {
         if (location) {
             fetchWeatherData(location.latitude, location.longitude);
         }
     }, [location]);
 
+    /**
+     * Updates weather data every 10 seconds based on the current location.
+     * @private
+     * @memberOf module:WeatherWidget
+     */
     useEffect(() => {
         const weatherUpdateInterval = setInterval(() => {
             if (location) {
@@ -30,17 +51,36 @@ const WeatherWidget = ( {onWeatherLoaded} ) => {
         return () => clearInterval(weatherUpdateInterval);
     }, [location]);
 
-    // Format the date to display day of the week and date
+    /**
+     * Formats a date to a readable string.
+     * @private
+     * @memberOf module:WeatherWidget
+     * @param {Date} date - The date to format.
+     * @return {string} - A formatted date string.
+     */
     const formatDate = (date) => {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         return date.toLocaleDateString();
     };
 
-    // Format the time to display hours, minutes, and seconds
+    /**
+     * Formats time to be more human-readable.
+     * @private
+     * @memberOf module:WeatherWidget
+     * @param {Date} date - The time to format.
+     * @return {string} - A formatted time string.
+     */
     const formatTime = (date) => {
         return date.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: '2-digit' });
     };
 
+    /**
+     * Fetches weather data from the OpenWeatherMap API.
+     * @private
+     * @memberOf module:WeatherWidget
+     * @param {number} latitude - Latitude of the location.
+     * @param {number} longitude - Longitude of the location.
+     */
     const fetchWeatherData = async (latitude, longitude) => {
         try {
             const apiKey = '4a4358610dfaa3b0db4e33b4313a33f2';
@@ -64,6 +104,11 @@ const WeatherWidget = ( {onWeatherLoaded} ) => {
         }
     };
 
+    /**
+     * Watches the user's geolocation and updates location state.
+     * @private
+     * @memberOf module:WeatherWidget
+     */
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(position => {

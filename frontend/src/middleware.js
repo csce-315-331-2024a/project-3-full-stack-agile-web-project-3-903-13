@@ -14,7 +14,23 @@ const unauthorizedHTML = `
   </body>
   </html>
 `
-
+/**
+ * Middleware for role-based authorization in a Next.js application.
+ * It checks the user's role and determines if they have the appropriate permissions
+ * to access specific paths within the application.
+ *
+ * @module AuthMiddleware
+ * @param {Object} req - The incoming request object provided by Next.js. Contains user authentication and URL information.
+ * @returns {NextResponse} - Returns a Next.js response object to either continue with the request or to redirect/block with a custom response.
+ * 
+ * Paths and corresponding required roles:
+ * - `/employee/manager/users`: Only 'admin' can access.
+ * - `/employee/manager/kitchen`: Accessible by 'admin', 'kitchen', and 'manager' roles.
+ * - `/employee/manager/*`: Accessible by 'admin' and 'manager' roles.
+ * - `/employee/*`: Accessible by 'admin', 'kitchen', 'cashier', and 'manager' roles.
+ * 
+ * Redirects unauthenticated users to the login page and unauthorized users to an error page.
+ */
 export default auth(async (req) => {
   if (!req.auth) {
     return NextResponse.redirect(new URL('/user', req.url))
@@ -71,6 +87,11 @@ export default auth(async (req) => {
   }
 })
 
+/**
+ * Configuration for the middleware to apply it only to paths under '/employee/'.
+ * @memberOf module:AuthMiddleware
+ * @type {Object}
+ */
 export const config = {
   matcher: ["/employee/:path*"],
 }

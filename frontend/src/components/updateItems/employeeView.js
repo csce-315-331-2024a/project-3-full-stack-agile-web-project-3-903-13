@@ -1,10 +1,24 @@
+/**
+ * @module EmployeeView
+ */
 import React, { useEffect, useState } from "react";
 // import Link from 'next/link'
 import Image from 'next/image'
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import { toast } from 'react-toastify';
 
-
+/**
+ * Provides an interactive modal for customizing and adding an item to the cart.
+ * The modal allows users to modify ingredients of a dish before adding it to their transaction.
+ * It supports removing ingredients and dynamically updates the transaction context upon user confirmation.
+ *
+ * @function UpdateModal
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls the visibility of the modal.
+ * @param {function} props.onClose - Callback function to close the modal.
+ * @param {Object} props.item - The item to be customized and added to the cart.
+ * @returns {React.Component|null} The modal component for updating the transaction or null if the modal is not open.
+ */
 export default function UpdateModal({ isOpen, onClose, item }) {
     const [deleteMessage, setDeleteMessage] = useState("");
     const [updateMessage, setUpdateMessage] = useState("");
@@ -19,6 +33,18 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
     const { updateTransaction, transactions } = useTransaction();
 
+    /**
+     * Submits a modified dish to the transaction context to update the cart.
+     * This function constructs the modification details based on user selections of ingredients to remove or keep.
+     * It compiles a list of inventory items that are not removed for stock management and appends the dish with
+     * the modification string to the transaction list. Also, it displays a toast notification indicating the successful addition.
+     *
+     * @memberOf module:EmployeeView
+     * @param {Object} dish - The dish object containing the necessary identifiers like menuid and itemname.
+     * @param {string} modificationString - A string detailing the modifications made by the user, such as removed ingredients.
+     * @param {Array} inventToRemove - An array of objects detailing the ingredients that were not removed by the user, 
+     *                                 each containing an inventid, ingredientname, and quantity.
+     */
     const sendToTransaction = (dish, modificationString, inventToRemove) => {
         var quantity = 0;
         if (transactions) {
@@ -87,7 +113,13 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
 
 
-
+    /**
+     * Toggles the removal state of an ingredient based on its index in the list.
+     * This allows users to select or deselect ingredients they want to remove from their dish.
+     *
+     * @memberOf module:EmployeeView
+     * @param {number} index - The index of the ingredient in the removable ingredients list.
+     */
     const handleIngredientClick = (index) => {
         setIngredientsRemoved(prevState => {
             const newState = [...prevState];
@@ -97,6 +129,12 @@ export default function UpdateModal({ isOpen, onClose, item }) {
 
     };
 
+    /**
+     * Prepares and sends the customized item to the transaction context.
+     * Builds a string of modifications (e.g., "No Salt, No Pepper") and collects the IDs of non-removed items
+     * for inventory control, then sends the item to the transaction system.
+     * @memberOf module:EmployeeView
+     */
     const handleAddCart = () => {
         let temp = "";
         const inventToRemove = []

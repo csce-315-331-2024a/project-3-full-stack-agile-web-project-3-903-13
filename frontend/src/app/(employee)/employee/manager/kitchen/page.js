@@ -3,12 +3,20 @@
 import { useEffect, useState } from "react"
 import Link from 'next/link'
 
-
+/**
+ * A React component for displaying the current state of orders in the kitchen.
+ * It allows kitchen staff to view active orders and mark them as completed.
+ * @module KitchenStagePage
+ * @returns {JSX.Element} The rendered page component.
+ */
 export default function KitchenStatePage() {
     const [currentOrders, setCurrentOrders] = useState([]);
 
     useEffect(() => {
-
+        /**
+         * Fetches the current in-progress orders from the backend API and updates the state with these orders.
+         * @memberOf module:KitchenStagePage
+         */
         const fetchCurrentOrders = async () => {
             const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/inProgressOrders');
             const data = await response.json();
@@ -19,6 +27,12 @@ export default function KitchenStatePage() {
 
     }, [currentOrders])
 
+    /**
+     * Handles the completion of an order. This function is called when the 'Complete' button is clicked.
+     * It sends a PATCH request to update the order status to fulfilled.
+     * @memberOf module:KitchenStagePage
+     * @param {Object} transaction - The transaction object containing the details of the order to be completed.
+     */
     const handleCompleteClick = async (transaction) => {
         try {
             const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/transactions/fulfillOrder`, {
@@ -33,8 +47,6 @@ export default function KitchenStatePage() {
             console.log(error)
         }
     }
-
-
 
     return (
         <main className="min-h-screen min-w-screen-lg bg-slate-100">

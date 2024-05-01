@@ -13,15 +13,34 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
-
+/**
+ * Provides a navigation bar for customers that includes dynamic links, a cart system, and transaction functionalities.
+ * This component integrates with the TransactionContext to manage shopping cart and transaction states.
+ * It also handles dynamic UI changes based on screen size and cart interactions.
+ *
+ * @module CustomerNavbar
+ * @param {Object[]} links - An array containing link objects for navigation. Each link object should have 'route' and 'name' properties.
+ * @returns {React.Component} The customer navigation bar component with integrated transaction management.
+ */
 export default function CustomerNavbar({ links }) {
 	const pathname = usePathname();
     
   const [isOpen, setOpen] = useState(false);
+
+/**
+ * Toggles the menu open or closed based on the current state.
+ * It uses a state hook to manage the menu's open or closed status.
+ * @memberOf module:CustomerNavbar
+ */
   const menuToggle = () => {
     setOpen(!isOpen);
   };
 
+  /**
+	 * Sets up responsive behavior for the navigation menu based on window size.
+	 * Automatically closes the navigation menu when the window is resized to a width above 768 pixels.
+	 * @memberOf module:CustomerNavbar
+	 */
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 768) {
@@ -56,6 +75,11 @@ export default function CustomerNavbar({ links }) {
 		setCartCount(totalItems);
 	}, [transactions]);
 
+	/**
+	 * Manages the cart display toggle. If the cart is not visible, it opens the cart and disables page scrolling.
+	 * If the cart is visible, it closes the cart and enables page scrolling.
+	 * @memberOf module:CustomerNavbar
+	 */
 	const toggleCart = () => {
     const scrollbarWidth = getScrollbarWidth() + 'px';
 		if (ref.current && ref.current.classList.contains('translate-x-full')) {
@@ -73,6 +97,12 @@ export default function CustomerNavbar({ links }) {
 		}
 	}
 
+	/**
+	 * Calculates the width of the scrollbar of the browser window.
+	 * This is used to adjust the body padding when the cart is open, preventing layout shift.
+	 * @memberOf module:CustomerNavbar
+	 * @returns {number} The width of the scrollbar in pixels.
+	 */
   function getScrollbarWidth() {
     const outer = document.createElement('div');
     outer.style.visibility = 'hidden';
@@ -90,14 +120,31 @@ export default function CustomerNavbar({ links }) {
     return scrollbarWidth;
   }
 
+	/**
+	 * Calculates the subtotal for all items currently in the transaction.
+	 * Uses the transaction list from the TransactionContext and sums up the total price.
+	 * @memberOf module:CustomerNavbar
+	 * @returns {string} The subtotal, formatted as a string with two decimal places.
+	 */
 	const getSubtotal = () => {
 		return transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2)
 	}
 
+/**
+ * Calculates the tax based on the subtotal.
+ * Assumes a fixed tax rate of 8.25% (as an example).
+ * @memberOf module:CustomerNavbar
+ * @returns {string} The tax amount, formatted as a string with two decimal places.
+ */
 	const getTax = () => {
 		return (getSubtotal() * 0.0825).toFixed(2)
 	}
 
+/**
+ * Handles the final submission of the transaction.
+ * Triggers the transaction submission process defined in the TransactionContext.
+ * @memberOf module:CustomerNavbar
+ */
 	const handlePayment = () => {
 		submitTransaction();
 		setShowPaymentOptions(false);
@@ -105,12 +152,22 @@ export default function CustomerNavbar({ links }) {
 
 	const ref = useRef();
 
-  
+
+/**
+ * Opens a new window to display the menu board.
+ * This function is designed to open a new browser tab with specified options.
+ * @memberOf module:CustomerNavbar
+ */
   const handleMenuBoardClick = () => {
     window.open("/menu_board", "_blank", "noopener,noreferrer");
    
   };
 
+  /**
+	 * Opens a new window to display the order status or details.
+	 * Similar to handleMenuBoardClick, but specifically opens the order display page.
+	 * @memberOf module:CustomerNavbar
+	 */
 	const handleOrderDisplayClick = () => {
 		window.open("/orderDisplay", "_blank", "noopener,noreferrer");
 	};

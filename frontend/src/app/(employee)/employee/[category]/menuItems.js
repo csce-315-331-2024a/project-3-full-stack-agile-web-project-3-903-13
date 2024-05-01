@@ -7,7 +7,14 @@ import UpdateModal from "@/components/updateItems/employeeView";
 import { FaMinusCircle } from "react-icons/fa";
 
 
-
+/**
+ * TransactionPanel component manages and displays the current transaction state,
+ * including the list of items, their quantities, and total costs. It also handles
+ * actions such as updating item quantities, removing items, and submitting the transaction.
+ * 
+ * @module TransactionPanelEmployee
+ * @returns {React.Component} The TransactionPanel component.
+ */
 function TransactionPanel() {
     const { transactions, updateTransaction, removeItemCompletely, submitTransaction, clearTransaction } = useTransaction();
     const [transactionsList, setTransactionsList] = useState(null);
@@ -25,14 +32,36 @@ function TransactionPanel() {
         setShowPaymentOptions(false);
     };
 
+    /**
+     * Gets the subtotal of all items in the transaction.
+     * 
+     * @function
+     * @memberOf module:TransactionPanelEmployee
+     * @returns {string} The formatted subtotal as a string in USD.
+     */
     const getSubtotal = () => {
         return transactionsList.reduce((total, currentItem) => total + currentItem.price * currentItem.quantity, 0).toFixed(2)
     }
 
+    /**
+     * Calculates the tax based on the subtotal.
+     * 
+     * @function
+     * @memberOf module:TransactionPanelEmployee
+     * @returns {string} The calculated tax as a string in USD.
+     */
     const getTax = () => {
         return (getSubtotal() * 0.0825).toFixed(2)
     }
 
+    /**
+     * Handles the quantity update for a particular dish.
+     * 
+     * @function
+     * @memberOf module:TransactionPanelEmployee
+     * @param {Object} dish - The dish item whose quantity needs to be updated.
+     * @param {number} newQuantity - The new quantity of the dish.
+     */
     const handleQuantityChange = (dish, newQuantity) => {
         const updatedItem = transactions.find(item => item.id === dish.id && item.modif === dish.modif);
         if (updatedItem) {
@@ -41,16 +70,36 @@ function TransactionPanel() {
         }
     };
 
+    /**
+     * Opens the numeric keypad for updating item quantity.
+     * 
+     * @function
+     * @memberOf module:TransactionPanelEmployee
+     * @param {Object} item - The item for which the keypad should be opened.
+     * @param {number} currentQuantity - The current quantity of the item.
+     */
     const openKeypad = (item, currentQuantity) => {
         setCurrentItem(item);
         setInputValue(String(currentQuantity));
         setKeypadVisible(true);
     };
 
+    /**
+     * Closes the numeric keypad.
+     * @function
+     * @memberOf module:TransactionPanelEmployee
+     */
     const onKeypadClose = () => {
         setKeypadVisible(false);
     };
 
+    /**
+     * Updates the quantity of an item and closes the keypad after the update.
+     * 
+     * @function
+     * @memberOf module:TransactionPanelEmployee
+     * @param {number} newQuantity - The new quantity of the item.
+     */
     const onQuantityUpdate = (newQuantity) => {
         if (newQuantity === -1) {
             removeItemCompletely(currentItem.id, currentItem.modif);
@@ -145,7 +194,16 @@ function TransactionPanel() {
     );
 }
 
-
+/**
+ * MenuItem component represents a single menu item in the list. It handles adding
+ * items to the transaction and customizing items if applicable.
+ * 
+ * @function
+ * @memberOf module:TransactionPanelEmployee
+ * @param {Object} props - Component props.
+ * @param {Object} props.item - The menu item data.
+ * @returns {React.Component} The MenuItem component.
+ */
 function MenuItem(props) {
     const { updateTransaction, transactions } = useTransaction();
     // const [isClicked, setIsClicked] = useState(false);
@@ -301,6 +359,18 @@ function MenuItem(props) {
         </>
     );
 }
+
+/**
+ * MenuItemList component fetches and displays a list of menu items based on the category
+ * selected. It also includes the TransactionPanel for managing the transaction.
+ * 
+ * @function
+ * @memberOf module:TransactionPanelEmployee
+ * @param {Object} props - Component props.
+ * @param {number} props.categoryNum - The number representing the menu item category.
+ * @param {string} props.categoryName - The name of the menu item category.
+ * @returns {React.Component} The MenuItemList component.
+ */
 export function MenuItemList({ categoryNum, categoryName }) {
     const [itemType, setItemType] = useState([]);
 

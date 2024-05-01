@@ -6,7 +6,11 @@ import InventAddModal from "@/components/InventAddModal";
 import InventRemoveModal from "@/components/InventRemoveModal";
 import InventUpdateModal from "@/components/InventUpdateModal";
 
-
+/**
+ * Fetches inventory items from the server.
+ * @memberOf module:InventoryPage
+ * @returns {JSON} An array of inventory items.
+ */
 export const getInventoryItems = async () => {
 	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
 	const data = await items.json();
@@ -14,13 +18,12 @@ export const getInventoryItems = async () => {
 	return data;
 };
 
-
-
-
-
-
-
-
+/**
+ * A React component page for managing inventory including adding, updating, and removing items.
+ * This component uses modals for different actions and maintains local state for inventory items and modal visibility.
+ * @module InventoryPage
+ * @returns {JSX.Element} The rendered component for the Inventory management page.
+ */
 export default function InventoryPage() {
 	const [inventoryItems, setInventoryItems] = useState([]);
 
@@ -32,15 +35,41 @@ export default function InventoryPage() {
 		fetchInventoryItems();
 	}, []);
 
+	/**
+	 * Handles opening the modal for adding inventory items.
+	 * @memberOf module:InventoryPage
+	 */
 	const handleShowAddPopup = () => setShowAddPopup(true);
+	/**
+	 * Handles closing the modal for adding inventory items.
+	 * @memberOf module:InventoryPage
+	 */
 	const handleHideAddPopup = () => setShowAddPopup(false);
-
+	/**
+	 * Handles opening the modal for updating inventory items.
+	 * @memberOf module:InventoryPage
+	 */
 	const handleShowUpdatePopup = () => setShowUpdatePopup(true);
+	/**
+	 * Handles closing the modal for updating inventory items.
+	 * @memberOf module:InventoryPage
+	 */
 	const handleHideUpdatePopup = () => setShowUpdatePopup(false);
-
+	/**
+	 * Handles opening the modal for removing inventory items.
+	 * @memberOf module:InventoryPage
+	 */
 	const handleShowRemovePopup = () => setShowRemovePopup(true);
+	/**
+	 * Handles closing the modal for removing inventory items.
+	 * @memberOf module:InventoryPage
+	 */
 	const handleHideRemovePopup = () => setShowRemovePopup(false);
 
+	/**
+	 * Fetches and sets inventory items to state by calling getInventoryItems. Handles any errors that might occur during fetching.
+	 * @memberOf module:InventoryPage
+	 */
 	const fetchInventoryItems = async () => {
 		try {
 			const data = await getInventoryItems();
@@ -50,25 +79,42 @@ export default function InventoryPage() {
 		}
 	};
 
-
-
-
-
-
-
-
+	/**
+	 * Validates the name of an inventory item to ensure it is not empty after trimming whitespace.
+	 * @memberOf module:InventoryPage
+	 * @param {string} itemName - The name of the item to validate.
+	 * @returns {boolean} True if the name is valid, otherwise false.
+	 */
 	const validateItemName = (itemName) => {
 		return itemName.trim() !== "";
 	};
 
+	/**
+	 * Validates the price of an inventory item to ensure it is a positive number.
+	 * @memberOf module:InventoryPage
+	 * @param {string|number} price - The price to validate.
+	 * @returns {boolean} True if the price is valid, otherwise false.
+	 */
 	const validatePrice = (price) => {
 		return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
 	};
 
+	/**
+	 * Validates the count of an inventory item to ensure it is a positive integer.
+	 * @memberOf module:InventoryPage
+	 * @param {string|number} count - The count to validate.
+	 * @returns {boolean} True if the count is valid, otherwise false.
+	 */
 	const validateCount = (count) => {
 		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
 	};
 
+	/**
+	 * Validates the minimum count (threshold) of an inventory item to ensure it is a positive integer.
+	 * @memberOf module:InventoryPage
+	 * @param {string|number} count - The minimum count to validate.
+	 * @returns {boolean} True if the minimum count is valid, otherwise false.
+	 */
 	const validateMinCount = (count) => {
 		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
 	};
