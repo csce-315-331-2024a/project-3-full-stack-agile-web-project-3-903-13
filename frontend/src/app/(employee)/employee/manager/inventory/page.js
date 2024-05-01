@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import InventAddModal from "@/components/InventAddModal";
 import InventRemoveModal from "@/components/InventRemoveModal";
 import InventUpdateModal from "@/components/InventUpdateModal";
+import axios from "axios";
 
 /**
  * Fetches inventory items from the server.
@@ -12,11 +13,14 @@ import InventUpdateModal from "@/components/InventUpdateModal";
  * @returns {JSON} An array of inventory items.
  */
 export const getInventoryItems = async () => {
-	const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-	const data = await items.json();
-
-	return data;
-};
+	try {
+	  const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory');
+	  return response.data;
+	} catch (error) {
+	  console.error('Error fetching inventory items:', error);
+	  // Handle error appropriately, e.g., throw an error or return a default value
+	}
+  };
 
 /**
  * A React component page for managing inventory including adding, updating, and removing items.
@@ -79,45 +83,6 @@ export default function InventoryPage() {
 		}
 	};
 
-	/**
-	 * Validates the name of an inventory item to ensure it is not empty after trimming whitespace.
-	 * @memberOf module:InventoryPage
-	 * @param {string} itemName - The name of the item to validate.
-	 * @returns {boolean} True if the name is valid, otherwise false.
-	 */
-	const validateItemName = (itemName) => {
-		return itemName.trim() !== "";
-	};
-
-	/**
-	 * Validates the price of an inventory item to ensure it is a positive number.
-	 * @memberOf module:InventoryPage
-	 * @param {string|number} price - The price to validate.
-	 * @returns {boolean} True if the price is valid, otherwise false.
-	 */
-	const validatePrice = (price) => {
-		return !isNaN(parseFloat(price)) && isFinite(price) && parseFloat(price) > 0;
-	};
-
-	/**
-	 * Validates the count of an inventory item to ensure it is a positive integer.
-	 * @memberOf module:InventoryPage
-	 * @param {string|number} count - The count to validate.
-	 * @returns {boolean} True if the count is valid, otherwise false.
-	 */
-	const validateCount = (count) => {
-		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
-	};
-
-	/**
-	 * Validates the minimum count (threshold) of an inventory item to ensure it is a positive integer.
-	 * @memberOf module:InventoryPage
-	 * @param {string|number} count - The minimum count to validate.
-	 * @returns {boolean} True if the minimum count is valid, otherwise false.
-	 */
-	const validateMinCount = (count) => {
-		return !isNaN(parseInt(count)) && isFinite(count) && parseFloat(count) > 0;
-	};
 
 	return (
 		<main className="min-h-screen flex flex-col" aria-label="Inventory Page">
