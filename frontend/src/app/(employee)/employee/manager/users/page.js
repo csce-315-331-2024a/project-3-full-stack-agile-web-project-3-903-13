@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import EmployeeModal from "@/components/EmployeeModal"
+import axios from 'axios';
 
 /**
  * Represents the Users page component for managing employee details. This component fetches and displays employee data,
@@ -58,24 +59,17 @@ export default function UsersPage() {
          * Fetches the list of all employees from the backend API and updates the state.
          * @memberOf module:UsersPage
          */
-        const fetchEmployees = async () => {
-            try {
-                const employees = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees`);
+      const fetchEmployees = async () => {
+          try {
+              const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/employees');
+              setEmployees(response.data);
+          } catch (error) {
+              console.error('Error retrieving employees:', error);
+          }
+      };
 
-                if (!employees.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const employeesData = await employees.json();
-                setEmployees(employeesData)
-            } catch (error) {
-                console.error('Error retrieving users:', error);
-            }
-        };
-
-        fetchEmployees()
-
-    }, [])
+      fetchEmployees();
+  }, []);
 
     return (
         <main className="min-h-screen bg-gray-100 flex items-center justify-center" aria-labelledby="users-page-title">

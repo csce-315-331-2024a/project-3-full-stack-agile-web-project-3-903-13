@@ -3,6 +3,7 @@
 import "../../globals.css";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 
 /**
  * Displays a menu board, updating live every 15 seconds.
@@ -23,26 +24,20 @@ const MenuBoard = () => {
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setMenuItems(data);
-                setError(null); // Clear any previous errors
+                const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+                setMenuItems(response.data);
+                setError(null);
             } catch (error) {
                 setError(error);
             } finally {
                 setIsLoading(false);
             }
         };
-    
-       
+
         fetchMenuItems();
-    
-      
+
         const interval = setInterval(fetchMenuItems, 35000);
-    
+
         return () => clearInterval(interval);
     }, []);
 

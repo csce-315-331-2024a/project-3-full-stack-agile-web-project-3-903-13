@@ -87,6 +87,7 @@ export default function CreditCardModal({ showCreditCardModal, setShowCreditCard
                         className="w-full px-4 py-2 border rounded-md"
                     />
                     <input
+                        data-testid = "expir"
                         type="month"
                         value={expiryDate}
                         onChange={(e) => setExpiryDate(e.target.value)}

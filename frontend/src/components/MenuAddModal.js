@@ -11,10 +11,13 @@ import { FaTrash } from "react-icons/fa";
  * @returns {JSON} A promise that resolves to an array of menu items.
  */
 export const getMenuItems = async () => {
-    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-    const data = await items.json();
-
-    return data;
+    try {
+        const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching menu items:", error);
+        throw error;
+    }
 };
 
 /**
@@ -26,22 +29,16 @@ export const getMenuItems = async () => {
  */
 export const getMenuItemIngredients = async (menuItem) => {
     try {
-        // Construct the query string from the menuItem object
         const queryString = new URLSearchParams(menuItem).toString();
-
-        // Append the query string to the URL
         const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?${queryString}`;
 
-        // Make the GET request
-        const response = await fetch(url);
+        const response = await axios.get(url);
 
-        if (!response.ok) {
-            const errorMessage = await response.text();
-            throw new Error(errorMessage);
+        if (!response.status === 200) {
+            throw new Error(response.statusText);
         }
 
-        const data = await response.json();
-        return data;
+        return response.data;
     } catch (error) {
         console.error("Error fetching ingredient for menu item:", error);
         throw error;
@@ -56,17 +53,14 @@ export const getMenuItemIngredients = async (menuItem) => {
  */
 export const getMenuItemsWithIngredients = async () => {
     try {
-        // Fetch menu items
-        const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
-        const data = await items.json();
+        const itemsResponse = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems");
+        const data = itemsResponse.data;
 
-        // Fetch ingredients for each menu item
         const menuItemsWithIngredients = await Promise.all(
-            data.map(async (menuItems) => {
-                console.log(menuItems.itemname);
-
-                const ingredients = await getMenuItemIngredients({ itemName: menuItems.itemname });
-                return { ...menuItems, ingredients };
+            data.map(async (menuItem) => {
+                console.log(menuItem.itemname);
+                const ingredients = await getMenuItemIngredients({ itemName: menuItem.itemname });
+                return { ...menuItem, ingredients };
             })
         );
 
@@ -84,10 +78,13 @@ export const getMenuItemsWithIngredients = async () => {
  * @returns {JSON} An array of the inventory items.
  */
 export const getInventoryItems = async () => {
-    const items = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
-    const data = await items.json();
-
-    return data;
+    try {
+        const response = await axios.get("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching inventory items:", error);
+        throw error;
+    }
 };
 
 /**
@@ -97,19 +94,21 @@ export const getInventoryItems = async () => {
  * @returns {string} A string of the status of the add operation.
  */
 export const addMenuItem = async (menuItem) => {
-    const response = await fetch("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(menuItem),
-    });
+    try {
+        const response = await axios.post("https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems", menuItem, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
-    if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
-    } else {
+        if (!response.status === 200) {
+            throw new Error(response.statusText);
+        }
+
         return { success: true, message: "Menu item added successfully" };
+    } catch (error) {
+        console.error("Error adding menu item:", error);
+        throw error;
     }
 };
 const categories = [
@@ -148,18 +147,12 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
     const [addErrorMessage, setAddErrorMessage] = useState("");
     const [addSuccessMessage, setAddSuccessMessage] = useState("");
     const [ingredients, setIngredients] = useState([]); // State variable for ingredients
-    const [initialInventoryItems, setInitialInventoryItems] = useState([]); // Add this line
-    const [updateIngred, setUpdateIngred] = useState([]); // State variable for ingredients
-
     const [isSeasonal, setIsSeasonal] = useState(false); // State for seasonal checkbox
     const [expirationDate, setExpirationDate] = useState(""); // State for expiration date
     const [addDescription, setAddDescription] = useState(""); // Separate state variable for Add Menu Item form
     const [addCalories, setAddCalories] = useState(""); // Separate state variable for Add Menu Item form
     const [addDiet, setAddDiet] = useState(0); // Separate state variable for Add Menu Item form
     const [addAllergy, setAddAllergy] = useState(false); // Separate state variable for Add Menu Item form
-    const [selectedMenuItem, setSelectedMenuItem] = useState("");
-
-
 
     if (!isOpen) return null;
 
@@ -187,19 +180,6 @@ export default function MenuAddModal({ onClose, isOpen, menuItems, setMenuItems,
             console.log(data);
         } catch (error) {
             console.error("Error fetching menu items with ingredients:", error);
-        }
-    };
-
-    /**
-     * Fetches the list of ingredients from the server.
-     * @memberOf module:MenuAddModal
-     */
-    const fetchInventoryItems = async () => {
-        try {
-            const data = await getInventoryItems();
-            setInventoryItems(data);
-        } catch (error) {
-            console.error("Error fetching inventory items:", error);
         }
     };
 

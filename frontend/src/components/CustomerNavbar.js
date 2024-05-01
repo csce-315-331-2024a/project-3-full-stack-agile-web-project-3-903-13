@@ -252,7 +252,7 @@ export default function CustomerNavbar({ links }) {
 
 					<div onClick={toggleCart} className={`fixed z-[40] left-0 top-0 bottom-0 right-0 w-screen h-screen bg-black/40 backdrop-blur-sm ${isCartOpen ? "" : "hidden"}`}></div>
 
-					<div ref={ref} className="min-w-[50%] md:min-w-[25%] h-full fixed top-0 right-0 bg-white transform transition-transform translate-x-full z-50 shadow-2xl">
+					<div ref={ref} role="region" className="min-w-[50%] md:min-w-[25%] h-full fixed top-0 right-0 bg-white transform transition-transform translate-x-full z-50 shadow-2xl">
 						<div className="flex flex-col h-full">
 							<div className="flex justify-end p-2">
 								<button aria-label="Cart" onClick={toggleCart} className="text-gray-500 hover:text-gray-700">

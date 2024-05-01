@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 /**
  * NutritionPage is a React component that displays nutritional information about menu items.
@@ -15,15 +16,17 @@ const NutritionPage = () => {
     const [menuItems, setMenuItems] = useState([]);
 
     useEffect(() => {
-        fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems')
-            .then(response => response.json())
-            .then(data => {
-                setMenuItems(data);
-            })
-            .catch(error => {
-                console.error("Error fetching menu items:", error);
-            });
-    }, []);
+        const fetchData = async () => {
+          try {
+            const response = await axios.get('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+            setMenuItems(response.data);
+          } catch (error) {
+            console.error("Error fetching menu items:", error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     /**
      * Maps a diet code to its corresponding symbol element(s) for display.
