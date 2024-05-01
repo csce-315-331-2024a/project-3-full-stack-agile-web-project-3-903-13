@@ -29,7 +29,7 @@ export const getInventoryItems = async () => {
  */
 export const addInventoryItem = async (inventItem) => {
 	try {
-	  const response = await axios.post('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory', inventItem, {
+	  const response = await axios.post('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/inventory', JSON.stringify(inventItem), {
 		headers: {
 		  'Content-Type': 'application/json'
 		}
