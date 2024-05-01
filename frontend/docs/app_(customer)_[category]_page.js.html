@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(customer)/[category]/page.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(customer)/[category]/page.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import { useEffect, useState } from 'react';
+import { TransactionContext, TransactionProvider, useTransaction } from "@/components/transactions/TransactionContext";
+import Image from 'next/image'
+import { toast } from 'react-toastify';
+import UpdateModal from "@/components/updateItems/customerView";
+import moment from 'moment';
+
+/**
+ * Asynchronously fetches the seasonal availability of a given menu item from the backend.
+ * Constructs a query string from the menuItem object, sends a GET request, and handles the response.
+ *
+ * @async
+ * @memberOf module:CustomerMenuItems
+ * @function
+ * @param {Object} menuItem - Contains information about the menu item, used to construct the query string.
+ * @returns {Promise&lt;Array>} A promise that resolves to an array of seasonal data for the menu item.
+ * @throws {Error} Throws an error if the fetch operation fails.
+ */
+export const getMenuItemSeasonal = async (menuItem) => {
+    try {
+
+        // Construct the query string from the menuItem object
+        const queryString = new URLSearchParams(menuItem).toString();
+        // Append the query string to the URL
+        const url = `https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/seasonal?${queryString}`;
+        // Make the GET request
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching seasonal info for menu item:", error);
+        throw error;
+    }
+};
+
+
+
+const categories = [
+    "Burgers",
+    "Dogs",
+    "Tenders",
+    "Sides",
+    "Desserts",
+    "Beverages",
+    "Seasonal"
+]
+
+/**
+ * Page is a React component that dynamically loads and displays menu items for a selected category
+ * in a restaurant's point of sale system. It fetches both the menu items and their seasonal data,
+ * applies UI effects, and manages item customization through a modal.
+ *
+ * @component
+ * @module CustomerMenuItems
+ * @param {Object} props - Component props.
+ * @param {Object} props.params - URL parameters containing the category of menu items.
+ * @returns {React.Component} The main section containing a grid of menu items and a modal for item updates.
+ */
+export default function Page({ params }) {
+    const [itemType, setItemType] = useState([]);
+    const { updateTransaction, transactions } = useTransaction();
+    const [scaleStates, setScaleStates] = useState({});
+    const [seasonalItems, setSeasonalItems] = useState(new Map());
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            const response = await fetch('https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems');
+            const data = await response.json();
+            const items = data.filter(item => item.category === parseInt(categories.indexOf(params.category)));
+            setItemType(items);
+
+            let initialScales = {};
+            const seasonalInfoMap = new Map();
+
+            for (const item of items) {
+                const seasonalData = await getMenuItemSeasonal({ itemName: item.itemname });
+                const isSeasonal = seasonalData.length === 0 || (seasonalData.length > 0 &amp;&amp; new Date(seasonalData[0].expirationdate) >= new Date());
+                seasonalInfoMap.set(item.menuid, isSeasonal);
+                initialScales[item.menuid] = 'normal';
+            }
+
+            setScaleStates(initialScales);
+            setSeasonalItems(seasonalInfoMap);
+        };
+
+        fetchMenuItems();
+    }, [params.category]);
+
+
+    /**
+     * Handles the click on a menu item. Sets the selected item and opens the customization modal.
+     *
+     * @function
+     * @memberOf module:CustomerMenuItems
+     * @param {Object} item - The item that was clicked.
+     */
+    const handleItemClick = (item) => {
+        setSelectedItem(item)
+        setIsModalOpen(true)
+    }
+
+    /**
+     * Closes the item update modal and resets relevant state.
+     *
+     * @function
+     * @memberOf module:CustomerMenuItems
+     */
+    const closeUpdateModal = () => {
+        setIsModalOpen(false);
+    }
+
+    /**
+     * Determines if an item is customizable based on a predefined list of non-customizable items.
+     *
+     * @function
+     * @memberOf module:CustomerMenuItems
+     * @param {Object|null} item - The item to check for customizability.
+     * @returns {boolean} True if the item is customizable, false otherwise.
+     */
+    const isCustomizable = (item) => {
+        if (item == null){
+            return true;
+        }
+
+        const nonCustomizable = ["16 oz aquafina water", "20 oz aquafina water", "20 oz fountain drink", "20 oz Aquafina", "French Fries"]
+        if (nonCustomizable.indexOf(item.itemname) !== -1) {
+            return false
+        }
+        return true
+    }
+
+    /**
+     * Determines the CSS class for scaling animation based on the item's click state.
+     *
+     * @function
+     * @memberOf module:CustomerMenuItems
+     * @param {number} menuId - The ID of the menu item to check.
+     * @returns {string} The CSS class for the item's scaling animation.
+     */
+    const getItemScale = (menuId) => {
+        return scaleStates[menuId] === 'clicked' ? 'pulse' : 'hover-effect';
+    };
+
+    return (
+        &lt;main className="min-h-screen py-10">
+            &lt;style jsx>{`
+                .hover-effect {
+                    transition: transform 0.3s ease-in-out;
+                    transform: scale(1);
+                }
+                .hover-effect:hover {
+                    transform: scale(1.03);
+                }
+                @keyframes pulse-animation {
+                    0% { transform: scale(1.03); }
+                    50% { transform: scale(1.08); }
+                    100% { transform: scale(1.03); }
+                }
+                .pulse {
+                    animation: pulse-animation 0.3s ease-in-out;
+                }
+                .info-text {
+                    padding: 8px;
+                    background-color: rgba(255, 255, 255, 1);
+                    border-radius: 8px;
+                }
+            `}&lt;/style>
+
+            &lt;div className="container px-10 mx-auto">
+                &lt;h1 className="text-3xl font-bold text-center mb-8">{params.category}&lt;/h1>
+                &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {itemType.map((item, index) => (
+    seasonalItems.get(item.menuid) &amp;&amp; (
+        &lt;div
+            key={index}
+            className={`relative bg-white rounded-lg shadow-lg transition duration-300 ease-in-out aspect-square flex flex-col items-center space-evenly border-4 border-gray ${getItemScale(item.menuid)}`}
+            onClick={() => handleItemClick(item)}
+            aria-label={'Select ${item.itemname}'}
+        >
+            &lt;>
+                &lt;Image
+                    src={`/menuItems/${item.itemname.replace(/\s+/g, '')}.jpeg`}
+                    alt={item.itemname}
+                    className="object-cover w-2/3 h-2/3 rounded-lg mt-12"
+                    width={150}
+                    height={150}
+                />
+                &lt;div className="absolute bottom-0 w-full text-center p-2">
+                    &lt;div className="info-text">
+                        &lt;h5 className="text-xl font-bold text-gray-900">{item.itemname}&lt;/h5>
+                        &lt;h5 className="text-lg font-semibold text-gray-700">${item.price}&lt;/h5>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/>
+        &lt;/div>
+    )
+))}
+                &lt;/div>
+
+                &lt;UpdateModal
+                    isCustomizable={isCustomizable(selectedItem)}
+                    isOpen={isModalOpen}
+                    onClose={closeUpdateModal}
+                    categoryIndex={categories.indexOf(params.category)}
+                    item = {selectedItem}
+                    ariaLabel="Update Item Modal"
+                />
+
+            &lt;/div>
+        &lt;/main>
+    );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AboutPage.html">AboutPage</a></li><li><a href="module-AuthMiddleware.html">AuthMiddleware</a></li><li><a href="module-AuthUtilities.html">AuthUtilities</a></li><li><a href="module-CartContext.html">CartContext</a></li><li><a href="module-CreditCardModal.html">CreditCardModal</a></li><li><a href="module-CustomerFooter.html">CustomerFooter</a></li><li><a href="module-CustomerHome_Layout.html">CustomerHome/Layout</a></li><li><a href="module-CustomerHome_Page.html">CustomerHome/Page</a></li><li><a href="module-CustomerMenuItems.html">CustomerMenuItems</a></li><li><a href="module-CustomerNavbar.html">CustomerNavbar</a></li><li><a href="module-CustomerView.html">CustomerView</a></li><li><a href="module-EmployeeAddForm.html">EmployeeAddForm</a></li><li><a href="module-EmployeeModal.html">EmployeeModal</a></li><li><a href="module-EmployeeNavbar.html">EmployeeNavbar</a></li><li><a href="module-EmployeePage.html">EmployeePage</a></li><li><a href="module-EmployeeUpdateForm.html">EmployeeUpdateForm</a></li><li><a href="module-EmployeeView.html">EmployeeView</a></li><li><a href="module-ExcessReportPage.html">ExcessReportPage</a></li><li><a href="module-GoogleAuthButtons.html">GoogleAuthButtons</a></li><li><a href="module-GoogleTranslateWidget.html">GoogleTranslateWidget</a></li><li><a href="module-InventAddModal.html">InventAddModal</a></li><li><a href="module-InventRemoveModal.html">InventRemoveModal</a></li><li><a href="module-InventUpdateModal.html">InventUpdateModal</a></li><li><a href="module-InventoryPage.html">InventoryPage</a></li><li><a href="module-InventoryUsagePage.html">InventoryUsagePage</a></li><li><a href="module-ItemPopularitypage.html">ItemPopularitypage</a></li><li><a href="module-KitchenStagePage.html">KitchenStagePage</a></li><li><a href="module-LeftSidebar.html">LeftSidebar</a></li><li><a href="module-ManagerLayout.html">ManagerLayout</a></li><li><a href="module-MenuAddModal.html">MenuAddModal</a></li><li><a href="module-MenuBoard_Board1.html">MenuBoard/Board1</a></li><li><a href="module-MenuBoard_Board2.html">MenuBoard/Board2</a></li><li><a href="module-MenuBoard_Board3.html">MenuBoard/Board3</a></li><li><a href="module-MenuBoard_Layout.html">MenuBoard/Layout</a></li><li><a href="module-MenuBoard_Page.html">MenuBoard/Page</a></li><li><a href="module-MenuItemPage.html">MenuItemPage</a></li><li><a href="module-MenuRemoveModal.html">MenuRemoveModal</a></li><li><a href="module-MenuUpdateModal.html">MenuUpdateModal</a></li><li><a href="module-NumericKeypad.html">NumericKeypad</a></li><li><a href="module-NutritionPage.html">NutritionPage</a></li><li><a href="module-OrderDisplay_Layout.html">OrderDisplay/Layout</a></li><li><a href="module-OrderDisplay_Page.html">OrderDisplay/Page</a></li><li><a href="module-OrderManagementPage.html">OrderManagementPage</a></li><li><a href="module-PaymentModal.html">PaymentModal</a></li><li><a href="module-RestockReportPage.html">RestockReportPage</a></li><li><a href="module-SalesReportPage.html">SalesReportPage</a></li><li><a href="module-SignIn.html">SignIn</a></li><li><a href="module-SignOut.html">SignOut</a></li><li><a href="module-TransactionContext.html">TransactionContext</a></li><li><a href="module-TransactionModal.html">TransactionModal</a></li><li><a href="module-TransactionPanelEmployee.html">TransactionPanelEmployee</a></li><li><a href="module-TransactionPanelEmployee_Layout.html">TransactionPanelEmployee/Layout</a></li><li><a href="module-TransactionPanelEmployee_Page.html">TransactionPanelEmployee/Page</a></li><li><a href="module-UpdateOrder_Layout.html">UpdateOrder/Layout</a></li><li><a href="module-UpdateOrder_Page.html">UpdateOrder/Page</a></li><li><a href="module-UserManagement_Layout.html">UserManagement/Layout</a></li><li><a href="module-UserManagement_Page.html">UserManagement/Page</a></li><li><a href="module-UsersPage.html">UsersPage</a></li><li><a href="module-WeatherWidget.html">WeatherWidget</a></li><li><a href="module-WhatSellsTogether.html">WhatSellsTogether</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 01 2024 00:16:51 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,6 +1,15 @@
 import React from 'react';
 import Image from "next/image";
 
+/**
+ * AboutPage is a React component that presents information about Rev's American Grill.
+ * It displays an overview of the restaurant, including its location, food offerings, and ambience.
+ * This component uses the `Image` component from Next.js to showcase a high-quality image of the restaurant.
+ *
+ * @component
+ * @module AboutPage
+ * @returns {React.Component} The AboutPage component, which includes a heading, descriptive text, and an image.
+ */
 export default function AboutPage() {
     return (
         <div className="bg-gray-100 py-16" role = "main">
