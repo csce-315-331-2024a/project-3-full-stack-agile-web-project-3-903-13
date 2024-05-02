@@ -34,19 +34,26 @@ const updateFoodItemsTable = async (id, orderContents) => {
 };
 
 const decrementInventory = async (orderContents) => {
-	orderContents.map(async (item) => {
-		const quantity = item.quantity;
-		item.inventToRemove.map(async(ingred) => {
-			try {
-				await db.query("UPDATE inventory SET count = count - $1 WHERE inventid = $2", [ingred.quantity*quantity, ingred.inventid])
-			}
-			catch (err){
-				console.log(err)
-			}
+    if (!Array.isArray(orderContents)) {
+        console.log("Order contents are not in the expected format.");
+        return; // or handle the error appropriately
+    }
 
-		})
-
-	})
+    for (const item of orderContents) {
+        const quantity = item.quantity;
+        if (item.inventToRemove && Array.isArray(item.inventToRemove)) {
+            for (const ingred of item.inventToRemove) {
+                try {
+                    await db.query("UPDATE inventory SET count = count - $1 WHERE inventid = $2", [ingred.quantity * quantity, ingred.inventid])
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        } else {
+            console.log("Inventory items to remove are not in the expected format.");
+            // Handle the error or log appropriately
+        }
+    }
 }
 
 const incrementInventory = async (components) => {
@@ -239,10 +246,7 @@ const getTransactionsInfo = async(transactionIDs) => {
 }
 
 const getRecentFulfilledOrders = async (request, response) => {
-    const query = `
-	SELECT transactionid, transactiontime, totalcost, tax, status
-	FROM transactions
-	WHERE status = 'fulfilled' AND transactiontime AT TIME ZONE 'UTC' AT TIME ZONE 'America/Chicago' > (NOW() AT TIME ZONE 'America/Chicago' - INTERVAL '5 MINUTES');
+    const query = ` SELECT transactionid, transactiontime, totalcost, tax, status FROM transactions WHERE status = 'fulfilled' AND transactiontime AT TIME ZONE 'UTC' AT TIME ZONE 'America/Chicago' > (NOW() AT TIME ZONE 'America/Chicago' - INTERVAL '5 MINUTES');
 		`;
     try {
         const result = await db.query(query);
