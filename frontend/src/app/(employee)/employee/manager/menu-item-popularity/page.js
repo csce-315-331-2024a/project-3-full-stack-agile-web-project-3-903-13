@@ -38,6 +38,10 @@ export default function ItemPopularityPage() {
         reportData.sort((a, b) => b.quantity_sold - a.quantity_sold);
 
         const ctx = chartRef.current.getContext("2d");
+        const gradient = ctx.createLinearGradient(0, 0, 0, chartRef.current.height);
+        gradient.addColorStop(0, "rgba(75, 192, 192, 1)");
+        gradient.addColorStop(1, "rgba(75, 192, 192, 0.6)"); 
+        
         chartInstance.current = new Chart(ctx, {
             type: "bar",
             data: {
@@ -46,11 +50,11 @@ export default function ItemPopularityPage() {
                     {
                         label: "Quantity Sold",
                         data: reportData.map((item) => item.quantity_sold),
-                        backgroundColor: "rgba(54, 162, 235, 0.5)",
-                        borderColor: "rgba(54, 162, 235, 1)",
+                        backgroundColor: gradient, 
+                        borderColor: "rgba(75, 192, 192, 1)",
                         borderWidth: 1,
-                        barThickness: 10,
-                        categoryPercentage: 1.0,
+                        barThickness: 20,
+                        categoryPercentage: 0.8,
                     },
                 ],
             },
@@ -59,10 +63,24 @@ export default function ItemPopularityPage() {
                 scales: {
                     x: {
                         beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return value.toLocaleString();
+                            },
+                            font: {
+                                size: 14,
+                            },
+                        },
                     },
                     y: {
                         ticks: {
                             autoSkip: false,
+                            font: {
+                                size: 14,
+                            },
+                        },
+                        grid: {
+                            display: true,
                         },
                     },
                 },
