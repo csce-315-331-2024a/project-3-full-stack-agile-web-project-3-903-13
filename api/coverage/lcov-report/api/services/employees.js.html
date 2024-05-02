@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.66% </span>
+                <span class="strong">64.86% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/30</span>
+                <span class='fraction'>24/37</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.66% </span>
+                <span class="strong">64.86% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/30</span>
+                <span class='fraction'>24/37</span>
             </div>
         
             
@@ -117,7 +117,30 @@
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -166,6 +189,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -173,8 +197,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const db = require('../config/db')
 &nbsp;
+const getRoleByEmail = <span class="fstat-no" title="function not covered" >(r</span>eq,res) =&gt; {
+<span class="cstat-no" title="statement not covered" >	db.query(`SELECT role FROM employees WHERE email = '${req.body.email}'`, <span class="fstat-no" title="function not covered" >(e</span>rr,results) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >		if (err) {</span>
+<span class="cstat-no" title="statement not covered" >			console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >			res.status(500).send(`Could not get role of employee with email ${req.body.email}`)</span>
+<span class="cstat-no" title="statement not covered" >			return</span>
+		}
+<span class="cstat-no" title="statement not covered" >		res.status(200).json(results.rows)</span>
+	})
+}
+&nbsp;
 const addEmployee = (req,res) =&gt; {
-	db.query(`INSERT INTO employees VALUES(default, '${req.body.name}', ${req.body.age}, '${req.body.phone}', ${req.body.hours}, 'f', 1111, '${req.body.role}')`, (err,results) =&gt; {
+	db.query(`INSERT INTO employees VALUES(default, '${req.body.name}', ${req.body.age}, '${req.body.phone}', ${req.body.hours}, 'f', 1111, '${req.body.role}', '${req.body.email}')`, (err,results) =&gt; {
 		if (err) {
 			console.log(err)
 			res.status(500).send("Could not add employee")
@@ -207,7 +242,7 @@ const deleteEmployee = (req, res) =&gt; {
 &nbsp;
 const updateEmployee = (req,res) =&gt; {
 	db.query(`UPDATE employees
-	SET employeeage = ${req.body.age}, employeephonenumber = '${req.body.phone}', employeehours = ${req.body.hours}, role = '${req.body.role}' WHERE employeeid = ${req.body.id}
+	SET employeeage = ${req.body.age}, employeephonenumber = '${req.body.phone}', employeehours = ${req.body.hours}, role = '${req.body.role}', email = '${req.body.email}' WHERE employeeid = ${req.body.id}
 	`, (err, results) =&gt; {
 			<span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
 <span class="cstat-no" title="statement not covered" >				 console.log(err)</span>
@@ -224,6 +259,7 @@ module.exports = {
 	retrieveEmployees,
 	deleteEmployee,
 	updateEmployee,
+	getRoleByEmail
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -232,7 +268,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-28T03:50:17.992Z
+                at 2024-05-02T19:39:18.116Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
