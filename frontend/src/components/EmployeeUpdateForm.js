@@ -24,7 +24,7 @@ export default function EmployeeUpdateForm(employee) {
   const [formData, setFormData] = useState({
     id: employeeObject.employeeid,
     age: employeeObject.employeeage,
-    employee: employeeObject.email,
+    email: employeeObject.email,
     phone: employeeObject.employeephonenumber,
     role: employeeObject.role,
     hours: employeeObject.employeehours,
