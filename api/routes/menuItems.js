@@ -40,24 +40,94 @@ module.exports = router
  *	    responses:
  *	      200:
  *	        description: List of all menu items at Rev's
+ *	        content:
+ *	          application/json:
+ *	            schema: 
+ *	              type: array
+ *	            example:
+ *	              menuid: 7
+ *	              itemname: Revs Grilled Chicken Sandwich
+ *	              price: 8.39
+ *	              category: 0
+ *	              description: Marinated juicy chicken breast serverd on a toasted bun and topped with veggies
+ *	              Calories: 400
+ *	              specialdiet: 0
+ *	              allergy: 1
  *	      500:
  *	        description: Internal Server Error
  *	  post:
  *	    summary: Add a new menu item to the database
  *	    tags: [Menu Items]
+ *	    requestBody:
+ *	      required: true
+ *	      content:
+ *	        application/json:
+ *	          example:
+ *	            itemname: Revs Special Item 
+ *	            price: 9.99
+ *	            category: 0
+ *	            isSeasonal: false
+ *	            expirationDate: 12/25/3000
+ *	            description: Descriptive summary of item
+ *	            Calories: 900
+ *	            specialdiet: 0
+ *	            allergy: 1 
+ *	            
  *	    responses:
- *	      200:
- *	        description: 
+ *	      201:
+ *	        description: Menu item added successfully
+ *	      401:
+ *	        description: Item already exists
  *	      500:
  *	        description: Internal Server Error
  *	/menuitems/getIngreds:
  *	  get:
  *	    summary: Get list of ingredients of a given menu item
  *	    tags: [Menu Items]
+ *	    parameters:
+ *	      - in: path
+ *	        name: itemName
+ *	        required: true
+ *	    responses:
+ *	      200:
+ *	        description: List of ingredients for given menu item
+ *	        content: 
+ *	          application/json:
+ *	            example: 
+ *	              inventid: 1
+ *	              ingredientname: Beef Patties
+ *	              count: 1360
+ *	              price: 3
+ *	              mincount: 500
+ *	              quantity: 1
+ *	      400:
+ *	        description: Query Failed
+ *	      401:
+ *	        description: Item doesn't exist
+ *	      500:
+ *	        description: Internal Server Error
  *	/menuitems/seasonal:
  *	  get:
- *	    summary: Get list of ingredients of a given menu item
+ *	    summary: Get information about a given seasonal menu item
  *	    tags: [Menu Items]
+ *	    parameters:
+ *	      - in: path
+ *	        name: itemName
+ *	        required: true
+ *	    responses:
+ *	      200:
+ *              description: Menu ID and Expiration Date of seasonal menu item
+ *              content:
+ *                application/json:
+ *                  example:
+ *                    menuid: 2
+ *                    expirationdate: 12/25/2025
+ *	      400:
+ *              description: Query Failed
+ *	      401:
+ *              description: Item Doesn't exist
+ *	      500:
+ *              description: Internal Server Error
  * /menuitems/specific:
  *   get:
  *     summary: Gets the details of a menu item given its name
@@ -105,32 +175,142 @@ module.exports = router
  *                     description: The allergy ID of the menu item
  *       500:
  *         description: Internal Server Error
- *	/menuitems/updatePrice:
- *	  patch:
- *	    summary: Get list of ingredients of a given menu item
- *	    tags: [Menu Items]
- *	/menuitems/updateCat:
- *	  patch:
- *	    summary: Get list of ingredients of a given menu item
- *	    tags: [Menu Items]
- *	/menuitems/updateIngred:
- *	  patch:
- *	    summary: Get list of ingredients of a given menu item
- *	    tags: [Menu Items]
- *	/menuitems/updateDesc:
- *	  patch:
- *	    summary: Get list of ingredients of a given menu item
- *	    tags: [Menu Items]
- *	/menuitems/updateCal:
- *	  patch:
- *	    summary: Get list of ingredients of a given menu item
- *	    tags: [Menu Items]
- *	/menuitems/updateDiet:
- *	  patch:
- *	    summary: Get list of ingredients of a given menu item
- *	    tags: [Menu Items]
- *	/menuitems/updateAller:
- *	  patch:
- *	    summary: Get list of ingredients of a given menu item
- *	    tags: [Menu Items]
+ * /menuitems/updateCat:
+ *   patch:
+ *     summary: Update the category of a menu item
+ *     tags: [Menu Items]
+ *     requestBody:
+ *       require: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             itemName: Cheeseburger
+ *             newCat: 2
+ *     responses:
+ *       202:
+ *         description: Category of {ItemName} updated successfully
+ *       401:
+ *         description: Item Doesn't exist
+ *       500:
+ *         description: Internal Server Error
+ * /menuitems/updatePrice:
+ *   patch:
+ *     summary: Update price of a given menu item
+ *     tags: [Menu Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             itemName: Cheeseburger
+ *             newPrice: 10.99
+ *     responses:
+ *       202:
+ *         description: Price of {itemName} updated successfully
+ *       401:
+ *         description: Item Doesn't exist
+ *       500:
+ *         description: Internal Server Error
+ * /menuitems/updateIngred:
+ *   patch:
+ *     summary: Update ingredient list for a particular menu item
+ *     tags: [Menu Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             itemName: CheeseBurger
+ *             ingredients:
+ *               [ 
+ *                 {
+ *                   inventID: 1,
+ *                   name: patty,
+ *                   quantity: 2
+ *                 },
+ *                 {
+ *                   inventID: 2,
+ *                   name: lettuce,
+ *                   quantity: 1
+ *                 }
+ *               ] 
+ *     responses:
+ *       202:
+ *         description: Ingredients of {ItemName} updated successfully
+ *       401:
+ *         description: Item Doesn't exist
+ *       500:
+ *         description: Internal Server Error
+ * /menuitems/updateDesc:
+ *   patch:
+ *     summary: Update the description of a particular menu item
+ *     tags: [Menu Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             itemName: Cheeseburger
+ *             newDes: Absolutely delicious cheeseburger!
+ *     responses:
+ *       202:
+ *         description: Description of {ItemName} updated successfully
+ *       401:
+ *         description: Item Doesn't exist
+ *       500:
+ *         description: Internal Server Error
+ * /menuitems/updateCal:
+ *   patch:
+ *     summary: Update the calorie count for a particular menu item
+ *     tags: [Menu Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             itemName: Cheeseburger
+ *             newCalories: 990
+ *     responses:
+ *       202:
+ *         description: Calories of {ItemName} updated successfully
+ *       401:
+ *         description: Item Doesn't exist
+ *       500:
+ *         description: Internal Server Error
+ * /menuitems/updateDiet:
+ *   patch:
+ *     summary: Update the special diet flag for a particular menu item
+ *     tags: [Menu Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           example:
+ *             itemName: Cheeseburger
+ *             newDiet: 3
+ *     responses:
+ *       202:
+ *         description: Special Diet of {ItemName} updated successfully
+ *       401:
+ *         description: Item Doesn't exist
+ *       500:
+ *         description: Internal Server Error
+ * /menuitems/updateAller:
+ *   patch:
+ *     summary: Update the allergy flag for a particular menu item
+ *     tags: [Menu Items]
+ *     requestBody:
+ *       required: true
+ *       content: 
+ *         application/json:
+ *           example:
+ *             itemName: Cheeseburger
+ *             newAllergy: 1
+ *     responses:
+ *       202:
+ *         description: Allergy of {ItemName} updated successfully
+ *       401:
+ *         description: Item Doesn't exist
+ *       500:
+ *         description: Internal Server Error
  */

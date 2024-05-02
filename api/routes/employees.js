@@ -73,6 +73,28 @@ const employeesController = require('../services/employees')
  *	  post:
  *	    summary: Update attributes of an employee given their employee ID 
  *	    tags: [Employees]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the employee to be deleted
+ *         required: true
+ *         schema:
+ *           type: integer
+ *	    requestBody:
+ *	      required: true
+ *	      content:
+ *	        application/json:
+ *	          example:
+ *	            age: 22
+ *	            phone: (123) 456-7890
+ *	            hours: 39
+ *	            role: manager
+ *	            email: john@gmail.com
+ *	    responses:
+ *       200: 
+ *         description: Successfully updated user
+ *       500:
+ *         description: Internal Server Error
  *   delete:
  *     summary: Delete an employee from the database given their employee ID
  *     tags: [Employees]
