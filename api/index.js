@@ -21,6 +21,41 @@ db.query("SELECT * FROM employees")
 app.use(cors())
 app.use(express.json())
 
+
+const swaggerDefinition = {
+  openapi: "3.0.0",
+  info: {
+    title: "Express API for Rev's Grill",
+    description:
+      "This is a REST API application made with Express. It retrieves data from the Rev's Grill Database.",
+    contact: {
+      name: "Rev's Grill",
+      url: 'https://project-3-full-stack-agile-web-project-3-903-13-six.vercel.app/',
+    },
+  },
+  servers: [
+    {
+      url: 'http://localhost:5000/api',
+      description: 'Development server',
+    },
+    {
+      url: 'https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/',
+      description: 'Production server',
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.js'],
+};
+
+const swaggerJSDoc = require('swagger-jsdoc')
+const swaggerSpec = swaggerJSDoc(options)
+const swaggerUi = require('swagger-ui-express');
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Handle requests with the express router
 const menuItemsRouter = require('./routes/menuItems')
 const transactionsRouter = require('./routes/transactions')
@@ -39,6 +74,7 @@ app.use("/api/fooditems", foodItemsRouter)
 app.use("/api/employees", employeesRouter)
 app.use("/api/reports", reportsRouter)
 
+
 function startServer() {
     const server = app.listen(PORT, () => {
         console.log(`Listening on port ${PORT}.`);
@@ -49,6 +85,7 @@ function startServer() {
 if (require.main === module) {
     startServer();
 }
+
 
 module.exports = app;
 module.exports.startServer = startServer;

@@ -115,9 +115,9 @@ const updateTransaction = async (request, response) => {
 	const taxAmount = subCost * 0.0825;
 	const finalAmount = subCost + taxAmount
 
-	console.log(transactionID);
-	console.log(oldcomponents);
-	console.log(newComponents)
+	// console.log(transactionID);
+	// console.log(oldcomponents);
+	// console.log(newComponents)
 
 
 	try {
@@ -129,6 +129,7 @@ const updateTransaction = async (request, response) => {
 		const results2 = await db.query(`UPDATE transactions SET totalcost = ${finalAmount}, tax = ${taxAmount} WHERE transactionid = ${transactionID}`)
 		await updateFoodItemsTable(transactionID, newComponents)
 		decrementInventory(newComponents)
+		response.status(200).send("Order updated successfully")
 	}
 	catch (error) {
 		console.log(error)
@@ -208,6 +209,7 @@ const fullfillOrder = async(request, response) => {
 
 	try {
 		await db.query(query);
+		response.status(200).send("Order was marked as complete successfully")
 	}
 	catch (error) {
 		throw error 
