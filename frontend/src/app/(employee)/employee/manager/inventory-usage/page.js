@@ -50,6 +50,9 @@ export default function InventoryUsagePage() {
             }
 
             const chartCtx = chartRef.current.getContext('2d');
+            const gradient = chartCtx.createLinearGradient(0, 0, 0, chartRef.current.height);
+            gradient.addColorStop(0, 'rgba(75, 192, 192, 1)');
+            gradient.addColorStop(1, 'rgba(75, 192, 192, 0.6)');
             chartInstanceRef.current = new Chart(chartCtx, {
                 type: 'bar',
                 data: {
@@ -57,11 +60,11 @@ export default function InventoryUsagePage() {
                     datasets: [{
                         label: 'Total Inventory Used',
                         data: data.map(item => parseInt(item.totalinventoryused, 10)),
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        backgroundColor: gradient,
                         borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1,
-                        barThickness: 10,
-                        categoryPercentage: 1.0
+                        borderWidth: 2, 
+                        categoryPercentage: 0.5, 
+                        barPercentage: 1, 
                     }]
                 },
                 options: {
@@ -69,12 +72,20 @@ export default function InventoryUsagePage() {
                     scales: {
                         x: {
                             beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 14, 
+                                },
+                            },
                         },
                         y: {
                             ticks: {
-                                autoSkip: false // Ensure all labels are shown
-                            }
-                        }
+                                autoSkip: false, 
+                                font: {
+                                    size: 14,
+                                },
+                            },
+                        },
                     },
                     maintainAspectRatio: false,
                     responsive: true,
@@ -143,7 +154,7 @@ export default function InventoryUsagePage() {
                         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                         {!hasData && !loading && <p>There was no inventory usage during this time range, try another time period.</p>}
                     </div>
-                    <div style={{ height: '650px' }} >
+                    <div style={{ height: '1200px' }} >
                         {hasData && <canvas data-testid="chart-container" ref={chartRef} aria-label="Inventory Usage Chart" ></canvas>}
 
                     </div>
