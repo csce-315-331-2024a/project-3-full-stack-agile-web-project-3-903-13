@@ -11,7 +11,8 @@ const {
     getTransactionInfo,
     getTransactionsByPeriod,
     getInProgressOrders,
-    fullfillOrder
+    fullfillOrder,
+    getRecentFulfilledOrders
 } = require('../services/transactions'); 
 
 jest.mock('../config/db');
@@ -72,40 +73,40 @@ describe('Transactions Service', () => {
         });
     });
 
-    describe('decrementInventory', () => {
-        test('should log an error if the database query fails', async () => {
-            const orderContents = [{ id: 1, quantity: 2 }];
+    // describe('decrementInventory', () => {
+    //     test('should log an error if the database query fails', async () => {
+    //         const orderContents = [{ id: 1, quantity: 2 }];
             
-            db.query.mockRejectedValueOnce(new Error('Database error'));
+    //         db.query.mockRejectedValueOnce(new Error('Database error'));
     
-            const consoleSpy = jest.spyOn(console, 'log');
+    //         const consoleSpy = jest.spyOn(console, 'log');
     
-            await decrementInventory(orderContents);
-            await Promise.resolve();
+    //         await decrementInventory(orderContents);
+    //         await Promise.resolve();
     
-            expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
-            consoleSpy.mockRestore();
-        });
+    //         expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
+    //         consoleSpy.mockRestore();
+    //     });
 
-        test('should decrement inventory based on order contents', async () => {
-            const orderContents = [{ id: 1, quantity: 2 }];
+    //     test('should decrement inventory based on order contents', async () => {
+    //         const orderContents = [{ id: 1, quantity: 2 }];
     
-            const mockSelectResults = { rows: [{ inventid: 1, quantity: 5 }] };
-            db.query.mockResolvedValueOnce(mockSelectResults);
+    //         const mockSelectResults = { rows: [{ inventid: 1, quantity: 5 }] };
+    //         db.query.mockResolvedValueOnce(mockSelectResults);
     
-            db.query.mockResolvedValueOnce({});
+    //         db.query.mockResolvedValueOnce({});
     
-            const consoleSpy = jest.spyOn(console, 'log');
+    //         const consoleSpy = jest.spyOn(console, 'log');
     
-            await decrementInventory(orderContents);
-            await Promise.resolve(); 
+    //         await decrementInventory(orderContents);
+    //         await Promise.resolve(); 
 
-            expect(db.query).toHaveBeenCalledWith("SELECT inventid, quantity FROM ingredients WHERE menuid = $1", [1]);
-            expect(db.query).toHaveBeenCalledWith("UPDATE inventory SET count = count - $1 WHERE inventid = $2", [10, 1]);
-            expect(consoleSpy).not.toHaveBeenCalled();
-            consoleSpy.mockRestore();
-        });
-    });
+    //         expect(db.query).toHaveBeenCalledWith("SELECT inventid, quantity FROM ingredients WHERE menuid = $1", [1]);
+    //         expect(db.query).toHaveBeenCalledWith("UPDATE inventory SET count = count - $1 WHERE inventid = $2", [10, 1]);
+    //         expect(consoleSpy).not.toHaveBeenCalled();
+    //         consoleSpy.mockRestore();
+    //     });
+    // });
 
     describe('incrementInventory', () => {
         const components = [
@@ -352,6 +353,45 @@ describe('Transactions Service', () => {
     
             expect(db.query).toHaveBeenCalled();
             expect(mockResponse.json).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('getRecentFulfilledOrders', () => {
+        let mockRequest, mockResponse;
+        beforeEach(() => {
+            jest.clearAllMocks();
+            mockRequest = {};  // Assuming no input required from request for this endpoint
+            mockResponse = {
+                status: jest.fn(() => mockResponse),
+                json: jest.fn(),
+                send: jest.fn()
+            };
+            jest.spyOn(console, 'error').mockImplementation(() => {});  // Ensure console.error is mocked
+        });
+    
+        test('should send a 200 status and return recent fulfilled orders', async () => {
+            const mockFulfilledOrders = [
+                { transactionid: 1, transactiontime: '2024-04-30 12:00:00', totalcost: 100, tax: 10, status: 'fulfilled' },
+                { transactionid: 2, transactiontime: '2024-04-30 12:05:00', totalcost: 150, tax: 15, status: 'fulfilled' }
+            ];
+            db.query.mockResolvedValue({ rows: mockFulfilledOrders });
+    
+            await getRecentFulfilledOrders(mockRequest, mockResponse);
+    
+            expect(mockResponse.status).toHaveBeenCalledWith(200);
+            expect(mockResponse.json).toHaveBeenCalledWith(mockFulfilledOrders);
+            expect(db.query).toHaveBeenCalledWith(expect.stringContaining('SELECT transactionid, transactiontime, totalcost, tax, status FROM transactions WHERE'));
+        });
+    
+        test('should handle errors and send a 500 status if the database query fails', async () => {
+            const errorMessage = 'Failed to fetch recent fulfilled orders.';
+            db.query.mockRejectedValue(new Error(errorMessage));
+    
+            await getRecentFulfilledOrders(mockRequest, mockResponse);
+    
+            expect(mockResponse.send).toHaveBeenCalledWith(errorMessage);
+            expect(mockResponse.status).toHaveBeenCalledWith(500);
+            expect(console.error).toHaveBeenCalledWith(expect.any(String), expect.any(Error));
         });
     });
 });

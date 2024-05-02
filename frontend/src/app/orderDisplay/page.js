@@ -66,7 +66,7 @@ const OrderDisplayPage = () => {
             <section className="preparing-section w-1/2 bg-gray-200 p-10" aria-labelledby="preparing-heading" >
                 <h1 className="text-3xl font-bold underline mb-10">Preparing...</h1>
                 {ordersInPreparation.map(order => (
-                    <p key={order.transactionid} className="text-4xl font-bold mb-4">
+                    <p key={order.transactionid} className="text-2xl font-bold mb-2">
                         #{String(order.transactionid).padStart(3, '0')}
                     </p>
                 ))}
@@ -75,7 +75,7 @@ const OrderDisplayPage = () => {
             <section className="collect-section w-1/2 bg-gray-100 p-10" aria-labelledby="collect-heading" >
                 <h1 className="text-3xl font-bold underline mb-10 text-green-600">Please Collect</h1>
                 {ordersToCollect.map(order => (
-                    <p key={order.transactionid} className="text-4xl font-bold mb-4">
+                    <p key={order.transactionid} className="text-2xl font-bold mb-2">
                         #{String(order.transactionid).padStart(3, '0')}
                     </p>
                 ))}
