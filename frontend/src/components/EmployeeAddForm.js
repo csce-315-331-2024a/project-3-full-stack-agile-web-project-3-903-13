@@ -79,37 +79,37 @@ export default function EmployeeAddForm() {
           <label className="block text-gray-700 text-sm font-bold mb-2" for="name">
             Name
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text"onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" required="true" onChange={handleChange}/>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="age">
             Age
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" name="age" type="text" onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" name="age" type="number" min="0" required="true" onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="phone">
-            Phone Number
+            Phone Number (###) ###-####
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" name="phone" type="tel" onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" name="phone" type="tel" pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}" required="true" onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="hours">
                 Weekly Hours
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="hours" name="hours" type="text" onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="hours" name="hours" type="number" min="0" required="true" onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="email">
               Email
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="text" onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="email" required="true" onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="role">
                 Role
           </label>
-          <select className="border rounded w-full py-2 px-3 text-gray-700 " id="role" name="role" type="text" onChange={handleChange}>
+          <select className="border rounded w-full py-2 px-3 text-gray-700 " id="role" name="role" type="text" required="true" onChange={handleChange}>
           {rolesList.map(role => {
             return (
               <option value={role}>{role}</option>

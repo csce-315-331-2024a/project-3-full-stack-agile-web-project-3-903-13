@@ -83,6 +83,7 @@ export default function EmployeeUpdateForm(employee) {
       } else {
         setMessage("Server encountered error when deleting user.")
       }
+      console.log(formData)
       window.location.reload()
   }
 
@@ -95,25 +96,25 @@ export default function EmployeeUpdateForm(employee) {
           <label className="block text-gray-700 text-sm font-bold mb-2" for="age">
             Age
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" name="age" type="text" placeholder={employeeObject.employeeage} onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" name="age" type="number" min="0" placeholder={employeeObject.employeeage} onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="phonenumber">
-            Phone Number
+            Phone Number (###) ###-####
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="number" name="number" type="tel" placeholder={employeeObject.employeephonenumber} onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" name="phone" type="tel" pattern='\([0-9]{3}\) [0-9]{3}-[0-9]{4}' placeholder={employeeObject.employeephonenumber} onChange={handleChange} />
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="weeklyhours">
                 Weekly Hours
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="hours" name="hours" type="text" placeholder={employeeObject.employeehours} onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="hours" name="hours" type="number" min="0" placeholder={employeeObject.employeehours} onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="email">
                Email 
           </label>
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="text" placeholder={employeeObject.email} onChange={handleChange}/>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="email" placeholder={employeeObject.email} onChange={handleChange}/>
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" for="role">
