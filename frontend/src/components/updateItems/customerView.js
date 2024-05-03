@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import Image from 'next/image'
 import { useTransaction } from "@/components/transactions/TransactionContext";
 import { toast } from 'react-toastify';
+import axios from "axios";
 
 
 
@@ -159,14 +160,9 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
                 const name = item.itemname
                 const params = name.split(' ').join("+")
 
-                const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
+                const response = await axios.get(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
 
-                if (!response.ok) {
-                    const errorMessage = await response.text();
-                    throw new Error(errorMessage);
-                }
-
-                const data = await response.json();
+                const data = await response.data;
 
                 const itemsFilterOut = ["Utensils", "To Go Boxes", "Bags", "Napkins"];
                 const isItemFilterOut = (item) => itemsFilterOut.includes(item)
@@ -293,20 +289,14 @@ export default function UpdateModal({ isCustomizable, isOpen, onClose, item, cat
     const fetchItemDetails = async (itemName) => {
         const params = itemName.split(' ').join("+");
         
-        const ingreds = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
-        if (!ingreds.ok) {
-            const errorMessage = await ingreds.text();
-            throw new Error(errorMessage);
-        }
-        const ingredients = await ingreds.json();
+        const ingreds = await axios.get(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/getIngreds?itemName=${params}`);
+    
+        const ingredients = await ingreds.data;
         const neededDetails = ingredients.map(item => ({"inventid": item.inventid, "ingredientname": item.ingredientname, "quantity": item.quantity}))
     
-        const response = await fetch(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/specific?name=${params}`);
-        if (!response.ok) {
-            const errorMessage = await response.text();
-            throw new Error(errorMessage);
-        }
-        const details = await response.json();
+        const response = await axios.get(`https://project-3-full-stack-agile-web-project-3-lc1v.onrender.com/api/menuitems/specific?name=${params}`);
+     
+        const details = await response.data;
     
         return { dish: details, inventToRemove: neededDetails };
     };
