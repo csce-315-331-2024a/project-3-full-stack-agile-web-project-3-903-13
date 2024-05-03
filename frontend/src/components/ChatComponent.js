@@ -9,14 +9,45 @@ const ChatComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesContainerRef = useRef(null);
 
-  const fetchPageContent = async () => {
-    const content = document.body.innerText;
-    setPageContent(content);
+  const fetchPageContent = async (url) => {
+    try {
+      const response = await axios.get(url);
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(response.data, "text/html");
+      const plainText = getPlainTextFromElement(htmlDoc.body);
+      return plainText;
+    } catch (error) {
+      console.error("Failed to fetch page content:", error);
+      return "";
+    }
+  };  
+  
+  const getPlainTextFromElement = (element) => {
+    let text = "";
+    const children = element.childNodes;
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      if (child.nodeType === Node.TEXT_NODE) {
+        text += child.textContent;
+      } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+        text += getPlainTextFromElement(child) + " ";
+      }
+    }
+    return text;
   };
+  
 
   useEffect(() => {
-    fetchPageContent();
-  }, []);
+    const fetchData = async () => {
+        const aboutPageContent = await fetchPageContent("/about");
+        const nutritionPageContent = await fetchPageContent("/nutrition");
+        const currentPageContent = await fetchPageContent(window.location.href);
+        const content = aboutPageContent + " " + nutritionPageContent + " " + currentPageContent;
+        console.log(content);
+        setPageContent({ aboutPageContent, nutritionPageContent, currentPageContent });
+      };
+    
+      fetchData();  }, []);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -33,7 +64,7 @@ const ChatComponent = () => {
         {
           model: "gpt-3.5-turbo",
           messages: [
-            { role: "system", content: "You are a helpful assistant." },
+            { role: "system", content: "You are a an AI assistant that helps customers order from Rev's Grill, a premier location for burgers, wings, shakes, and much more. ONLY answer questions related to Rev's Grill, and tell users that you can only assist them with topics related to Rev's Grill if they ask you to do something unrelated. You help customers order, reccomending items, and tell them information about Rev's Grill." },
             { role: "system", content: `Page content: ${pageContent}` },
             ...messages,
             userMessage,
