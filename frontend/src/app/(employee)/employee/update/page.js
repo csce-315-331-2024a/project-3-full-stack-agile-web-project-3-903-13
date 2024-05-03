@@ -153,13 +153,16 @@ function UpdateOrder({ components, setComponents, shallowCopy, setShallowCopy, }
 	 * @returns {number} - The calculated charge or refund amount.
 	 */
 	const getCharge = () => {
-		return (
-			components.reduce(
-				(total, item) => total + item.price * item.quantity,
-				0
-			) -
-			shallowCopy.reduce((total, item) => total + item.price * item.quantity, 0)
-		);
+		if (components){
+			return (
+				components.reduce(
+					(total, item) => total + item.price * item.quantity,
+					0
+				) -
+				shallowCopy.reduce((total, item) => total + item.price * item.quantity, 0)
+			);
+		}
+		
 	};
 
 	return (
