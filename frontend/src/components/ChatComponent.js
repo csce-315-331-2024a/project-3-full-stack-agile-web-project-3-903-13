@@ -286,8 +286,7 @@ const ChatComponent = () => {
             }
         ]
         `
-        console.log(content);
-        setPageContent({ aboutPageContent, nutritionPageContent, currentPageContent });
+        setPageContent(content);
       };
     
       fetchData();  }, []);
