@@ -109,7 +109,7 @@ const ChatComponent = () => {
 
   return (
     <div
-      className={`fixed bottom-0 right-0 bg-neutral-300 rounded-2xl p-2 flex flex-col justify-end max-h-[40vh] w-1/2 md:w-1/4 ${
+      className={`fixed bottom-0 left-0 bg-neutral-300 rounded-2xl p-2 flex flex-col justify-end max-h-[40vh] w-1/2 md:w-1/4 ${
         messages.length !== 0 ? "gap-2" : ""
       }`}
     >
