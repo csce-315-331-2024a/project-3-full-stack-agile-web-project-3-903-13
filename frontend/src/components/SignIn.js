@@ -19,7 +19,7 @@ export function SignIn() {
       <form
         action={async () => {
           "use server"
-          await signIn("google", { callbackUrl: "https://localhost:3000/employee" })
+          await signIn("google", { callbackUrl: "https://project-3-full-stack-agile-web-project-3-903-13-six.vercel.app/employee" })
         }}
         className="flex flex-col items-center gap-6"
         aria-label="Sign in with Google"
