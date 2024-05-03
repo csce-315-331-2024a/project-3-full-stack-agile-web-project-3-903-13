@@ -180,7 +180,6 @@ const getTransactionsByPeriod = async (request, response) => {
 						FROM transactions
 						WHERE transactiontime >= $1::timestamp AND transactiontime <= $2::timestamp
 						ORDER BY transactiontime 
-						LIMIT 50
 						`
 
 		const result = await db.query(query, [startDate, endDate]);
