@@ -35,7 +35,7 @@ const MenuBoard = () => {
 
         fetchMenuItems();
 
-        const interval = setInterval(fetchMenuItems, 15000);
+        const interval = setInterval(fetchMenuItems, 3000);
 
         return () => clearInterval(interval);
     }, []);
