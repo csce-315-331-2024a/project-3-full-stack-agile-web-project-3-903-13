@@ -4,6 +4,7 @@ import CustomerNavbar from "@/components/CustomerNavbar";
 import CustomerFooter from "@/components/Footer";
 import { TransactionProvider } from "@/components/transactions/TransactionContext";
 import { CartProvider } from '@/components/CartContext';
+import ChatComponent from "@/components/ChatComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,6 +58,7 @@ export default function RootLayout({ children }) {
               />
              </nav>
             {children}
+            <ChatComponent></ChatComponent>
             <CustomerFooter />
           </body>
         </html>
