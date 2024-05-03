@@ -19,7 +19,7 @@ import { Suspense } from "react";
  * @param {Object[]} shallowCopy - A shallow copy of the original order details for comparison.
  * @param {Function} setShallowCopy - Function to set the shallow copy of the order details.
  */
-function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) {
+function UpdateOrder({ components, setComponents, shallowCopy, setShallowCopy, }) {
 	const searchParams = useSearchParams();
 	const id = searchParams.get("id");
 
@@ -165,7 +165,7 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 	return (
 		<div className="flex flex-col grow border-2 border-gray-200 rounded-lg shadow-lg mr-5 " aria-label="Order details" >
 			<div className="px-6 py-4 border-b">
-				<div className="font-bold text-xl mb-2">Current Sale</div>
+				<div className="font-bold text-xl mb-2"> Order #{id} </div>
 			</div>
 			<div className="flex-1 overflow-auto">
 				{components && components.length > 0 ? (
@@ -180,6 +180,9 @@ function UpdateOrder({components, setComponents, shallowCopy, setShallowCopy,}) 
 								<span className="font-semibold">
 									${(item.price * item.quantity).toFixed(2)}
 								</span>
+							</div>
+							<div className="max-w-[55%]">
+								<p className="font-normal text-sm "> {item.modif && item.modif.slice(0, item.modif.length - 1)} </p>
 							</div>
 							<div className="flex items-center justify-between">
 								<button
@@ -339,7 +342,7 @@ function MenuItem(props) {
                 `}
 			</style>
 			<div
-				className={`menu-item flex justify-center px-3 py-4 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect}`}
+				className={`menu-item flex justify-center px-3 py-4 items-center bg-white border-2 border-gray rounded-lg shadow-md hover:shadow-xl ${clickEffect} hover:cursor-pointer`}
 				onClick={sendToTransaction}
 				aria-label={`Add ${props.item.itemname} to order`}
 			>
@@ -442,7 +445,7 @@ export default function EmployeePOSPage() {
 						))}
 					</div>
 				</div>
-				
+
 				<UpdateOrder
 					components={components}
 					setComponents={setComponents}
